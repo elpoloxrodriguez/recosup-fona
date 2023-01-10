@@ -1,0 +1,419 @@
+<div class="card content-wrapper container-xxl p-0">
+    <div class="card-body">
+  
+      <!-- Invoice List -->
+      <section class="users-list-wrapper">
+        <div class="card">
+          <div class="row">
+            <div class="col-md-3 col-12">
+              <div class="d-flex justify-content-between align-items-center m-1">
+                <label class="d-flex align-items-center">Mostrar
+                  <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                  Registros</label>
+              </div>
+            </div>
+            <div class="col-md-3 col-12">
+              <div class="d-flex justify-content-between align-items-center m-1">
+                <button type="button" *ngIf="ButtonShow != false" class="btn btn-success" (click)="AddRegister(ModalAddRegister)" rippleEffect>
+                  Crear Proyectos</button>
+              </div>
+            </div>
+            <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+              <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+                <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
+                    name="searchValue" type="search" class="form-control ml-25" placeholder="Nombre Proyecto"
+                    (keyup)="filterUpdateMisProjects($event)"
+                    (search)="filterUpdateMisProjects($event)" /></label>
+              </div>
+            </div>
+          </div>
+          
+          <ngx-datatable [rows]="rowsProyectos"  rowHeight="auto" class="bootstrap core-bootstrap"
+            [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
+            [scrollbarH]="true">
+  
+            <ngx-datatable-column name="Nombre Proyecto" prop="nombre_proyecto" [width]="50">
+              <ng-template let-nombre_proyecto="value" ngx-datatable-cell-template>
+                <div>
+                  <span class="font-weight-bold">{{ nombre_proyecto }} </span>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+  
+            <ngx-datatable-column name="Fecha Proyecto" prop="fecha_proyecto"  [width]="20">
+              <ng-template let-fecha_proyecto="value" ngx-datatable-cell-template>
+                <div>
+                  <span class="font-weight-bold"> {{ fecha_proyecto }}</span>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+  
+            <ngx-datatable-column name="Monto" prop="monto_inversion" [width]="20">
+              <ng-template let-monto_inversion="value" ngx-datatable-cell-template>
+                <div>
+                  <span class="font-weight-bold"> {{ monto_inversion }} </span>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+  
+  
+            <ngx-datatable-column name="Ambito" prop="ambito_nombre" [width]="20">
+              <ng-template let-ambito_nombre="value" ngx-datatable-cell-template>
+                <span>
+                  {{ ambito_nombre }}
+              </span>
+              </ng-template>
+            </ngx-datatable-column> 
+
+            <ngx-datatable-column name="Area" prop="nombre_area" [width]="20">
+              <ng-template let-nombre_area="value" ngx-datatable-cell-template>
+                <span>
+                  {{ nombre_area }}
+              </span>
+              </ng-template>
+            </ngx-datatable-column> 
+  
+  
+            <ngx-datatable-column name="Status" prop="status_proyecto" [width]="20">
+              <ng-template let-status_proyecto="value" ngx-datatable-cell-template>
+                <div
+                *ngIf="status_proyecto == 0"
+                  class="badge badge-pill"
+                  ngClass="badge-light-warning">
+                  Revisión
+                </div>
+                <div
+                *ngIf="status_proyecto == 1"
+                  class="badge badge-pill"
+                  ngClass="badge-light-success">
+                  Aprobado
+                </div>
+                <div
+                *ngIf="status_proyecto == 2"
+                  class="badge badge-pill"
+                  ngClass="badge-light-danger">
+                  Rechazado
+                </div>
+              </ng-template>
+            </ngx-datatable-column> 
+            
+            
+            <ngx-datatable-column name="Accion" [width]="20" [sortable]="false">
+              <ng-template  ngx-datatable-cell-template let-row="row">
+                <div ngbDropdown container="body">
+                  <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
+                    <span [data-feather]="'settings'" [class]="'cursor-pointer'"></span>
+                  </button>
+                  <div ngbDropdownMenu>
+                    <div>
+                    <a (click)="DetalleModal(ModalDetails,row)" ngbDropdownItem><span
+                      [data-feather]="'eye'" [size]="16" [class]="'mr-50'"></span> Detalles</a>
+                    <a (click)="ModalUpdateProjects(ModalUdateProjects,row)" ngbDropdownItem><span
+                      [data-feather]="'edit'" [size]="16" [class]="'mr-50'"></span> Cambiar Status</a><a
+                      (click)="DeleteMisProjects(row)" ngbDropdownItem><span [data-feather]="'trash'"
+                        [size]="16" [class]="'mr-50'"></span> Eliminar</a>
+                  </div>
+                </div>
+                </div>  
+                  </ng-template>
+                </ngx-datatable-column>
+  
+          </ngx-datatable>
+  
+     
+      <!--/ Invoice List -->
+    </div>
+      </section>
+  
+    </div>
+  </div>
+  
+  <ng-template #ModalUdateProjects let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="myModalLabel160">Registro de Proyectos</h5>
+    </div>
+    <form class="form" (ngSubmit)="(formUsersRegister.form.valid)" #formUsersRegister="ngForm">
+      <div class="modal-body" tabindex="0" ngbAutofocus>
+        <!-- Invoice -->
+        <div class="col-xl-12 col-md-12 col-12">
+          <!-- Header Starts -->
+          <div class="row">
+            
+            <div class="col-md-12 col-12 mb-1">
+              <div class="form-group">
+                <label for="basicSelect">Seleccione Status</label>
+                <ng-select [items]="SelectStatus" placeholder="Seleccione Ambito" bindLabel="name" bindValue="id"
+                  autocomplete="off" name="name" [(ngModel)]="IUpdateProjects.status_proyecto" [ngModelOptions]="{standalone: true}"
+                   required 
+                  autocomplete="off">
+                </ng-select>
+              </div>
+              </div>
+
+      
+              <div class="col-12 mb-1">
+                <div class="form-group">
+                  <label for="basicSelect">Dirección del Proyecto</label>
+                  <textarea type="text" class="form-control"  [(ngModel)]="IUpdateProjects.observacion"
+                    [ngModelOptions]="{standalone: true}" autocomplete="off"
+                    placeholder="Ingrese Direccion de Proyecto"></textarea>
+                </div>
+              </div> 
+
+          </div>
+        </div>
+
+      </div>
+    </form>
+  
+    <div class="modal-footer">
+      <button type="submit" [disabled]="!formUsersRegister.form.valid" (click)="UpdateProyect()" rippleEffect class="btn btn-success mr-1">Actualizar Proyecto</button>
+      <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+        Cerrar
+      </button>
+    </div>
+  </ng-template>  
+  
+  <ng-template #ModalAddRegister let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="myModalLabel160">Registro de Proyectos</h5>
+    </div>
+    <form class="form" (ngSubmit)="(formUsersRegister.form.valid)" #formUsersRegister="ngForm">
+      <div class="modal-body" tabindex="0" ngbAutofocus>
+        <!-- Invoice -->
+        <div class="col-xl-12 col-md-12 col-12">
+          <!-- Header Starts -->
+          <div class="row">
+            
+            <div class="col-md-6 col-12 mb-1">
+              <div class="form-group">
+                <label for="basicSelect">Nombre del Proyecto</label>
+                <input type="text" class="form-control"  [(ngModel)]="CrearProyecto.nombre_proyecto"
+                  [ngModelOptions]="{standalone: true}" autocomplete="off" #NombreProyecto="ngModel"
+                  [class.error]="!NombreProyecto.valid && formUsersRegister.submitted"
+                  placeholder="Ingrese Nombre de Proyecto" />
+                  <span *ngIf="formUsersRegister.submitted && NombreProyecto.invalid" class="invalid-form">
+                    <small class="form-text text-danger" *ngIf="NombreProyecto.errors.required"
+                      >Nombre de Proyecto es requerido!</small
+                    >
+                  </span>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-12 mb-1">
+              <div class="form-group">
+                <label for="basicSelect">Seleccione Ambito</label>
+                <ng-select [items]="Ambito" placeholder="Seleccione Ambito" bindLabel="name" bindValue="id"
+                  autocomplete="off" name="name" [(ngModel)]="CrearProyecto.ambito_proyecto" [ngModelOptions]="{standalone: true}"
+                   required 
+                  autocomplete="off">
+                </ng-select>
+              </div>
+              </div>
+
+            
+              <div class="col-xl-6 col-md-6 col-12">
+                <div class="form-group">
+                  <label for="helperText">Fecha de Proyecto</label>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input class="form-control" readonly placeholder="Seleccione la Fecha del Proyecto" autocomplete="off"
+                        [(ngModel)]="fecha_proyecto" [ngModelOptions]="{standalone: true}" ngbDatepicker
+                        #basicF="ngbDatepicker"
+                        #i18nDP="ngbDatepicker"
+                        >
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary feather icon-calendar" (click)="basicF.toggle()"
+                          type="button" rippleEffect></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="col-md-6 col-12 mb-1">
+                <div class="form-group">
+                  <label for="basicSelect">Monto del Proyecto</label>
+                  <input type="number" class="form-control"  [(ngModel)]="CrearProyecto.monto_inversion"
+                    [ngModelOptions]="{standalone: true}" autocomplete="off"
+                    placeholder="Ingrese Monto de Proyecto" />
+                </div>
+              </div>
+
+              <div class="col-12 mb-1">
+                <div class="form-group">
+                  <label for="basicSelect">Dirección del Proyecto</label>
+                  <textarea type="text" class="form-control"  [(ngModel)]="CrearProyecto.direccion"
+                    [ngModelOptions]="{standalone: true}" autocomplete="off"
+                    placeholder="Ingrese Direccion de Proyecto"></textarea>
+                </div>
+              </div>
+
+            <div class="col-md-6 col-12 mb-1">
+              <div class="form-group">
+                <label for="basicSelect">Seleccione Estado</label>
+                <ng-select [items]="Estados" placeholder="Seleccione Estado" bindLabel="name"  bindValue="id"  (ngModelChange)="SelectMunicipio($event)"
+                [(ngModel)]="CrearProyecto.estado"
+                [ngModelOptions]="{standalone: true}"
+                  autocomplete="off"  required autocomplete="off">
+                </ng-select>
+              </div>
+            </div>
+
+  
+            <div class="col-md-6 col-12 mb-1">
+              <div class="form-group">
+                <label for="basicSelect">Seleccione Municipio</label>
+                <ng-select
+                        [items]="Municipios"
+                        placeholder="Seleccione Municipios"
+                        bindLabel="name"
+                        bindValue="id"
+                        name="municipios"
+                        [(ngModel)]="CrearProyecto.municipio"
+                        [ngModelOptions]="{standalone: true}"
+                        required
+                        autocomplete="off"
+                        (ngModelChange)="SelectParroquias($event)"
+                        >
+                      </ng-select>
+              </div>
+            </div>
+  
+            <div class="col-md-6 col-12 mb-1">
+              <div class="form-group">
+                <label for="basicSelect">Seleccione Parroquia</label>
+                <ng-select [items]="Parroquias" placeholder="Seleccione Parroquia" bindLabel="name" bindValue="id"
+                 autocomplete="off" [(ngModel)]="CrearProyecto.parroquia"
+                [ngModelOptions]="{standalone: true}" required autocomplete="off">
+              </ng-select>
+              </div>
+            </div>
+  
+
+              <div class="col-md-6 col-12 mb-1">
+                <div class="form-group">
+                  <label for="basicSelect">Seleccione Area</label>
+                  <ng-select [items]="Area" placeholder="Seleccione Area" bindLabel="name" bindValue="id"
+                    autocomplete="off" name="name" [(ngModel)]="CrearProyecto.area_proyecto" [ngModelOptions]="{standalone: true}"
+                     required
+                    autocomplete="off">
+                  </ng-select>
+                </div>
+                </div>
+
+                <div class="col-md-6 col-12 mb-1">
+                  <div class="form-group">
+                    <label for="basicSelect">Beneficiarios Directos</label>
+                    <input type="number" class="form-control"  [(ngModel)]="CrearProyecto.beneficiario_directos"
+                      [ngModelOptions]="{standalone: true}" autocomplete="off"
+                      placeholder="Ingrese Beneficiarios Directos" />
+                  </div>
+                </div>
+
+                <div class="col-md-6 col-12 mb-1">
+                  <div class="form-group">
+                    <label for="basicSelect">Beneficiarios Indirectos</label>
+                    <input type="number" class="form-control"  [(ngModel)]="CrearProyecto.beneficiario_indirectos"
+                      [ngModelOptions]="{standalone: true}" autocomplete="off"
+                      placeholder="Ingrese Beneficiarios Indirectos" />
+                  </div>
+                </div>
+  
+                <div class="col-xl-6 col-md-6 col-12">
+                  <div class="form-group">
+                    <label for="helperText">Tiempo de Ejecución Desde</label>
+                    <div class="form-group">
+                      <div class="input-group">
+                        <input class="form-control" readonly placeholder="Seleccione Tiempo de Ejecución Desde" autocomplete="off"
+                          [(ngModel)]="tiempo_ejecucion_desde" [ngModelOptions]="{standalone: true}" ngbDatepicker
+                          #basicFP="ngbDatepicker"
+                          #i18nDP="ngbDatepicker"
+                          >
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-secondary feather icon-calendar" (click)="basicFP.toggle()"
+                            type="button" rippleEffect></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-xl-6 col-md-6 col-12">
+                  <div class="form-group">
+                    <label for="helperText">Tiempo de Ejecución Hasta</label>
+                    <div class="form-group">
+                      <div class="input-group">
+                        <input class="form-control" readonly placeholder="Seleccione Tiempo de Ejecución Hasta" autocomplete="off"
+                          [(ngModel)]="tiempo_ejecucion_hasta" [ngModelOptions]="{standalone: true}" ngbDatepicker
+                          #basicFPB="ngbDatepicker"
+                          #i18nDP="ngbDatepicker"
+                          >
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-secondary feather icon-calendar" (click)="basicFPB.toggle()"
+                            type="button" rippleEffect></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+          </div>
+        </div>
+  
+  
+      </div>
+    </form>
+  
+    <div class="modal-footer">
+      <button type="submit" [disabled]="!formUsersRegister.form.valid" (click)="onSubmit()" rippleEffect class="btn btn-success mr-1">Registrar Proyecto</button>
+      <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+        Cerrar
+      </button>
+    </div>
+  </ng-template>
+  
+
+  <ng-template #ModalDetails let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="myModalLabel160">Detalle de Proyecto  {{ Details.nombre_proyecto }}</h5>
+    </div>
+      <div class="modal-body" tabindex="0" ngbAutofocus>
+        <!-- Invoice -->
+        <div class="col-xl-12 col-md-12 col-12">
+          <!-- Header Starts -->
+          <div class="row">
+
+            <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0">
+              <div>
+                <div class="logo-wrapper">
+                  <h3 class="text-primary invoice-logo"> {{ Details.nombre_proyecto }}</h3>
+                </div>
+
+                <strong>Status de Proyecto:</strong>
+                <div class="badge badge-pill" ngClass="badge-light-{{color}}">{{ Details.status_proyecto }}</div>
+                <p class="card-text mb-25"><strong>Fecha de Proyecto:</strong> {{ Details.fecha_proyecto }}</p>
+                <p class="card-text mb-25"><strong>Monto de Proyecto:</strong> {{ Details.monto_inversion }}</p>
+                <p class="card-text mb-25"><strong>Ambito de Proyecto:</strong> {{ Details.ambito_nombre }}</p>
+                <p class="card-text mb-25"><strong>Area de Proyecto:</strong> {{ Details.area_proyecto }}</p>
+                <p class="card-text mb-25"><strong>Estado:</strong> {{ Details.estado }} | <strong>Municipio:</strong> {{ Details.municipio }} | <strong>Parroquia:</strong> {{ Details.parroquia }}</p> 
+                <p class="card-text mb-25"><strong>Beneficiarios Directos:</strong> {{ Details.beneficiario_directos }} | <strong>Beneficiarios Indirectos:</strong> {{ Details.beneficiario_indirectos }}</p>
+                <p class="card-text mb-25"><strong>Tiempo de Ejecución Desde:</strong> {{ Details.tiempo_ejecucion_desde }} | <strong>Tiempo de Ejecución Hasta:</strong> {{ Details.tiempo_ejecucion_hasta }}</p>
+              </div>
+                </div>
+                
+
+          </div>
+        </div>
+      </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>Cerrar</button>
+    </div>
+  </ng-template>

@@ -1,0 +1,64 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+      <!-- Content-Header Component -->
+  
+  
+      <section id="line-chart">
+        <!-- Line Chart Starts-->
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <h4 class="card-title">Recaudación</h4>
+                  <span class="card-subtitle text-muted">Recaudación con Ganancias Registro</span>
+                  {{FechaDesde}} - {{FechaHasta}}
+                </div>
+                <div class="header-right d-flex align-items-center mt-sm-0 mt-1">
+                  <div class="input-group">
+                    <input class="form-control" type="number"  [(ngModel)]="FechaDesde" [ngModelOptions]="{standalone: true}" placeholder="Año Desde" mask="0000" />
+                    <!-- <input class="form-control" readonly placeholder="Año Desde"  [(ngModel)]="FechaDesde" [ngModelOptions]="{standalone: true}" autocomplete="off"
+                      name="inicio" ngbDatepicker
+                      #basicDP="ngbDatepicker"
+                      >-->
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary feather icon-calendar" (click)="DataRecaudacionAnioAnterior(FechaDesde)"
+                        type="button" rippleEffect></button>
+                    </div> 
+                    <!-- otro -->
+                    &nbsp;
+                    <input class="form-control" type="number"  [(ngModel)]="FechaHasta" [ngModelOptions]="{standalone: true}" placeholder="Año Hasta" mask="0000" />
+                    <!-- <input class="form-control" readonly placeholder="Año Hasta"  [(ngModel)]="FechaHasta" [ngModelOptions]="{standalone: true}" autocomplete="off"
+                      name="inicio" ngbDatepicker
+                      #basicD="ngbDatepicker"
+                      >-->
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary feather icon-calendar" (click)="DataRecaudacionAnioActual(FechaHasta)"
+                        type="button" rippleEffect></button> 
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <canvas
+                  class="line-chart-ex chartjs"
+                  baseChart
+                  height="600"
+                  [datasets]="lineChart.datasets"
+                  [chartType]="lineChart.chartType"
+                  [options]="lineChart.options"
+                  [labels]="lineChart.labels"
+                  [plugins]="plugins"
+                ></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--/ Line Chart Ends-->
+      </section>
+
+
+    </div>
+  </div>
+  

@@ -1,0 +1,198 @@
+<div class="card content-wrapper container-xxl p-0">
+    <div class="card-body">
+  
+  
+  <section class="users-list-wrapper">
+  
+      <div class="card">
+        <div class="row">
+          <div class="col-md-6 col-12">
+            <div class="d-flex justify-content-between align-items-center m-1">
+              <label class="d-flex align-items-center"
+                >Mostrar
+                <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+                Registros</label
+              >
+            </div>
+          </div>
+          <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+            <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+              <label class="d-flex align-items-center ml-1 ml-md-0"
+                >Buscar:<input
+                  [(ngModel)]="searchValue"
+                  name="searchValue"
+                  type="search"
+                  class="form-control ml-25"
+                  placeholder="Ingrese RIF"
+                  (keyup)="filterUpdate($event)"
+                  (search)="filterUpdate($event)"
+              /></label>
+            </div>
+          </div>
+        </div>
+        <ngx-datatable
+          [rows]="rowsEmpresasAportes"
+          [rowHeight]="50"
+          class="bootstrap core-bootstrap"
+          [limit]="selectedOption"
+          [columnMode]="ColumnMode.force"
+          [headerHeight]="50"
+          [footerHeight]="50"
+          [scrollbarH]="true"
+        >
+  
+  
+          <ngx-datatable-column name="RIF" prop="Rif" [width]="10">
+            <ng-template let-Rif="value" ngx-datatable-cell-template>
+              <div>
+                <span class="font-weight-bold">{{ Rif }} </span>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+  
+          <ngx-datatable-column name="Razon Social" prop="RazonSocial" [width]="100">
+            <ng-template let-RazonSocial="value" ngx-datatable-cell-template>
+              <div>
+                <span class="font-weight-bold"> {{ RazonSocial }} </span>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+  
+          <ngx-datatable-column name=""  [width]="10">
+          </ngx-datatable-column>
+          <ngx-datatable-column name=""  [width]="10">
+          </ngx-datatable-column>
+  
+          <ngx-datatable-column name="Usuario" prop="Codigo"  [width]="10">
+            <ng-template let-Codigo="value" ngx-datatable-cell-template>
+              <div>
+                <span class="font-weight-bold"> {{ Codigo }} </span>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+  
+          <ngx-datatable-column name=""  [width]="10">
+          </ngx-datatable-column>
+          
+  
+          <ngx-datatable-column name="Acción" [width]="5" [sortable]="false">
+            <ng-template ngx-datatable-cell-template let-row="row">
+              <button type="button" class="btn btn-sm btn-primary"  (click)="ModalDetails(DetailsModal,row)" rippleEffect>
+                <span [data-feather]="'eye'" [class]="'mr-25'"></span></button>
+            </ng-template>
+          </ngx-datatable-column>
+    
+  
+        </ngx-datatable>
+      </div>
+    </section>
+  
+  
+    </div>
+    </div>
+  
+  
+    <ng-template #DetailsModal let-modal>
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel160"><strong>Cambiar Contraseña de Usuario</strong></h5>
+        <!-- <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+      </div>
+      <div class="modal-body" tabindex="0" ngbAutofocus>
+        <div class="col-xl-12 col-md-12 col-12 printRef">
+          <!-- Header Starts -->
+          
+          <form class="auth-reset-password-form mt-2" [formGroup]="resetPasswordForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <div class="d-flex justify-content-between">
+                <label for="reset-password-new">Nueva contraseña</label>
+              </div>
+              <div class="input-group input-group-merge form-password-toggle">
+                <input
+                  [type]="passwordTextType ? 'text' : 'password'"
+                  formControlName="newPassword"
+                  class="form-control form-control-merge"
+                  placeholder="Nueva contraseña"
+                  aria-describedby="reset-password-new"
+                  tabindex="1"
+                  autofocus
+                  [ngClass]="{ 'is-invalid error': submitted && f.newPassword.errors }"
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text cursor-pointer"
+                    ><i
+                      class="feather font-small-4"
+                      [ngClass]="{
+                        'icon-eye-off': passwordTextType,
+                        'icon-eye': !passwordTextType
+                      }"
+                      (click)="togglePasswordTextType()"
+                    ></i
+                  ></span>
+                </div>
+              </div>
+              <div
+                *ngIf="submitted && f.newPassword.errors"
+                class="invalid-feedback"
+                [ngClass]="{ 'd-block': submitted && f.newPassword.errors }"
+              >
+                <div *ngIf="f.newPassword.errors.required">Confirmar contraseña</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="d-flex justify-content-between">
+                <label for="reset-password-confirm">Confirmar contraseña</label>
+              </div>
+              <div class="input-group input-group-merge form-password-toggle">
+                <input
+                  [type]="confPasswordTextType ? 'text' : 'password'"
+                  formControlName="confirmPassword"
+                  class="form-control form-control-merge"
+                  placeholder="Confirmar contraseña"
+                  aria-describedby="reset-password-confirm"
+                  tabindex="2"
+                  [ngClass]="{ 'is-invalid error': submitted && f.confirmPassword.errors }"
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text cursor-pointer"
+                    ><i
+                      class="feather font-small-4"
+                      [ngClass]="{
+                        'icon-eye-off': confPasswordTextType,
+                        'icon-eye': !confPasswordTextType
+                      }"
+                      (click)="toggleConfPasswordTextType()"
+                    ></i
+                  ></span>
+                </div>
+              </div>
+              <div
+                *ngIf="submitted && f.confirmPassword.errors"
+                class="invalid-feedback"
+                [ngClass]="{ 'd-block': submitted && f.confirmPassword.errors }"
+              >
+                <div *ngIf="f.confirmPassword.errors.required">Password is required</div>
+              </div>
+            </div>
+            <!-- <button class="btn btn-primary btn-block" tabindex="3" rippleEffect>Establecer nueva contraseña</button> -->
+          </form>
+  
+          <!-- Header Ends -->
+        </div>
+        </div>
+        <!--/ Invoice -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+          Cerrar
+        </button>
+        <button type="button" class="btn btn-success" (click)="ChangePassword()"  rippleEffect>
+          Establecer nueva contraseña
+        </button>
+      </div>
+    </ng-template>

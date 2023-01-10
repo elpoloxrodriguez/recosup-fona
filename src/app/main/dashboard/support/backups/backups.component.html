@@ -1,0 +1,188 @@
+<div class="card content-wrapper container-xxl p-0">
+  <div class="card-body">
+
+
+<section class="users-list-wrapper">
+
+    <div class="card">
+      <div class="row">
+        <div class="col-md-6 col-12">
+          <div class="d-flex justify-content-between align-items-center m-1">
+            <label class="d-flex align-items-center"
+              >Mostrar
+              <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+              Registros</label
+            >
+          </div>
+        </div>
+        <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+          <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+            <label class="d-flex align-items-center ml-1 ml-md-0"
+              >Buscar:<input
+                [(ngModel)]="searchValue"
+                name="searchValue"
+                type="search"
+                class="form-control ml-25"
+                placeholder="Ingrese RIF"
+                (keyup)="filterUpdate($event)"
+                (search)="filterUpdate($event)"
+            /></label>
+          </div>
+        </div>
+      </div>
+      <ngx-datatable
+        [rows]="rowsEmpresasAportes"
+        [rowHeight]="50"
+        class="bootstrap core-bootstrap"
+        [limit]="selectedOption"
+        [columnMode]="ColumnMode.force"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        [scrollbarH]="true"
+      >
+
+
+        <ngx-datatable-column name="RIF" prop="Rif" [width]="10">
+          <ng-template let-Rif="value" ngx-datatable-cell-template>
+            <div>
+              <span class="font-weight-bold">{{ Rif }} </span>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Razon Social" prop="RazonSocial" [width]="100">
+          <ng-template let-RazonSocial="value" ngx-datatable-cell-template>
+            <div>
+              <span class="font-weight-bold"> {{ RazonSocial }} </span>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+
+        <ngx-datatable-column name=""  [width]="10">
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Documentos" prop="CantidadDocumentos" [width]="10">
+          <ng-template let-CantidadDocumentos="value" ngx-datatable-cell-template>
+            <div>
+              <span class="font-weight-bold"> {{ CantidadDocumentos }} </span>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Acción" [width]="5" [sortable]="false">
+          <ng-template ngx-datatable-cell-template let-row="row">
+            <button type="button" class="btn btn-sm btn-primary"  (click)="ModalDetails(DetailsModal,row,this.listaDocumentosAdjuntosEmpresa(row))" rippleEffect>
+              <span [data-feather]="'eye'" [class]="'mr-25'"></span></button>
+          </ng-template>
+        </ngx-datatable-column>
+  
+
+      </ngx-datatable>
+    </div>
+  </section>
+
+
+  </div>
+  </div>
+
+
+  <ng-template #DetailsModal let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="myModalLabel160" [value]="ModalTitle"><strong>{{ ModalTitle }}</strong></h5>
+      <!-- <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button> -->
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <div class="col-xl-12 col-md-12 col-12 printRef">
+        <!-- Header Starts -->
+        <section class="users-list-wrapper">
+
+          <div class="card">
+            <div class="row">
+              <div class="col-md-6 col-12">
+                <div class="d-flex justify-content-between align-items-center m-1">
+                  <label class="d-flex align-items-center"
+                    >Mostrar
+                    <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                      <option value="10">10</option>
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                    </select>
+                    Registros</label
+                  >
+                </div>
+              </div>
+              <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+                <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+                  <label class="d-flex align-items-center ml-1 ml-md-0"
+                    >Buscar:<input
+                      [(ngModel)]="searchValue"
+                      name="searchValue"
+                      type="search"
+                      class="form-control ml-25"
+                      placeholder="Fecha Documento"
+                      (keyup)="filterUpdateDocumentoAdjuntoEmpresa($event)"
+                      (search)="filterUpdateDocumentoAdjuntoEmpresa($event)"
+                  /></label>
+                </div>
+              </div>
+            </div>
+            <ngx-datatable
+              [rows]="rows"
+              [rowHeight]="50"
+              class="bootstrap core-bootstrap"
+              [limit]="selectedOption"
+              [columnMode]="ColumnMode.force"
+              [headerHeight]="50"
+              [footerHeight]="50"
+              [scrollbarH]="true"
+            >
+
+
+
+              <ngx-datatable-column name="Nombre" prop="nomb" [width]="20">
+                <ng-template let-nomb="value" ngx-datatable-cell-template>
+                  <div>
+                    <span class="font-weight-bold"> {{ nomb.substring(20,32) }} </span>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+
+              <ngx-datatable-column name="Fecha" prop="fech" [width]="20">
+                <ng-template let-fech="value" ngx-datatable-cell-template>
+                  <div>
+                    <span class="font-weight-bold"> {{ fech }} </span>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Acción" [width]="5" [sortable]="false">
+                <ng-template ngx-datatable-cell-template let-row="row">
+                  <a  [href]="dwUrl(row.Rif,row.nomb)" class="btn btn-sm bg-gradient-success"  rippleEffect>
+                    <span [data-feather]="'download-cloud'" [class]="'mr-25'"></span></a>
+                </ng-template>
+              </ngx-datatable-column>
+        
+  
+            </ngx-datatable>
+          </div>
+        </section>
+        <!-- Header Ends -->
+      </div>
+      </div>
+      <!--/ Invoice -->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+        Cerrar
+      </button>
+    </div>
+  </ng-template>

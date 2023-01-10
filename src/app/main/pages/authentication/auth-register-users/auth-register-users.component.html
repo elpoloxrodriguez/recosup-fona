@@ -1,0 +1,322 @@
+
+<div class="auth-wrapper auth-v2">
+    <div class="auth-inner row m-0">
+      
+      <!-- <div class="brand-logo img" align="center"> -->
+        <img src="assets/images/banner/cintillo-fona-carabobo.jpg" class="d-none d-sm-none d-md-block banner-fona" alt="banner" width="100%"  />
+        <!-- </div>  -->
+  
+        <!-- /Left Text-->
+        <!-- Login-->
+        <div class="d-flex col-lg-12 align-items-center auth-bg px-2 p-lg-5">
+          <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
+              <h1 class="card-title font-weight-bold mb-1 text-primary" align="center">
+                <img src="{{ coreConfig.app.appLogoImage }}" alt="brand-logo" height="28" />
+                <strong>{{ coreConfig.app.appName }}</strong></h1>
+            <!-- </a> -->
+            <p class="card-text mb-8" align="center">Sistema de Registro y Control de Sujetos Pasivos</p>
+  
+  
+            
+  <form class="form" (ngSubmit)="(formUsersRegister.form.valid)" #formUsersRegister="ngForm">
+    <div class="row">
+      <div class="col-md-6 col-12">
+        <div class="form-group">
+          <label class="form-label">Seleccion Tipo de RIF</label>
+          <ng-select
+                [items]="SelectCedula"
+                bindLabel="name"
+                #TipoDocumento="ngModel"
+                [class.error]="!TipoDocumento.valid && formUsersRegister.submitted"
+                [(ngModel)]="tipoDocumento"
+                [ngModelOptions]="{standalone: true}"
+                placeholder="Seleccione Tipo Documento"
+                required
+                autocomplete="off"
+                >
+              </ng-select>
+              <span *ngIf="formUsersRegister.submitted && TipoDocumento.invalid" class="invalid-form">
+                <small class="form-text text-danger" *ngIf="TipoDocumento.errors.required"
+                  >Tipo de RIF es requerido!</small
+                >
+              </span>
+        </div>
+      </div>
+      <div class="col-md-6 col-12">
+        <div class="form-group">
+          <label class="form-label">Numero de RIF</label>
+          <input
+          required
+          email
+          type="text"
+          [(ngModel)]="UsersRegister.Cedula"
+          [ngModelOptions]="{standalone: true}"  
+          #Cedula="ngModel"
+          [class.error]="!Cedula.valid && formUsersRegister.submitted"
+          class="form-control"
+          placeholder="Ingrese RIF"
+        />
+        <span *ngIf="formUsersRegister.submitted && Cedula.invalid" class="invalid-form">
+          <small class="form-text text-danger" *ngIf="Cedula.errors.required"
+            >RIF es requerido!</small
+          >
+        </span>
+        </div>
+      </div>
+      <div class="col-md-12 col-12">
+        <div class="form-group">
+          <label class="form-label" for="email">Nombre de la Empresa</label>
+          <input
+            required
+            email
+            type="text"
+            [(ngModel)]="UsersRegister.Nombres"
+            [ngModelOptions]="{standalone: true}"  
+            #Nombres="ngModel"
+            [class.error]="!Nombres.valid && formUsersRegister.submitted"
+            class="form-control"
+            placeholder="Ingrese Nombre de la Empresa"
+          />
+          <span *ngIf="formUsersRegister.submitted && Nombres.invalid" class="invalid-form">
+            <small class="form-text text-danger" *ngIf="Nombres.errors.required"
+              >Nombre es requerido!</small
+            >
+          </span>
+        </div>
+      </div>
+      <!-- <div class="col-md-6 col-12">
+        <div class="form-group">
+          <label class="form-label">Apellidos</label>
+          <input
+            required
+            email
+            type="text"
+            [(ngModel)]="UsersRegister.Apellidos"
+            [ngModelOptions]="{standalone: true}"  
+            #Apellidos="ngModel"
+            [class.error]="!Apellidos.valid && formUsersRegister.submitted"
+            class="form-control"
+            placeholder="Ingrese Apellidos"
+          />
+          <span *ngIf="formUsersRegister.submitted && Apellidos.invalid" class="invalid-form">
+            <small class="form-text text-danger" *ngIf="Apellidos.errors.required"
+              >Apellidos es requerido!</small
+            >
+          </span>
+        </div>
+      </div> -->
+      <!-- <div class="col-md-6 col-12">
+        <div class="form-group">
+          <label class="form-label" for="email">Fecha Nacimiento</label>
+        <input class="form-control" readonly placeholder="Seleccione Fecha de Nacimiento" autocomplete="off"
+        name="inicio" [(ngModel)]="UsersRegister.FechaNacimiento" [ngModelOptions]="{standalone: true}" ngbDatepicker
+        #FechaNacimiento="ngModel" [class.error]="!FechaNacimiento.valid && formUsersRegister.submitted"
+        #basicDP="ngbDatepicker"  (click)="basicDP.toggle()">
+        <span *ngIf="formUsersRegister.submitted && FechaNacimiento.invalid" class="invalid-form">
+          <small class="form-text text-danger" *ngIf="FechaNacimiento.errors.required"
+            >Fecha de Nacimiento es requerido!</small
+          >
+        </span>
+        </div>
+      </div> -->
+      <div class="col-md-6 col-12">
+        <div class="form-group">
+          <label class="form-label">Teléfono Local</label>
+          <input
+          required
+          email
+          type="text"
+          [(ngModel)]="UsersRegister.TelefonoLocal"
+          [ngModelOptions]="{standalone: true}"  
+          #TelefonoLocal="ngModel"
+          [class.error]="!TelefonoLocal.valid && formUsersRegister.submitted"
+          class="form-control"
+          placeholder="Ingrese Telefono Local"
+        />
+        <span *ngIf="formUsersRegister.submitted && TelefonoLocal.invalid" class="invalid-form">
+          <small class="form-text text-danger" *ngIf="TelefonoLocal.errors.required"
+            >Telefono Local es requerido!</small
+          >
+        </span>
+        </div>
+      </div>
+      <div class="col-md-6 col-12">
+        <div class="form-group">
+          <label class="form-label" for="email">Teléfono Celular</label>
+          <input
+          required
+          email
+          type="text"
+          [(ngModel)]="UsersRegister.TelefonoCelular"
+          [ngModelOptions]="{standalone: true}"  
+          #TelefonoCelular="ngModel"
+          [class.error]="!TelefonoCelular.valid && formUsersRegister.submitted"
+          class="form-control"
+          placeholder="Ingrese Telefono Celular"
+        />
+        <span *ngIf="formUsersRegister.submitted && TelefonoCelular.invalid" class="invalid-form">
+          <small class="form-text text-danger" *ngIf="TelefonoCelular.errors.required"
+            >Telefono Celular es requerido!</small
+          >
+        </span>
+        </div>
+      </div>
+      <!-- <div class="col-md-6 col-12">
+        <div class="form-group">
+          <label class="form-label">Cargo</label>
+          <input
+          required
+          email
+          type="text"
+          [(ngModel)]="UsersRegister.Cargo"
+          [ngModelOptions]="{standalone: true}"  
+          #Cargo="ngModel"
+          [class.error]="!Cargo.valid && formUsersRegister.submitted"
+          class="form-control"
+          placeholder="Ingrese Cargo"
+        />
+        <span *ngIf="formUsersRegister.submitted && Cargo.invalid" class="invalid-form">
+          <small class="form-text text-danger" *ngIf="Cargo.errors.required"
+            >Cargo es requerido!</small
+          >
+        </span>
+        </div>
+      </div> -->
+      <div class="col-md-6 col-12">
+        <div class="form-group">
+          <label class="form-label" for="email">Correo Electronico Principal</label>
+          <input
+          required
+          email
+          type="text"
+          [(ngModel)]="UsersRegister.CorreoPrincipal"
+          [ngModelOptions]="{standalone: true}"  
+          #CorreoPrincipal="ngModel"
+          [class.error]="!CorreoPrincipal.valid && formUsersRegister.submitted"
+          class="form-control"
+          placeholder="Ingrese Correo Principal"
+        />
+        <span *ngIf="formUsersRegister.submitted && CorreoPrincipal.invalid" class="invalid-form">
+          <small class="form-text text-danger" *ngIf="CorreoPrincipal.errors.required"
+            >Correo Principal es requerido!</small
+          >
+        </span>
+        </div>
+      </div>
+      <div class="col-md-6 col-12">
+        <div class="form-group">
+          <label class="form-label" for="email">Correo Electronico Secundario</label>
+          <input
+            required
+            email
+            type="text"
+            [(ngModel)]="UsersRegister.CorreoSecundario"
+            [ngModelOptions]="{standalone: true}"  
+            class="form-control"
+            placeholder="Ingrese Correo Electronico Secundario"
+          />
+        </div>
+      </div>
+      <!-- <div class="col-md-12 col-12">
+        <div class="form-group">
+          <label class="form-label" for="email">Nombre de Usuario</label>
+          <input
+          required
+          email
+          type="text"
+          [(ngModel)]="username"
+          [ngModelOptions]="{standalone: true}"  
+          #Codigo="ngModel"
+          [class.error]="!Codigo.valid && formUsersRegister.submitted"
+          class="form-control"
+          readonly
+          placeholder="Ingrese Nombre de Usuario"
+        />
+        <span *ngIf="formUsersRegister.submitted && Codigo.invalid" class="invalid-form">
+          <small class="form-text text-danger" *ngIf="Codigo.errors.required"
+            >Nombre de Usuario es requerido!</small
+          >
+        </span>
+        </div>
+      </div> -->
+      <div class="col-md-6 col-12">
+        <div class="form-group">
+          <label class="form-label" for="email">Contraseña de Usuario</label>
+          <input
+          required
+          email
+          type="text"
+          [(ngModel)]="UsersRegister.Clave"
+          [ngModelOptions]="{standalone: true}"  
+          #Clave="ngModel"
+          [class.error]="!Clave.valid && formUsersRegister.submitted"
+          class="form-control"
+          placeholder="Ingrese Contraseña"
+        />
+        <span *ngIf="formUsersRegister.submitted && Clave.invalid" class="invalid-form">
+          <small class="form-text text-danger" *ngIf="Clave.errors.required"
+            >Contraseña de Usuario es requerido!</small
+          >
+        </span>
+        </div>
+      </div>
+      <div class="col-md-6 col-12">
+        <div class="form-group">
+          <label class="form-label">Confirme Contraseña de Usuario</label>
+          <input
+          required
+          email
+          type="text"
+          [(ngModel)]="confirmeContrasenaUsuario"
+          [ngModelOptions]="{standalone: true}"  
+          #ConfirmePassword="ngModel"
+          [class.error]="!ConfirmePassword.valid && formUsersRegister.submitted"
+          class="form-control"
+          placeholder="Ingrese Confirmacion de Contraseña"
+        />
+        <span *ngIf="formUsersRegister.submitted && ConfirmePassword.invalid" class="invalid-form">
+          <small class="form-text text-danger" *ngIf="ConfirmePassword.errors.required"
+            >Confirmar la Contraseña es requerido!</small
+          >
+        </span>
+        </div>
+      </div>
+      <div class="col-12" align="center">
+        <button type="submit" [disabled]="!formUsersRegister.form.valid" (click)="registerTaxpayer()" rippleEffect class="btn btn-success mr-1">Registrarse</button>
+        <button routerLink="/" rippleEffect class="btn btn-outline-secondary">Regresar</button>
+      </div>
+    </div>
+  </form>
+  
+  
+    
+  
+  
+            <div class="divider my-2">
+              <div class="divider-text">Contáctanos</div>
+            </div>
+            <div class="auth-footer-btn d-flex justify-content-center">
+              <a class="btn btn-facebook" href="https://www.facebook.com/FONAoficial/" target="new"><i data-feather="facebook"></i></a
+                ><a class="btn btn-twitter white" href="https://twitter.com/FONA_oficial" target="new"><i data-feather="twitter"></i></a
+                >
+              </div>
+              <br>
+              <div class="auth-footer-btn d-flex justify-content-center">
+                <p class="text-center mt-2">
+              <small align="center">Fondo Nacional Antidrogas - Rif: G-20009057-0
+              <br>
+              Dirección: Av. Francisco de Miranda, Edif. Centro Empresarial Metropolitano de Automoviles 407, PB. Oficina FONA, Los Ruices (al lado del INCES)
+              <br>
+              E-mail: <a href="mailto:recaudacion_fona@fona.gob.ve">recaudacion_fona@fona.gob.ve</a> - <a href="mailto:recaudacion_fona@fona.gob.ve">soporteypagos3234@gmail.com</a>
+              <br>
+              Telf: <a href="Tel:02122329541">0212-2329541</a> Ext: 8270-8271
+              </small>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- /Login-->
+      </div>
+    </div>
+  

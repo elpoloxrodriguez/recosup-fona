@@ -1,0 +1,358 @@
+<div class="card content-wrapper container-xxl p-0">
+  <div class="card-body">
+
+    <ul ngbNav #navCenter="ngbNav" class="nav-tabs justify-content-center">
+      <li ngbNavItem>
+        <a ngbNavLink>Multas y/o Reparos Vigentes</a>
+        <ng-template ngbNavContent>
+
+          <section class="users-list-wrapper">
+
+            <div class="card">
+              <div class="row">
+                <div class="col-md-3 col-12">
+                  <div class="d-flex justify-content-between align-items-center m-1">
+                    <label class="d-flex align-items-center">Mostrar
+                      <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                      </select>
+                      Registros</label>
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div class="d-flex justify-content-between align-items-center m-1">
+                    <button type="button" (click)="GenerarMultas(ModalAddRegisterMultas)" class="btn btn-warning"
+                      rippleEffect>
+                      Generar Multas</button>
+                  </div>
+                </div>
+                <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+                  <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+                    <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
+                        name="searchValue" type="search" class="form-control ml-25" placeholder="Nombre Empresa"
+                        (keyup)="filterUpdateMIF($event)" (search)="filterUpdateMIF($event)" /></label>
+                  </div>
+                </div>
+              </div>
+              <ngx-datatable [rows]="rowsDetalleMultasNuevas" rowHeight="auto" class="bootstrap core-bootstrap"
+                [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
+                [scrollbarH]="true">
+            
+                <ngx-datatable-column name="Empresa" prop="row" width="auto">
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    <div>
+                      <span class="font-weight-bold">{{ row.RazonSocial }} - {{ row.Rif }} </span>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="Tipo Multa" prop="TipoMultaId" [width]="10">
+                  <ng-template let-TipoMultaId="value" ngx-datatable-cell-template>
+                    <div>
+                      <!-- <span class="font-weight-bold">{{ TipoMultaId }} </span> -->
+                      <div
+                      *ngIf="TipoMultaId == '1'"
+                        class="badge badge-pill"
+                        ngClass="badge-light-danger">
+                        Multas
+                      </div>
+                      <div
+                      *ngIf="TipoMultaId == 2"
+                        class="badge badge-pill"
+                        ngClass="badge-light-warning">
+                        Intereses
+                      </div>
+                      <div
+                      *ngIf="TipoMultaId == 3"
+                        class="badge badge-pill"
+                        ngClass="badge-light-primary">
+                        Fiscalización
+                      </div>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+                
+      
+                <ngx-datatable-column name="Nomenclatura" prop="Nomenclatura_mif" [width]="10">
+                  <ng-template let-Nomenclatura_mif="value" ngx-datatable-cell-template>
+                    <div>
+                      <span class="font-weight-bold">{{ Nomenclatura_mif }} </span>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+      
+                <!-- <ngx-datatable-column name="Fecha" prop="FechaCreo" [width]="10">
+                  <ng-template let-FechaCreo="value" ngx-datatable-cell-template>
+                    <div>
+                      <span class="font-weight-bold">{{ FechaCreo }} </span>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column> -->
+      
+                <ngx-datatable-column name="Monto" prop="Monto_mif" [width]="10">
+                  <ng-template let-Monto_mif="value" ngx-datatable-cell-template>
+                    <div>
+                      <span class="font-weight-bold">{{ Monto_mif }} </span>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+      
+                <ngx-datatable-column name="Status" prop="status_mif" [width]="10">
+                  <ng-template let-status_mif="value" ngx-datatable-cell-template>
+                    <div>
+                      <!-- <span class="font-weight-bold"> {{ status_mif }} </span> -->
+                      <div
+                      *ngIf="status_mif == 0"
+                        class="badge badge-pill"
+                        ngClass="badge-light-warning">
+                        Pendiente por Pago
+                      </div>
+                      <div
+                      *ngIf="status_mif == 1"
+                        class="badge badge-pill"
+                        ngClass="badge-light-warning">
+                        Pagado
+                      </div>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+      
+                <ngx-datatable-column name="Accion" [width]="20" [sortable]="false">
+                  <ng-template  ngx-datatable-cell-template let-row="row">
+                    <div ngbDropdown container="body">
+                      <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
+                        <span [data-feather]="'settings'" [class]="'cursor-pointer'"></span>
+                      </button>
+                      <div ngbDropdownMenu>
+                        <div>
+                          <a (click)="DetalleModal(ModalDetails,row)" ngbDropdownItem><span
+                            [data-feather]="'eye'" [size]="16" [class]="'mr-50'"></span> Detalles</a>
+                            <a (click)="DeleteMultasMIF(row)" ngbDropdownItem><span
+                              [data-feather]="'trash'" [size]="16" [class]="'mr-50'"></span> Eliminar</a>
+                      </div>
+                    </div>
+                    </div>  
+                      </ng-template>
+                    </ngx-datatable-column>
+      
+      
+              </ngx-datatable>
+            </div>
+          </section>
+
+        </ng-template>
+      </li>
+      <li ngbNavItem>
+        <a ngbNavLink>Multas y/o Reparos Historico</a>
+        <ng-template ngbNavContent>
+
+          <section class="users-list-wrapper">
+
+            <div class="card">
+              <div class="row">
+                <div class="col-md-6 col-12">
+                  <div class="d-flex justify-content-between align-items-center m-1">
+                    <label class="d-flex align-items-center">Mostrar
+                      <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                      </select>
+                      Registros</label>
+                  </div>
+                </div>
+                <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+                  <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+                    <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
+                        name="searchValue" type="search" class="form-control ml-25" placeholder="Nombre Empresa"
+                        (keyup)="filterUpdateMultasViejas($event)" (search)="filterUpdateMultasViejas($event)" /></label>
+                  </div>
+                </div>
+              </div>
+              <ngx-datatable [rows]="rowsDetalleMultas" rowHeight="auto" class="bootstrap core-bootstrap"
+                [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
+                [scrollbarH]="true">
+      
+                <ngx-datatable-column name="Empresa" prop="RazonSocial" width="auto">
+                  <ng-template let-RazonSocial="value" ngx-datatable-cell-template>
+                    <div>
+                      <span class="font-weight-bold">{{ RazonSocial }} </span>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="Banco" prop="banco" [width]="20">
+                  <ng-template let-banco="value" ngx-datatable-cell-template>
+                    <div>
+                      <span class="font-weight-bold">{{ banco }} </span>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+      
+                <ngx-datatable-column name="Art" prop="Articulo" [width]="20">
+                  <ng-template let-Articulo="value" ngx-datatable-cell-template>
+                    <div>
+                      <span class="font-weight-bold">{{ Articulo }} </span>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+      
+                <ngx-datatable-column name="Tipo" prop="Nombre" [width]="20">
+                  <ng-template let-Nombre="value" ngx-datatable-cell-template>
+                    <div>
+                      <span class="font-weight-bold">{{ Nombre }} </span>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+      
+                <ngx-datatable-column name="Año" prop="Anio" [width]="20">
+                  <ng-template let-Anio="value" ngx-datatable-cell-template>
+                    <div>
+                      <span class="font-weight-bold">{{ Anio }} </span>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+      
+                <ngx-datatable-column name="Fecha Documento" prop="FechaDocumento" [width]="20">
+                  <ng-template let-FechaDocumento="value" ngx-datatable-cell-template>
+                    <div>
+                      <span class="font-weight-bold">{{ FechaDocumento }} </span>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+      
+                <ngx-datatable-column name="N°  Ref" prop="ReferenciaBancaria" [width]="20">
+                  <ng-template let-ReferenciaBancaria="value" ngx-datatable-cell-template>
+                    <div>
+                      <span class="font-weight-bold">{{ ReferenciaBancaria }} </span>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+      
+                <ngx-datatable-column name="Monto" prop="Monto" [width]="20">
+                  <ng-template let-Monto="value" ngx-datatable-cell-template>
+                    <div>
+                      <span class="font-weight-bold"> {{ Monto }} </span>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+      
+    
+              </ngx-datatable>
+            </div>
+          </section>
+
+        </ng-template>
+      </li>
+    </ul>
+    <div [ngbNavOutlet]="navCenter" class="mt-2"></div>
+
+  </div>
+</div>
+
+
+
+
+<ng-template #ModalAddRegisterMultas let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="myModalLabel160">Generar Multas</h5>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <!-- Invoice -->
+    <div class="col-xl-12 col-md-12 col-12 printRef">
+      <!-- Header Starts -->
+
+      <div class="row">
+
+        <div class="col-12">
+          <div class="form-group">
+            <label for="basicInput">Seleccione Empresa</label>
+            <ng-select [items]="ListaEmpresas" [(ngModel)]="ICrearMultasMIF.id_EmpresaId" [ngModelOptions]="{standalone: true}"
+              placeholder="Seleccione Empresa" bindLabel="name" bindValue="id" required>
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="form-group">
+            <label for="basicInput">Monto de Multa</label>
+            <input class="form-control" type="number"  [(ngModel)]="ICrearMultasMIF.Monto_mif" [ngModelOptions]="{standalone: true}" placeholder="Monto"/>
+          </div>
+        </div>
+        
+        <div class="col-6">
+          <div class="form-group">
+            <label for="basicInput">Nomenclatura</label>
+            <input class="form-control" type="text"  [(ngModel)]="ICrearMultasMIF.Nomenclatura_mif" [ngModelOptions]="{standalone: true}" placeholder="Nomenclatura Acta Fiscal y/o Resolucion"/>
+          </div>
+        </div>
+
+
+        <div class="col-12">
+          <div class="form-group">
+            <label for="basicInput">Seleccione Tipo Planilla</label>
+            <ng-select [items]="ListaPlanilla" [(ngModel)]="ICrearMultasMIF.TipoMultaId" [ngModelOptions]="{standalone: true}"
+              placeholder="Seleccione Empresa" bindLabel="name" bindValue="id" required>
+            </ng-select>
+          </div>
+        </div>
+
+        <!-- <div class="col-12">
+          <div class="form-group">
+            <label for="basicInput">Numero de Cuenta</label>
+            <input class="form-control" type="text"  [(ngModel)]="ICrearMultasMIF.Cuenta_mif" [ngModelOptions]="{standalone: true}" readonly placeholder="Numero de Cuenta" />
+          </div>
+        </div> -->
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success" (click)="RegistrarMultas()" rippleEffect>Generar Multas</button>
+    <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>Cerrar</button>
+  </div>
+</ng-template>
+
+
+<ng-template #ModalDetails let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="myModalLabel160">Detalle de Proyecto  {{ Details.nombre_proyecto }}</h5>
+  </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <!-- Invoice -->
+      <div class="col-xl-12 col-md-12 col-12">
+        <!-- Header Starts -->
+        <div class="row">
+
+          <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0">
+            <div>
+              <div class="logo-wrapper">
+                <h3 class="text-primary invoice-logo"> {{ Details.nombre_proyecto }}</h3>
+              </div>
+          
+             <strong>Status de Proyecto:</strong>
+              <div class="badge badge-pill" ngClass="badge-light-{{color}}">{{ Details.status_proyecto }}</div>
+              <p class="card-text mb-25"><strong>Fecha de Proyecto:</strong> {{ Details.fecha_proyecto }}</p>
+              <p class="card-text mb-25"><strong>Monto de Proyecto:</strong> {{ Details.monto_inversion }}</p>
+              <p class="card-text mb-25"><strong>Ambito de Proyecto:</strong> {{ Details.ambito_nombre }}</p>
+              <p class="card-text mb-25"><strong>Area de Proyecto:</strong> {{ Details.area_proyecto }}</p>
+              <p class="card-text mb-25"><strong>Estado:</strong> {{ Details.estado }} | <strong>Municipio:</strong> {{ Details.municipio }} | <strong>Parroquia:</strong> {{ Details.parroquia }}</p> 
+              <p class="card-text mb-25"><strong>Beneficiarios Directos:</strong> {{ Details.beneficiario_directos }} | <strong>Beneficiarios Indirectos:</strong> {{ Details.beneficiario_indirectos }}</p>
+              <p class="card-text mb-25"><strong>Tiempo de Ejecución Desde:</strong> {{ Details.tiempo_ejecucion_desde }} | <strong>Tiempo de Ejecución Hasta:</strong> {{ Details.tiempo_ejecucion_hasta }}</p>
+            </div>
+              </div>
+              
+
+        </div>
+      </div>
+    </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>Cerrar</button>
+  </div>
+</ng-template>

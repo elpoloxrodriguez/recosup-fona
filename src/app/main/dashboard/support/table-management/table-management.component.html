@@ -1,0 +1,121 @@
+<div class="content-wrapper container-xxl overflow-hidden p-0">
+
+  <div class="content-detached content-center">
+    <div class="content-body">
+      <!-- E-commerce Head Section Starts -->
+      <section id="ecommerce-header">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="ecommerce-header-items">
+              <div class="result-toggler">
+                <button
+                  class="navbar-toggler shop-sidebar-toggler"
+                  type="button"
+                  data-toggle="collapse"
+                >
+                  <span class="navbar-toggler-icon d-block d-lg-none"><i data-feather="menu"></i></span>
+                </button>
+                <div class="search-results">{{ (developer | filter: searchText:'funcion').length }} Resultados encontrados</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="ecommerce-searchbar" class="ecommerce-searchbar">
+        <div class="row mt-1">
+          <div class="col-sm-12">
+            <div class="input-group input-group-merge">
+              <input
+                type="text"
+                class="form-control search-product"
+                id="shop-search"
+                placeholder="Buscar tabla"
+                aria-label="search"
+                aria-describedby="shop-search"
+                [(ngModel)]="searchText"
+              />
+              <div class="input-group-append">
+                <span class="input-group-text"><i data-feather="search" class="text-muted"></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- E-commerce Head Section Starts -->
+      <br>
+      <!--Tabla Starts -->
+      <div class="row">
+        <div class="col-xl-4 col-lg-6 col-md-6" *ngFor="
+        let product of developer
+        | filter: searchText:'funcion'
+        | slice: (page - 1) * pageSize:(page - 1) * pageSize + pageSize
+    ">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <span>Total Registros 547</span>
+                        <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
+                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Vinnie Mostowy" class="avatar avatar-sm pull-up">
+                                <img class="rounded-circle" src="assets/images/logo/fona.jpeg" alt="Avatar" />
+                            </li>
+                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Allen Rieske" class="avatar avatar-sm pull-up">
+                                <img class="rounded-circle" src="assets/images/logo/fona.jpeg" alt="Avatar" />
+                            </li>
+                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Julee Rossignol" class="avatar avatar-sm pull-up">
+                                <img class="rounded-circle" src="assets/images/logo/fona.jpeg" alt="Avatar" />
+                            </li>
+                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Kaith D'souza" class="avatar avatar-sm pull-up">
+                                <img class="rounded-circle" src="assets/images/logo/fona.jpeg" alt="Avatar" />
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-end mt-1 pt-25">
+                        <div class="role-heading">
+                            <h6 class="fw-bolder"><strong>{{ product.funcion }}</strong></h6>
+                              <a  class="btn btn-warning btn-wishlist"
+                                  (click)="toggleWishlist(product)" rippleEffect>
+                                  <i data-feather="edit" class="mr-25"></i>
+                                  <span>Editar Tabla</span>
+                              </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+      <!-- Tabla Ends -->
+
+      <!-- E-commerce Pagination Starts -->
+      <section id="ecommerce-pagination">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="d-flex justify-content-center">
+              <ngb-pagination
+              [collectionSize]="(developer | filter: searchText:'funcion').length"
+              [(page)]="page"
+              [maxSize]="5"
+              [rotate]="true"
+              [ellipses]="false"
+              [boundaryLinks]="true"
+              >
+              <ng-template ngbPaginationFirst>Primero</ng-template>
+              <ng-template ngbPaginationPrevious
+                ><span [data-feather]="'chevron-left'" [class]="'font-weight-bolder'"></span>Anterior
+              </ng-template>
+              <ng-template ngbPaginationNext
+                >Próximo<span [data-feather]="'chevron-right'" [class]="'font-weight-bolder'"></span>
+              </ng-template>
+              <ng-template ngbPaginationLast>Ultimo</ng-template>
+              </ngb-pagination>
+
+
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- E-commerce Pagination Ends -->
+    </div>
+  </div>
+</div>

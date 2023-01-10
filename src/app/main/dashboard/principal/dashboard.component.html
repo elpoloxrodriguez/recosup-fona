@@ -1,0 +1,122 @@
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+
+    <div class="row match-height">
+      <!-- Medal Card -->
+      <div class="col-xl-12 col-md-6 col-12"  *ngIf="usuario">
+        <div class="card card-statistics">
+          <div class="card-header">
+            <h4 class="card-title">Accesos Directos</h4>
+            <div class="d-flex align-items-center">
+              <!-- <p class="card-text font-small-2 mr-25 mb-0">Actualizado: 29-08-2022 04:34 AM</p> -->
+            </div>
+          </div>
+          <div class="card-body statistics-body">
+            <div class="row">
+              <div class="col-sm-6 col-xl-3 mb-2 mb-xl-0">
+                <div class="media">
+                  <div class="avatar bg-light-primary mr-2">
+                    <div class="avatar-content">
+                      <i data-feather="trending-up" class="avatar-icon"></i>
+                    </div>
+                  </div>
+                  <div class="media-body my-auto">
+                    <!-- <h4 class="font-weight-bolder mb-0">234343K</h4> -->
+                    <p class="card-text font-small-3 mb-0">Declaraciones</p>
+                    <button type="button" routerLink="/taxpayer-record/declaration-payments" class="btn btn-primary" rippleEffect>Declarar</button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-xl-3 mb-2 mb-xl-0">
+                <div class="media">
+                  <div class="avatar bg-light-info mr-2">
+                    <div class="avatar-content">
+                      <i data-feather="file" class="avatar-icon"></i>
+                    </div>
+                  </div>
+                  <div class="media-body my-auto">
+                    <!-- <h4 class="font-weight-bolder mb-0">6456K</h4> -->
+                    <p class="card-text font-small-3 mb-0">Certificado  de Inscripción</p>
+                    <button type="button" (click)="GenerarCertificadoInscripcion()" class="btn btn-success" rippleEffect>Certificado</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--/ Medal Card -->
+
+      <!-- Statistics Card -->
+      <div class="col-xl-12 col-md-6 col-12" *ngIf="empresa">
+        <div class="card card-statistics">
+          <div class="card-header">
+            <h4 class="card-title">Estadisticas</h4>
+            <div class="d-flex align-items-center">
+              <p class="card-text font-small-2 mr-25 mb-0">Actualizado: 29-08-2022 04:34 AM</p>
+            </div>
+          </div>
+          <div class="card-body statistics-body">
+            <div class="row">
+              <div class="col-sm-6 col-xl-3 mb-2 mb-xl-0">
+                <div class="media">
+                  <div class="avatar bg-light-primary mr-2">
+                    <div class="avatar-content">
+                      <i data-feather="trending-up" class="avatar-icon"></i>
+                    </div>
+                  </div>
+                  <div class="media-body my-auto">
+                    <h4 class="font-weight-bolder mb-0">234343K</h4>
+                    <p class="card-text font-small-3 mb-0">Aportes</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-xl-3 mb-2 mb-xl-0">
+                <div class="media">
+                  <div class="avatar bg-light-info mr-2">
+                    <div class="avatar-content">
+                      <i data-feather="user" class="avatar-icon"></i>
+                    </div>
+                  </div>
+                  <div class="media-body my-auto">
+                    <h4 class="font-weight-bolder mb-0">6456K</h4>
+                    <p class="card-text font-small-3 mb-0">Usuarios</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-xl-3 mb-2 mb-sm-0">
+                <div class="media">
+                  <div class="avatar bg-light-danger mr-2">
+                    <div class="avatar-content">
+                      <i data-feather="box" class="avatar-icon"></i>
+                    </div>
+                  </div>
+                  <div class="media-body my-auto">
+                    <h4 class="font-weight-bolder mb-0">5345 K</h4>
+                    <p class="card-text font-small-3 mb-0">Aportes No Procesados</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-xl-3">
+                <div class="media">
+                  <div class="avatar bg-light-success mr-2">
+                    <div class="avatar-content">
+                      <i  class="avatar-icon">Bs</i>
+                    </div>
+                  </div>
+                  <div class="media-body my-auto">
+                    <h4 class="font-weight-bolder mb-0">423 K</h4>
+                    <p class="card-text font-small-3 mb-0">Ingresos</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--/ Statistics Card -->
+    </div>
+
+  </div>
+</div>

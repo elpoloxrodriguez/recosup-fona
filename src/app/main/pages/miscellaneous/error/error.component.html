@@ -1,0 +1,22 @@
+<!-- Error page-->
+<div class="misc-wrapper">
+  <div class="misc-inner d-none d-lg-flex col-lg-12 align-items-center p-5">
+    <div class="w-100 text-center">
+      <h1 class="mb-1"><strong>FONDO NACIONAL ANTIDROGAS</strong></h1>
+      <h2 class="mb-1">Página no encontrada 🕵🏻‍♀️</h2>
+      <p class="mb-2">Ups! 😖 La URL solicitada no se encontró en este servidor.</p>
+      <img
+      class="img-fluid drop"
+      [src]="
+        coreConfig.layout.skin === 'dark' ? 'assets/images/logos/fona.png' : 'assets/images/logos/fona.png'
+      "
+      alt="Error page"
+      width="300px"
+    />
+    <p class="mb-1 drop">
+      <a class="btn btn-danger mb-2 btn-sm-block" align="center" routerLink="/" rippleEffect>Regresar al Inicio</a>
+    </p>
+  </div>
+</div>
+</div>
+<!-- / Error page-->

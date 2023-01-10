@@ -1,0 +1,46 @@
+<!-- app-content-header start -->
+<ng-container *ngIf="contentHeader">
+  <div class="content-header row">
+    <div class="content-header-left col-md-9 col-12 mb-2">
+      <div class="row breadcrumbs-top">
+        <div class="col-12 d-flex">
+          <h2 class="content-header-title float-left mb-0">
+            {{ contentHeader.headerTitle }}
+          </h2>
+          <!-- app-breadcrumb component -->
+          <app-breadcrumb [breadcrumb]="contentHeader.breadcrumb"></app-breadcrumb>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="contentHeader.actionButton">
+      <div class="content-header-right text-md-right col-md-3 col-12 d-md-block d-none">
+        <div class="form-group breadcrum-right">
+          <div ngbDropdown>
+            <button
+              ngbDropdownToggle
+              id="dropdownSettings"
+              class="btn-icon btn btn-primary btn-round btn-sm"
+              type="button"
+              rippleEffect
+            >
+              <span [data-feather]="'grid'"></span>
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownSettings">
+              <a ngbDropdownItem [routerLink]="['/redes/comunicaciones']"
+                ><span [data-feather]="'server'" [class]="'mr-50'"></span> Servidores</a
+              >
+              <a ngbDropdownItem [routerLink]="['/redes/conexiones']"
+                ><span [data-feather]="'hard-drive'" [class]="'mr-50'"></span> Conexiones</a
+              >
+              <a ngbDropdownItem [routerLink]="['/herramienta/api']"><span [data-feather]="'tool'" [class]="'mr-50'"></span> API RESTFULL</a>
+              <a ngbDropdownItem [routerLink]="['/seguridad/roles']"
+                ><span [data-feather]="'lock'" [class]="'mr-50'"></span> Seguridad</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>
+<!-- app-content-header end -->
