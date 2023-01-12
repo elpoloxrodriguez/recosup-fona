@@ -91,6 +91,8 @@ export class ContributingCompaniesComponent implements OnInit {
   public idEmpresaCert
   public idUsuarioCert
 
+  public ShowFiscalizar = false
+
   public dataEmpresasAportes = [];
   public sidebarToggleRef = false;
   public rowsEmpresasAportes;
@@ -136,6 +138,9 @@ export class ContributingCompaniesComponent implements OnInit {
     if (this.token.Usuario[0].role == 9) {
       this.showUpdateEmpresa = true;
     } 
+    if (this.token.Usuario[0].role == 3) {
+      this.ShowFiscalizar = true
+    }
    await  this.EmpresasAportes()
   }
 

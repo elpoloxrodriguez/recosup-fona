@@ -92,6 +92,9 @@
           <ng-template ngx-datatable-cell-template let-row="row">
               <button type="button" class="btn btn-sm btn-warning"  (click)="DetalleEmpresa(ModalDetalleEmpresa,row)" rippleEffect>
                 <span [data-feather]="'eye'" [class]="'mr-25'"></span></button>
+                &nbsp;
+                <button type="button" *ngIf="ShowFiscalizar != false" class="btn btn-sm btn-danger"  (click)="DetalleEmpresa(ModalDetalleEmpresa,row)" rippleEffect>
+                  <span [data-feather]="'lock'" [class]="'mr-25'"></span></button>
   
           </ng-template>
         </ngx-datatable-column>

@@ -83,6 +83,7 @@ public DatepickerMonth = this.añoActual.getMonth()
 public ActividadEconomicaEmpresa
 public TipoArticuloModal
 
+public CapturarEventoTrabajadores
   public showButtonPayment = false
   public rowsUtilidadCierreFiscal = []
   public DataGananaciasContribuyente
@@ -246,50 +247,53 @@ EvaluarPerdida(data: any){
   this.ValorEvaluarPerdida = data
 }
 
-MasOMenosEmpleados(data: any){
+ MasOMenosEmpleados(data: any){
+  this.CapturarEventoTrabajadores = data
   if ( this.ActividadEconomicaEmpresa === '60' ||  this.ActividadEconomicaEmpresa === '11') {
   switch (this.ValorEvaluarPerdida) {
     case 'Si': // Si tuve perdida y no pago con alcoholico
     this.Dutilidad.Monto = '0.00'
     this.ShowValidadMonto = true
     if (data === 'Menos de 50') {
-      this.SelectArticulo = []
-      let articulo = [
-        { 
-          id: '34',
-          name: 'Articulo 34',}
-      ]
-      this.SelectArticulo = articulo
+      // this.SelectArticulo = []
+      // let articulo = [
+      //   { 
+      //     id: '34',
+      //     name: 'Articulo 34',}
+      // ]
+      // this.SelectArticulo = articulo
     } 
       break; // Aca termina
     case 'No': // No tuve perdida con alcoholico
       this.Dutilidad.Monto = undefined
       this.ShowValidadMonto = false
-      if (data === 'Menos de 50') {
-        this.SelectArticulo = []
-        let articulo = [
-          { 
-            id: '34',
-            name: 'Articulo 34',},
-        ] 
-        this.SelectArticulo = articulo
-      } else {
-        let articulo = [
-          { 
-            id: '34',
-            name: 'Articulo 34',},
-            { 
-              id: '32',
-              name: 'Articulo 32',}
-        ] 
-        this.SelectArticulo = articulo
+      if (data === 'Menos de 50') {      
+        // this.SelectArticulo = []
+        // let articulo = [
+        //   { 
+        //     id: '34',
+        //     name: 'Articulo 34',},
+        // ] 
+        // this.SelectArticulo = articulo
+      // } else {
+      //   this.ShowValidadMonto = true
+      //   this.Dutilidad.Monto = '0.00'
+      //   let articulo = [
+      //     { 
+      //       id: '34',
+      //       name: 'Articulo 34',},
+      //       { 
+      //         id: '32',
+      //         name: 'Articulo 32',}
+      //   ] 
+      //   this.SelectArticulo = articulo
       }
     break;
   default:
     break;  // Aca termina alcholico sin perdida
   }
 } else {
-  switch (this.ValorEvaluarPerdida) {
+  switch (this.ValorEvaluarPerdida) { // No vende alcohol 
     case 'Si':
     this.Dutilidad.Monto = '0.00'
     this.ShowValidadMonto = true
@@ -300,24 +304,24 @@ MasOMenosEmpleados(data: any){
       if (data === 'Menos de 50') {
         this.Dutilidad.Monto = '0.00'
         this.ShowValidadMonto = true
-        this.SelectArticulo = []
-        let articulo = [
-          { 
-            id: '32',
-            name: 'Articulo 32',}
-        ]
-        this.SelectArticulo = articulo
+        // this.SelectArticulo = []
+        // let articulo = [
+        //   { 
+        //     id: '32',
+        //     name: 'Articulo 32',}
+        // ]
+        // this.SelectArticulo = articulo
       } 
       if (data === '50 o mas') {
         this.Dutilidad.Monto = undefined
         this.ShowValidadMonto = false
-        this.SelectArticulo = []
-        let articulo = [
-          { 
-            id: '32',
-            name: 'Articulo 32',}
-        ]
-        this.SelectArticulo = articulo
+        // this.SelectArticulo = []
+        // let articulo = [
+        //   { 
+        //     id: '32',
+        //     name: 'Articulo 32',}
+        // ]
+        // this.SelectArticulo = articulo
       } 
     break;
   default:
@@ -387,7 +391,15 @@ MasOMenosEmpleados(data: any){
   }
 
   async CambiarMonto(id: any) {
-    // console.log(id)
+    if (this.CapturarEventoTrabajadores === 'Menos de 50') {
+      if (id === '32' ) {
+        this.Dutilidad.Monto = '0.00'
+        this.ShowValidadMonto = true        
+      } else {
+        this.Dutilidad.Monto = ''
+        this.ShowValidadMonto = false        
+      }
+    }
     this.xAPI.funcion = "RECOSUP_R_Lista_Tipos_Aportes_Variable";
     this.xAPI.parametros = id
     await this.apiService.Ejecutar(this.xAPI).subscribe(
