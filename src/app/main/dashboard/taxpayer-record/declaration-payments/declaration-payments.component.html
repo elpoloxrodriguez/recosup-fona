@@ -145,7 +145,7 @@
             <div class="form-group">
               <label for="basicSelect">¿ Tuvo 50 o más trabajadores durante éste año Fiscal ?</label>
               <ng-select [items]="SelectTrabajadores" placeholder="Cantidad de Trabajadores que tuvo éste año Fiscal?"
-                bindLabel="name" (ngModelChange)="MasOMenosEmpleados($event)" bindValue="id" autocomplete="off" name="trabajadores" [(ngModel)]="Dutilidad.DeclaraTrabajadores"
+                bindLabel="name" (ngModelChange)="Empleados($event)" bindValue="id" autocomplete="off" name="trabajadores" [(ngModel)]="Dutilidad.DeclaraTrabajadores"
                 [ngModelOptions]="{standalone: true}" required autocomplete="off">
               </ng-select>
             </div>

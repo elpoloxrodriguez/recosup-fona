@@ -82,7 +82,8 @@ public DatepickerMonth = this.añoActual.getMonth()
 
 public ActividadEconomicaEmpresa
 public TipoArticuloModal
-
+public TipoArticulo
+public CantidadEmpleadosMasoMenos
 public CapturarEventoTrabajadores
   public showButtonPayment = false
   public rowsUtilidadCierreFiscal = []
@@ -243,93 +244,72 @@ LimpiarDeclaracionGanancia(){
   } 
 }
 
-EvaluarPerdida(data: any){
+async EvaluarPerdida(data: any){
   this.ValorEvaluarPerdida = data
+  await this.MasOMenosEmpleados()
 }
 
- MasOMenosEmpleados(data: any){
-  this.CapturarEventoTrabajadores = data
-  if ( this.ActividadEconomicaEmpresa === '60' ||  this.ActividadEconomicaEmpresa === '11') {
-  switch (this.ValorEvaluarPerdida) {
-    case 'Si': // Si tuve perdida y no pago con alcoholico
-    this.Dutilidad.Monto = '0.00'
+async Empleados(data: any){
+  this.CantidadEmpleadosMasoMenos = data
+  await this.MasOMenosEmpleados()
+}
+
+MasOMenosEmpleados(){
+//  console.log(this.ValorEvaluarPerdida)
+//  console.log(this.CantidadEmpleadosMasoMenos)
+//  console.log(this.TipoArticulo)
+//  this.ShowValidadMonto = true
+//  this.Dutilidad.Monto = '0.00'
+
+ if (this.ActividadEconomicaEmpresa === '60' ||  this.ActividadEconomicaEmpresa === '11') {
+  // SI la empresa es vendedora de licor o tabaco
+  if (this.ValorEvaluarPerdida === 'Si'  && this.CantidadEmpleadosMasoMenos === '50 o mas') {
     this.ShowValidadMonto = true
-    if (data === 'Menos de 50') {
-      // this.SelectArticulo = []
-      // let articulo = [
-      //   { 
-      //     id: '34',
-      //     name: 'Articulo 34',}
-      // ]
-      // this.SelectArticulo = articulo
+    this.Dutilidad.Monto = '0.00'
+    if (this.TipoArticulo === '32' && this.TipoArticulo === '34') {
+      this.ShowValidadMonto = true
+      this.Dutilidad.Monto = '0.00'  
     } 
-      break; // Aca termina
-    case 'No': // No tuve perdida con alcoholico
-      this.Dutilidad.Monto = undefined
-      this.ShowValidadMonto = false
-      if (data === 'Menos de 50') {      
-        // this.SelectArticulo = []
-        // let articulo = [
-        //   { 
-        //     id: '34',
-        //     name: 'Articulo 34',},
-        // ] 
-        // this.SelectArticulo = articulo
-      // } else {
-      //   this.ShowValidadMonto = true
-      //   this.Dutilidad.Monto = '0.00'
-      //   let articulo = [
-      //     { 
-      //       id: '34',
-      //       name: 'Articulo 34',},
-      //       { 
-      //         id: '32',
-      //         name: 'Articulo 32',}
-      //   ] 
-      //   this.SelectArticulo = articulo
-      }
-    break;
-  default:
-    break;  // Aca termina alcholico sin perdida
-  }
-} else {
-  switch (this.ValorEvaluarPerdida) { // No vende alcohol 
-    case 'Si':
-    this.Dutilidad.Monto = '0.00'
+  } 
+  if (this.ValorEvaluarPerdida === 'Si'  && this.CantidadEmpleadosMasoMenos === 'Menos de 50') {
     this.ShowValidadMonto = true
-      break;
-    case 'No':
-      this.Dutilidad.Monto = undefined
+    this.Dutilidad.Monto = '0.00'
+    if (this.TipoArticulo === '32' && this.TipoArticulo === '34') {
+      this.ShowValidadMonto = true
+      this.Dutilidad.Monto = '0.00'  
+    } 
+  } 
+  if (this.ValorEvaluarPerdida === 'No'  && this.CantidadEmpleadosMasoMenos === '50 o mas') {
+    if (this.TipoArticulo === '32' && this.TipoArticulo === '34') {
       this.ShowValidadMonto = false
-      if (data === 'Menos de 50') {
-        this.Dutilidad.Monto = '0.00'
-        this.ShowValidadMonto = true
-        // this.SelectArticulo = []
-        // let articulo = [
-        //   { 
-        //     id: '32',
-        //     name: 'Articulo 32',}
-        // ]
-        // this.SelectArticulo = articulo
-      } 
-      if (data === '50 o mas') {
-        this.Dutilidad.Monto = undefined
-        this.ShowValidadMonto = false
-        // this.SelectArticulo = []
-        // let articulo = [
-        //   { 
-        //     id: '32',
-        //     name: 'Articulo 32',}
-        // ]
-        // this.SelectArticulo = articulo
-      } 
-    break;
-  default:
-    break;
+      this.Dutilidad.Monto = ''  
+    } 
+  } 
+  if (this.ValorEvaluarPerdida === 'No'  && this.CantidadEmpleadosMasoMenos === 'Menos de 50') {
+    if (this.TipoArticulo === '32') {
+      this.ShowValidadMonto = true
+      this.Dutilidad.Monto = '0.00'  
+    } 
+    if (this.TipoArticulo === '34') {
+      this.ShowValidadMonto = false
+      this.Dutilidad.Monto = ''  
+    } 
+  } 
+  
+ } else {
+  // NO la empresa es vendedora de licor o tabaco
+  if (this.ValorEvaluarPerdida === 'No' && this.CantidadEmpleadosMasoMenos === '50 o mas') { // EVALUO SI TUVO PERDIDAS O NO
+    this.ShowValidadMonto = false
+    this.Dutilidad.Monto = ''
+  } else {
+    this.ShowValidadMonto = true
+    this.Dutilidad.Monto = '0.00'
   }
+
+ }
 }
 
-}
+
 
   FuncSelectAnioAporte(){
     var anioActual = new Date()
@@ -391,15 +371,17 @@ EvaluarPerdida(data: any){
   }
 
   async CambiarMonto(id: any) {
-    if (this.CapturarEventoTrabajadores === 'Menos de 50') {
-      if (id === '32' ) {
-        this.Dutilidad.Monto = '0.00'
-        this.ShowValidadMonto = true        
-      } else {
-        this.Dutilidad.Monto = ''
-        this.ShowValidadMonto = false        
-      }
-    }
+    this.TipoArticulo = id
+    await this.MasOMenosEmpleados()
+    // if (this.CapturarEventoTrabajadores === 'Menos de 50') {
+    //   if (id === '32' ) {
+    //     this.Dutilidad.Monto = '0.00'
+    //     this.ShowValidadMonto = true        
+    //   } else {
+    //     this.Dutilidad.Monto = ''
+    //     this.ShowValidadMonto = false        
+    //   }
+    // }
     this.xAPI.funcion = "RECOSUP_R_Lista_Tipos_Aportes_Variable";
     this.xAPI.parametros = id
     await this.apiService.Ejecutar(this.xAPI).subscribe(
