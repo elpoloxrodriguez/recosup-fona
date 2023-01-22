@@ -16,6 +16,7 @@ import { NavbarBookmarkComponent } from 'app/layout/components/navbar/navbar-boo
 import { NavbarSearchComponent } from 'app/layout/components/navbar/navbar-search/navbar-search.component';
 import { NavbarNotificationComponent } from 'app/layout/components/navbar/navbar-notification/navbar-notification.component';
 import { NavbarUserNotificationComponent } from './navbar-user-notification/navbar-user-notification.component';
+import { NavbarProjectNotificationComponent } from './navbar-project-notification/navbar-project-notification.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -28,7 +29,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NavbarSearchComponent,
     NavbarBookmarkComponent,
     NavbarNotificationComponent,
-    NavbarUserNotificationComponent
+    NavbarUserNotificationComponent,
+    NavbarProjectNotificationComponent
   ],
   imports: [RouterModule, NgbModule, CoreCommonModule, PerfectScrollbarModule, CoreTouchspinModule],
   providers: [

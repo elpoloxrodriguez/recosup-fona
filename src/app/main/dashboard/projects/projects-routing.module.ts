@@ -10,8 +10,8 @@ import { AuthGuardGuard } from '@core/services/seguridad/auth-guard.guard';
 import { AuthGuard } from 'app/auth/helpers';
 import { Role } from 'app/auth/models';
 import { CompanyProjectsComponent } from './company-projects/company-projects.component'
-import { ReportsComponent } from './reports/reports.component'
 import { CompanyProjectsRecosupComponent } from './company-projects-recosup/company-projects-recosup.component'
+import { ReportsProjectsComponent } from './reports/reports-projects/reports-projects.component'
 
 
 const routes: Routes = [
@@ -29,7 +29,7 @@ const routes: Routes = [
   },
   {
     path: 'projects/reports',
-    component: ReportsComponent,
+    component: ReportsProjectsComponent,
     canActivate: [AuthGuard,AuthGuardGuard],
     data: { roles: ['4','9'] },
   },

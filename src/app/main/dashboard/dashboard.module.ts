@@ -31,7 +31,7 @@ import { UsersStatusComponent } from './support/users-status/users-status.compon
       TaxpayerPaymentsComponent,
       CompanyProjectsComponent,
       UsersComponent,
-      UsersStatusComponent
+      UsersStatusComponent,
     ],
   imports: [
     CommonModule,

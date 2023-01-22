@@ -60,6 +60,7 @@ import { UsersComponent } from './main/dashboard/support/users/users.component';
 import { ReportsComponent } from './main/dashboard/financial-collection/reports/reports.component'
 import { CompanyProjectsRecosupComponent } from './main/dashboard/projects/company-projects-recosup/company-projects-recosup.component';
 import { GenerateFinesComponent } from './main/dashboard/financial-collection/generate-fines/generate-fines.component';
+import { ReportsProjectsComponent } from './main/dashboard/projects/reports/reports-projects/reports-projects.component';
 //  subir Archivos
 
 const appRoutes: Routes = [
@@ -91,6 +92,7 @@ const appRoutes: Routes = [
                           CompanyProjectsRecosupComponent,
                           GenerateFinesComponent,
                           ReportsComponent,
+                          ReportsProjectsComponent
                           ],
   imports: [
     BrowserModule,

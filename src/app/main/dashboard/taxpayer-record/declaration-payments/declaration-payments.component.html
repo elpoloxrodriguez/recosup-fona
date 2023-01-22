@@ -219,7 +219,7 @@
                     name="cierre" [(ngModel)]="Dutilidad.FechaHasta" [ngModelOptions]="{standalone: true}" ngbDatepicker
                     #basicD="ngbDatepicker"
                     [minDate]="{year: Dutilidad.Fecha, month: 1, day: 1}"
-                    [maxDate]="{year: Dutilidad.Fecha, month: 12, day: 31}"
+                    [maxDate]="{year: Dutilidad.Fecha+1, month: 12, day: 31}"
                     >
                   <div class="input-group-append">
                     <button class="btn btn-outline-secondary feather icon-calendar" (click)="basicD.toggle()"

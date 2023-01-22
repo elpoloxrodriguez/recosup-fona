@@ -27,7 +27,7 @@ import jwt_decode from "jwt-decode";
 export class NavbarComponent implements OnInit, OnDestroy {
 
   public ShowNotificationsUsers = false
-
+  public ShowNotificationsProject = false
   public horizontalMenu: boolean;
   public hiddenMenu: boolean;
 
@@ -185,6 +185,10 @@ public cargo = ''
 
     if (this.rol === '1') {
       this.ShowNotificationsUsers = true
+    } 
+
+    if (this.rol === '4') {
+      this.ShowNotificationsProject = true
     } 
 
     // get the currentUser details from localStorage
