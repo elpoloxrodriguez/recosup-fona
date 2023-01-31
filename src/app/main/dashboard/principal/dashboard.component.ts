@@ -4,12 +4,18 @@ import { ICrearCertificados } from '@core/services/empresa/empresa.service';
 import { PdfService } from '@core/services/pdf/pdf.service';
 import { UtilService } from '@core/services/util/util.service';
 import jwt_decode from "jwt-decode";
+import { NgbModal, NgbActiveModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+
 
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
+  encapsulation : ViewEncapsulation.None,
+  providers: [NgbModalConfig, NgbModal],
 })
 export class DashboardComponent implements OnInit {
 
@@ -26,15 +32,20 @@ export class DashboardComponent implements OnInit {
     created_user: 0
   }
   
+  public FechaModificoUsuario
   public IdEmpresa
   public DataEmpresa
   public token
   public empresa = false
   public usuario = false
 
+  public UsuarioId
+
   constructor(
     private apiService: ApiService,
     private utilService: UtilService,
+    private modalService: NgbModal,
+    private _router : Router,
     private pdf: PdfService,
   ) { }
 
@@ -45,8 +56,15 @@ export class DashboardComponent implements OnInit {
    */
   async ngOnInit() {
     this.token =  jwt_decode(sessionStorage.getItem('token'));
-    // console.log(this.token)
+    this.FechaModificoUsuario = this.token.Usuario[0].FechaModifico
+    
+    // console.log(this.FechaModificoUsuario);
+    // console.log(this.utilService.FechaActual)
+
     this.IdEmpresa = this.token.Usuario[0].EmpresaId
+    this.UsuarioId = this.token.Usuario[0].UsuarioId
+
+    await this.CambiarContraseñaEmpresa()
     await this.EmpresaRIF(this.token.Usuario[0].Rif)
     // if (this.token.Usuario[0].EsAdministrador != "9") {
     //   this.usuario = true
@@ -125,6 +143,37 @@ export class DashboardComponent implements OnInit {
         console.log(error)
       }
     )
+  }
+
+
+  async CambiarContraseñaEmpresa(){
+  this.xAPI.funcion = "RECOSUP_R_UsuarioId";
+  this.xAPI.parametros = this.UsuarioId
+  this.xAPI.valores = ''
+  await this.apiService.Ejecutar(this.xAPI).subscribe(
+    (data) => {
+      data.Cuerpo.forEach(e => {        
+        let FechaToken = e.FechaModifico
+        const ConvertirFechaToken = new Date(FechaToken).getFullYear()
+       setTimeout(() => {
+        if (ConvertirFechaToken < 2023) {
+          this._router.navigate(['user/profile']).then(() => {window.location.reload()});
+          Swal.fire({
+            position: 'top-end',
+            icon: 'warning',
+            html: 'Estimado Usuario <br>  Recomendamos Cambiar la Contraseña de Acceso al Sistema',
+            showConfirmButton: false,
+            timer: 3000
+          })
+        }
+       }, 2000);
+      });
+    },
+    (error) => {
+      console.log(error)
+    }
+  )
+
   }
 
 

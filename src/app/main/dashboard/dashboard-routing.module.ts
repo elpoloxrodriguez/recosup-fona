@@ -19,6 +19,7 @@ import { ReportsAlertsRoutingModule } from './reports-alerts/reports-alerts-rout
 import { SupportRoutingModule } from './support/support-routing.module'
 import { LegalRoutingModule } from './legal/legal-routing.module'
 import { InspectionRoutingModule } from './inspection/inspection-routing.module'
+import { UserRoutingModule } from './user/user-routing.module'
 
 const routes: Routes = [
   {
@@ -48,6 +49,7 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
+    UserRoutingModule
   ],
   exports: [RouterModule]
 })

@@ -261,6 +261,13 @@ export interface RECOSUP_U_UsuariosStatus { // actualizar datos del usuario
 	id_proyectos	 :	number
 }
 
+export interface RECOSUP_U_PasswordUsersID { // Cambiar clave de usuario segun ID
+	Clave	 :	string
+	UsuarioModifico	 :	number
+	FechaModifico	 :	string
+	UsuarioId	 :	number
+}
+
 @Injectable({
 	providedIn: 'root'
 })

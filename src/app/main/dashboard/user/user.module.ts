@@ -21,26 +21,15 @@ import { Ng2FlatpickrModule } from 'ng2-flatpickr';
 import { CoreDirectivesModule } from '@core/directives/directives';
 import { CorePipesModule } from '@core/pipes/pipes.module';
 import { CoreSidebarModule } from '@core/components';
-import { AngularFileUploaderModule } from "angular-file-uploader";
 
-import { SupportRoutingModule } from './support-routing.module';
-import { MenuModuleComponent } from './menu-module/menu-module.component';
-import { RoleUserComponent } from './role-user/role-user.component';
-import { PermissionsUserComponent } from './permissions-user/permissions-user.component';
-import { TableManagementComponent } from './table-management/table-management.component';
-import { ChangePasswordComponent } from './change-password/change-password.component';
-import { BackupsComponent } from './backups/backups.component';
-import { UsersComponent } from './users/users.component';
-import { UsersStatusComponent } from './users-status/users-status.component';
+import { UserRoutingModule } from './user-routing.module';
 
 
 @NgModule({
-  declarations: [
-    // ChangePasswordComponent,
-  ],
+  declarations: [],
   imports: [
     CommonModule,
-    SupportRoutingModule,
+    UserRoutingModule,
     RouterModule,
     ContentHeaderModule,
     NgbModule,
@@ -55,7 +44,6 @@ import { UsersStatusComponent } from './users-status/users-status.component';
     CoreDirectivesModule,
     CorePipesModule,
     CoreSidebarModule,
-    AngularFileUploaderModule,
   ]
 })
-export class SupportModule { }
+export class UserModule { }

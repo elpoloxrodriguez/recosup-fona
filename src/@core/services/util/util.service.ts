@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
 import * as moment from 'moment';
+import {Md5} from 'ts-md5/dist/md5';
 
 
 @Injectable({
@@ -128,7 +129,11 @@ export class UtilService {
     return cadena.toLowerCase().replace(/á/g, "a").replace(/ê/g, "i").replace(/í/g, "i").replace(/ó/g, "o").replace(/ú/g, "u")
   }
 
-
+  md5(pwd: any) {
+    const md5 = new Md5();
+    const password =  md5.appendStr(pwd).end()
+    return password
+  }
 
 diferenciaFecha(fecha1: string, fecha2: string){
 let fecha = moment(fecha2).diff(fecha1, 'days')

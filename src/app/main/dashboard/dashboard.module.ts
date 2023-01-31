@@ -21,6 +21,7 @@ import { CompanyProjectsComponent } from './projects/company-projects/company-pr
 import { ProjectsRoutingModule } from './projects/projects-routing.module';
 import { UsersComponent } from './support/users/users.component';
 import { UsersStatusComponent } from './support/users-status/users-status.component';
+import { ProfileComponent } from './user/profile/profile.component';
 
 
 
@@ -32,6 +33,7 @@ import { UsersStatusComponent } from './support/users-status/users-status.compon
       CompanyProjectsComponent,
       UsersComponent,
       UsersStatusComponent,
+      ProfileComponent,
     ],
   imports: [
     CommonModule,

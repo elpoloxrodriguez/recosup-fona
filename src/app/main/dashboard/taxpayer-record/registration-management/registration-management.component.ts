@@ -256,6 +256,8 @@ export class RegistrationManagementComponent implements OnInit {
   // Editar Campos de la Empresa
   public MiEmpresa = []
 
+  public Rif
+
   public ListaMultasNuevas = []
   public rowsDetalleMultasNuevas
   public tempDataDetalleMultasNuevas = []
@@ -284,6 +286,7 @@ export class RegistrationManagementComponent implements OnInit {
   public selectParroquias
   public selectNotarias
 
+  public SelectBancosMIF
 
   // Registrar Empresa
   public Parroquia
@@ -385,6 +388,7 @@ export class RegistrationManagementComponent implements OnInit {
     this.sectionBlockUI.start('Subiendo Documento, Porfavor Espere!!!');
     this.token = jwt_decode(sessionStorage.getItem('token'));
     this.IdEmpresa = this.token.Usuario[0].EmpresaId
+    this.Rif = this.token.Usuario[0].Rif
     await this.ListaParroquias()
     await this.ListaEstados()
     await this.ListaActividadEconomica()
@@ -392,6 +396,7 @@ export class RegistrationManagementComponent implements OnInit {
       await this.EmpresaRIF(this.token.Usuario[0].Rif)
       // console.log(this.DataEmpresa)
       await this.DetalleMultasNuevas()
+      // await this.ListaBancosMIF() 
       await this.ListTipoDoc()
       await this.UtilidadCierreFiscal(this.token.Usuario[0].EmpresaId)
       await this.DetalleAportes(this.token.Usuario[0].EmpresaId)
@@ -852,7 +857,7 @@ export class RegistrationManagementComponent implements OnInit {
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(e => {
-          if (e.status_mif == '0') {
+          if (e.status_mif == '0' && this.Rif == e.Rif) {
             e.Nomenclatura_mif = e.Nomenclatura_mif.toUpperCase()
             e.Monto_mif = this.utilService.ConvertirMoneda(e.Monto_mif)
             this.ListaMultasNuevas.push(e);
@@ -924,6 +929,26 @@ export class RegistrationManagementComponent implements OnInit {
     )
   }
 
+  async ListaBancosMIF(d: any) {
+    this.xAPI.funcion = "RECOSUP_R_ListarBancosMIF";
+    this.SelectBancosMIF = []
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        this.SelectBancosMIF = data.Cuerpo.map(e => {
+          if (e.id_bancos_MIF === d.TipoMultaId) {
+            e.id = e.id_bancos_MIF
+            e.name = e.nombre_bancos_MIF + ' ( ' + e.nombre_banco_bancos_MIF +'  -  '+ e.cuenta_bancos_MIF + ' ) '
+            // console.log(e)
+            // this.SelectBancosMIF.push(e)
+          }
+        });
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+
   async ListaMunicipios(id: string) {
     this.xAPI.funcion = "RECOSUP_R_Municipios";
     this.xAPI.parametros = id;
@@ -942,6 +967,17 @@ export class RegistrationManagementComponent implements OnInit {
     )
   }
 
+
+  async PagarMultasNuevas(modal: any, data: any){
+    // await this.ListaBancosMIF(data)
+    this.modalService.open(modal, {
+      centered: true,
+      size: 'lg',
+      backdrop: false,
+      keyboard: false,
+      windowClass: 'fondo-modal',
+    });
+  }
 
   async ListaParroquias() {
     this.xAPI.funcion = "RECOSUP_R_Parroquias";
