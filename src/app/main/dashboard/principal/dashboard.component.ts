@@ -67,7 +67,7 @@ export class DashboardComponent implements OnInit {
     this.UsuarioId = this.token.Usuario[0].UsuarioId
 
     await this.CambiarContraseñaEmpresa()
-    await this.ListaEmpresasSimple()
+    // await this.ListaEmpresasSimple()
     await this.EmpresaRIF(this.token.Usuario[0].Rif)
     // if (this.token.Usuario[0].EsAdministrador != "9") {
     //   this.usuario = true

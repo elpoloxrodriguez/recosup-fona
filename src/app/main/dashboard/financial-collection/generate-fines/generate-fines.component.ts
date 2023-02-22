@@ -173,21 +173,22 @@ export class GenerateFinesComponent implements OnInit {
 
 
   async ListaEmpresasSimple() {
-    // this.xAPI.funcion = "RECOSUP_R_Empresas_Simple";
-    // await this.apiService.Ejecutar(this.xAPI).subscribe(
-    //   (data) => {
-    //     data.Cuerpo.map(e => {
-    //       e.name = '(' + e.Rif + ') - ' + e.RazonSocial
-    //       e.id = e.EmpresaId
-    //       // return e
-    //       this.ListaEmpresas.push(e)
-    //     });
-    //   },
-    //   (error) => {
-    //     console.log(error)
-    //   }
-    // )
-    this.ListaEmpresas = JSON.parse(sessionStorage.getItem('Empresas'))
+    this.xAPI.funcion = "RECOSUP_R_Empresas_Simple";
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        this.ListaEmpresas = data.Cuerpo.map(e => {
+          e.name = '(' + e.Rif + ') - ' + e.RazonSocial
+          e.id = e.EmpresaId
+          return e
+          // this.ListaEmpresas.push(e)
+        });
+        sessionStorage.setItem('Empresas',  JSON.stringify(this.ListaEmpresas));
+        this.ListaEmpresas = JSON.parse(sessionStorage.getItem('Empresas'))
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
   }
 
   async ListaPlanillas() {
