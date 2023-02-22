@@ -39,6 +39,8 @@ export class DashboardComponent implements OnInit {
   public empresa = false
   public usuario = false
 
+  public ListaEmpresas : any = []
+
   public UsuarioId
 
   constructor(
@@ -65,6 +67,7 @@ export class DashboardComponent implements OnInit {
     this.UsuarioId = this.token.Usuario[0].UsuarioId
 
     await this.CambiarContraseñaEmpresa()
+    await this.ListaEmpresasSimple()
     await this.EmpresaRIF(this.token.Usuario[0].Rif)
     // if (this.token.Usuario[0].EsAdministrador != "9") {
     //   this.usuario = true
@@ -176,5 +179,23 @@ export class DashboardComponent implements OnInit {
 
   }
 
+
+  async ListaEmpresasSimple() {
+    this.xAPI.funcion = "RECOSUP_R_Empresas_Simple";
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        this.ListaEmpresas = data.Cuerpo.map(e => {
+          e.name = '(' + e.Rif + ') - ' + e.RazonSocial
+          e.id = e.EmpresaId
+          this.ListaEmpresas.push(e)
+          return e
+        });
+        sessionStorage.setItem('Empresas',  JSON.stringify(this.ListaEmpresas));
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
 
 }

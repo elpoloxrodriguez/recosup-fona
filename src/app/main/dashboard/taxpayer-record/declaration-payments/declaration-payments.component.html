@@ -276,7 +276,7 @@
           <div class="form-group">
             <label for="basicSelect">Seleccione Tipo de Pago</label>
             <ng-select [items]="SelectTipoPago" placeholder="Seleccione Tipo de Pago" bindLabel="name"
-              autocomplete="off" name="pTipoPagoId" [(ngModel)]="pTipoPagoId" [ngModelOptions]="{standalone: true}"
+              autocomplete="off" name="pTipoPagoId" [(ngModel)]="pTipoPagoId" (ngModelChange)="CapturarItemSelecTiposPagos($event)" [ngModelOptions]="{standalone: true}"
               required autocomplete="off">
             </ng-select>
           </div>
