@@ -92,11 +92,17 @@ export class GenerateFinesComponent implements OnInit {
   async ngOnInit() {
     this.token = jwt_decode(sessionStorage.getItem('token'))
     this.UserId = this.token.Usuario[0].UsuarioId
-    console.log(this.UserId)
+    // console.log(this.UserId)
     await this.DetalleMultas()
     await this.DetalleMultasNuevas()
-    await this.ListaEmpresasSimple()
     await this.ListaPlanillas()
+    if (sessionStorage.getItem('Empresas') != undefined) {
+      // alert('Ya esta cargada')
+      this.ListaEmpresas = JSON.parse(sessionStorage.getItem('Empresas'))
+    } else {
+      await this.ListaEmpresasSimple()
+      // alert('NOO esta cargada')
+    }
   }
   // Public Methods
   // -----------------------------------------------------------------------------------------------------
@@ -176,14 +182,13 @@ export class GenerateFinesComponent implements OnInit {
     this.xAPI.funcion = "RECOSUP_R_Empresas_Simple";
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-        this.ListaEmpresas = data.Cuerpo.map(e => {
+       data.Cuerpo.map(e => {
           e.name = '(' + e.Rif + ') - ' + e.RazonSocial
           e.id = e.EmpresaId
-          return e
-          // this.ListaEmpresas.push(e)
+          // return e
+          this.ListaEmpresas.push(e)
         });
         sessionStorage.setItem('Empresas',  JSON.stringify(this.ListaEmpresas));
-        this.ListaEmpresas = JSON.parse(sessionStorage.getItem('Empresas'))
       },
       (error) => {
         console.log(error)
