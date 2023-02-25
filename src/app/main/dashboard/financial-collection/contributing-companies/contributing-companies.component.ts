@@ -104,6 +104,8 @@ export class ContributingCompaniesComponent implements OnInit {
   public previousPlanFilter = '';
   public previousStatusFilter = '';
 
+  public ListaEmpresasAportes = []
+
   public DataEmpresaAportes = []
   public EmpresaDetalleAportes = []
 
@@ -150,13 +152,40 @@ export class ContributingCompaniesComponent implements OnInit {
     this.dataEmpresasAportes = [];
      await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-          this.rowsEmpresasAportes = data.Cuerpo;
-          this.tempDataEmpresasAportes = this.rowsEmpresasAportes;
+        data.Cuerpo.map(e => {
+          e.EmpresaFiscalizada = 0
+          this.ListaEmpresasAportes.push(e);
+        })
+            this.rowsEmpresasAportes = this.ListaEmpresasAportes
+            this.tempDataEmpresasAportes = this.rowsEmpresasAportes;
+            console.log(this.ListaEmpresasAportes)
       },
       (error) => {
         console.log(error)
       }
     )
+  }
+
+  FiscalizarEmpresa(row : any){
+    console.log(row)
+    Swal.fire({
+      title: 'Esta seguro?',
+      html: `Desea Fiscalizar la Empresa! <br> <font color='red'><strong>${row.RazonSocial}</strong></font> <br> Tenga en cuenta que la misma estará  <font color='red'><strong>INHABILITADA</strong></font> para los demas modulos del sistema`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Fiscalizarla!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Felicidades!',
+          `<font color='red'><strong>${row.RazonSocial}</strong></font> <br> se encuenta Fiscalizada`,
+          'success'
+        )
+      }
+    })
   }
 
   async EmpresaRIF(id: any) {

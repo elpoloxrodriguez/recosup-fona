@@ -35,19 +35,11 @@
           </div>
         </div>
       </div>
-      <ngx-datatable
-        [rows]="rowsEmpresasAportes"
-        [rowHeight]="50"
-        class="bootstrap core-bootstrap"
-        [limit]="selectedOption"
-        [columnMode]="ColumnMode.force"
-        [headerHeight]="50"
-        [footerHeight]="50"
-        [scrollbarH]="true"
-      >
+      <ngx-datatable [rows]="rowsEmpresasAportes" rowHeight="auto" class="bootstrap core-bootstrap"
+      [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
+      [scrollbarH]="true">
 
-
-        <ngx-datatable-column name="RIF" prop="Rif" [width]="10">
+        <ngx-datatable-column name="RIF" prop="Rif" [width]="5">
           <ng-template let-Rif="value" ngx-datatable-cell-template>
             <div>
               <span class="font-weight-bold">{{ Rif }} </span>
@@ -55,7 +47,7 @@
           </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column name="Razon Social" prop="RazonSocial" [width]="100">
+        <ngx-datatable-column name="Razon Social" prop="RazonSocial" [width]="90">
           <ng-template let-RazonSocial="value" ngx-datatable-cell-template>
             <div>
               <span class="font-weight-bold"> {{ RazonSocial.slice(0,57) }} </span>
@@ -65,14 +57,7 @@
 
 
 
-        <ngx-datatable-column name=""  [width]="10">
-        </ngx-datatable-column>
-        
-        <ngx-datatable-column name=""  [width]="10">
-        </ngx-datatable-column>
-
-
-        <ngx-datatable-column name="Ultimo Aporte" prop="UltimoAporte" [width]="10">
+        <ngx-datatable-column name="Ultimo Aporte" prop="UltimoAporte" [width]="5">
           <ng-template let-UltimoAporte="value" ngx-datatable-cell-template>
             <div>
               <span class="font-weight-bold"> {{ UltimoAporte }} </span>
@@ -80,7 +65,7 @@
           </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column name="Cantidad Aportes" prop="CantidadAportes" [width]="10">
+        <ngx-datatable-column name="Cantidad Aportes" prop="CantidadAportes" [width]="5">
           <ng-template let-CantidadAportes="value" ngx-datatable-cell-template>
             <div>
               <span class="font-weight-bold"> {{ CantidadAportes }} </span>
@@ -88,16 +73,50 @@
           </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column name="Acción" [width]="5" [sortable]="false">
-          <ng-template ngx-datatable-cell-template let-row="row">
-              <button type="button" class="btn btn-sm btn-warning"  (click)="DetalleEmpresa(ModalDetalleEmpresa,row)" rippleEffect>
-                <span [data-feather]="'eye'" [class]="'mr-25'"></span></button>
-                &nbsp;
-                <button type="button" *ngIf="ShowFiscalizar != false" class="btn btn-sm btn-danger"  (click)="DetalleEmpresa(ModalDetalleEmpresa,row)" rippleEffect>
-                  <span [data-feather]="'lock'" [class]="'mr-25'"></span></button>
-  
+
+        <ngx-datatable-column name="Fiscalización" [width]="5">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div>
+              <div
+              *ngIf="row.EmpresaFiscalizada == 1"
+                class="badge badge-pill"
+                ngClass="badge-light-danger">
+                Fiscalizada
+              </div>
+              <div
+              *ngIf="row.EmpresaFiscalizada == 0"
+                class="badge badge-pill"
+                ngClass="badge-light-success">
+                Disponible
+              </div>
+            </div>
           </ng-template>
         </ngx-datatable-column>
+
+            
+        <ngx-datatable-column name="Accion" [width]="5" [sortable]="false">
+          <ng-template  ngx-datatable-cell-template let-row="row">
+            <div ngbDropdown container="body">
+              <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
+                <span [data-feather]="'settings'" [class]="'cursor-pointer'"></span>
+              </button>
+              <div ngbDropdownMenu>
+                <div>
+                  <a  (click)="DetalleEmpresa(ModalDetalleEmpresa,row)" ngbDropdownItem><span
+                    [data-feather]="'archive'" [size]="16" [class]="'mr-50'"></span> Ver Detalles</a>
+              </div>
+              <div *ngIf="ShowFiscalizar != false && row.EmpresaFiscalizada != 1">
+                <a  (click)="FiscalizarEmpresa(row)" ngbDropdownItem><span
+                  [data-feather]="'lock'" [size]="16" [class]="'mr-50'"></span> Bloquear</a>
+          </div>
+          <div *ngIf="ShowFiscalizar != false && row.EmpresaFiscalizada != 0">
+            <a  (click)="FiscalizarEmpresa(row)" ngbDropdownItem><span
+              [data-feather]="'unlock'" [size]="16" [class]="'mr-50'"></span> Desbloquear</a>
+        </div>
+            </div>
+            </div>
+              </ng-template>
+            </ngx-datatable-column>
   
 
       </ngx-datatable>
