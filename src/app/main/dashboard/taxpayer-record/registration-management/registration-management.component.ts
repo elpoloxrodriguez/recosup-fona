@@ -852,16 +852,16 @@ export class RegistrationManagementComponent implements OnInit {
   }
 
   async DetalleMultasNuevas() {
-    this.xAPI.funcion = "RECOSUP_R_ListarMultasNuevasMIF";
-    this.xAPI.parametros = ""
+    this.xAPI.funcion = "RECOSUP_R_ListarMultasNuevasMIF_ID";
+    this.xAPI.parametros = this.IdEmpresa
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(e => {
-          if (e.status_mif == '0' && this.Rif == e.Rif) {
+          // if (e.status_mif == '0' && this.Rif == e.Rif) {
             e.Nomenclatura_mif = e.Nomenclatura_mif.toUpperCase()
             e.Monto_mif = this.utilService.ConvertirMoneda(e.Monto_mif)
             this.ListaMultasNuevas.push(e);
-          }
+          // }
         });
         this.rowsDetalleMultasNuevas = this.ListaMultasNuevas;
         this.tempDataDetalleMultasNuevas = this.rowsDetalleMultasNuevas

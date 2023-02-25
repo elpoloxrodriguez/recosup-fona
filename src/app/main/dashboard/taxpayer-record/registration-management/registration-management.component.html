@@ -565,8 +565,20 @@
                       <div
                       *ngIf="status_mif == 1"
                         class="badge badge-pill"
-                        ngClass="badge-light-warning">
+                        ngClass="badge-light-success">
                         Pagado
+                      </div>
+                      <div
+                      *ngIf="status_mif == 2"
+                        class="badge badge-pill"
+                        ngClass="badge-light-info">
+                        En Revisión
+                      </div>
+                      <div
+                      *ngIf="status_mif == 3"
+                        class="badge badge-pill"
+                        ngClass="badge-light-danger">
+                        Rechazado
                       </div>
                     </div>
                   </ng-template>
