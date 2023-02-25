@@ -93,7 +93,7 @@
             <ng-template ngx-datatable-cell-template let-row="row">
               <button type="button" class="btn btn-sm btn-primary"  (click)="ActivarUsuario(row)" rippleEffect>
                 <span [data-feather]="'eye'" [class]="'mr-25'"></span></button>&nbsp;
-                <a href="http://www.cne.gob.ve/web/index.php" target="_blank" title="CNE" class="btn btn-sm btn-warning" rippleEffect>
+                <a href="http://www.cne.gob.ve/web/registro_electoral/ce.php?nacionalidad={{row.Cedula.substr(0,1)}}&cedula={{row.Cedula.substr(1)}}" target="_blank" title="CNE" class="btn btn-sm btn-warning" rippleEffect>
                  CNE</a>&nbsp;
                   <a href="http://contribuyente.seniat.gob.ve/BuscaRif/BuscaRif.jsp" target="_blank" class="btn btn-sm btn-warning" title="SENIAT" rippleEffect>
                    SENIAT</a>
