@@ -34,6 +34,13 @@ export const menu: CoreMenu[] = [
         type: 'item',
         icono: 'circle',
         url: 'taxpayer-record/declaration-payments'
+      },
+      {
+        id: 'MultasVigentes',
+        nombre: 'Multas Vigentes',
+        type: 'item',
+        icono: 'circle',
+        url: 'taxpayer-record/current-fines'
       }
     ]
   },

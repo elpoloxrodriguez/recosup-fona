@@ -8,6 +8,8 @@ import { HorizontalLayoutModule } from 'app/layout/horizontal/horizontal-layout.
 @NgModule({
   imports: [FlexLayoutModule.withConfig({ disableDefaultBps: true }), VerticalLayoutModule, HorizontalLayoutModule],
   providers: [CustomBreakPointsProvider],
-  exports: [VerticalLayoutModule, HorizontalLayoutModule]
+  exports: [VerticalLayoutModule, HorizontalLayoutModule],
+  declarations: [
+  ]
 })
 export class LayoutModule {}

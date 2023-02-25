@@ -6,7 +6,7 @@ import { NgbModal, NgbActiveModal, NgbModalConfig } from '@ng-bootstrap/ng-boots
 import { PdfService } from '@core/services/pdf/pdf.service';
 import jwt_decode from "jwt-decode";
 import { UtilService } from '@core/services/util/util.service';
-import { RECOSUP_C_MultasNuevasMIF, RECOSUP_U_AprobarGanancias, RECOSUP_U_PagarAportesConciliar } from '@core/services/empresa/empresa.service';
+import { RECOSUP_C_MultasNuevasMIF, RECOSUP_U_AprobarGanancias, RECOSUP_U_PagarAportesConciliar, RECOSUP_U_PagarMultas } from '@core/services/empresa/empresa.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
@@ -26,6 +26,16 @@ export class GenerateFinesComponent implements OnInit {
     valores: {},
   };
 
+  public xPagarMultas : RECOSUP_U_PagarMultas = {
+    banco: 0,
+    referencia: '',
+    montoPagado: '',
+    fechaPago: '',
+    UsuarioModifico: 0,
+    id_mif: 0,
+    status_mif: undefined
+  }
+
   public ICrearMultasMIF: RECOSUP_C_MultasNuevasMIF = {
     id_EmpresaId: undefined,
     status_mif: undefined,
@@ -35,6 +45,11 @@ export class GenerateFinesComponent implements OnInit {
     Cuenta_mif: '',
     UsuarioCreo: undefined
   }
+
+  public  ListaStatusConciliacionMultas = [
+    { id: '1', name: 'Aprobado'},
+    { id: '3', name: 'Rechazado'}
+  ]
 
   public rowsDetalleMultasNuevas
   public ListaMultasNuevas = [];
@@ -47,9 +62,10 @@ export class GenerateFinesComponent implements OnInit {
   public rowsDetalleAporte;
   public token
 
+  public montoPagadox
 
   public EmpresaDetalleMultas
-
+  public MontoModal
   // public
   public data: any;
   public selectedOption = 10;
@@ -57,6 +73,7 @@ export class GenerateFinesComponent implements OnInit {
 
   public searchValue = '';
 
+  public bancoPagoMultas
 
   // decorator
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -72,6 +89,8 @@ export class GenerateFinesComponent implements OnInit {
   public tempDataDetalleMultas = []
 
   public UserId
+
+  public titleModal
 
   constructor(
     private apiService: ApiService,
@@ -136,7 +155,7 @@ export class GenerateFinesComponent implements OnInit {
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(e => {
-          if (e.status_mif == '0') {
+          if (e.status_mif != '1') {
             e.Nomenclatura_mif = e.Nomenclatura_mif.toUpperCase()
             e.Monto_mif = this.utilservice.ConvertirMoneda(e.Monto_mif)
             this.ListaMultasNuevas.push(e);
@@ -284,7 +303,17 @@ export class GenerateFinesComponent implements OnInit {
   }
 
   DetalleModal(modal, data) {
-
+    // console.log(data)
+    this.bancoPagoMultas = data.nombre_banco_bancos_MIF +' -  ('+ data.cuenta_bancos_MIF +') - ' + data.nombre_bancos_MIF
+    this.MontoModal = data.Monto_mif
+    this.xPagarMultas.id_mif = data.id_mif
+    this.xPagarMultas.UsuarioModifico = this.UserId
+    this.xPagarMultas.banco = data.id_banco
+    this.xPagarMultas.referencia = data.referencia
+    this.montoPagadox = this.utilService.ConvertirMoneda(data.montoPagado)
+    this.xPagarMultas.montoPagado = data.montoPagado
+    this.xPagarMultas.fechaPago = data.fechaPago
+    this.titleModal = data.RazonSocial
     this.modalService.open(modal, {
       centered: true,
       size: 'lg',
@@ -292,6 +321,27 @@ export class GenerateFinesComponent implements OnInit {
       keyboard: false,
       windowClass: 'fondo-modal',
     });
+  }
+
+  async MultaConciliacion(){
+  this.xAPI.funcion = 'RECOSUP_U_PagarMultas'
+   this.xAPI.parametros = ''
+   this.xAPI.valores = JSON.stringify(this.xPagarMultas)
+   await this.apiService.Ejecutar(this.xAPI).subscribe(
+     (data) => {
+       // this.rowsDetalleMultasNuevas = []
+       if (data.tipo === 1) {
+         this.router.navigate(['/financial-collection/generate-fines']).then(() => {window.location.reload()});
+         this.modalService.dismissAll('Close')
+         this.utilService.alertConfirmMini('success', 'Conciliacion Exitosamente')
+       } else {
+         this.utilService.alertConfirmMini('error', 'Oops! Algo Salio Mal, Intente de Nuevo!')
+       }
+     },
+     (error) => {
+       console.error(error)
+     }
+   )    
   }
 
 }

@@ -1,0 +1,231 @@
+<div class="card content-wrapper container-xxl p-0">
+    <div class="card-body">
+        <div class="card">
+            <div class="row">
+              <div class="col-md-6 col-12">
+                <div class="d-flex justify-content-between align-items-center m-1">
+                  <label class="d-flex align-items-center">Mostrar
+                    <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                      <option value="10">10</option>
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                    </select>
+                    Registros</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+                <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+                  <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
+                      name="searchValue" type="search" class="form-control ml-25" placeholder="Nombre Empresa"
+                      (keyup)="filterUpdateMIF($event)" (search)="filterUpdateMIF($event)" /></label>
+                </div>
+              </div>
+            </div>
+            <ngx-datatable [rows]="rowsDetalleMultasNuevas" rowHeight="auto" class="bootstrap core-bootstrap"
+              [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
+              [scrollbarH]="true">
+          
+              <ngx-datatable-column name="Empresa" prop="row" width="auto">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <div>
+                    <span class="font-weight-bold">{{ row.RazonSocial }} - {{ row.Rif }} </span>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Tipo Multa" prop="TipoMultaId" [width]="10">
+                <ng-template let-TipoMultaId="value" ngx-datatable-cell-template>
+                  <div>
+                    <!-- <span class="font-weight-bold">{{ TipoMultaId }} </span> -->
+                    <div
+                    *ngIf="TipoMultaId == '1'"
+                      class="badge badge-pill"
+                      ngClass="badge-light-danger">
+                      Multas
+                    </div>
+                    <div
+                    *ngIf="TipoMultaId == 2"
+                      class="badge badge-pill"
+                      ngClass="badge-light-warning">
+                      Intereses
+                    </div>
+                    <div
+                    *ngIf="TipoMultaId == 3"
+                      class="badge badge-pill"
+                      ngClass="badge-light-primary">
+                      Fiscalización
+                    </div>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+              
+    
+              <ngx-datatable-column name="Nomenclatura" prop="Nomenclatura_mif" [width]="10">
+                <ng-template let-Nomenclatura_mif="value" ngx-datatable-cell-template>
+                  <div>
+                    <span class="font-weight-bold">{{ Nomenclatura_mif }} </span>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+    
+    
+              <ngx-datatable-column name="Monto" prop="Monto_mif" [width]="10">
+                <ng-template let-Monto_mif="value" ngx-datatable-cell-template>
+                  <div>
+                    <span class="font-weight-bold">{{ Monto_mif }} </span>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+    
+              <ngx-datatable-column name="Status" prop="status_mif" [width]="10">
+                <ng-template let-status_mif="value" ngx-datatable-cell-template>
+                  <div>
+                    <!-- <span class="font-weight-bold"> {{ status_mif }} </span> -->
+                    <div
+                    *ngIf="status_mif == 0"
+                      class="badge badge-pill"
+                      ngClass="badge-light-warning">
+                      Pendiente por Pago
+                    </div>
+                    <div
+                    *ngIf="status_mif == 1"
+                      class="badge badge-pill"
+                      ngClass="badge-light-success">
+                      Pagado
+                    </div>
+                    <div
+                    *ngIf="status_mif == 2"
+                      class="badge badge-pill"
+                      ngClass="badge-light-info">
+                      En Revisión
+                    </div>
+                    <div
+                      *ngIf="status_mif == 3"
+                        class="badge badge-pill"
+                        ngClass="badge-light-danger">
+                        Rechazado
+                      </div>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+    
+              <ngx-datatable-column name="Accion" [width]="20" [sortable]="false">
+                <ng-template  ngx-datatable-cell-template let-row="row">
+                  <div ngbDropdown container="body" *ngIf="row.status_mif != 1">
+                    <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
+                      <span [data-feather]="'settings'" [class]="'cursor-pointer'"></span>
+                    </button>
+                    <div ngbDropdownMenu *ngIf="row.status_mif == 0">
+                      <div>
+                        <a (click)="PagarMultasNuevas(ModalPagarMultasNuevas,row)"  ngbDropdownItem><span
+                          [data-feather]="'credit-card'" [size]="16" [class]="'mr-50'"></span> Pagar</a>
+                    </div>
+                  </div>
+                  <div ngbDropdownMenu *ngIf="row.status_mif == 3">
+                    <div>
+                        <a (click)="EditarMultasNuevas(ModalPagarMultasNuevas,row)"  ngbDropdownItem><span
+                          [data-feather]="'edit'" [size]="16" [class]="'mr-50'"></span> Editar</a>
+                  </div>
+                </div>
+                  </div>
+                    </ng-template>
+                  </ngx-datatable-column>
+    
+    
+            </ngx-datatable>
+          </div>
+
+
+
+
+<ng-template #ModalPagarMultasNuevas let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="myModalLabel160">Registrar Pago de Multa {{ titleModal }}</h5>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <!-- Invoice -->
+      <div class="col-xl-12 col-md-12 col-12 printRef">
+        <!-- Header Starts -->
+  
+        <div class="row">
+  
+          <div class="col-md-12 col-12 mb-1">
+            <div class="form-group">
+              <label for="basicSelect">Seleccione Banco</label>
+              <ng-select [items]="ListaBanco" placeholder="Seleccione Banco" bindLabel="name" bindValue="id"
+                autocomplete="off" name="bancos" [(ngModel)]="id_bancoMultas"  [ngModelOptions]="{standalone: true}"
+                required autocomplete="off">
+              </ng-select>
+            </div>
+          </div>
+  
+          <div class="col-md-6 col-12 mb-1">
+            <div class="form-group">
+              <label for="basicSelect">Numero de Referencia</label>
+              <input type="text" class="form-control" placeholder="Ingrese Numero de Referencia" autocomplete="off"
+                [(ngModel)]="xPagarMultas.referencia" [ngModelOptions]="{standalone: true}">
+            </div>
+          </div>
+  
+  
+  
+          <div class="col-xl-6 col-md-6 col-12">
+            <div class="form-group">
+              <label for="helperText">Fecha de Pago Banco</label>
+              <div class="form-group">
+                <div class="input-group">
+                  <!-- <input class="form-control" readonly placeholder="Seleccione la Fecha del Pago a Banco" autocomplete="off"
+                    [(ngModel)]="formMultas.fechaPago" [ngModelOptions]="{standalone: true}" ngbDatepicker
+                    #basicFPB="ngbDatepicker"
+                    #i18nDP="ngbDatepicker"
+                    [minDate]="{year: DatepickerYear, month: 1, day: 1}"
+                    [maxDate]="{year: DatepickerYear, month: 12, day: 31}"
+                    > -->
+                    <input type="date"  class="form-control"  placeholder="Seleccione la Fecha del Pago a Banco" autocomplete="off"  [(ngModel)]="xPagarMultas.fechaPago" [ngModelOptions]="{standalone: true}">
+                  <!-- <div class="input-group-append">
+                    <button class="btn btn-outline-secondary feather icon-calendar" (click)="basicFPB.toggle()"
+                      type="button" rippleEffect></button>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          
+  
+  
+          <div class="col-md-6 col-12 mb-1">
+            <div class="form-group">
+              <label for="basicSelect"><strong>Monto Total del Aporte</strong></label>
+              <input type="text" class="form-control"  readonly autocomplete="off"
+                [(ngModel)]="MontoModal" [ngModelOptions]="{standalone: true}">
+            </div>
+          </div>
+  
+          <div class="col-md-6 col-12 mb-1">
+            <div class="form-group">
+              <label for="basicSelect">Monto Pagado a Banco</label>
+              <input type="text" class="form-control" placeholder="Ingrese Monto del Pago en Banco" autocomplete="off"
+                [(ngModel)]="xPagarMultas.montoPagado" [ngModelOptions]="{standalone: true}" required >
+            </div>
+          </div>  
+  
+        </div>
+  
+      </div>
+    </div>
+  
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success" (click)="PagarMultaConciliacion()" rippleEffect>Reportar
+        Pago</button>
+      <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+        Cerrar
+      </button>
+    </div>
+</ng-template>
+
+
+
+</div>
+</div>

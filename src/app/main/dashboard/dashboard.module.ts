@@ -22,6 +22,7 @@ import { ProjectsRoutingModule } from './projects/projects-routing.module';
 import { UsersComponent } from './support/users/users.component';
 import { UsersStatusComponent } from './support/users-status/users-status.component';
 import { ProfileComponent } from './user/profile/profile.component';
+import { ListCurrentFinesComponent } from './taxpayer-record/list-current-fines/list-current-fines.component';
 
 
 
@@ -30,6 +31,7 @@ import { ProfileComponent } from './user/profile/profile.component';
       DashboardComponent,
       RegistrationManagementComponent,
       TaxpayerPaymentsComponent,
+      ListCurrentFinesComponent,
       CompanyProjectsComponent,
       UsersComponent,
       UsersStatusComponent,

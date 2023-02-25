@@ -26,6 +26,7 @@ import jwt_decode from "jwt-decode";
 })
 export class NavbarComponent implements OnInit, OnDestroy {
 
+  public ShowNotificationsContribuyente = false
   public ShowNotificationsUsers = false
   public ShowNotificationsProject = false
   public horizontalMenu: boolean;
@@ -182,9 +183,13 @@ public cargo = ''
     this.cargo = this.token.Usuario[0].Cargo
     this.nombre = this.token.Usuario[0].Nombres +' '+ this.token.Usuario[0].Apellidos
     this.rol = this.token.Usuario[0].EsAdministrador
-
     if (this.rol === '1') {
       this.ShowNotificationsUsers = true
+      this.ShowNotificationsContribuyente = true
+    } 
+
+    if (this.rol === '0') {
+      this.ShowNotificationsContribuyente = true
     } 
 
     if (this.rol === '4') {

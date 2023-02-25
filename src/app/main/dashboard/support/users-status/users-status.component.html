@@ -47,7 +47,24 @@
         >
 
   
-          <ngx-datatable-column name="Usuario" prop="Codigo"  [width]="50">
+        <ngx-datatable-column name="Nombres"   [width]="50">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div>
+              {{row.Nombres}}   {{row.Apellidos}}
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Cedula"   [width]="50">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div>
+              {{row.Cedula}} 
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+
+        <ngx-datatable-column name="Usuario" prop="Codigo"  [width]="50">
             <ng-template let-Codigo="value" ngx-datatable-cell-template>
               <div>
                 <span class="font-weight-bold"> {{ Codigo }} </span>
@@ -63,19 +80,23 @@
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="Status" prop="Estatus"  [width]="20">
+          <!-- <ngx-datatable-column name="Status" prop="Estatus"  [width]="20">
             <ng-template let-Estatus="value" ngx-datatable-cell-template>
               <div>
                 <span class="font-weight-bold"> {{ Estatus == '1' ? 'Activo' : 'Inactivo' }} </span>
               </div>
             </ng-template>
-          </ngx-datatable-column>
+          </ngx-datatable-column> -->
             
   
           <ngx-datatable-column name="Acción" [width]="10" [sortable]="false">
             <ng-template ngx-datatable-cell-template let-row="row">
               <button type="button" class="btn btn-sm btn-primary"  (click)="ActivarUsuario(row)" rippleEffect>
-                <span [data-feather]="'eye'" [class]="'mr-25'"></span></button>
+                <span [data-feather]="'eye'" [class]="'mr-25'"></span></button>&nbsp;
+                <a href="http://www.cne.gob.ve/web/index.php" target="_blank" title="CNE" class="btn btn-sm btn-warning" rippleEffect>
+                 CNE</a>&nbsp;
+                  <a href="http://contribuyente.seniat.gob.ve/BuscaRif/BuscaRif.jsp" target="_blank" class="btn btn-sm btn-warning" title="SENIAT" rippleEffect>
+                   SENIAT</a>
             </ng-template>
           </ngx-datatable-column>
     

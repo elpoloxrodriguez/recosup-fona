@@ -268,6 +268,17 @@ export interface RECOSUP_U_PasswordUsersID { // Cambiar clave de usuario segun I
 	UsuarioId	 :	number
 }
 
+export interface RECOSUP_U_PagarMultas { // pagar multas
+	banco	 :	number
+	referencia	 :	string
+	montoPagado	 :	string
+	fechaPago	 :	string
+	UsuarioModifico	 :	number
+	id_mif	 :	number,
+	status_mif : any
+}
+
+
 @Injectable({
 	providedIn: 'root'
 })

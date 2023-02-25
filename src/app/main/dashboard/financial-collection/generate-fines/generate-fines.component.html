@@ -113,8 +113,20 @@
                       <div
                       *ngIf="status_mif == 1"
                         class="badge badge-pill"
-                        ngClass="badge-light-warning">
+                        ngClass="badge-light-success">
                         Pagado
+                      </div>
+                      <div
+                      *ngIf="status_mif == 2"
+                        class="badge badge-pill"
+                        ngClass="badge-light-info">
+                        En Revisión
+                      </div>
+                      <div
+                      *ngIf="status_mif == 3"
+                        class="badge badge-pill"
+                        ngClass="badge-light-danger">
+                        Rechazado
                       </div>
                     </div>
                   </ng-template>
@@ -128,8 +140,8 @@
                       </button>
                       <div ngbDropdownMenu>
                         <div>
-                          <a (click)="DetalleModal(ModalDetails,row)" ngbDropdownItem><span
-                            [data-feather]="'eye'" [size]="16" [class]="'mr-50'"></span> Detalles</a>
+                          <a (click)="DetalleModal(ModalDetails,row)" ngbDropdownItem *ngIf="row.status_mif == 2"><span
+                            [data-feather]="'book-open'"  [size]="16" [class]="'mr-50'"></span> Conciliar Pago</a>
                             <a (click)="DeleteMultasMIF(row)" ngbDropdownItem><span
                               [data-feather]="'trash'" [size]="16" [class]="'mr-50'"></span> Eliminar</a>
                       </div>
@@ -296,7 +308,7 @@
           <div class="form-group">
             <label for="basicInput">Seleccione Tipo Planilla</label>
             <ng-select [items]="ListaPlanilla" [(ngModel)]="ICrearMultasMIF.TipoMultaId" [ngModelOptions]="{standalone: true}"
-              placeholder="Seleccione Empresa" bindLabel="name" bindValue="id" required>
+              placeholder="Seleccione Tipo Planilla" bindLabel="name" bindValue="id" required>
             </ng-select>
           </div>
         </div>
@@ -322,37 +334,82 @@
 
 <ng-template #ModalDetails let-modal>
   <div class="modal-header">
-    <h5 class="modal-title" id="myModalLabel160">Detalle de Proyecto  {{ Details.nombre_proyecto }}</h5>
+    <h5 class="modal-title" id="myModalLabel160">Conciliar Pago de Multa  <strong>{{ titleModal }}</strong></h5>
   </div>
-    <div class="modal-body" tabindex="0" ngbAutofocus>
-      <!-- Invoice -->
-      <div class="col-xl-12 col-md-12 col-12">
-        <!-- Header Starts -->
-        <div class="row">
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <!-- Invoice -->
+    <div class="col-xl-12 col-md-12 col-12 printRef">
+      <!-- Header Starts -->
 
-          <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0">
-            <div>
-              <div class="logo-wrapper">
-                <h3 class="text-primary invoice-logo"> {{ Details.nombre_proyecto }}</h3>
-              </div>
-          
-             <strong>Status de Proyecto:</strong>
-              <div class="badge badge-pill" ngClass="badge-light-{{color}}">{{ Details.status_proyecto }}</div>
-              <p class="card-text mb-25"><strong>Fecha de Proyecto:</strong> {{ Details.fecha_proyecto }}</p>
-              <p class="card-text mb-25"><strong>Monto de Proyecto:</strong> {{ Details.monto_inversion }}</p>
-              <p class="card-text mb-25"><strong>Ambito de Proyecto:</strong> {{ Details.ambito_nombre }}</p>
-              <p class="card-text mb-25"><strong>Area de Proyecto:</strong> {{ Details.area_proyecto }}</p>
-              <p class="card-text mb-25"><strong>Estado:</strong> {{ Details.estado }} | <strong>Municipio:</strong> {{ Details.municipio }} | <strong>Parroquia:</strong> {{ Details.parroquia }}</p> 
-              <p class="card-text mb-25"><strong>Beneficiarios Directos:</strong> {{ Details.beneficiario_directos }} | <strong>Beneficiarios Indirectos:</strong> {{ Details.beneficiario_indirectos }}</p>
-              <p class="card-text mb-25"><strong>Tiempo de Ejecución Desde:</strong> {{ Details.tiempo_ejecucion_desde }} | <strong>Tiempo de Ejecución Hasta:</strong> {{ Details.tiempo_ejecucion_hasta }}</p>
-            </div>
-              </div>
-              
+      <div class="row">
 
+        <div class="col-md-12 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicSelect">Seleccione Banco</label>
+            <input type="text" class="form-control" placeholder="Ingrese Banco" autocomplete="off"
+              [(ngModel)]="bancoPagoMultas" readonly [ngModelOptions]="{standalone: true}">
+          </div>
         </div>
+
+        <div class="col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicSelect">Numero de Referencia</label>
+            <input type="text" class="form-control" placeholder="Ingrese Numero de Referencia" autocomplete="off"
+              [(ngModel)]="xPagarMultas.referencia" readonly [ngModelOptions]="{standalone: true}">
+          </div>
+        </div>
+
+
+
+        <div class="col-xl-6 col-md-6 col-12">
+          <div class="form-group">
+            <label for="helperText">Fecha de Pago Banco</label>
+            <div class="form-group">
+              <div class="input-group">
+                  <input type="date"  class="form-control" readonly  placeholder="Seleccione la Fecha del Pago a Banco" autocomplete="off"  [(ngModel)]="xPagarMultas.fechaPago" [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+
+
+        <div class="col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicSelect"><strong>Monto Total del Aporte</strong></label>
+            <input type="text" class="form-control"  readonly autocomplete="off"
+              [(ngModel)]="MontoModal" readonly [ngModelOptions]="{standalone: true}">
+          </div>
+        </div>
+
+        <div class="col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicSelect">Monto Pagado a Banco</label>
+            <input type="text" class="form-control" readonly placeholder="Ingrese Monto del Pago en Banco" autocomplete="off"
+              [(ngModel)]="montoPagadox" [ngModelOptions]="{standalone: true}" required >
+          </div>
+        </div>  
+
+        <div class="col-md-12 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicSelect">Seleccione Status</label>
+            <ng-select [items]="ListaStatusConciliacionMultas" placeholder="Seleccione Status de Conciliacion" bindLabel="name" bindValue="id"
+              autocomplete="off" name="bancos" [(ngModel)]="xPagarMultas.status_mif" [ngModelOptions]="{standalone: true}"
+              required autocomplete="off">
+            </ng-select>
+          </div>
+        </div>
+
       </div>
+
     </div>
+  </div>
+
   <div class="modal-footer">
-    <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>Cerrar</button>
+    <button type="button" class="btn btn-success" (click)="MultaConciliacion()" rippleEffect>Conciliar Pago</button>
+    <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+      Cerrar
+    </button>
   </div>
 </ng-template>
