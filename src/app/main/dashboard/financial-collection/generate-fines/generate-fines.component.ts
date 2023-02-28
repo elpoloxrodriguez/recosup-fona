@@ -150,6 +150,7 @@ export class GenerateFinesComponent implements OnInit {
   }
 
   async DetalleMultasNuevas() {
+    this.ListaMultasNuevas = []
     this.xAPI.funcion = "RECOSUP_R_ListarMultasNuevasMIF";
     this.xAPI.parametros = ""
     await this.apiService.Ejecutar(this.xAPI).subscribe(
@@ -170,6 +171,31 @@ export class GenerateFinesComponent implements OnInit {
     )
   }
 
+  GenerarConstancia(data: any){
+    this.pdf.CertificadoPagoMIF(data)
+  }
+  
+  async mifAprobadas(){
+    this.ListaMultasNuevas = []
+    this.xAPI.funcion = "RECOSUP_R_ListarMultasNuevasMIF";
+    this.xAPI.parametros = ""
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        data.Cuerpo.map(e => {
+          if (e.status_mif == '1') {
+            e.Nomenclatura_mif = e.Nomenclatura_mif.toUpperCase()
+            e.Monto_mif = this.utilservice.ConvertirMoneda(e.Monto_mif)
+            this.ListaMultasNuevas.push(e);
+          }
+        });
+        this.rowsDetalleMultasNuevas = this.ListaMultasNuevas;
+        this.tempDataDetalleMultasNuevas = this.rowsDetalleMultasNuevas
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
 
   async RegistrarMultas() {
     this.ICrearMultasMIF.status_mif = 0

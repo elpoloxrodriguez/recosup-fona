@@ -451,4 +451,49 @@ export class PdfService {
 
   }
 
+  CertificadoPagoMIF(data: any){
+    const doc = new jsPDF();
+    const pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+    const pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+    doc.setProperties({
+      title: "CERTIFICADO DE PAGO MIF FONA-RECOSUP",
+      subject: "https://github.com/elpoloxrodriguez",
+      author: "SISTEMA  RECOSUP",
+      keywords: "generated, javascript, web 2.0, ajax",
+      creator: "CAP. ANDRÉS RICARDO RODRÍGUEZ DURÁN",
+    });
+
+    doc.addImage('assets/images/pdf/fona.png', "PNG", 10, 10, 20, 25);
+    doc.addImage('assets/images/pdf/sunad.png', "PNG", 180, 10, 20, 25);
+    
+    doc.setFontSize(14);
+    doc.setFont(undefined, "bold");
+    doc.text(`FONDO NACIONAL ANTIDROGAS`, pageWidth / 2, pageHeight - 275, { maxWidth: 150, align: "center" });
+    doc.text(`FORMA FONA (F03)`, pageWidth / 2, pageHeight - 270, { maxWidth: 150, align: "center" });
+    doc.text(`CERTIFICADO DE PAGO`, pageWidth / 2, pageHeight - 265, { maxWidth: 150, align: "center" });
+
+    
+
+    doc.setFontSize(9);
+    doc.setFont(undefined, "bold");
+    doc.text("Nota:",
+      14,
+      240,
+      { maxWidth: 180, align: "justify" }
+    );
+    doc.setFontSize(9);
+    doc.setFont(undefined, "");
+    doc.text("Debe imprimir el presente certificado como comprobante de inscripción ante el Sistema de Registro y Control de Sujetos Pasivos del Fondo Nacional Antidrogas.",
+      14,
+      245,
+      { maxWidth: 180, align: "justify" }
+    );
+
+
+    // doc.save("Ficha.pdf");
+    doc.autoPrint();
+    doc.output("dataurlnewwindow", { filename: 'Certificado de Pago MIF.pdf' });
+
+  }
+  
 }

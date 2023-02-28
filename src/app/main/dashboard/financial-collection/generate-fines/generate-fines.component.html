@@ -2,7 +2,7 @@
   <div class="card-body">
 
     <ul ngbNav #navCenter="ngbNav" class="nav-tabs justify-content-center">
-      <li ngbNavItem>
+      <li ngbNavItem (click)="DetalleMultasNuevas()">
         <a ngbNavLink>Multas y/o Reparos Vigentes</a>
         <ng-template ngbNavContent>
 
@@ -144,6 +144,159 @@
                             [data-feather]="'book-open'"  [size]="16" [class]="'mr-50'"></span> Conciliar Pago</a>
                             <a (click)="DeleteMultasMIF(row)" ngbDropdownItem><span
                               [data-feather]="'trash'" [size]="16" [class]="'mr-50'"></span> Eliminar</a>
+                      </div>
+                    </div>
+                    </div>  
+                      </ng-template>
+                    </ngx-datatable-column>
+      
+      
+              </ngx-datatable>
+            </div>
+          </section>
+
+        </ng-template>
+      </li>
+      <li ngbNavItem (click)="mifAprobadas()">
+        <a ngbNavLink>Multas (MIF) Vigentes Aprobadas</a>
+        <ng-template ngbNavContent>
+
+          <section class="users-list-wrapper">
+
+            <div class="card">
+              <div class="row">
+                <div class="col-md-3 col-12">
+                  <div class="d-flex justify-content-between align-items-center m-1">
+                    <label class="d-flex align-items-center">Mostrar
+                      <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                      </select>
+                      Registros</label>
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div class="d-flex justify-content-between align-items-center m-1">
+                    <button type="button" (click)="GenerarMultas(ModalAddRegisterMultas)" class="btn btn-warning"
+                      rippleEffect>
+                      Generar Multas</button>
+                  </div>
+                </div>
+                <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+                  <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+                    <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
+                        name="searchValue" type="search" class="form-control ml-25" placeholder="Nombre Empresa"
+                        (keyup)="filterUpdateMIF($event)" (search)="filterUpdateMIF($event)" /></label>
+                  </div>
+                </div>
+              </div>
+              <ngx-datatable [rows]="rowsDetalleMultasNuevas" rowHeight="auto" class="bootstrap core-bootstrap"
+                [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
+                [scrollbarH]="true">
+            
+                <ngx-datatable-column name="Empresa" prop="row" width="auto">
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    <div>
+                      <span class="font-weight-bold">{{ row.RazonSocial }} - {{ row.Rif }} </span>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="Tipo Multa" prop="TipoMultaId" [width]="10">
+                  <ng-template let-TipoMultaId="value" ngx-datatable-cell-template>
+                    <div>
+                      <!-- <span class="font-weight-bold">{{ TipoMultaId }} </span> -->
+                      <div
+                      *ngIf="TipoMultaId == '1'"
+                        class="badge badge-pill"
+                        ngClass="badge-light-danger">
+                        Multas
+                      </div>
+                      <div
+                      *ngIf="TipoMultaId == 2"
+                        class="badge badge-pill"
+                        ngClass="badge-light-warning">
+                        Intereses
+                      </div>
+                      <div
+                      *ngIf="TipoMultaId == 3"
+                        class="badge badge-pill"
+                        ngClass="badge-light-primary">
+                        Fiscalización
+                      </div>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+                
+      
+                <ngx-datatable-column name="Nomenclatura" prop="Nomenclatura_mif" [width]="10">
+                  <ng-template let-Nomenclatura_mif="value" ngx-datatable-cell-template>
+                    <div>
+                      <span class="font-weight-bold">{{ Nomenclatura_mif }} </span>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+      
+                <!-- <ngx-datatable-column name="Fecha" prop="FechaCreo" [width]="10">
+                  <ng-template let-FechaCreo="value" ngx-datatable-cell-template>
+                    <div>
+                      <span class="font-weight-bold">{{ FechaCreo }} </span>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column> -->
+      
+                <ngx-datatable-column name="Monto" prop="Monto_mif" [width]="10">
+                  <ng-template let-Monto_mif="value" ngx-datatable-cell-template>
+                    <div>
+                      <span class="font-weight-bold">{{ Monto_mif }} </span>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+      
+                <ngx-datatable-column name="Status" prop="status_mif" [width]="10">
+                  <ng-template let-status_mif="value" ngx-datatable-cell-template>
+                    <div>
+                      <!-- <span class="font-weight-bold"> {{ status_mif }} </span> -->
+                      <div
+                      *ngIf="status_mif == 0"
+                        class="badge badge-pill"
+                        ngClass="badge-light-warning">
+                        Pendiente por Pago
+                      </div>
+                      <div
+                      *ngIf="status_mif == 1"
+                        class="badge badge-pill"
+                        ngClass="badge-light-success">
+                        Pagado
+                      </div>
+                      <div
+                      *ngIf="status_mif == 2"
+                        class="badge badge-pill"
+                        ngClass="badge-light-info">
+                        En Revisión
+                      </div>
+                      <div
+                      *ngIf="status_mif == 3"
+                        class="badge badge-pill"
+                        ngClass="badge-light-danger">
+                        Rechazado
+                      </div>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+      
+                <ngx-datatable-column name="Accion" [width]="20" [sortable]="false">
+                  <ng-template  ngx-datatable-cell-template let-row="row">
+                    <div ngbDropdown container="body">
+                      <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
+                        <span [data-feather]="'settings'" [class]="'cursor-pointer'"></span>
+                      </button>
+                      <div ngbDropdownMenu>
+                        <div>
+                            <a (click)="GenerarConstancia(row)" ngbDropdownItem><span
+                              [data-feather]="'book-open'" [size]="16" [class]="'mr-50'"></span> Generar Constancia</a>
                       </div>
                     </div>
                     </div>  
