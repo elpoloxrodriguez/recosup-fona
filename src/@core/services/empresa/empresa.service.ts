@@ -221,6 +221,11 @@ export interface RECOSUP_C_MultasNuevasMIF { // crear multas
 	TipoMultaId	 :	any
 	Cuenta_mif	 :	string
 	UsuarioCreo	 :	any
+	articulo	:	any
+	anio : any
+	notificacion : any
+	inicio_fiscal : any
+	cierre_fiscal : any
 }
 
 

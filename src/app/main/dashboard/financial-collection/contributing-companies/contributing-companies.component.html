@@ -171,6 +171,16 @@
                               </button>
                             </div>
                           </div>
+
+                          <div class="mt-md-0 mt-2">
+                            <div class="invoice-date-wrapper">
+                              <button type="button" class="btn btn-icon btn-warning" rippleEffect
+                                (click)="ModalEditarEmpresa(EditarEmpresa,DataEmpresaCompleta)">
+                                <span [data-feather]="'edit'"></span>
+                                Actualizar
+                              </button>
+                            </div>
+                          </div>
             
                         </div>
                         <!-- Header Ends -->
@@ -669,5 +679,120 @@
             <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
               Cerrar
             </button>
+          </div>
+        </ng-template>
+
+
+
+        <ng-template #EditarEmpresa let-modal>
+          <div class="modal-header">
+            <h5 class="modal-title" id="myModalLabel160"><strong>{{ UpdateEmpresa.RazonSocial }} </strong></h5>
+          </div>
+          <div class="modal-body" tabindex="0" ngbAutofocus>
+            <div class="col-xl-12 col-md-12 col-12 printRef">
+              <!-- Header Starts -->
+        
+              <div class="row">
+                <div class="col-xl-12 col-md-12 col-12 mb-1">
+                  <!-- <div class="form-group">
+                    <h6><strong>{{ MiEmpresaRazonSocial }}</strong></h6>
+                  {{ MiEmpresaRif }}
+                  </div> -->
+                </div>
+                <div class="col-xl-4 col-md-6 col-12">
+                  <div class="form-group">
+                    <label for="helperText">Cantidad Empleados</label>
+                    <input type="text" id="helperText" class="form-control" [(ngModel)]="UpdateEmpresa.CantidadEmpleados"
+                      [ngModelOptions]="{standalone: true}" placeholder="Cantidad de Empleados" />
+                    <!-- <p><small class="text-muted">Find helper text here for given.</small></p> -->
+                  </div>
+                </div>
+                <div class="col-xl-8 col-md-6 col-12">
+                  <div class="form-group">
+                    <label for="disabledInput">Actividad Economica</label>
+                    <ng-select [items]="selectActividadEconomica" placeholder="Seleccione Actividad Economica" bindLabel="name"
+                      bindValue="id" autocomplete="off" [(ngModel)]="UpdateEmpresa.ActividadEconomicaId"
+                      [ngModelOptions]="{standalone: true}" required>
+                    </ng-select>
+                  </div>
+                </div>
+        
+                <div class="col-xl-4 col-md-6 col-12 mb-1">
+                  <div class="form-group">
+                    <label for="basicInput">Telefono</label>
+                    <input type="text" class="form-control" [(ngModel)]="UpdateEmpresa.Telefono"
+                      [ngModelOptions]="{standalone: true}" id="basicInput" placeholder="Telefono" />
+                  </div>
+                </div>
+                <div class="col-xl-4 col-md-6 col-12 mb-1">
+                  <div class="form-group">
+                    <label for="helpInputTop">Fax</label>
+                    <input type="text" class="form-control" [(ngModel)]="UpdateEmpresa.Fax"
+                      [ngModelOptions]="{standalone: true}" id="helpInputTop" placeholder="Fax" />
+                  </div>
+                </div>
+                <div class="col-xl-4 col-md-6 col-12 mb-1">
+                  <div class="form-group">
+                    <label for="disabledInput">Correo Electronico</label>
+                    <input type="text" class="form-control" [(ngModel)]="UpdateEmpresa.CorreoElectronico" [ngModelOptions]="{standalone: true}"
+                      id="disabledInput" placeholder="Correo Electronico" />
+                  </div>
+                </div>
+        
+                <div class="col-xl-3 col-md-6 col-12 mb-1">
+                  <div class="form-group">
+                    <label for="basicInput">Estado</label>
+                    <ng-select [items]="selectEstados" placeholder="Seleccione Estados" bindLabel="name" name="estados"
+                      [(ngModel)]="UpdateEmpresa.Estado" [ngModelOptions]="{standalone: true}"
+                      (ngModelChange)="ListaMunicipios($event.EstadoId)" required autocomplete="off">
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="col-xl-3 col-md-6 col-12 mb-1">
+                  <div class="form-group">
+                    <label for="helpInputTop">Ciudad</label>
+                    <input type="text" class="form-control" [(ngModel)]="UpdateEmpresa.Ciudad" [ngModelOptions]="{standalone: true}"
+                      id="helpInputTop" placeholder="Ciudad" />
+                  </div>
+                </div>
+                <div class="col-xl-3 col-md-6 col-12 mb-1">
+                  <div class="form-group">
+                    <label for="disabledInput">Municipio</label>
+                    <ng-select [items]="selectMunicipios" placeholder="Seleccione Municipios" bindLabel="name"
+                      [(ngModel)]="UpdateEmpresa.Municipio" [ngModelOptions]="{standalone: true}" required autocomplete="off">
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="col-xl-3 col-md-6 col-12">
+                  <div class="form-group">
+                    <label for="helperText">Parroquia</label>
+                    <ng-select [items]="selectParroquias" placeholder="Seleccione Parroquia" bindValue="id" bindLabel="name"
+                      autocomplete="off" [(ngModel)]="UpdateEmpresa.ParroquiaId" [ngModelOptions]="{standalone: true}" required>
+                    </ng-select>
+                  </div>
+                </div>
+        
+        
+                <div class="col-xl-12 col-md-12 col-12">
+                  <div class="form-group">
+                    <label for="helperText">Dirección de la Empresa</label>
+                    <textarea class="form-control" id="basicTextarea" [(ngModel)]="UpdateEmpresa.Direccion"
+                      [ngModelOptions]="{standalone: true}" rows="3" placeholder="Dirección"></textarea>
+                  </div>
+                </div>
+        
+                
+              </div>
+        
+              <!-- Header Ends -->
+            </div>
+          </div>
+          <!--/ Invoice -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+              Cerrar
+            </button>
+            <button class="btn bg-gradient-success text-white " (click)="GuardarActualizacionDatosEmpresas()">
+              <span class="fa fa-check"></span>&nbsp;&nbsp;Actualizar Empresa </button>
           </div>
         </ng-template>

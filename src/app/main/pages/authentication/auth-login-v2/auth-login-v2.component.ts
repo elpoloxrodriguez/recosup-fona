@@ -143,16 +143,47 @@ export class AuthLoginV2Component implements OnInit {
         sessionStorage.setItem("token", this.itk.token);
         this.infoUsuario = jwt_decode(sessionStorage.getItem('token'));
         // console.log(this.infoUsuario.Usuario[0].Estatus)
-        if (this.infoUsuario.Usuario[0].Estatus != 0) {
+        // if (this.infoUsuario.Usuario[0].Estatus != 0) {
+        //       this.utilservice.alertConfirmMini('success', `Bienvenido al FONA ${this.infoUsuario.Usuario[0].Nombres} ${this.infoUsuario.Usuario[0].Apellidos}`);
+        //       this._router.navigate(['home']).then(() => {window.location.reload()});
+        //       return;
+        // } else {
+        //   this.loading = false;
+        //   this._router.navigate(['login']);
+        //   sessionStorage.clear();
+        //   localStorage.clear();  
+        //   this.utilservice.alertConfirmMini('error','El usuario se encuentra inactivo, porfavor contactar a RECAUDACIÓN FONA')
+        // }
+        switch (this.infoUsuario.Usuario[0].Estatus) {
+          case '0':
+            localStorage.clear();  
+            sessionStorage.clear();
+            this.loading = false;
+            this._router.navigate(['login']);
+            this.utilservice.alertConfirmMini('error','El usuario se encuentra inscrito Inactivo, porfavor contactar a RECAUDACIÓN FONA')
+            break;
+          case '1':
+            this.utilservice.alertConfirmMini('success', `Bienvenido al FONA ${this.infoUsuario.Usuario[0].Nombres} ${this.infoUsuario.Usuario[0].Apellidos}`);
+            this._router.navigate(['home']).then(() => {window.location.reload()});
+            break;
+            case '7':
               this.utilservice.alertConfirmMini('success', `Bienvenido al FONA ${this.infoUsuario.Usuario[0].Nombres} ${this.infoUsuario.Usuario[0].Apellidos}`);
               this._router.navigate(['home']).then(() => {window.location.reload()});
-              return;
-        } else {
-          this.loading = false;
-          this._router.navigate(['login']);
-          sessionStorage.clear();
-          localStorage.clear();  
-          this.utilservice.alertConfirmMini('error','El usuario se encuentra inactivo, porfavor contactar a RECAUDACIÓN FONA')
+              break;
+            case '2':
+              sessionStorage.clear();
+              localStorage.clear();  
+              this.loading = false;
+              this._router.navigate(['login']);
+              this.utilservice.alertConfirmMini('error','El usuario se encuentra Rechazado, porfavor contactar a RECAUDACIÓN FONA')
+              break;
+          default:
+            // sessionStorage.clear();
+            // localStorage.clear();  
+            // this.loading = false;
+            // this._router.navigate(['login']);
+            // this.utilservice.alertConfirmMini('error','El usuario se encuentra Inactivo, porfavor contactar a RECAUDACIÓN FONA')
+            break;
         }
         // console.log(data)
         // if (sessionStorage.getItem("token") != '') {

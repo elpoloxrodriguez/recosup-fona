@@ -43,9 +43,21 @@ export class GenerateFinesComponent implements OnInit {
     Nomenclatura_mif: '',
     TipoMultaId: undefined,
     Cuenta_mif: '',
-    UsuarioCreo: undefined
+    UsuarioCreo: undefined,
+    articulo: undefined,
+    anio: undefined,
+    notificacion: undefined,
+    inicio_fiscal: undefined,
+    cierre_fiscal: undefined
   }
 
+  public añoActual = new Date()
+  public DatepickerYear = this.añoActual.getFullYear()
+  public DatepickerMonth = this.añoActual.getMonth()
+
+  public SelectAnioAporte = []
+  public SelectArticulo = []
+  public  ActividadEconomicaEmpresa
   public  ListaStatusConciliacionMultas = [
     { id: '1', name: 'Aprobado'},
     { id: '3', name: 'Rechazado'}
@@ -115,6 +127,8 @@ export class GenerateFinesComponent implements OnInit {
     await this.DetalleMultas()
     await this.DetalleMultasNuevas()
     await this.ListaPlanillas()
+    await this.SelecArticulo()
+    await this.FuncSelectAnioAporte()
     if (sessionStorage.getItem('Empresas') != undefined) {
       // alert('Ya esta cargada')
       this.ListaEmpresas = JSON.parse(sessionStorage.getItem('Empresas'))
@@ -126,6 +140,33 @@ export class GenerateFinesComponent implements OnInit {
   // Public Methods
   // -----------------------------------------------------------------------------------------------------
 
+  FuncSelectAnioAporte() {
+    var anioActual = new Date()
+    var anio = anioActual.getFullYear()
+    for (let index = 2010; index <= anio - 1; index++) {
+      this.SelectAnioAporte.push(index)
+    }
+  }
+
+  async SelecArticulo() {
+    this.xAPI.funcion = "RECOSUP_R_Lista_Tipos_Aportes";
+    this.xAPI.parametros = ''
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        data.Cuerpo.map(e => {
+          if (e.Codigo == 32 || e.Codigo == 34) {
+            e.name = e.Nombre
+            e.id = e.Codigo
+            this.SelectArticulo.push(e)
+          }
+        });
+        // console.log(this.SelectArticulo)
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
 
   async DetalleMultas() {
     this.xAPI.funcion = "RECOSUP_R_detalle_multas_empresa_Sin_ID";
@@ -198,6 +239,7 @@ export class GenerateFinesComponent implements OnInit {
   }
 
   async RegistrarMultas() {
+    // console.log(this.ICrearMultasMIF)
     this.ICrearMultasMIF.status_mif = 0
     this.ICrearMultasMIF.UsuarioCreo = this.UserId
     this.xAPI.funcion = "RECOSUP_C_MultasNuevasMIF";
@@ -242,6 +284,7 @@ export class GenerateFinesComponent implements OnInit {
   }
 
   async ListaPlanillas() {
+    this.ListaPlanilla = []
     this.xAPI.funcion = "RECOSUP_R_ListaPlanillas";
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
@@ -292,7 +335,7 @@ export class GenerateFinesComponent implements OnInit {
       windowClass: 'fondo-modal',
     });
   }
-
+  
   async DeleteMultasMIF(data: any) {
     await Swal.fire({
       title: 'Esta Seguro?',

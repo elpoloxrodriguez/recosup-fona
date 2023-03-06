@@ -34,7 +34,7 @@
                 </ng-template>
               </ngx-datatable-column>
 
-              <ngx-datatable-column name="Tipo Multa" prop="TipoMultaId" [width]="10">
+              <ngx-datatable-column name="Tipo Multa" prop="TipoMultaId" [width]="20">
                 <ng-template let-TipoMultaId="value" ngx-datatable-cell-template>
                   <div>
                     <!-- <span class="font-weight-bold">{{ TipoMultaId }} </span> -->
@@ -56,6 +56,12 @@
                       ngClass="badge-light-primary">
                       Fiscalización
                     </div>
+                    <div
+                      *ngIf="TipoMultaId == 4"
+                        class="badge badge-pill"
+                        ngClass="badge-light-primary">
+                        Pago Complementario
+                      </div>
                   </div>
                 </ng-template>
               </ngx-datatable-column>
@@ -65,6 +71,33 @@
                 <ng-template let-Nomenclatura_mif="value" ngx-datatable-cell-template>
                   <div>
                     <span class="font-weight-bold">{{ Nomenclatura_mif }} </span>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Articulo" prop="articulo" [width]="10">
+                <ng-template let-articulo="value" ngx-datatable-cell-template>
+                  <div>
+                    <!-- <span class="font-weight-bold">{{ articulo }} </span> -->
+                    <div
+                      class="badge badge-pill"
+                      ngClass="badge-light-primary">
+                      {{ articulo }}
+                    </div>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+
+              <ngx-datatable-column name="Notificacion" prop="notificacion" [width]="10">
+                <ng-template let-notificacion="value" ngx-datatable-cell-template>
+                  <div>
+                    <!-- <span class="font-weight-bold">{{ articulo }} </span> -->
+                    <div
+                      class="badge badge-pill"
+                      ngClass="badge-light-warning">
+                      {{ notificacion| date  }}
+                    </div>
                   </div>
                 </ng-template>
               </ngx-datatable-column>

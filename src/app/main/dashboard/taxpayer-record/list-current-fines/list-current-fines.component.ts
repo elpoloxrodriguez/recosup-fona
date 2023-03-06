@@ -103,8 +103,9 @@ export class ListCurrentFinesComponent implements OnInit {
             e.Nomenclatura_mif = e.Nomenclatura_mif.toUpperCase()
             e.Monto_mif = this.utilService.ConvertirMoneda(e.Monto_mif)
             this.ListaMultasNuevas.push(e);
-          // }
-        });
+            // }
+          });
+          // console.log(this.ListaMultasNuevas)
         this.rowsDetalleMultasNuevas = this.ListaMultasNuevas;
         this.tempDataDetalleMultasNuevas = this.rowsDetalleMultasNuevas
       },

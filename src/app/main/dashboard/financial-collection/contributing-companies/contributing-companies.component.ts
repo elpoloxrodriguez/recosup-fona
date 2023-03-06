@@ -3,7 +3,7 @@ import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 import { Subject } from 'rxjs';
 import { NgbModal, NgbActiveModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService, IAPICore } from '@core/services/apicore/api.service';
-import { ICrearCertificados, IDataEmpresaCompleta } from '@core/services/empresa/empresa.service';
+import { IActualizarDatosEmpresa, ICrearCertificados, IDataEmpresaCompleta } from '@core/services/empresa/empresa.service';
 import { UtilService } from '@core/services/util/util.service';
 import Swal from 'sweetalert2';
 import jwt_decode from "jwt-decode";
@@ -24,6 +24,23 @@ export class ContributingCompaniesComponent implements OnInit {
     parametros: '',
     valores : {},
   };
+
+  public UpdateEmpresa: IActualizarDatosEmpresa = {
+    UsuarioId: 0,
+    Direccion: '',
+    Telefono: '',
+    Fax: '',
+    ParroquiaId: undefined,
+    ActividadEconomicaId: undefined,
+    CorreoElectronico: '',
+    Ciudad: '',
+    Estado: '',
+    CantidadEmpleados: '',
+    Municipio: '',
+    RazonSocial: ''
+  }
+
+  public MiEmpresa = []
 
   public CrearCert: ICrearCertificados = {
     usuario: 0,
@@ -114,7 +131,12 @@ export class ContributingCompaniesComponent implements OnInit {
 
   public searchValue = '';
 
+  public selectActividadEconomica
+  public selectEstados
+  public selectMunicipios
+  public selectParroquias
 
+  
   // Decorator
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
@@ -144,6 +166,83 @@ export class ContributingCompaniesComponent implements OnInit {
       this.ShowFiscalizar = true
     }
    await  this.EmpresasAportes()
+   await this.ListaParroquias()
+   await this.ListaEstados()
+   await this.ListaActividadEconomica()
+
+  }
+
+  async ListaActividadEconomica() {
+    this.xAPI.funcion = "RECOSUP_R_ActividadEconomica";
+    this.selectActividadEconomica = []
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        this.selectActividadEconomica = data.Cuerpo.map(e => {
+          e.name = e.Nombre
+          e.id = e.Codigo
+          return e
+        });
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+
+  async ListaEstados() {
+    this.xAPI.funcion = "RECOSUP_R_Estados";
+    this.selectEstados = []
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        this.selectEstados = data.Cuerpo.map(e => {
+          e.name = e.Nombre
+          e.id = e.EstadoId
+          return e
+        });
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+
+  async ListaMunicipios(id: string) {
+    this.xAPI.funcion = "RECOSUP_R_Municipios";
+    this.xAPI.parametros = id;
+    this.selectMunicipios = []
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        this.selectMunicipios = data.Cuerpo.map(e => {
+          e.name = e.Nombre
+          e.id = e.MunicipioId
+          return e
+        });
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+
+
+  async ListaParroquias() {
+    this.xAPI.funcion = "RECOSUP_R_Parroquias";
+    this.xAPI.parametros = '';
+    this.selectParroquias = []
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        // console.log(data.Cuerpo)
+        this.selectParroquias = data.Cuerpo.map(e => {
+          e.name = e.Nombre
+          e.id = e.ParroquiaId
+          return e
+        });
+        // console.log(this.selectParroquias)
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
   }
 
   async EmpresasAportes() {
@@ -186,6 +285,27 @@ export class ContributingCompaniesComponent implements OnInit {
         )
       }
     })
+  }
+
+  async GuardarActualizacionDatosEmpresas() {
+    this.UpdateEmpresa.UsuarioId = this.token.Usuario[0].UsuarioId
+    this.xAPI.funcion = 'RECOSUP_U_MiEmpresa'
+    this.xAPI.parametros = ''
+    this.xAPI.valores = JSON.stringify(this.UpdateEmpresa)
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        if (data.tipo === 1) {
+          this.modalService.dismissAll('Cerrar')
+          this.utilService.alertConfirmMini('success', 'Datos actualizados exitosamente')
+          // Actualizamos la tabla
+        } else {
+          this.utilService.alertConfirmMini('error', 'Oops! Algo salio mal, intente de nuevo!')
+        }
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
   }
 
   async EmpresaRIF(id: any) {
@@ -243,6 +363,8 @@ export class ContributingCompaniesComponent implements OnInit {
       }
     )
   }
+
+
 
   async GenerarCertificadoInscripcion() {
     this.CrearCert.usuario = this.idUsuarioCert
@@ -450,7 +572,7 @@ export class ContributingCompaniesComponent implements OnInit {
     )
   }
 
-  async ModalEditarEmpresa(){
+  async ModalEditarEmpresaX(){
     const sel =[ {
       apples: 'Apples',
       bananas: 'Bananas',
@@ -484,6 +606,28 @@ export class ContributingCompaniesComponent implements OnInit {
         })
       }
     })
+  }
+
+  ModalEditarEmpresa(modal,row) {
+    // console.log(row)
+    this.UpdateEmpresa.RazonSocial = row.RazonSocial
+    this.UpdateEmpresa.CorreoElectronico = row.CorreoEmpresa
+    this.UpdateEmpresa.Telefono = row.TelefonoEmpresa
+    this.UpdateEmpresa.Fax = row.FaxEmpresa
+    this.UpdateEmpresa.ActividadEconomicaId = row.ActividadEconomicaId
+    this.UpdateEmpresa.Estado = row.Estado
+    this.UpdateEmpresa.Ciudad = row.Ciudad
+    this.UpdateEmpresa.Municipio = row.Municipio
+    this.UpdateEmpresa.ParroquiaId = row.ParroquiaId
+    this.UpdateEmpresa.Direccion = row.Direccion
+    this.UpdateEmpresa.CantidadEmpleados = row.CantidadEmpleados
+    this.modalService.open(modal, {
+      centered: true,
+      size: 'lg',
+      backdrop: false,
+      keyboard: false,
+      windowClass: 'fondo-modal',
+    });   
   }
 
   filterUpdateUtilidadAportes(event) {

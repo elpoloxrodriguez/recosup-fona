@@ -195,6 +195,69 @@ export class UsersStatusComponent implements OnInit {
     })
   }
 
+  async RechazarUsuario(data: any) {
+    this.IUpdateUsers.Nombres = data.Nombres
+    this.IUpdateUsers.Apellidos = data.Apellidos
+    this.IUpdateUsers.Codigo = data.Codigo
+    this.IUpdateUsers.Cedula = data.Cedula
+    this.IUpdateUsers.CorreoPrincipal = data.CorreoPrincipal
+    this.IUpdateUsers.CorreoSecundario = data.CorreoSecundario
+    this.IUpdateUsers.Cargo = data.Cargo
+    this.IUpdateUsers.EsAdministrador = data.EsAdministrador
+    this.IUpdateUsers.Estatus = 2
+    this.IUpdateUsers.UsuarioModifico = this.token.Usuario[0].UsuarioId
+    this.IUpdateUsers.UsuarioId = data.UsuarioId
+    Swal.fire({
+      title: 'Esta Seguro de Rechazarlo?',
+      html: `<strong>Usuario: <font color="red">${data.Codigo}</font> </strong>`,
+      icon: 'warning',
+      showCancelButton: true,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      allowEnterKey: false,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Rechazarlo!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.xAPI.funcion = 'RECOSUP_U_UsuariosStatus'
+        this.xAPI.parametros = ''
+        this.xAPI.valores = JSON.stringify(this.IUpdateUsers)
+        this.apiService.Ejecutar(this.xAPI).subscribe(
+          (data) => {
+            // this.rowsUsuariosInactivos.push(this.dataListUsers)
+            if (data.tipo === 1) {
+              // this.dataListUsers = []
+              // this.ListUsuarios()
+              this._router.navigate(['/support/users-status']).then(() => {window.location.reload()});
+              const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                  toast.addEventListener('mouseenter', Swal.stopTimer)
+                  toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+              })
+              Toast.fire({
+                icon: 'success',
+                title: 'Usuario Rechazado Exitosamente'
+              })
+            } else {
+              this.utilService.alertConfirmMini('error', 'Oops algo salio mal!, Porfavor verifique e intente nuevamente.')
+            }
+          },
+          (error) => {
+            console.error(error)
+          }
+        )
+      }
+    })
+  }
+
   /**
    * On destroy
    */

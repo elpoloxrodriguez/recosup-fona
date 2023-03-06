@@ -452,6 +452,7 @@ export class PdfService {
   }
 
   CertificadoPagoMIF(data: any){
+    console.log(data)
     const doc = new jsPDF();
     const pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
     const pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
@@ -470,7 +471,7 @@ export class PdfService {
     doc.setFont(undefined, "bold");
     doc.text(`FONDO NACIONAL ANTIDROGAS`, pageWidth / 2, pageHeight - 275, { maxWidth: 150, align: "center" });
     doc.text(`FORMA FONA (F03)`, pageWidth / 2, pageHeight - 270, { maxWidth: 150, align: "center" });
-    doc.text(`CERTIFICADO DE PAGO`, pageWidth / 2, pageHeight - 265, { maxWidth: 150, align: "center" });
+    doc.text(`CERTIFICADO DE ${data.nombre_bancos_MIF.toUpperCase()}`, pageWidth / 2, pageHeight - 265, { maxWidth: 150, align: "center" });
 
     
 

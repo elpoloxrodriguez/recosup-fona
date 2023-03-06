@@ -29,7 +29,14 @@
                       Generar Multas</button>
                   </div>
                 </div>
-                <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+                <div class="col-md-3 col-12">
+                  <div class="d-flex justify-content-between align-items-center m-1">
+                    <button type="button" (click)="GenerarMultas(ModalAddRegisterMultas)" class="btn btn-danger"
+                      rippleEffect>
+                      Generar Multas Empresas No Inscritas</button>
+                  </div>
+                </div>
+                <div class="col-md-3 col-12 d-flex justify-content-start justify-content-md-end">
                   <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
                     <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
                         name="searchValue" type="search" class="form-control ml-25" placeholder="Nombre Empresa"
@@ -70,6 +77,12 @@
                         class="badge badge-pill"
                         ngClass="badge-light-primary">
                         Fiscalización
+                      </div>
+                      <div
+                      *ngIf="TipoMultaId == 4"
+                        class="badge badge-pill"
+                        ngClass="badge-light-primary">
+                        Pago Complementario
                       </div>
                     </div>
                   </ng-template>
@@ -127,6 +140,12 @@
                         class="badge badge-pill"
                         ngClass="badge-light-danger">
                         Rechazado
+                      </div>
+                      <div
+                      *ngIf="TipoMultaId == 4"
+                        class="badge badge-pill"
+                        ngClass="badge-light-primary">
+                        Pago Complementario
                       </div>
                     </div>
                   </ng-template>
@@ -310,7 +329,7 @@
 
         </ng-template>
       </li>
-      <li ngbNavItem>
+      <li ngbNavItem (click)="ListaPlanillas()">
         <a ngbNavLink>Multas y/o Reparos Historico</a>
         <ng-template ngbNavContent>
 
@@ -362,6 +381,19 @@
                   <ng-template let-Articulo="value" ngx-datatable-cell-template>
                     <div>
                       <span class="font-weight-bold">{{ Articulo }} </span>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="#" prop="NumeroResolucion" [width]="40">
+                  <ng-template let-NumeroResolucion="value" ngx-datatable-cell-template>
+                    <div>
+                      <!-- <span class="font-weight-bold">{{ NumeroResolucion }} </span> -->
+                      <div
+                        class="badge badge-pill"
+                        ngClass="badge-light-primary">
+                        {{ NumeroResolucion }} 
+                      </div>
                     </div>
                   </ng-template>
                 </ngx-datatable-column>
@@ -466,12 +498,47 @@
           </div>
         </div>
 
-        <!-- <div class="col-12">
+        <div class="col-md-6 col-12 mb-1">
           <div class="form-group">
-            <label for="basicInput">Numero de Cuenta</label>
-            <input class="form-control" type="text"  [(ngModel)]="ICrearMultasMIF.Cuenta_mif" [ngModelOptions]="{standalone: true}" readonly placeholder="Numero de Cuenta" />
+            <label for="basicInput">Seleccione Articulo</label>
+            <ng-select [items]="SelectArticulo" [(ngModel)]="ICrearMultasMIF.articulo" [ngModelOptions]="{standalone: true}"
+              placeholder="Seleccione Articulo" bindLabel="name" bindValue="id" required>
+            </ng-select>
           </div>
-        </div> -->
+        </div>
+
+        <div class="col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicSelect">Seleccione el Año</label>
+            <ng-select [items]="SelectAnioAporte" placeholder="Seleccione Año" bindLabel="name" name="anio"
+              autocomplete="off" [(ngModel)]="ICrearMultasMIF.anio" [ngModelOptions]="{standalone: true}" required autocomplete="off">
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="form-group">
+            <label for="basicInput">Fecha Inicio Fiscal</label>
+            <input class="form-control" type="date"  [(ngModel)]="ICrearMultasMIF.inicio_fiscal" [ngModelOptions]="{standalone: true}" placeholder="Fecha Inicio Fiscal"/>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="form-group">
+            <label for="basicInput">Fecha Cierre Fiscal</label>
+            <input class="form-control" type="date"  [(ngModel)]="ICrearMultasMIF.cierre_fiscal" [ngModelOptions]="{standalone: true}" placeholder="Fecha Cierre Fiscal"/>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="form-group">
+            <label for="basicInput">Fecha de Notificacion</label>
+            <input class="form-control" type="date"  [(ngModel)]="ICrearMultasMIF.notificacion" [ngModelOptions]="{standalone: true}" placeholder="Fecha de Notificacion"/>
+          </div>
+        </div>
+
+      
+
 
       </div>
 

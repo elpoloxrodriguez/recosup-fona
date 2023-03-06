@@ -79,17 +79,9 @@
               </div>
             </ng-template>
           </ngx-datatable-column>
-
-          <!-- <ngx-datatable-column name="Status" prop="Estatus"  [width]="20">
-            <ng-template let-Estatus="value" ngx-datatable-cell-template>
-              <div>
-                <span class="font-weight-bold"> {{ Estatus == '1' ? 'Activo' : 'Inactivo' }} </span>
-              </div>
-            </ng-template>
-          </ngx-datatable-column> -->
             
   
-          <ngx-datatable-column name="Acción" [width]="10" [sortable]="false">
+          <!-- <ngx-datatable-column name="Acción" [width]="10" [sortable]="false">
             <ng-template ngx-datatable-cell-template let-row="row">
               <button type="button" class="btn btn-sm btn-primary"  (click)="ActivarUsuario(row)" rippleEffect>
                 <span [data-feather]="'eye'" [class]="'mr-25'"></span></button>&nbsp;
@@ -98,7 +90,35 @@
                   <a href="http://contribuyente.seniat.gob.ve/BuscaRif/BuscaRif.jsp" target="_blank" class="btn btn-sm btn-warning" title="SENIAT" rippleEffect>
                    SENIAT</a>
             </ng-template>
-          </ngx-datatable-column>
+          </ngx-datatable-column> -->
+
+          <ngx-datatable-column name="Accion" [width]="5" [sortable]="false">
+            <ng-template  ngx-datatable-cell-template let-row="row">
+              <div ngbDropdown container="body">
+                <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
+                  <span [data-feather]="'settings'" [class]="'cursor-pointer'"></span>
+                </button>
+                <div ngbDropdownMenu>
+                  <div>
+                    <a  (click)="ActivarUsuario(row)" ngbDropdownItem><span
+                      [data-feather]="'check'" [size]="16" [class]="'mr-50'"></span> Aprobar</a>
+                </div>
+                <div>
+                  <a  (click)="RechazarUsuario(row)" ngbDropdownItem><span
+                    [data-feather]="'x'" [size]="16" [class]="'mr-50'"></span> Rechazar</a>
+              </div>
+                <div >
+                  <a  href="http://www.cne.gob.ve/web/registro_electoral/ce.php?nacionalidad={{row.Cedula.substr(0,1)}}&cedula={{row.Cedula.substr(1)}}" target="_blank" ngbDropdownItem><span
+                    [data-feather]="'monitor'" [size]="16" [class]="'mr-50'"></span> CNE</a>
+            </div>
+            <div >
+              <a  href="http://contribuyente.seniat.gob.ve/BuscaRif/BuscaRif.jsp" routerLinkActive="active" target="_blank" ngbDropdownItem><span
+                [data-feather]="'monitor'" [size]="16" [class]="'mr-50'"></span> SENIAT</a>
+          </div>
+              </div>
+              </div>
+                </ng-template>
+              </ngx-datatable-column>
     
   
         </ngx-datatable>

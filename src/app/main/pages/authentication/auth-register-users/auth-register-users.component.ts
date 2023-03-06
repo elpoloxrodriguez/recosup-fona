@@ -35,7 +35,7 @@ export class AuthRegisterUsersComponent implements OnInit {
     CorreoSecundario: '',
     Cargo: 'Empresa',
     EsAdministrador: 0,
-    Estatus: 1,
+    Estatus: 0,
     SuspencionId: 'NULL',
     SuspencionDescripcion:  'NULL',
     UsuarioCreo: 1,
