@@ -35,17 +35,12 @@ import { GoalManagementComponent } from './goal-management/goal-management.compo
 import { TranslateModule } from '@ngx-translate/core';
 import { GenerateFinesComponent } from './generate-fines/generate-fines.component';
 import { ReportsComponent } from './reports/reports.component';
+import { GenerateNonRegisteredFinesComponent } from './generate-non-registered-fines/generate-non-registered-fines.component';
 
 
 
 @NgModule({
   declarations: [
-    // ContributingCompaniesComponent,
-    // TaxpayerPaymentsComponent,
-    // GoalManagementComponent,
-    // GenerateFinesComponent
-    // ReportsComponent
-
   ],
   imports: [
     TranslateModule,

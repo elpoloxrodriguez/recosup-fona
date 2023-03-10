@@ -22,7 +22,8 @@ export class ProfileComponent implements OnInit {
     Clave: '',
     UsuarioModifico: 0,
     FechaModifico: '',
-    UsuarioId: 0
+    UsuarioId: 0,
+    Codigo: ''
   }
 
   public xAPI : IAPICore = {
@@ -32,6 +33,9 @@ export class ProfileComponent implements OnInit {
   };
 
   public token
+  public Rif
+  public Codigo
+  public NewUser
   public UsuarioId
   public passwordTextType: boolean;
   public confPasswordTextType: boolean;
@@ -49,6 +53,13 @@ public password2
   ngOnInit(): void {
     this.token = jwt_decode(sessionStorage.getItem('token'));
     this.UsuarioId = this.token.Usuario[0].UsuarioId
+    this.Rif = this.token.Usuario[0].Rif
+    this.Codigo = this.token.Usuario[0].Codigo
+    if (this.token.Usuario[0].Rif != null) {
+      this.NewUser = this.Rif
+    } else {
+      this.NewUser = this.Codigo
+    }
   }
 
       // convenience getter for easy access to form fields
@@ -74,6 +85,7 @@ public password2
       async ChangePassword(){
         // console.log(this.password1, this.password2)
         this.I_CambiarClaveUsuario.UsuarioId = this.UsuarioId
+        this.I_CambiarClaveUsuario.Codigo = this.NewUser
         this.I_CambiarClaveUsuario.UsuarioModifico = this.UsuarioId
         this.I_CambiarClaveUsuario.FechaModifico = this.utilService.FechaActual()
         this.I_CambiarClaveUsuario.Clave = this.utilService.md5(this.password1),
@@ -83,6 +95,8 @@ public password2
           await this.apiService.Ejecutar(this.xAPI).subscribe(
             (data) => {
              if (data.tipo === 1) {
+              this.password1 = ''
+              this.password2 = ''
               this.utilService.alertConfirmMini('success', 'Felicidades! Contraseña Actualizada Exitosamente')
              } else {
               this.utilService.alertConfirmMini('error', 'Oops Lo Sentimos! Algo Salio Mal, Verifique e intente nuevamente')

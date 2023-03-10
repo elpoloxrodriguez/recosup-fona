@@ -1,6 +1,10 @@
 <div class="card content-wrapper container-xxl p-0">
   <div class="card-body">
 
+    <div class="card-header  justify-content-center">
+      <strong><font color="red">Multas, Intereses y Fiscalizaciones a Empresas Inscritas en el FONA</font></strong>
+     </div>
+
     <ul ngbNav #navCenter="ngbNav" class="nav-tabs justify-content-center">
       <li ngbNavItem (click)="DetalleMultasNuevas()">
         <a ngbNavLink>Multas y/o Reparos Vigentes</a>
@@ -29,14 +33,7 @@
                       Generar Multas</button>
                   </div>
                 </div>
-                <div class="col-md-3 col-12">
-                  <div class="d-flex justify-content-between align-items-center m-1">
-                    <button type="button" (click)="GenerarMultas(ModalAddRegisterMultas)" class="btn btn-danger"
-                      rippleEffect>
-                      Generar Multas Empresas No Inscritas</button>
-                  </div>
-                </div>
-                <div class="col-md-3 col-12 d-flex justify-content-start justify-content-md-end">
+                <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
                   <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
                     <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
                         name="searchValue" type="search" class="form-control ml-25" placeholder="Nombre Empresa"
@@ -184,7 +181,7 @@
 
             <div class="card">
               <div class="row">
-                <div class="col-md-3 col-12">
+                <div class="col-md-6 col-12">
                   <div class="d-flex justify-content-between align-items-center m-1">
                     <label class="d-flex align-items-center">Mostrar
                       <select class="form-control mx-25" [(ngModel)]="selectedOption">
@@ -196,13 +193,13 @@
                       Registros</label>
                   </div>
                 </div>
-                <div class="col-md-3 col-12">
+                <!-- <div class="col-md-3 col-12">
                   <div class="d-flex justify-content-between align-items-center m-1">
                     <button type="button" (click)="GenerarMultas(ModalAddRegisterMultas)" class="btn btn-warning"
                       rippleEffect>
                       Generar Multas</button>
                   </div>
-                </div>
+                </div> -->
                 <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
                   <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
                     <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
@@ -254,6 +251,14 @@
                   <ng-template let-Nomenclatura_mif="value" ngx-datatable-cell-template>
                     <div>
                       <span class="font-weight-bold">{{ Nomenclatura_mif }} </span>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="Referencia" prop="referencia" [width]="10">
+                  <ng-template let-referencia="value" ngx-datatable-cell-template>
+                    <div>
+                      <span class="font-weight-bold">{{ referencia }} </span>
                     </div>
                   </ng-template>
                 </ngx-datatable-column>

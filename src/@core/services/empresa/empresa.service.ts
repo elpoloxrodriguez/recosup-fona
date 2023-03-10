@@ -271,6 +271,7 @@ export interface RECOSUP_U_PasswordUsersID { // Cambiar clave de usuario segun I
 	UsuarioModifico	 :	number
 	FechaModifico	 :	string
 	UsuarioId	 :	number
+	Codigo : string
 }
 
 export interface RECOSUP_U_PagarMultas { // pagar multas

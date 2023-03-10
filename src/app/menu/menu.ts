@@ -100,6 +100,13 @@ export const menu: CoreMenu[] = [
         url: 'financial-collection/generate-fines'
       },
       {
+        id: 'GenerarMultasNoInscritas',
+        nombre: 'Generar Multas No Inscritas',
+        type: 'item',
+        icono: 'circle',
+        url: 'financial-collection/generate-non-registered-fines'
+      },
+      {
         id: 'GestionMetas',
         nombre: 'Gestión Metas',
         type: 'item',

@@ -92,6 +92,9 @@ export class ListCurrentFinesComponent implements OnInit {
     await this.DetalleMultasNuevas()
   }
 
+  GenerarConstancia(data: any){
+    this.pdf.CertificadoPagoMIF(data)
+  }
 
   async DetalleMultasNuevas() {
     this.xAPI.funcion = "RECOSUP_R_ListarMultasNuevasMIF_ID";

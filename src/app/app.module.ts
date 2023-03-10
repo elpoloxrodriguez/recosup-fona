@@ -61,6 +61,7 @@ import { ReportsComponent } from './main/dashboard/financial-collection/reports/
 import { CompanyProjectsRecosupComponent } from './main/dashboard/projects/company-projects-recosup/company-projects-recosup.component';
 import { GenerateFinesComponent } from './main/dashboard/financial-collection/generate-fines/generate-fines.component';
 import { ReportsProjectsComponent } from './main/dashboard/projects/reports/reports-projects/reports-projects.component';
+import { GenerateNonRegisteredFinesComponent } from './main/dashboard/financial-collection/generate-non-registered-fines/generate-non-registered-fines.component';
 //  subir Archivos
 
 const appRoutes: Routes = [
@@ -91,6 +92,7 @@ const appRoutes: Routes = [
                           BackupsComponent,
                           CompanyProjectsRecosupComponent,
                           GenerateFinesComponent,
+                          GenerateNonRegisteredFinesComponent,
                           ReportsComponent,
                           ReportsProjectsComponent
                           ],

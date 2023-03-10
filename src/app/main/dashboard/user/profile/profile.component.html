@@ -13,6 +13,23 @@
                 <form class="auth-reset-password-form mt-2">
                   <div class="form-group">
                     <div class="d-flex justify-content-between">
+                      <label for="reset-password-new">Nombre Usuario</label>
+                    </div>
+                    <div class="input-group input-group-merge form-password-toggle">
+                      <input
+                        type="text"
+                        class="form-control form-control-merge"
+                        placeholder="Nombre Usuario"
+                        tabindex="1"
+                        autofocus
+                        readonly
+                        [(ngModel)]="NewUser"
+                        [ngModelOptions]="{standalone: true}"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="d-flex justify-content-between">
                       <label for="reset-password-new">Nueva contraseña</label>
                     </div>
                     <div class="input-group input-group-merge form-password-toggle">

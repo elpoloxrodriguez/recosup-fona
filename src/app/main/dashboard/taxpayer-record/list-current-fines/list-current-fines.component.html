@@ -145,7 +145,7 @@
     
               <ngx-datatable-column name="Accion" [width]="20" [sortable]="false">
                 <ng-template  ngx-datatable-cell-template let-row="row">
-                  <div ngbDropdown container="body" *ngIf="row.status_mif != 1">
+                  <div ngbDropdown container="body" >
                     <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
                       <span [data-feather]="'settings'" [class]="'cursor-pointer'"></span>
                     </button>
@@ -159,6 +159,12 @@
                     <div>
                         <a (click)="EditarMultasNuevas(ModalPagarMultasNuevas,row)"  ngbDropdownItem><span
                           [data-feather]="'edit'" [size]="16" [class]="'mr-50'"></span> Editar</a>
+                  </div>
+                </div>
+                <div ngbDropdownMenu *ngIf="row.status_mif == 1">
+                  <div>
+                    <a (click)="GenerarConstancia(row)" ngbDropdownItem><span
+                      [data-feather]="'book-open'" [size]="16" [class]="'mr-50'"></span> Generar Constancia</a>
                   </div>
                 </div>
                   </div>

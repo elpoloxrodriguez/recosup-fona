@@ -34,10 +34,10 @@ const routes: Routes = [
     path: 'admin-recosup',
     component: LoginInternalComponent,
   },
-  {
-    path: 'login/:id',
-    component: AuthLoginV2Component,
-  },
+  // {
+  //   path: 'login/:id',
+  //   component: AuthLoginV2Component,
+  // },
   {
     path: '',
     component: AuthLoginV2Component,
