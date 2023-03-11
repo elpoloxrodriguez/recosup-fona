@@ -301,15 +301,15 @@ export const menu: CoreMenu[] = [
         url: 'support/table-management'
       },
       {
-        id: 'cambiarcontraseña',
-        nombre: 'Cambiar Contraseña',
+        id: 'usuariosContribuyentes',
+        nombre: 'Usuarios Contribuyentes ',
         type: 'item',
         icono: 'circle',
         url: 'support/change-password'
       },
       {
         id: 'users-system',
-        nombre: 'Usuarios',
+        nombre: 'Usuarios Sistema',
         type: 'item',
         icono: 'circle',
         url: 'support/users'

@@ -6,6 +6,7 @@ import { ApiService, IAPICore } from '@core/services/apicore/api.service';
 import jwt_decode from "jwt-decode";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { UtilService } from '@core/services/util/util.service';
 
 export interface RECOSUP_U_PasswordUsers {
 	empresa	 ?:	number
@@ -69,6 +70,7 @@ export class ChangePasswordComponent implements OnInit {
 public dataUser
 
   constructor(
+    private utilservice: UtilService,
     private apiService : ApiService,
     private modalService: NgbModal,
     private _formBuilder: FormBuilder
@@ -131,7 +133,7 @@ public dataUser
   
   let datos = {
     usuario: usuario,
-	  clave:  clave
+    clave:  this.utilservice.md5(clave)
   }
   this.xAPI.funcion = 'RECOSUP_U_PasswordUsers'
   this.xAPI.parametros = ''

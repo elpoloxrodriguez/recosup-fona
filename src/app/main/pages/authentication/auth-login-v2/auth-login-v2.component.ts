@@ -166,10 +166,14 @@ export class AuthLoginV2Component implements OnInit {
             this.utilservice.alertConfirmMini('success', `Bienvenido al FONA ${this.infoUsuario.Usuario[0].Nombres} ${this.infoUsuario.Usuario[0].Apellidos}`);
             this._router.navigate(['home']).then(() => {window.location.reload()});
             break;
-            case '7':
-              this.utilservice.alertConfirmMini('success', `Bienvenido al FONA ${this.infoUsuario.Usuario[0].Nombres} ${this.infoUsuario.Usuario[0].Apellidos}`);
-              this._router.navigate(['home']).then(() => {window.location.reload()});
-              break;
+            // case '7':
+            //   this.utilservice.alertConfirmMini('success', `Bienvenido al FONA ${this.infoUsuario.Usuario[0].Nombres} ${this.infoUsuario.Usuario[0].Apellidos}`);
+            //   this._router.navigate(['home']).then(() => {window.location.reload()});
+            //   break;
+            //   case '9':
+            //     this.utilservice.alertConfirmMini('success', `Bienvenido al FONA ${this.infoUsuario.Usuario[0].Nombres} ${this.infoUsuario.Usuario[0].Apellidos}`);
+            //     this._router.navigate(['home']).then(() => {window.location.reload()});
+            //     break;
             case '2':
               sessionStorage.clear();
               localStorage.clear();  
@@ -177,6 +181,13 @@ export class AuthLoginV2Component implements OnInit {
               this._router.navigate(['login']);
               this.utilservice.alertConfirmMini('error','El usuario se encuentra Rechazado, porfavor contactar a RECAUDACIÓN FONA')
               break;
+              case '3':
+                sessionStorage.clear();
+                localStorage.clear();  
+                this.loading = false;
+                this._router.navigate(['login']);
+                this.utilservice.alertConfirmMini('error','El usuario se encuentra Bloqueado, porfavor contactar a TECNOLOGIA FONA')
+                break;
           default:
             // sessionStorage.clear();
             // localStorage.clear();  

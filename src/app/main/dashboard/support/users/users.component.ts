@@ -6,6 +6,7 @@ import { ApiService, IAPICore } from '@core/services/apicore/api.service';
 import jwt_decode from "jwt-decode";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { UtilService } from '@core/services/util/util.service';
 
 @Component({
   selector: 'app-users',
@@ -63,6 +64,7 @@ export class UsersComponent implements OnInit {
 public dataUser
 
   constructor(
+    private utilservice: UtilService,
     private apiService : ApiService,
     private modalService: NgbModal,
     private _formBuilder: FormBuilder
@@ -82,7 +84,7 @@ public dataUser
   }
 
   async ListUsuarios() {
-    this.xAPI.funcion = "RECOSUP_R_ListUsers";
+    this.xAPI.funcion = "RECOSUP_R_ListUsers_ADMIN";
     this.xAPI.parametros = '';
     this.dataListUsuarios = []
      await this.apiService.Ejecutar(this.xAPI).subscribe(
@@ -125,9 +127,9 @@ public dataUser
   
   let datos = {
     usuario: usuario,
-	  clave:  clave
+	  clave:  this.utilservice.md5(clave)
   }
-  this.xAPI.funcion = 'RECOSUP_U_PasswordUsers'
+  this.xAPI.funcion = 'RECOSUP_U_PasswordUsers_ADMIN'
   this.xAPI.parametros = ''
   this.xAPI.valores = JSON.stringify(datos)
   await this.apiService.Ejecutar(this.xAPI).subscribe(
@@ -178,7 +180,7 @@ public dataUser
     const val = event.target.value.toLowerCase();
     // Filter Our Data
     const temp = this.tempDataEmpresasAportes.filter(function (d) {
-      return d.Rif.toLowerCase().indexOf(val) !== -1 || !val;
+      return d.Codigo.toLowerCase().indexOf(val) !== -1 || !val;
     });
     // Update The Rows
     this.rowsEmpresasAportes = temp;

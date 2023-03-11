@@ -6,7 +6,7 @@
   
       <div class="card">
         <div class="row">
-          <div class="col-md-6 col-12">
+          <div class="col-md-3 col-12">
             <div class="d-flex justify-content-between align-items-center m-1">
               <label class="d-flex align-items-center"
                 >Mostrar
@@ -20,6 +20,13 @@
               >
             </div>
           </div>
+          <div class="col-md-3 col-12">
+            <div class="d-flex justify-content-between align-items-center m-1">
+              <button type="button"  class="btn btn-success"
+                rippleEffect>
+               Crear Nuevo Usuario</button>
+            </div>
+          </div>
           <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
             <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
               <label class="d-flex align-items-center ml-1 ml-md-0"
@@ -28,7 +35,7 @@
                   name="searchValue"
                   type="search"
                   class="form-control ml-25"
-                  placeholder="Ingrese RIF"
+                  placeholder="Ingrese Nombre"
                   (keyup)="filterUpdate($event)"
                   (search)="filterUpdate($event)"
               /></label>
@@ -37,7 +44,7 @@
         </div>
         <ngx-datatable
           [rows]="rowsEmpresasAportes"
-          [rowHeight]="50"
+          rowHeight="auto"
           class="bootstrap core-bootstrap"
           [limit]="selectedOption"
           [columnMode]="ColumnMode.force"
@@ -47,43 +54,91 @@
         >
   
   
-          <ngx-datatable-column name="RIF" prop="Rif" [width]="10">
-            <ng-template let-Rif="value" ngx-datatable-cell-template>
-              <div>
-                <span class="font-weight-bold">{{ Rif }} </span>
-              </div>
-            </ng-template>
-          </ngx-datatable-column>
-  
-          <ngx-datatable-column name="Razon Social" prop="RazonSocial" [width]="100">
-            <ng-template let-RazonSocial="value" ngx-datatable-cell-template>
-              <div>
-                <span class="font-weight-bold"> {{ RazonSocial }} </span>
-              </div>
-            </ng-template>
-          </ngx-datatable-column>
-  
-          <ngx-datatable-column name=""  [width]="10">
-          </ngx-datatable-column>
-          <ngx-datatable-column name=""  [width]="10">
-          </ngx-datatable-column>
-  
-          <ngx-datatable-column name="Usuario" prop="Codigo"  [width]="10">
+
+          <ngx-datatable-column name="Usuario" prop="Codigo"  width="auto">
             <ng-template let-Codigo="value" ngx-datatable-cell-template>
               <div>
                 <span class="font-weight-bold"> {{ Codigo }} </span>
               </div>
             </ng-template>
           </ngx-datatable-column>
-  
-          <ngx-datatable-column name=""  [width]="10">
+
+          <ngx-datatable-column name="Email" prop="CorreoPrincipal"  width="auto">
+            <ng-template let-CorreoPrincipal="value" ngx-datatable-cell-template>
+              <div>
+                <span class="font-weight-bold"> {{ CorreoPrincipal }} </span>
+              </div>
+            </ng-template>
           </ngx-datatable-column>
+
+          <ngx-datatable-column name="Rol" prop="EsAdministrador"  width="auto">
+            <ng-template let-EsAdministrador="value" ngx-datatable-cell-template>
+              <div>
+                <div
+                class="badge badge-pill"
+                [ngClass]="{
+                  'badge-light-primary': EsAdministrador == '1',
+                  'badge-light-success': EsAdministrador == '2',
+                  'badge-light-danger': EsAdministrador == '3',
+                  'badge-light-warning': EsAdministrador == '4',
+                  'badge-light-info': EsAdministrador == '9'
+                }"
+              >
+                {{
+                  EsAdministrador == 1
+                    ? 'Recaudación'
+                    : EsAdministrador == 2
+                    ? 'Juridico'
+                    : EsAdministrador == 3
+                    ? 'Fiscalización'
+                    : EsAdministrador == 4
+                    ? 'Proyectos'
+                    : EsAdministrador == 9
+                    ? 'Administrador'
+                    : 'Administrador'
+                }}
+              </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+  
           
   
-          <ngx-datatable-column name="Acción" [width]="5" [sortable]="false">
+          <!-- <ngx-datatable-column name="Acción" [width]="5" [sortable]="false">
             <ng-template ngx-datatable-cell-template let-row="row">
               <button type="button" class="btn btn-sm btn-primary"  (click)="ModalDetails(DetailsModal,row)" rippleEffect>
                 <span [data-feather]="'eye'" [class]="'mr-25'"></span></button>
+            </ng-template>
+          </ngx-datatable-column> -->
+
+          <ngx-datatable-column name="Accion" [width]="120" [sortable]="false">
+              <ng-template ngx-datatable-cell-template let-row="row">
+              <div class="d-flex align-items-center">
+                <div ngbDropdown container="body">
+                  <a
+                    ngbDropdownToggle
+                    href="javascript:void(0);"
+                    class="hide-arrow"
+                    id="dropdownBrowserState"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <i data-feather="settings" class="text-primary cursor-pointer mr-50"></i>
+                  </a>
+                  <div ngbDropdownMenu class="dropdown-menu-right" aria-labelledby="dropdownBrowserState">
+                    <a  (click)="ModalDetails(DetailsModal,row)" ngbDropdownItem class="d-flex align-items-center"
+                      ><i data-feather="key" class="mr-50"></i> Cambiar Contraseña</a
+                    >
+                    <a href="javascript:void(0)" ngbDropdownItem class="d-flex align-items-center"
+                      ><i data-feather="archive" class="mr-50"></i> Archive</a
+                    >
+                    <a href="javascript:void(0)" ngbDropdownItem class="d-flex align-items-center"
+                      ><i data-feather="trash-2" class="mr-50"></i> Delete</a
+                    >
+                  </div>
+                </div>
+              </div>
             </ng-template>
           </ngx-datatable-column>
     

@@ -148,36 +148,59 @@ export class LoginInternalComponent implements OnInit {
     });
   }
 
-
   async login() {
     this.submitted = true;
     this.loading = true;
     var Xapi = {
-      "funcion": 'RECOSUP_R_Login',
+      "funcion": 'RECOSUP_R_Login_ADMIN',
       "parametros": this.usuario + ',' + this.clave
     }
     this.loginService.getLoginExternas(Xapi).subscribe(
       (data) => {
-        // console.log(data)
-        if (sessionStorage.getItem("token") != '') {
-          this.itk = data;
-          sessionStorage.setItem("token", this.itk.token);
-          this.infoUsuario = jwt_decode(sessionStorage.getItem('token'));
-          // console.log(this.infoUsuario.Usuario[0])
-          this.utilservice.alertConfirmMini('success', `Bienvenido al FONA ${this.infoUsuario.Usuario[0].Nombres} ${this.infoUsuario.Usuario[0].Apellidos}`);
-          this._router.navigate(['home'])
-            .then(() => {
-              window.location.reload();
-            });
-          return;
-        } else {
-          this.utilservice.alertConfirmMini('error', 'Errorr');
+        this.itk = data;
+        sessionStorage.setItem("token", this.itk.token);
+        this.infoUsuario = jwt_decode(sessionStorage.getItem('token'));
+        switch (this.infoUsuario.Usuario[0].Estatus) {
+          case '0':
+            localStorage.clear();  
+            sessionStorage.clear();
+            this.loading = false;
+            this._router.navigate(['login']);
+            this.utilservice.alertConfirmMini('error','El usuario se encuentra inscrito Inactivo, porfavor contactar a RECAUDACIÓN FONA')
+            break;
+          case '1':
+            this.utilservice.alertConfirmMini('success', `Bienvenido al FONA ${this.infoUsuario.Usuario[0].Nombres} ${this.infoUsuario.Usuario[0].Apellidos}`);
+            this._router.navigate(['home']).then(() => {window.location.reload()});
+            break;
+            case '2':
+              sessionStorage.clear();
+              localStorage.clear();  
+              this.loading = false;
+              this._router.navigate(['login']);
+              this.utilservice.alertConfirmMini('error','El usuario se encuentra Rechazado, porfavor contactar a RECAUDACIÓN FONA')
+              break;
+              case '3':
+                sessionStorage.clear();
+                localStorage.clear();  
+                this.loading = false;
+                this._router.navigate(['login']);
+                this.utilservice.alertConfirmMini('error','El usuario se encuentra Bloqueado, porfavor contactar a TECNOLOGIA FONA')
+                break;
+          default:
+            sessionStorage.clear();
+            localStorage.clear();  
+            this.loading = false;
+            this._router.navigate(['login']);
+            this.utilservice.alertConfirmMini('error','El usuario se encuentra Inactivo, porfavor contactar a FONA')
+            break;
         }
       },
       (error) => {
         this.loading = false;
-        this._router.navigate(['login'])
-        this.utilservice.alertConfirmMini('error','Verifique los dastos, e intente nuevamente')
+        // this._router.navigate(['login'])
+        sessionStorage.clear();
+        localStorage.clear();  
+        this.utilservice.alertConfirmMini('error','Verifique los datos, e intente nuevamente')
       }
     );
   }
