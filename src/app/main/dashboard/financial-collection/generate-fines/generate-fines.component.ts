@@ -336,6 +336,7 @@ export class GenerateFinesComponent implements OnInit {
     });
   }
   
+
   async DeleteMultasMIF(data: any) {
     await Swal.fire({
       title: 'Esta Seguro?',

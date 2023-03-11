@@ -22,7 +22,7 @@
           </div>
           <div class="col-md-3 col-12">
             <div class="d-flex justify-content-between align-items-center m-1">
-              <button type="button"  class="btn btn-success"
+              <button type="button" (click)="CrearUsuario(CrearUsuarioModal)"  class="btn btn-success"
                 rippleEffect>
                Crear Nuevo Usuario</button>
             </div>
@@ -43,7 +43,7 @@
           </div>
         </div>
         <ngx-datatable
-          [rows]="rowsEmpresasAportes"
+          [rows]="rowsUsuarios"
           rowHeight="auto"
           class="bootstrap core-bootstrap"
           [limit]="selectedOption"
@@ -71,7 +71,15 @@
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="Rol" prop="EsAdministrador"  width="auto">
+          <ngx-datatable-column name="Cargo" prop="Cargo"  [width]="60">
+            <ng-template let-Cargo="value" ngx-datatable-cell-template>
+              <div>
+                <span class="font-weight-bold"> {{ Cargo }} </span>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Rol" prop="EsAdministrador"  [width]="10">
             <ng-template let-EsAdministrador="value" ngx-datatable-cell-template>
               <div>
                 <div
@@ -101,6 +109,28 @@
               </div>
             </ng-template>
           </ngx-datatable-column>
+
+
+          <ngx-datatable-column name="Status" prop="Estatus" [width]="10">
+            <ng-template let-Estatus="value" ngx-datatable-cell-template>
+              <div>
+                <div
+                *ngIf="Estatus == 1"
+                  class="badge badge-pill"
+                  ngClass="badge-light-success">
+                  Activo
+                </div>
+                <div
+                *ngIf="Estatus == 2"
+                  class="badge badge-pill"
+                  ngClass="badge-light-warning">
+                  Inactivo
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+          
   
           
   
@@ -111,7 +141,7 @@
             </ng-template>
           </ngx-datatable-column> -->
 
-          <ngx-datatable-column name="Accion" [width]="120" [sortable]="false">
+          <ngx-datatable-column name="Accion" [width]="10" [sortable]="false">
               <ng-template ngx-datatable-cell-template let-row="row">
               <div class="d-flex align-items-center">
                 <div ngbDropdown container="body">
@@ -130,11 +160,11 @@
                     <a  (click)="ModalDetails(DetailsModal,row)" ngbDropdownItem class="d-flex align-items-center"
                       ><i data-feather="key" class="mr-50"></i> Cambiar Contraseña</a
                     >
-                    <a href="javascript:void(0)" ngbDropdownItem class="d-flex align-items-center"
-                      ><i data-feather="archive" class="mr-50"></i> Archive</a
+                    <a href="javascript:void(0)" (click)="UpdateUsuario(CrearUsuarioModal,row)" ngbDropdownItem class="d-flex align-items-center"
+                      ><i data-feather="edit" class="mr-50"></i> Actualizar</a
                     >
-                    <a href="javascript:void(0)" ngbDropdownItem class="d-flex align-items-center"
-                      ><i data-feather="trash-2" class="mr-50"></i> Delete</a
+                    <a href="javascript:void(0)" (click)="DeleteUser(row)" ngbDropdownItem class="d-flex align-items-center"
+                      ><i data-feather="trash-2" class="mr-50"></i> Eliminar</a
                     >
                   </div>
                 </div>
@@ -152,6 +182,117 @@
     </div>
   
   
+    <ng-template #CrearUsuarioModal let-modal>
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel160"><strong>{{titleModal}}</strong></h5>
+        <!-- <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+      </div>
+      <div class="modal-body" tabindex="0" ngbAutofocus>
+        <div class="col-xl-12 col-md-12 col-12 printRef">
+          <!-- Header Starts -->
+          
+          <form class="auth-reset-password-form mt-2">
+            <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <label for="basicInput">Nombre de Usuario</label>
+                <input class="form-control" type="text"  [(ngModel)]="ICrearUsuariosAdmin.Codigo" [ngModelOptions]="{standalone: true}" placeholder="Nombre de Usuario"/>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="basicInput">Contraseña</label>
+                <input class="form-control" [readonly]="btnUpdate == true" type="password"  [(ngModel)]="ICrearUsuariosAdmin.Clave" [ngModelOptions]="{standalone: true}" placeholder="Ingrese Contraseña"/>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="basicInput">Nombres</label>
+                <input class="form-control" type="text"  [(ngModel)]="ICrearUsuariosAdmin.Nombres" [ngModelOptions]="{standalone: true}" placeholder="Ingrese Nombres"/>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="basicInput">Apellidos</label>
+                <input class="form-control" type="text"  [(ngModel)]="ICrearUsuariosAdmin.Apellidos" [ngModelOptions]="{standalone: true}" placeholder="Ingrese Apellidos"/>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="basicInput">Cedula de Identidad</label>
+                <input class="form-control" type="text"  [(ngModel)]="ICrearUsuariosAdmin.Cedula" [ngModelOptions]="{standalone: true}" placeholder="Ingrese Cedula de Identidad"/>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="basicInput">Telefono Local</label>
+                <input class="form-control" type="text"  [(ngModel)]="ICrearUsuariosAdmin.TelefonoLocal" [ngModelOptions]="{standalone: true}" placeholder="Ingrese Telefono Local"/>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="basicInput">Telefono Celular</label>
+                <input class="form-control" type="text"  [(ngModel)]="ICrearUsuariosAdmin.TelefonoCelular" [ngModelOptions]="{standalone: true}" placeholder="Ingrese Telefono Celular"/>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="basicInput">Correo Principal</label>
+                <input class="form-control" type="text"  [(ngModel)]="ICrearUsuariosAdmin.CorreoPrincipal" [ngModelOptions]="{standalone: true}" placeholder="Ingrese Correo Principal"/>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="basicInput">Correo Secundario</label>
+                <input class="form-control" type="text"  [(ngModel)]="ICrearUsuariosAdmin.CorreoSecundario" [ngModelOptions]="{standalone: true}" placeholder="Ingrese Correo Secundario"/>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="basicInput">Cargo</label>
+                <input class="form-control" type="text"  [(ngModel)]="ICrearUsuariosAdmin.Cargo" [ngModelOptions]="{standalone: true}" placeholder="Ingrese Cargo"/>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="basicInput">Perfil</label>
+                <ng-select [items]="ListaPerfiles" [(ngModel)]="ICrearUsuariosAdmin.EsAdministrador" [ngModelOptions]="{standalone: true}"
+              placeholder="Seleccione Perfil" bindLabel="name" bindValue="id" required>
+            </ng-select>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="basicInput">Status</label>
+                <ng-select [items]="ListaStatus" [(ngModel)]="ICrearUsuariosAdmin.Estatus" [ngModelOptions]="{standalone: true}"
+              placeholder="Seleccione Estatus" bindLabel="name" bindValue="id" required>
+            </ng-select>
+              </div>
+            </div>
+
+            </div>
+          </form>
+  
+          <!-- Header Ends -->
+        </div>
+        </div>
+        <!--/ Invoice -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+          Cerrar
+        </button>
+        <button type="button" *ngIf="btnUpdate == false" class="btn btn-success" (click)="RegistrarUsuarios()"  rippleEffect>
+          Registrar Nuevo Usuario
+        </button>
+        <button type="button" *ngIf="btnUpdate == true" class="btn btn-warning" (click)="ActualizarUsuarios()"  rippleEffect>
+          Actualizar  Usuario
+        </button>
+      </div>
+    </ng-template>
+
+
     <ng-template #DetailsModal let-modal>
       <div class="modal-header">
         <h5 class="modal-title" id="myModalLabel160"><strong>Cambiar Contraseña de Usuario</strong></h5>

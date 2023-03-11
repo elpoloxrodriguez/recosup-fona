@@ -285,6 +285,39 @@ export interface RECOSUP_U_PagarMultas { // pagar multas
 }
 
 
+export interface RECOSUP_C_UsuarioAdmin {
+	Codigo	 :	string
+	Clave	 :	string
+	Nombres	 :	string
+	Apellidos	 :	string
+	Cedula	 :	string
+	TelefonoLocal	 :	string
+	TelefonoCelular	 :	string
+	CorreoPrincipal	 :	string
+	CorreoSecundario	 :	string
+	Cargo	 :	string
+	EsAdministrador	 :	any
+	Estatus	 :	any
+	UsuarioCreo	 :	number
+}
+
+export interface RECOSUP_U_UsuarioAdmim {
+	Codigo	 :	string
+	Clave	 :	string
+	Nombres	 :	string
+	Apellidos	 :	string
+	Cedula	 :	string
+	TelefonoLocal	 :	string
+	TelefonoCelular	 :	string
+	CorreoPrincipal	 :	string
+	CorreoSecundario	 :	string
+	Cargo	 :	string
+	EsAdministrador	 :	any
+	Estatus	 :	any
+	UsuarioModifico	 :	number
+	UsuarioId	 :	number
+}
+
 @Injectable({
 	providedIn: 'root'
 })
