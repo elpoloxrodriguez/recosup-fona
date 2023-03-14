@@ -709,7 +709,7 @@ export class RegistrationManagementComponent implements OnInit {
 
 
   async UtilidadCierreFiscal(id: any) {
-    this.xAPI.funcion = "RECOSUP_R_utilidad_cierre_fiscal";
+    this.xAPI.funcion = "RECOSUP_R_utilidad_cierre_fiscal_Contribuyente";
     this.xAPI.parametros = id
     this.EmpresaUtilidadCierreFiscal = []
     await this.apiService.Ejecutar(this.xAPI).subscribe(
@@ -734,7 +734,7 @@ export class RegistrationManagementComponent implements OnInit {
   }
 
   async DetalleAportes(id: any) {
-    this.xAPI.funcion = "RECOSUP_R_Detalle_aportes";
+    this.xAPI.funcion = "RECOSUP_R_Detalle_aportes_Contribuyente";
     this.xAPI.parametros = id
     this.EmpresaDetalleAportes = []
     await this.apiService.Ejecutar(this.xAPI).subscribe(
@@ -831,7 +831,7 @@ export class RegistrationManagementComponent implements OnInit {
   }
 
   async DetalleMultas(id: any) {
-    this.xAPI.funcion = "RECOSUP_R_detalle_multas_empresa";
+    this.xAPI.funcion = "RECOSUP_R_detalle_multas_empresa_Contribuyente";
     this.xAPI.parametros = id
     this.EmpresaDetalleMultas = []
     await this.apiService.Ejecutar(this.xAPI).subscribe(
