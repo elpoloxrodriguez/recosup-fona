@@ -144,7 +144,8 @@ public username
   }
 
   async registerTaxpayer(){
-    this.UsersRegister.Codigo = this.tipoDocumento.name+this.UsersRegister.Cedula
+    this.UsersRegister.Clave = this.utilService.md5(this.UsersRegister.Clave)
+    this.UsersRegister.Codigo = this.tipoDocumento.name+this.UsersRegister.Codigo
     // this.UsersRegister.FechaNacimiento = this.UsersRegister.FechaNacimiento.year+'-'+this.UsersRegister.FechaNacimiento.month+'-'+this.UsersRegister.FechaNacimiento.day
     this.xAPI.funcion = 'RECOSUP_C_Usuarios_Sistema'
     this.xAPI.parametros = ''

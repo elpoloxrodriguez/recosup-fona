@@ -142,7 +142,7 @@ export class AuthLoginV2Component implements OnInit {
         this.itk = data;
         sessionStorage.setItem("token", this.itk.token);
         this.infoUsuario = jwt_decode(sessionStorage.getItem('token'));
-        // console.log(this.infoUsuario.Usuario[0].Estatus)
+        // console.log(this.infoUsuario.Usuario[0])
         // if (this.infoUsuario.Usuario[0].Estatus != 0) {
         //       this.utilservice.alertConfirmMini('success', `Bienvenido al FONA ${this.infoUsuario.Usuario[0].Nombres} ${this.infoUsuario.Usuario[0].Apellidos}`);
         //       this._router.navigate(['home']).then(() => {window.location.reload()});

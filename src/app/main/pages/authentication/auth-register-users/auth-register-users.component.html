@@ -49,7 +49,7 @@
           required
           email
           type="text"
-          [(ngModel)]="UsersRegister.Cedula"
+          [(ngModel)]="UsersRegister.Codigo"
           [ngModelOptions]="{standalone: true}"  
           #Cedula="ngModel"
           [class.error]="!Cedula.valid && formUsersRegister.submitted"
@@ -63,7 +63,7 @@
         </span>
         </div>
       </div>
-      <div class="col-md-12 col-12">
+      <div class="col-md-6 col-12">
         <div class="form-group">
           <label class="form-label" for="email">Nombre de la Empresa</label>
           <input
@@ -84,27 +84,27 @@
           </span>
         </div>
       </div>
-      <!-- <div class="col-md-6 col-12">
+      <div class="col-md-6 col-12">
         <div class="form-group">
-          <label class="form-label">Apellidos</label>
+          <label class="form-label">Cedula Representante Legal</label>
           <input
             required
             email
             type="text"
-            [(ngModel)]="UsersRegister.Apellidos"
+            [(ngModel)]="UsersRegister.Cedula"
             [ngModelOptions]="{standalone: true}"  
             #Apellidos="ngModel"
             [class.error]="!Apellidos.valid && formUsersRegister.submitted"
             class="form-control"
-            placeholder="Ingrese Apellidos"
+            placeholder="Ingrese Cedula Representante Legal (EJ: V12345657)"
           />
           <span *ngIf="formUsersRegister.submitted && Apellidos.invalid" class="invalid-form">
             <small class="form-text text-danger" *ngIf="Apellidos.errors.required"
-              >Apellidos es requerido!</small
+              >Cedula es requerido!</small
             >
           </span>
         </div>
-      </div> -->
+      </div>
       <!-- <div class="col-md-6 col-12">
         <div class="form-group">
           <label class="form-label" for="email">Fecha Nacimiento</label>
