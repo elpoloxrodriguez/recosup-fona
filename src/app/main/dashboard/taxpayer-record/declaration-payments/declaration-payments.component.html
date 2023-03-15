@@ -94,7 +94,7 @@
                   <div *ngIf="row.CantidadPagos != 1; else pagos">
                   <a (click)="DetallesPagosAporte(ModalDetailsAporte,row);DetalleAportes(row)" ngbDropdownItem><span
                     [data-feather]="'eye'" [size]="16" [class]="'mr-50'"></span> Detalles</a>
-                  <a (click)="RegistrarPagarAporte(ModalAddRegisterAporte,row)" ngbDropdownItem><span
+                  <a  (click)="RegistrarPagarAporte(ModalAddRegisterAporte,row)" ngbDropdownItem><span
                        [size]="16" [class]="'mr-50'">Bs</span> Pagar</a><a
                     (click)="DeleteGananciaContribuyente(row)" ngbDropdownItem><span [data-feather]="'trash'"
                       [size]="16" [class]="'mr-50'"></span> Eliminar</a>

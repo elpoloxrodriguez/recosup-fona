@@ -458,16 +458,18 @@ export class RegistrationManagementComponent implements OnInit {
 
 
   async GenerarCertificadoDeclaracion(data: any) {
+    // console.log(data)
     var EmpresaID = this.DataEmpresa[0].EmpresaId
-    var Fecha = data.Fecha
+    var Fechax = data.Fecha
     this.CrearCert.created_user = this.token.Usuario[0].UsuarioId
     this.CrearCert.usuario = this.token.Usuario[0].UsuarioId
     this.CrearCert.type = 2, // 2 QR DECLARACION
     this.CrearCert.token = this.utilService.TokenAleatorio(10),
     this.xAPI.funcion = "RECOSUP_R_CertificadoDeclaracion";
-    this.xAPI.parametros = EmpresaID + ',' + Fecha
+    this.xAPI.parametros = EmpresaID + ',' + Fechax
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (dataCertificados) => {
+        console.log(dataCertificados)
         var id = 'RIfEmpresa'
         let ruta: string = btoa('https://recosup.fona.gob.ve');
         this.apiService.GenQR(id, ruta).subscribe(

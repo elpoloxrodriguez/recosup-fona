@@ -40,10 +40,13 @@ export class TaxpayerPaymentsComponent implements OnInit {
 
   public titleModal
   public aporte = {
+    Codigo: '',
     fecha: '',
     referencia: '',
     banco: '',
     monto: '',
+    MontoPagar : undefined,
+    MontoTotalDeclarado: undefined
   }
   public rowsUtilidadCierreFiscal
   public Utilidad = [];
@@ -109,6 +112,15 @@ export class TaxpayerPaymentsComponent implements OnInit {
       (data) => {
         // console.log(data)
          data.Cuerpo.map(e => {
+          if (e.Codigo == 32) {
+            e.MontoTotalDeclarado = this.utilservice.ConvertirMoneda(e.MontoPagar)
+            var Monto1  = e.MontoPagar * 1 / 100
+            e.MontoPagar = this.utilservice.ConvertirMoneda(Monto1)
+          } else {
+            e.MontoTotalDeclarado = this.utilservice.ConvertirMoneda(e.MontoPagar)
+            var Monto1  = e.MontoPagar * 2 / 100
+            e.MontoPagar = this.utilservice.ConvertirMoneda(Monto1)            
+          }
           e.Monto = this.utilservice.ConvertirMoneda(e.Monto)
           this.Utilidad.push(e)
         });
@@ -204,6 +216,7 @@ export class TaxpayerPaymentsComponent implements OnInit {
 
 
     RegistrarPagarAporte(modal, data) {
+      console.log(data)
       this.IdPago = data.EmpresaGananciaId
       this.titleModal = data.RazonSocial
       this.aporte.fecha = data.FechaDocumento
@@ -211,7 +224,10 @@ export class TaxpayerPaymentsComponent implements OnInit {
         fecha:  this.utilservice.FechaMomentL(data.FechaDocumento),
         referencia: data.ReferenciaBancaria,
         banco: data.Nombre,
-        monto: data.Monto
+        monto: data.Monto,
+        MontoPagar : data.MontoPagar,
+        Codigo : data.Codigo,
+        MontoTotalDeclarado: data.MontoTotalDeclarado
       }
       this.modalService.open(modal,{
         centered: true,
