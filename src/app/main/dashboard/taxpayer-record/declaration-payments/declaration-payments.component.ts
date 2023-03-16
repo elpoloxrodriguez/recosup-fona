@@ -471,7 +471,7 @@ export class DeclarationPaymentsComponent implements OnInit {
     } else {
       this.pReferenciaBancaria = ''
       this.FechaBancoPago = ''
-      this.pMonto = ''
+      // this.pMonto = ''
     }
   }
 
@@ -659,6 +659,13 @@ export class DeclarationPaymentsComponent implements OnInit {
   RegistrarPagarAporte(modal, data) {
     this.SaberArticuloSeleccionado = data.Articulo
     // console.log(data)
+    if (data.Articulo == '32') {
+      var monto1 = data.Montox * 1 / 100
+      this.pMonto = monto1.toFixed(2)
+    } else {
+      var monto1 = data.Montox * 2 / 100
+      this.pMonto = monto1.toFixed(2)
+    }
     this.SelecBanco(data.Articulo)
     this.CambiarMonto(data.Articulo)
     this.articulo = data.Articulo
@@ -676,7 +683,7 @@ export class DeclarationPaymentsComponent implements OnInit {
   }
 
   ModaldetailsCambioPago(modal, data) {
-    console.log(data)
+    // console.log(data)
     this.MontoConvert = data.Monto
     this.modalService.dismissAll('Close')
     this.SelecBanco(data.Articulo)
