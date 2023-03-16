@@ -95,7 +95,8 @@
                   <a (click)="DetallesPagosAporte(ModalDetailsAporte,row);DetalleAportes(row)" ngbDropdownItem><span
                     [data-feather]="'eye'" [size]="16" [class]="'mr-50'"></span> Detalles</a>
                   <a  (click)="RegistrarPagarAporte(ModalAddRegisterAporte,row)" ngbDropdownItem><span
-                       [size]="16" [class]="'mr-50'">Bs</span> Pagar</a><a
+                       [size]="16" [class]="'mr-50'">Bs</span> Pagar</a>
+                       <a
                     (click)="DeleteGananciaContribuyente(row)" ngbDropdownItem><span [data-feather]="'trash'"
                       [size]="16" [class]="'mr-50'"></span> Eliminar</a>
                 </div>
@@ -446,7 +447,15 @@
               </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column name="Monto" prop="Monto" [width]="20">
+            <ngx-datatable-column name="Monto Declarado" prop="Monto" [width]="20">
+              <ng-template let-Monto="value" ngx-datatable-cell-template>
+                <div>
+                  <span class="font-weight-bold"> {{ MontoDeclarado }} </span>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Monto Pagado" prop="Monto" [width]="20">
               <ng-template let-Monto="value" ngx-datatable-cell-template>
                 <div>
                   <span class="font-weight-bold"> {{ Monto }} </span>
@@ -456,29 +465,17 @@
 
             <ngx-datatable-column name="Status" prop="EstatusGeneralId" [width]="20">
               <ng-template let-EstatusGeneralId="value" ngx-datatable-cell-template>
-                <div>
-                  <!-- <span class="font-weight-bold"> {{ EstatusGeneralId }} </span> -->
-                  <!-- <div
-                class="badge badge-pill"
-                [ngif]="EstatusGeneralId == 18"
-                ngClass="badge-light-danger">
-                Rechazado
-              </div> -->
-              <div *ngIf="EstatusGeneralId == 18;then rechazado else revision"></div>
-              <ng-template #rechazado>
                 <div
-                class="badge badge-pill"
-                ngClass="badge-light-danger">
-                Rechazado
-              </div>
-              </ng-template>
-              <ng-template #revision>
+                *ngIf="EstatusGeneralId == '17'"
+                  class="badge badge-pill"
+                  ngClass="badge-light-primary">
+                  En Revisión
+                </div>
                 <div
-                class="badge badge-pill"
-                ngClass="badge-light-warning">
-                Revisión
-              </div>
-              </ng-template>
+                *ngIf="EstatusGeneralId == '18'"
+                  class="badge badge-pill"
+                  ngClass="badge-light-danger">
+                  Rechazado
                 </div>
               </ng-template>
             </ngx-datatable-column>

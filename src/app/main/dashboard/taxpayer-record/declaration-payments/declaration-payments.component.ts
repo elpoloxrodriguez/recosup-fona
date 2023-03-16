@@ -173,7 +173,7 @@ export class DeclarationPaymentsComponent implements OnInit {
 
   public ButtonShow = false;
 
-
+  public MontoDeclarado
 
   // decorator
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -351,6 +351,7 @@ export class DeclarationPaymentsComponent implements OnInit {
   }
 
   async DetalleAportes(id: any) {
+    this.MontoDeclarado = id.Monto
     this.xAPI.funcion = "RECOSUP_R_ListarDetalleDeclararPagos";
     this.xAPI.parametros = id.EmpresaGananciaId
     this.xAPI.valores = ''
@@ -467,30 +468,7 @@ export class DeclarationPaymentsComponent implements OnInit {
       this.pReferenciaBancaria = ref
       this.FechaBancoPago = ''
       this.pMonto = '0.00'
-      // this.SelectBancos = []
-      // this.SelectBancos.push({
-      //   BancoId : "1",
-      //   CodTransacciones_ComboServicio : "x0",
-      //   Codigo : " x0",
-      //   CuentaBancariaId : "x0",
-      //   Descripcion : "x0",
-      //   FechaCreo : "2010-05-05 15:05:41",
-      //   FechaModifico : "2010-05-05 15:05:41",
-      //   LeyId : "x0",
-      //   Nombre : "x0",
-      //   Nombres :  "x0",
-      //   Numero  : "x0",
-      //   Porcentaje  : "x0",
-      //   TipoAporteCuentaId : "x0",
-      //   TipoAporteId : "x0",
-      //   TipoCuenta : "C",
-      //   UsuarioCreo  :  "1",
-      //   UsuarioModifico : "1",
-      //   id: '99',
-      //   name: 'No Se Requiere Entidad Bancaria'
-      // })
     } else {
-      // this.SelecBanco(this.SaberArticuloSeleccionado)
       this.pReferenciaBancaria = ''
       this.FechaBancoPago = ''
       this.pMonto = ''
@@ -499,6 +477,7 @@ export class DeclarationPaymentsComponent implements OnInit {
 
 
   async SelecBanco(id: any) {
+    // console.log(id)
     this.xAPI.funcion = "RECOSUP_R_Tipo_Aporte_Cuenta";
     this.xAPI.parametros = id
     await this.apiService.Ejecutar(this.xAPI).subscribe(
@@ -697,6 +676,8 @@ export class DeclarationPaymentsComponent implements OnInit {
   }
 
   ModaldetailsCambioPago(modal, data) {
+    console.log(data)
+    this.MontoConvert = data.Monto
     this.modalService.dismissAll('Close')
     this.SelecBanco(data.Articulo)
     this.IUpdateEmpresasAportes.EmpresaId = data.EmpresaId
