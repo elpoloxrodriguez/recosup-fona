@@ -60,7 +60,7 @@ const routes: Routes = [
     component: ChangePasswordComponent,
     // canActivate:[AuthGuardGuard],
     canActivate: [AuthGuard,AuthGuardGuard],
-    data: { roles: ['9'] },
+    data: { roles: ['9','1'] },
   },
   {
     path: 'support/users',

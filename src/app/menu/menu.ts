@@ -122,6 +122,7 @@ export const menu: CoreMenu[] = [
       }
     ]
   },
+  
   // Usuarios Estatus Recaudacion
   {
     id: 'support/users-status',
@@ -130,6 +131,14 @@ export const menu: CoreMenu[] = [
     icono: 'user',
     type: 'item',
     url: 'support/users-status',
+  },
+  {
+    id: 'support-change-password',
+    nombre: 'Contribuyentes',
+    role: ['1'], 
+    icono: 'user',
+    type: 'item',
+    url: 'support/change-password',
   },
   // Fiscalizacion
   {
