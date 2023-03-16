@@ -909,7 +909,7 @@
                         name="municipios"
                         [(ngModel)]="Empresa.Municipios"
                         [ngModelOptions]="{standalone: true}"
-                        (ngModelChange)="ListaParroquias($event.Codigo)"
+                        (ngModelChange)="ListaParroquias($event.MunicipioId)"
                         #Municipios="ngModel"
                         required
                         autocomplete="off"
@@ -1707,7 +1707,7 @@
         <div class="col-xl-3 col-md-6 col-12 mb-1">
           <div class="form-group">
             <label for="disabledInput">Municipio</label>
-            <ng-select [items]="selectMunicipios" (ngModelChange)="ListaParroquias($event.Codigo)" placeholder="Seleccione Municipios" bindLabel="name"
+            <ng-select [items]="selectMunicipios" (ngModelChange)="ListaParroquias($event.MunicipioId)" placeholder="Seleccione Municipios" bindLabel="name"
               [(ngModel)]="UpdateEmpresa.Municipio" [ngModelOptions]="{standalone: true}" required autocomplete="off">
             </ng-select>
           </div>
