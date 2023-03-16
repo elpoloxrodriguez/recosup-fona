@@ -796,6 +796,8 @@ export class RegistrationManagementComponent implements OnInit {
     this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(e => {
+          this.ListaParroquias(e.MunicipioId)
+          this.ListaMunicipios(e.EstadoId)
           this.UpdateEmpresa.RazonSocial = e.RazonSocial
           this.UpdateEmpresa.CorreoElectronico = e.CorreoEmpresa
           this.UpdateEmpresa.Telefono = e.TelefonoEmpresa
