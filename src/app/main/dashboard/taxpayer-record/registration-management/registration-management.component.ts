@@ -389,7 +389,7 @@ export class RegistrationManagementComponent implements OnInit {
     this.token = jwt_decode(sessionStorage.getItem('token'));
     this.IdEmpresa = this.token.Usuario[0].EmpresaId
     this.Rif = this.token.Usuario[0].Rif
-    await this.ListaParroquias()
+    // await this.ListaParroquias()
     await this.ListaEstados()
     await this.ListaActividadEconomica()
     if (this.IdEmpresa != null) {
@@ -981,11 +981,12 @@ export class RegistrationManagementComponent implements OnInit {
     });
   }
 
-  async ListaParroquias() {
-    this.xAPI.funcion = "RECOSUP_R_Parroquias";
-    this.xAPI.parametros = '';
+   ListaParroquias(id: string) {
+    // console.log(id)
+    this.xAPI.funcion = "RECOSUP_R_Parroquias_ID";
+    this.xAPI.parametros = id;
     this.selectParroquias = []
-    await this.apiService.Ejecutar(this.xAPI).subscribe(
+     this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         // console.log(data.Cuerpo)
         this.selectParroquias = data.Cuerpo.map(e => {
