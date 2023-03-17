@@ -242,6 +242,12 @@
                           ngClass="badge-light-primary">
                           Fiscalización
                         </div>
+                        <div
+                        *ngIf="TipoMultaId == 4"
+                          class="badge badge-pill"
+                          ngClass="badge-light-primary">
+                          Pago Complementario
+                        </div>
                       </div>
                     </ng-template>
                   </ngx-datatable-column>
@@ -348,11 +354,11 @@
   
           <div class="col-12">
             <div class="form-group">
-              <label for="basicInput">Seleccione Empresa</label>
+              <label for="basicInput">RIF Empresa</label>
               <!-- <ng-select [items]="ListaEmpresas" [(ngModel)]="ICrearMultasMIF.id_EmpresaId" [ngModelOptions]="{standalone: true}"
                 placeholder="Seleccione Empresa" bindLabel="name" bindValue="id" required>
               </ng-select> -->
-              <input class="form-control" type="number"  [(ngModel)]="ICrearMultasMIF.Monto_mif" [ngModelOptions]="{standalone: true}" placeholder="Rif Empresa"/>
+              <input class="form-control" type="text"  [(ngModel)]="ICrearMultasMIF.Monto_mif" [ngModelOptions]="{standalone: true}" placeholder="Rif Empresa"/>
             </div>
           </div>
 
@@ -362,14 +368,14 @@
               <!-- <ng-select [items]="ListaEmpresas" [(ngModel)]="ICrearMultasMIF.id_EmpresaId" [ngModelOptions]="{standalone: true}"
                 placeholder="Seleccione Empresa" bindLabel="name" bindValue="id" required>
               </ng-select> -->
-              <input class="form-control" type="number"  [(ngModel)]="ICrearMultasMIF.Monto_mif" [ngModelOptions]="{standalone: true}" placeholder="Nombre Empresa"/>
+              <input class="form-control" type="text"  [ngModelOptions]="{standalone: true}" placeholder="Nombre Empresa"/>
             </div>
           </div>
   
           <div class="col-6">
             <div class="form-group">
               <label for="basicInput">Monto de Multa</label>
-              <input class="form-control" type="number"  [(ngModel)]="ICrearMultasMIF.Monto_mif" [ngModelOptions]="{standalone: true}" placeholder="Monto"/>
+              <input class="form-control" type="number" [ngModelOptions]="{standalone: true}" placeholder="Monto"/>
             </div>
           </div>
           

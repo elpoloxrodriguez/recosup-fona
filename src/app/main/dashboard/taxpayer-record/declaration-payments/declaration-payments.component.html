@@ -91,9 +91,9 @@
                   <span [data-feather]="'settings'" [class]="'cursor-pointer'"></span>
                 </button>
                 <div ngbDropdownMenu>
-                  <div *ngIf="row.CantidadPagos != 1; else pagos">
                   <a (click)="DetallesPagosAporte(ModalDetailsAporte,row);DetalleAportes(row)" ngbDropdownItem><span
                     [data-feather]="'eye'" [size]="16" [class]="'mr-50'"></span> Detalles</a>
+                    <div *ngIf="row.CantidadPagos != 1">
                   <a  (click)="RegistrarPagarAporte(ModalAddRegisterAporte,row)" ngbDropdownItem><span
                        [size]="16" [class]="'mr-50'">Bs</span> Pagar</a>
                        <a
@@ -101,10 +101,10 @@
                       [size]="16" [class]="'mr-50'"></span> Eliminar</a>
                 </div>
               </div>
-                <ng-template  #pagos>
+                <!-- <ng-template  #pagos>
                       <a (click)="DetallesPagosAporte(ModalDetailsAporte,row);DetalleAportes(row)" ngbDropdownItem><span
                         [data-feather]="'eye'" [size]="16" [class]="'mr-50'"></span> Detalles</a>
-                      </ng-template>
+                      </ng-template> -->
               </div>  
                 </ng-template>
               </ngx-datatable-column>

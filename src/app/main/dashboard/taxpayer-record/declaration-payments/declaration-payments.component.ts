@@ -322,6 +322,7 @@ export class DeclarationPaymentsComponent implements OnInit {
   }
 
   async UtilidadCierreFiscal(id: any) {
+    // console.log(id)
     this.xAPI.funcion = "RECOSUP_R_utilidad_cierre_fiscal_Registro_Empresa";
     this.xAPI.parametros = id + ',' + 0
     this.xAPI.valores = ''
