@@ -452,7 +452,7 @@ export class PdfService {
   }
 
   CertificadoPagoMIF(data: any){
-    console.log(data)
+    // console.log(data)
     const doc = new jsPDF();
     const pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
     const pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
@@ -467,13 +467,38 @@ export class PdfService {
     doc.addImage('assets/images/pdf/fona.png', "PNG", 10, 10, 20, 25);
     doc.addImage('assets/images/pdf/sunad.png', "PNG", 180, 10, 20, 25);
     
+    doc.setFontSize(10);
+    doc.setFont(undefined, "bold");
+    doc.text(`REPÚBLICA BOLIVARIANA DE VENEZUELA`, pageWidth / 2, pageHeight - 275, { maxWidth: 150, align: "center" });
+    doc.text(`MINISTERIO DEL PODER POPULAR PARA RELACIONES INTERIORES, JUSTICIA Y PAZ`, pageWidth / 2, pageHeight - 270, { maxWidth: 150, align: "center" });
+    doc.text(`SUPERINTENDENCIA NACIONAL ANTIDROGAS`, pageWidth / 2, pageHeight - 265, { maxWidth: 150, align: "center" });
+    doc.text(`FONDO NACIONAL ANTIDROGAS`, pageWidth / 2, pageHeight - 260, { maxWidth: 150, align: "center" });
+
+
+    doc.setFontSize(10);
+    doc.setFont(undefined, "bold");
+    doc.text(`N°: ${data.anio} -FONA-RECOSUP-${data.id_mif}-${data.referencia}`, pageWidth - 50, pageHeight - 250, { align: 'center' });
+
+
     doc.setFontSize(14);
     doc.setFont(undefined, "bold");
-    doc.text(`FONDO NACIONAL ANTIDROGAS`, pageWidth / 2, pageHeight - 275, { maxWidth: 150, align: "center" });
-    doc.text(`FORMA FONA (F03)`, pageWidth / 2, pageHeight - 270, { maxWidth: 150, align: "center" });
-    doc.text(`CERTIFICADO DE ${data.nombre_bancos_MIF.toUpperCase()}`, pageWidth / 2, pageHeight - 265, { maxWidth: 150, align: "center" });
+    doc.text(`CERTIFICADO DE PAGO DE ${data.nombre_bancos_MIF.toUpperCase()} (Art.${data.articulo}) A TRAVÉS DEL SISTEMA DE REGISTRO Y CONTROL DE SUJETOS PASIVOS (RECOSUP).`, pageWidth / 2, pageHeight - 230, { maxWidth: 150, align: "center" });
 
-    
+    doc.setFont(undefined, "");
+
+    doc.setFontSize(14);
+    doc.text(`El Director Ejecutivo del Fondo Nacional Antidrogas (FONA), conforme a lo dispuesto en el Artículo 148 del Código Orgánico Tributario, certifica la recepción de la DECLARACIÓN del pago de ${data.nombre_bancos_MIF.toUpperCase()}  del contribuyente ${data.RazonSocial.toUpperCase()}  RIF ${data.Rif}, fecha de notificación 16-03-2023 y pago realizado en fecha ${data.notificacion}, correspondiente al período fiscal ${data.anio}, bajo el número de resolución FONA-${data.Nomenclatura_mif}, por la cantidad de Bs. ${data.Monto_mif} , en el Banco ${data.nombre_banco_bancos_MIF} bajo el numero de referencia #${data.referencia}, ante el Fondo Nacional Antidrogas, correspondiente al período desde ${data.inicio_fiscal} hasta el ${data.cierre_fiscal}.`,
+      14,
+      110,
+      { maxWidth: 180, align: "justify" }
+    );
+
+    doc.setFontSize(12);
+    doc.text("HECTOR JESUS BRITO ALVARADO", 105, 195, { align: "center" });
+    doc.setFontSize(10);
+    doc.text("Director Ejecutivo (FONA)", 105, 200, { align: "center" });
+    doc.setFontSize(9);
+    doc.text("Resolución Ministerial Nº 0155 G.O.Nº 42.233 de fecha 14/10/2021", 105, 205, { align: "center" });
 
     doc.setFontSize(9);
     doc.setFont(undefined, "bold");
@@ -484,7 +509,7 @@ export class PdfService {
     );
     doc.setFontSize(9);
     doc.setFont(undefined, "");
-    doc.text("Debe imprimir el presente certificado como comprobante de inscripción ante el Sistema de Registro y Control de Sujetos Pasivos del Fondo Nacional Antidrogas.",
+    doc.text("Debe imprimir el presente certificado como comprobante de pago de multas a través del Sistema de Registro y Control de Sujetos Pasivos (RECOSUP). La emisión de este comprobante de pago certifica la recepción del mismo en las cuentas recaudadoras de esta Administración Tributaria.",
       14,
       245,
       { maxWidth: 180, align: "justify" }
