@@ -451,7 +451,7 @@ export class PdfService {
 
   }
 
-  CertificadoPagoMIF(data: any){
+  CertificadoPagoMIF(data: any, Qr: any, TokenQr: any){
     // console.log(data)
     const doc = new jsPDF();
     const pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
@@ -466,6 +466,7 @@ export class PdfService {
 
     doc.addImage('assets/images/pdf/sunad.png', "PNG", 10, 10, 20, 25);
     doc.addImage('assets/images/pdf/fona.png', "PNG", 180, 10, 20, 25);
+    doc.addImage(Qr, "PNG", 170, 255, 30, 30);
     
     doc.setFontSize(10);
     doc.setFont(undefined, "bold");
@@ -477,7 +478,7 @@ export class PdfService {
 
     doc.setFontSize(10);
     doc.setFont(undefined, "bold");
-    doc.text(`N°: ${data.anio} -FONA-RECOSUP-${data.id_mif}-${data.referencia}`, pageWidth - 50, pageHeight - 250, { align: 'center' });
+    doc.text(`N°: ${data.anio} -FONA-RECOSUP-${data.id_mif}-${TokenQr}`, pageWidth - 50, pageHeight - 250, { align: 'center' });
 
 
     doc.setFontSize(14);
@@ -513,6 +514,13 @@ export class PdfService {
       14,
       245,
       { maxWidth: 180, align: "justify" }
+    );
+
+    doc.setFontSize(9);
+    doc.setFont(undefined, "bold");
+    doc.text(TokenQr,
+      175,
+      285,
     );
 
 

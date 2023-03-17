@@ -6,7 +6,7 @@ import { NgbModal, NgbActiveModal, NgbModalConfig } from '@ng-bootstrap/ng-boots
 import { PdfService } from '@core/services/pdf/pdf.service';
 import jwt_decode from "jwt-decode";
 import { UtilService } from '@core/services/util/util.service';
-import { RECOSUP_C_MultasNuevasMIF, RECOSUP_U_AprobarGanancias, RECOSUP_U_PagarAportesConciliar, RECOSUP_U_PagarMultas } from '@core/services/empresa/empresa.service';
+import { ICrearCertificados, RECOSUP_C_MultasNuevasMIF, RECOSUP_U_AprobarGanancias, RECOSUP_U_PagarAportesConciliar, RECOSUP_U_PagarMultas } from '@core/services/empresa/empresa.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
@@ -33,6 +33,13 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
     UsuarioModifico: 0,
     id_mif: 0,
     status_mif: undefined
+  }
+
+  public CrearCert: ICrearCertificados = {
+    usuario: 0,
+    token: '',
+    type: 0,
+    created_user: 0
   }
 
   public ICrearMultasMIF: RECOSUP_C_MultasNuevasMIF = {
@@ -211,8 +218,45 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
     )
   }
 
-  GenerarConstancia(data: any){
-    this.pdf.CertificadoPagoMIF(data)
+  async GenerarConstancia(datay: any){
+    //this.pdf.CertificadoPagoMIF(data)
+    this.CrearCert.usuario = datay.UsuarioId
+    this.CrearCert.token = this.utilService.TokenAleatorio(10),
+      this.CrearCert.type = 4, // 1 INSCRIPCIÓN
+      this.CrearCert.created_user = this.token.Usuario[0].UsuarioId
+    this.xAPI.funcion = "RECOSUP_C_Certificados";
+    this.xAPI.parametros = ''
+    this.xAPI.valores = JSON.stringify(this.CrearCert)
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        if (data.tipo === 1) {
+          var id = this.CrearCert.token
+          let ruta: string = btoa('https://recosup.fona.gob.ve');
+          this.apiService.GenQR(id, ruta).subscribe(
+            (data) => {
+              // INSERT API
+              this.apiService.LoadQR(id).subscribe(
+                (xdata) => {
+                  this.pdf.CertificadoPagoMIF(datay, xdata.contenido, this.CrearCert.token)
+                  this.utilService.alertConfirmMini('success', 'Certificado Descagado Exitosamente')
+                },
+                (error) => {
+                  console.log(error)
+                }
+              )
+            },
+            (error) => {
+              console.log(error)
+            }
+          )
+        } else {
+          this.utilService.alertConfirmMini('error', 'Oops! Algo salio mal, intente de nuevo')
+        }
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
   }
   
   async mifAprobadas(){

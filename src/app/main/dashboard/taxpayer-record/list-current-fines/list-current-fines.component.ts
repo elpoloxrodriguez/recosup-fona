@@ -34,6 +34,13 @@ export class ListCurrentFinesComponent implements OnInit {
     valores: {},
   };
 
+  public CrearCert: ICrearCertificados = {
+    usuario: 0,
+    token: '',
+    type: 0,
+    created_user: 0
+  }
+
   public xPagarMultas : RECOSUP_U_PagarMultas = {
     banco: 0,
     referencia: '',
@@ -43,6 +50,8 @@ export class ListCurrentFinesComponent implements OnInit {
     id_mif: 0,
     status_mif: undefined
   }
+
+  
 
   @BlockUI() blockUI: NgBlockUI;
   @BlockUI('section-block') sectionBlockUI: NgBlockUI;
@@ -92,8 +101,45 @@ export class ListCurrentFinesComponent implements OnInit {
     await this.DetalleMultasNuevas()
   }
 
-  GenerarConstancia(data: any){
-    this.pdf.CertificadoPagoMIF(data)
+  async GenerarConstancia(datay: any){
+    // this.pdf.CertificadoPagoMIF(data)
+    this.CrearCert.usuario = this.token.Usuario[0].UsuarioId
+    this.CrearCert.token = this.utilService.TokenAleatorio(10),
+      this.CrearCert.type = 4, // 1 INSCRIPCIÓN
+      this.CrearCert.created_user = this.token.Usuario[0].UsuarioId
+    this.xAPI.funcion = "RECOSUP_C_Certificados";
+    this.xAPI.parametros = ''
+    this.xAPI.valores = JSON.stringify(this.CrearCert)
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        if (data.tipo === 1) {
+          var id = this.CrearCert.token
+          let ruta: string = btoa('https://recosup.fona.gob.ve');
+          this.apiService.GenQR(id, ruta).subscribe(
+            (data) => {
+              // INSERT API
+              this.apiService.LoadQR(id).subscribe(
+                (xdata) => {
+                  this.pdf.CertificadoPagoMIF(datay, xdata.contenido, this.CrearCert.token)
+                  this.utilService.alertConfirmMini('success', 'Certificado Descagado Exitosamente')
+                },
+                (error) => {
+                  console.log(error)
+                }
+              )
+            },
+            (error) => {
+              console.log(error)
+            }
+          )
+        } else {
+          this.utilService.alertConfirmMini('error', 'Oops! Algo salio mal, intente de nuevo')
+        }
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
   }
 
   async DetalleMultasNuevas() {

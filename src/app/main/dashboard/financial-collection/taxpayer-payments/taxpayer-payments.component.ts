@@ -23,6 +23,7 @@ export class TaxpayerPaymentsComponent implements OnInit {
     parametros: '',
     valores : {},
   };
+  
 
   public xRECOSUP_U_PagarAportesConciliar : RECOSUP_U_PagarAportesConciliar = {
     EstatusGeneralId: 0,
