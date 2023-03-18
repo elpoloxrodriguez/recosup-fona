@@ -1,6 +1,9 @@
 <div class="card content-wrapper container-xxl p-0" *blockUI="'section-block'">
     <div class="card-body">
 
+      <div class="card">
+        <div class="row">
+          
         <div class="col-12">
             <div class="form-group">
               <label for="basicInput">Seleccione Reporte</label>
@@ -11,13 +14,31 @@
               bindValue="id"
               [(ngModel)]="itemReports"
               [ngModelOptions]="{standalone: true}"
-              (ngModelChange)="ReportEmpresasAprobadas($event)"
+              (ngModelChange)="NuevosReportes($event)"
               required
               >
             </ng-select>
             </div>
           </div>
-          
+
+          <div class="col-6" *ngIf="BtnShow">
+            <div class="form-group">
+              <label for="basicInput">Seleccione Reporte</label>
+             <input class="form-control"  [(ngModel)]="inputAnio"
+             [ngModelOptions]="{standalone: true}" type="text" placeholder="Seleccion Año">
+            </div>
+          </div>
+
+          <div class="col-md-6" *ngIf="BtnShow">
+            <div class="d-flex justify-content-between align-items-center m-2">
+              <button type="button" class="btn btn-primary"
+              (click)="Reporte1(inputAnio,itemReports)"
+                rippleEffect>
+                Generar Reporte</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
   </div>
   </div>
