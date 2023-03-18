@@ -72,6 +72,14 @@
             </ng-template>
           </ngx-datatable-column>
 
+          <ngx-datatable-column name="Telefonos" prop="Telefonos"   [width]="50">
+            <ng-template let-Telefonos="value" ngx-datatable-cell-template>
+              <div>
+                <span class="font-weight-bold"> {{ Telefonos }} </span>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
           <ngx-datatable-column name="Correo Electronico" prop="CorreoPrincipal"  [width]="20">
             <ng-template let-CorreoPrincipal="value" ngx-datatable-cell-template>
               <div>

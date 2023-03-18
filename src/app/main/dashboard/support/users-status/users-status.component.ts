@@ -105,7 +105,10 @@ export class UsersStatusComponent implements OnInit {
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(e => {
-          console.log(e);
+          // console.log(e);
+          e.TelefonoLocal = e.TelefonoLocal ? e.TelefonoLocal : 'N/A'
+          e.TelefonoCelular = e.TelefonoCelular ? e.TelefonoCelular : 'N/A'
+          e.Telefonos = e.TelefonoCelular  +' - '+ e.TelefonoLocal 
           this.dataListUsers.push(e)
         });
         this.rowsUsuariosInactivos = this.dataListUsers;
