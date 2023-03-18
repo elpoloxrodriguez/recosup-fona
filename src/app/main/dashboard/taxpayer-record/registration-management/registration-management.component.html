@@ -753,6 +753,7 @@
                       [items]="selectRIF"
                       placeholder="Seleccione"
                       bindLabel="name"
+                      readonly
                       required
                       autocomplete="off"
                       name="tipo_rif"
@@ -776,6 +777,7 @@
                         [ngModelOptions]="{standalone: true}"
                         required
                         autocomplete="off"
+                        readonly
                         type="number"
                         name="rif"
                         class="form-control"
@@ -1166,15 +1168,12 @@
                          name="numero_patronal"
                          autocomplete="off"
                          [(ngModel)]="Empresa.CodigoIvss"
-                         #NumeroPatronal="ngModel"
-                         required
-                         [class.error]="!NumeroPatronal.valid && personalInfoForm.submitted"                            
                          />
-                         <span *ngIf="personalInfoForm.submitted && NumeroPatronal.invalid" class="invalid-form">
+                         <!-- <span *ngIf="personalInfoForm.submitted && NumeroPatronal.invalid" class="invalid-form">
                           <small class="form-text text-danger" *ngIf="NumeroPatronal.errors.required"
                             >Numero Patronal IVSS es requerido!</small
                           >
-                        </span>
+                        </span> -->
                     </div>
                     <div class="form-group col-md-6">
                       <label class="form-label">Fecha Ejercicio Fiscal</label>
@@ -1201,11 +1200,11 @@
                             rippleEffect
                           ></button>
                         </div>
-                        <span *ngIf="personalInfoForm.submitted && NumeroPatronal.invalid" class="invalid-form">
+                        <!-- <span *ngIf="personalInfoForm.submitted && NumeroPatronal.invalid" class="invalid-form">
                           <small class="form-text text-danger" *ngIf="NumeroPatronal.errors.required"
                             >Fecha Inicio Fiscal es requerido!</small
                           >
-                        </span>
+                        </span> -->
                       </div>
                       </div>
                       <div class="form-group col-md-6">
@@ -1230,11 +1229,11 @@
                               rippleEffect
                             ></button>
                           </div>
-                          <span *ngIf="personalInfoForm.submitted && NumeroPatronal.invalid" class="invalid-form">
+                          <!-- <span *ngIf="personalInfoForm.submitted && NumeroPatronal.invalid" class="invalid-form">
                             <small class="form-text text-danger" *ngIf="NumeroPatronal.errors.required"
                               >Fecha Cierre Fiscal es requerido!</small
                             >
-                          </span>
+                          </span> -->
                         </div>
                         </div>
                       </div>
@@ -1279,6 +1278,7 @@
                         [(ngModel)]="tipoDocumento"
                         [ngModelOptions]="{standalone: true}"
                         #Municipios="ngModel"
+                        readonly
                         required
                         autocomplete="off"
                         [class.error]="!Municipios.valid && accountDetailsForm.submitted"  
@@ -1295,6 +1295,7 @@
                       <input
                         [(ngModel)]="ContactoEmpresa.CedulaContacto"
                         [ngModelOptions]="{standalone: true}"
+                        readonly
                         required
                         type="text"
                         autocomplete="off"

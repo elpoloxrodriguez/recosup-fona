@@ -57,7 +57,7 @@ export class RegistrationManagementComponent implements OnInit {
     CantidadEmpleados: undefined,
     EstatusEmpresa: '0',
     UsuarioAprobo: 0,
-    FechaAprobo: '',
+    FechaAprobo:  this.datePipe.transform(this.fechaActual, "yyyy-MM-dd HH:mm:ss"),
     UsuarioCreo: 0,
     FechaCreo: this.datePipe.transform(this.fechaActual, "yyyy-MM-dd HH:mm:ss"),
     UsuarioModifico: 0,
@@ -288,6 +288,10 @@ export class RegistrationManagementComponent implements OnInit {
 
   public SelectBancosMIF
 
+  public tipoDocumento
+  public RIFEMPRESA 
+  public CEDULAREPRESENTANTE
+
   // Registrar Empresa
   public Parroquia
   //  Registrar Empresa Contactos
@@ -387,6 +391,13 @@ export class RegistrationManagementComponent implements OnInit {
     this.url = this.uri[0]+this.uri[1]
     this.sectionBlockUI.start('Subiendo Documento, Porfavor Espere!!!');
     this.token = jwt_decode(sessionStorage.getItem('token'));
+    this.RIFEMPRESA = this.token.Usuario[0].Codigo.slice(1, -1)
+    this.CEDULAREPRESENTANTE = this.token.Usuario[0].Cedula
+    this.Empresa.Rif = this.token.Usuario[0].Codigo.slice(1, -1)
+    this.tipoRif = this.token.Usuario[0].Codigo.charAt(0)
+    this.ContactoEmpresa.CedulaContacto = this.token.Usuario[0].CedulaR.slice(1, -1)
+    this.tipoDocumento = this.token.Usuario[0].CedulaR.charAt(0)
+    // console.log(this.Empresa.Rif)
     this.IdEmpresa = this.token.Usuario[0].EmpresaId
     this.Rif = this.token.Usuario[0].Rif
     // await this.ListaParroquias()
@@ -1050,9 +1061,9 @@ export class RegistrationManagementComponent implements OnInit {
   async CreateEmpresa() {
     // Datos Registrar Empresa
     this.Empresa.UsuarioId = this.token.Usuario[0].UsuarioId,
-      this.Empresa.Rif = this.tipoRif.name + this.Empresa.Rif,
-      this.Empresa.FechaAprobo = '0001-01-01',
-      this.Empresa.DocumentoFecha = this.Empresa.DocumentoFecha.year + '-' + this.Empresa.DocumentoFecha.month + '-' + this.Empresa.DocumentoFecha.day
+    this.Empresa.Rif = this.tipoRif + this.Empresa.Rif,
+    //  this.Empresa.FechaAprobo = '0001-01-01',
+    this.Empresa.DocumentoFecha = this.Empresa.DocumentoFecha.year + '-' + this.Empresa.DocumentoFecha.month + '-' + this.Empresa.DocumentoFecha.day
     this.Empresa.UsuarioCreo = this.token.Usuario[0].UsuarioId,
       this.Empresa.UsuarioModifico = this.token.Usuario[0].UsuarioId,
       this.Empresa.FechaInicioFiscal = this.Empresa.FechaInicioFiscal.year + '-' + this.Empresa.FechaInicioFiscal.month + '-' + this.Empresa.FechaInicioFiscal.day
@@ -1063,8 +1074,8 @@ export class RegistrationManagementComponent implements OnInit {
     this.xAPI.valores = JSON.stringify(this.Empresa)
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-        console.log(data)
-        console.log(this.Empresa)
+        // console.log(data)
+        // console.log(this.Empresa)
         if (data.tipo === 1) {
           let empresaIDAdd = data.msj
           this.ContactoEmpresa.EmpresaId = empresaIDAdd

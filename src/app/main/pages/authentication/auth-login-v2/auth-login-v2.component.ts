@@ -21,10 +21,10 @@ import { AuthenticationService } from 'app/auth/service/authentication.service';
 })
 export class AuthLoginV2Component implements OnInit {
 
-  public xAPI : IAPICore = {
+  public xAPI: IAPICore = {
     funcion: '',
     parametros: '',
-    valores : {},
+    valores: {},
   };
 
   //  Public
@@ -54,7 +54,7 @@ export class AuthLoginV2Component implements OnInit {
    */
   constructor(
     private _coreMenuService: CoreMenuService,
-    private apiService : ApiService,
+    private apiService: ApiService,
     private _coreConfigService: CoreConfigService,
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
@@ -103,10 +103,10 @@ export class AuthLoginV2Component implements OnInit {
    */
   ngOnInit(): void {
     let urlQR = this._router.url
-    if (urlQR  == undefined) {
+    if (urlQR == undefined) {
       this.Qr = ''
     } else {
-      this.Qr = urlQR.substring(7, urlQR.length  +1)
+      this.Qr = urlQR.substring(7, urlQR.length + 1)
       // this.EmpresaRIF()
       this.Qr = ''
     }
@@ -114,7 +114,7 @@ export class AuthLoginV2Component implements OnInit {
     if (sessionStorage.getItem("token") != undefined) {
       this._router.navigate(['/home'])
       return
-   }
+    }
     this.loginForm = this._formBuilder.group({
       email: ['', [Validators.required]],
       password: ['', Validators.required]
@@ -142,76 +142,42 @@ export class AuthLoginV2Component implements OnInit {
         this.itk = data;
         sessionStorage.setItem("token", this.itk.token);
         this.infoUsuario = jwt_decode(sessionStorage.getItem('token'));
-        // console.log(this.infoUsuario.Usuario[0])
-        // if (this.infoUsuario.Usuario[0].Estatus != 0) {
-        //       this.utilservice.alertConfirmMini('success', `Bienvenido al FONA ${this.infoUsuario.Usuario[0].Nombres} ${this.infoUsuario.Usuario[0].Apellidos}`);
-        //       this._router.navigate(['home']).then(() => {window.location.reload()});
-        //       return;
-        // } else {
-        //   this.loading = false;
-        //   this._router.navigate(['login']);
-        //   sessionStorage.clear();
-        //   localStorage.clear();  
-        //   this.utilservice.alertConfirmMini('error','El usuario se encuentra inactivo, porfavor contactar a RECAUDACIÓN FONA')
-        // }
         switch (this.infoUsuario.Usuario[0].Estatus) {
           case '0':
-            localStorage.clear();  
+            localStorage.clear();
             sessionStorage.clear();
             this.loading = false;
             this._router.navigate(['login']);
-            this.utilservice.alertConfirmMini('error','El usuario se encuentra inscrito Inactivo, porfavor contactar a RECAUDACIÓN FONA')
+            this.utilservice.alertConfirmMini('error', 'El usuario se encuentra inscrito Inactivo, porfavor contactar a RECAUDACIÓN FONA')
             break;
           case '1':
             this.utilservice.alertConfirmMini('success', `Bienvenido al FONA ${this.infoUsuario.Usuario[0].Nombres} ${this.infoUsuario.Usuario[0].Apellidos}`);
-            this._router.navigate(['home']).then(() => {window.location.reload()});
+            this._router.navigate(['home']).then(() => { window.location.reload() });
             break;
-            // case '7':
-            //   this.utilservice.alertConfirmMini('success', `Bienvenido al FONA ${this.infoUsuario.Usuario[0].Nombres} ${this.infoUsuario.Usuario[0].Apellidos}`);
-            //   this._router.navigate(['home']).then(() => {window.location.reload()});
-            //   break;
-            //   case '9':
-            //     this.utilservice.alertConfirmMini('success', `Bienvenido al FONA ${this.infoUsuario.Usuario[0].Nombres} ${this.infoUsuario.Usuario[0].Apellidos}`);
-            //     this._router.navigate(['home']).then(() => {window.location.reload()});
-            //     break;
-            case '2':
-              sessionStorage.clear();
-              localStorage.clear();  
-              this.loading = false;
-              this._router.navigate(['login']);
-              this.utilservice.alertConfirmMini('error','El usuario se encuentra Rechazado, porfavor contactar a RECAUDACIÓN FONA')
-              break;
-              case '3':
-                sessionStorage.clear();
-                localStorage.clear();  
-                this.loading = false;
-                this._router.navigate(['login']);
-                this.utilservice.alertConfirmMini('error','El usuario se encuentra Bloqueado, porfavor contactar a TECNOLOGIA FONA')
-                break;
+          case '2':
+            sessionStorage.clear();
+            localStorage.clear();
+            this.loading = false;
+            this._router.navigate(['login']);
+            this.utilservice.alertConfirmMini('error', 'El usuario se encuentra Rechazado, porfavor contactar a RECAUDACIÓN FONA')
+            break;
+          case '3':
+            sessionStorage.clear();
+            localStorage.clear();
+            this.loading = false;
+            this._router.navigate(['login']);
+            this.utilservice.alertConfirmMini('error', 'El usuario se encuentra Bloqueado, porfavor contactar a TECNOLOGIA FONA')
+            break;
           default:
-            // sessionStorage.clear();
-            // localStorage.clear();  
-            // this.loading = false;
-            // this._router.navigate(['login']);
-            // this.utilservice.alertConfirmMini('error','El usuario se encuentra Inactivo, porfavor contactar a RECAUDACIÓN FONA')
             break;
         }
-        // console.log(data)
-        // if (sessionStorage.getItem("token") != '') {
-        //   this.infoUsuario = jwt_decode(sessionStorage.getItem('token'));
-        //   this.utilservice.alertConfirmMini('success', `Bienvenido al FONA ${this.infoUsuario.Usuario[0].Nombres} ${this.infoUsuario.Usuario[0].Apellidos}`);
-        //   this._router.navigate(['home']).then(() => {window.location.reload()});
-        //   return;
-        // } else {
-        //   this.utilservice.alertConfirmMini('error', 'Errorr');
-        // }
       },
       (error) => {
         this.loading = false;
         // this._router.navigate(['login'])
         sessionStorage.clear();
-        localStorage.clear();  
-        this.utilservice.alertConfirmMini('error','Verifique los datos, e intente nuevamente')
+        localStorage.clear();
+        this.utilservice.alertConfirmMini('error', 'Verifique los datos, e intente nuevamente')
       }
     );
   }
@@ -219,10 +185,10 @@ export class AuthLoginV2Component implements OnInit {
 
 
 
-  async Certificado(id: string){
+  async Certificado(id: string) {
     this.xAPI.funcion = "RECOSUP_R_Certificados";
     this.xAPI.parametros = id
-     await this.apiService.EjecutarDev(this.xAPI).subscribe(
+    await this.apiService.EjecutarDev(this.xAPI).subscribe(
       (data) => {
         if (data.Cuerpo.length != 0) {
           this.Qr = ''
@@ -273,7 +239,7 @@ export class AuthLoginV2Component implements OnInit {
             confirmButtonText: 'Cerrar',
             confirmButtonColor: '#3085d6',
           })
-         } else {
+        } else {
           this.Qr = ''
           Swal.fire({
             title: 'Certificado NO Valido!',
@@ -283,12 +249,12 @@ export class AuthLoginV2Component implements OnInit {
             imageHeight: 200,
             imageAlt: 'Custom image',
           })
-         } 
+        }
       },
       (error) => {
         console.log(error)
       }
-     )
+    )
   }
 
   /**
