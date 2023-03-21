@@ -369,8 +369,8 @@ export class DeclarationPaymentsComponent implements OnInit {
             this.SelectAnioAporte.push(index)
           }
         }
-        // console.log(this.NuevaListFecha)
-        // console.log(this.SelectAnioAporte)
+        console.log(this.NuevaListFecha)
+        console.log(this.SelectAnioAporte)
       },
       (error) => {
         console.log(error);
