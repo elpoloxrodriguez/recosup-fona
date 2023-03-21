@@ -395,7 +395,7 @@ export class RegistrationManagementComponent implements OnInit {
     this.CEDULAREPRESENTANTE = this.token.Usuario[0].Cedula
     this.Empresa.Rif = this.token.Usuario[0].Codigo.slice(1, -1)
     this.tipoRif = this.token.Usuario[0].Codigo.charAt(0)
-    this.ContactoEmpresa.CedulaContacto = this.token.Usuario[0].CedulaR.slice(1, -1)
+    this.ContactoEmpresa.CedulaContacto = this.token.Usuario[0].CedulaR.slice(1)
     this.tipoDocumento = this.token.Usuario[0].CedulaR.charAt(0)
     // console.log(this.Empresa.Rif)
     this.IdEmpresa = this.token.Usuario[0].EmpresaId
