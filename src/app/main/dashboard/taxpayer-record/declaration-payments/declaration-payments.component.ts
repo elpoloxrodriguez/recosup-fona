@@ -220,9 +220,9 @@ export class DeclarationPaymentsComponent implements OnInit {
 
     if (this.IdEmpresa != null) {
       this.ButtonShow = true
+      this.FuncSelectAnioAporte(this.token.Usuario[0].EmpresaId)
       await this.UtilidadCierreFiscal(this.token.Usuario[0].EmpresaId)
       await this.SelecArticulo()
-      this.FuncSelectAnioAporte(this.token.Usuario[0].EmpresaId)
       await this.SelecTiposPagos()
     } else {
       this.ButtonShow = false
@@ -355,8 +355,8 @@ export class DeclarationPaymentsComponent implements OnInit {
    FuncSelectAnioAporte(id:any) {
     var anioActual = new Date()
     var anio = anioActual.getFullYear()
-    this.xAPI.funcion = "RECOSUP_R_utilidad_cierre_fiscal_Registro_Empresa";
-    this.xAPI.parametros = id + ',' + 0
+    this.xAPI.funcion = "RECOSUP_R_utilidad_cierre_fiscal_Contribuyente";
+    this.xAPI.parametros = id 
     this.xAPI.valores = ''
      this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
@@ -369,6 +369,8 @@ export class DeclarationPaymentsComponent implements OnInit {
             this.SelectAnioAporte.push(index)
           }
         }
+        // console.log(this.NuevaListFecha)
+        // console.log(this.SelectAnioAporte)
       },
       (error) => {
         console.log(error);
