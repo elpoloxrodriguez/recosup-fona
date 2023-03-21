@@ -56,6 +56,11 @@ export class DeclarationPaymentsComponent implements OnInit {
     valores: {},
   };
 
+  public FechaSelect : {
+    id: undefined,
+    name: undefined
+  }
+
   public IUpdateEmpresasAportes: RECOSUP_U_EmpresasAportes = {
     EmpresaId: undefined,
     EmpresaGananciaId: undefined,
@@ -175,6 +180,8 @@ export class DeclarationPaymentsComponent implements OnInit {
 
   public MontoDeclarado
 
+  public NuevaListFecha = []
+
   // decorator
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
@@ -215,7 +222,7 @@ export class DeclarationPaymentsComponent implements OnInit {
       this.ButtonShow = true
       await this.UtilidadCierreFiscal(this.token.Usuario[0].EmpresaId)
       await this.SelecArticulo()
-      await this.FuncSelectAnioAporte()
+      this.FuncSelectAnioAporte(this.token.Usuario[0].EmpresaId)
       await this.SelecTiposPagos()
     } else {
       this.ButtonShow = false
@@ -313,13 +320,7 @@ export class DeclarationPaymentsComponent implements OnInit {
 
 
 
-  FuncSelectAnioAporte() {
-    var anioActual = new Date()
-    var anio = anioActual.getFullYear()
-    for (let index = 2010; index <= anio - 1; index++) {
-      this.SelectAnioAporte.push(index)
-    }
-  }
+
 
   async UtilidadCierreFiscal(id: any) {
     // console.log(id)
@@ -350,6 +351,53 @@ export class DeclarationPaymentsComponent implements OnInit {
       }
     )
   }
+
+   FuncSelectAnioAporte(id:any) {
+    var anioActual = new Date()
+    var anio = anioActual.getFullYear()
+    this.xAPI.funcion = "RECOSUP_R_utilidad_cierre_fiscal_Registro_Empresa";
+    this.xAPI.parametros = id + ',' + 0
+    this.xAPI.valores = ''
+     this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        data.Cuerpo.map(e => {
+          this.NuevaListFecha.push(parseInt(e.Fecha))
+        });
+        for (let index = 2010; index <= anio - 1; index++) {
+          let regex = new  RegExp(this.ConvertirCadena(this.NuevaListFecha.join('|')))
+          if (!regex.test(index.toString())) {
+            this.SelectAnioAporte.push(index)
+          }
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+      )
+  }
+
+  ConvertirCadena(cadena: string): string {
+    return cadena.toLowerCase().replace(/á/g, "a").replace(/ê/g, "i").replace(/í/g, "i").replace(/ó/g, "o").replace(/ú/g, "u")
+  }
+
+  getPosition(id: string, nature : any) : number {
+    let pos = -1
+    let i = 0
+    nature.forEach(e => {
+      if (e == id) {
+        pos = i
+        return
+      }
+      i++
+    })
+    return pos
+  }
+
+
+
+
+
+
 
   async DetalleAportes(id: any) {
     this.MontoDeclarado = id.Monto

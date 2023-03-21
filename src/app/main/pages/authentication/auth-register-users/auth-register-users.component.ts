@@ -57,6 +57,8 @@ export class AuthRegisterUsersComponent implements OnInit {
     { name: 'G'}
   ]
 
+
+
   //  input register taxpaye
   // public fechaActual = new Date();
   public register

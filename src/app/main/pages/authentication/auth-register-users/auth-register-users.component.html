@@ -188,7 +188,7 @@
           <input
           required
           email
-          type="text"
+          type="email"
           [(ngModel)]="UsersRegister.CorreoPrincipal"
           [ngModelOptions]="{standalone: true}"  
           #CorreoPrincipal="ngModel"
@@ -203,13 +203,14 @@
         </span>
         </div>
       </div>
+
       <div class="col-md-6 col-12">
         <div class="form-group">
           <label class="form-label" for="email">Correo Electronico Secundario</label>
           <input
             required
             email
-            type="text"
+            type="email"
             [(ngModel)]="UsersRegister.CorreoSecundario"
             [ngModelOptions]="{standalone: true}"  
             class="form-control"
@@ -268,7 +269,7 @@
           email
           type="text"
           [(ngModel)]="confirmeContrasenaUsuario"
-          [ngModelOptions]="{standalone: true}"  
+          [ngModelOptions]="{standalone: true}"
           #ConfirmePassword="ngModel"
           [class.error]="!ConfirmePassword.valid && formUsersRegister.submitted"
           class="form-control"
