@@ -62,6 +62,7 @@ import { CompanyProjectsRecosupComponent } from './main/dashboard/projects/compa
 import { GenerateFinesComponent } from './main/dashboard/financial-collection/generate-fines/generate-fines.component';
 import { ReportsProjectsComponent } from './main/dashboard/projects/reports/reports-projects/reports-projects.component';
 import { GenerateNonRegisteredFinesComponent } from './main/dashboard/financial-collection/generate-non-registered-fines/generate-non-registered-fines.component';
+import { environment } from '../environments/environment';
 //  subir Archivos
 
 const appRoutes: Routes = [
@@ -77,22 +78,10 @@ const appRoutes: Routes = [
 
 @NgModule({
   declarations: [AppComponent,
-                          ContributingCompaniesComponent,
-                          GoalManagementComponent,
-                          DeclarationPaymentsComponent,
-                          TaxpayersComponent,
                           AlertManagementComponent,
                           DefinitionAlertsComponent,
                           StaticReportsComponent,
                           MenuModuleComponent,
-                          RoleUserComponent,
-                          PermissionsUserComponent,
-                          TableManagementComponent,
-                          ChangePasswordComponent,
-                          BackupsComponent,
-                          CompanyProjectsRecosupComponent,
-                          GenerateFinesComponent,
-                          GenerateNonRegisteredFinesComponent,
                           ReportsComponent,
                           ReportsProjectsComponent
                           ],

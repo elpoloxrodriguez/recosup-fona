@@ -393,7 +393,7 @@ export class RegistrationManagementComponent implements OnInit {
     this.token = jwt_decode(sessionStorage.getItem('token'));
     this.RIFEMPRESA = this.token.Usuario[0].Codigo.slice(1, -1)
     this.CEDULAREPRESENTANTE = this.token.Usuario[0].Cedula
-    this.Empresa.Rif = this.token.Usuario[0].Codigo.slice(1, -1)
+    this.Empresa.Rif = this.token.Usuario[0].Codigo.slice(1)
     this.tipoRif = this.token.Usuario[0].Codigo.charAt(0)
     this.ContactoEmpresa.CedulaContacto = this.token.Usuario[0].CedulaR.slice(1)
     this.tipoDocumento = this.token.Usuario[0].CedulaR.charAt(0)

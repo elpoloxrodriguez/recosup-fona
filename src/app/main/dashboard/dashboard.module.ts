@@ -23,7 +23,18 @@ import { UsersComponent } from './support/users/users.component';
 import { UsersStatusComponent } from './support/users-status/users-status.component';
 import { ProfileComponent } from './user/profile/profile.component';
 import { ListCurrentFinesComponent } from './taxpayer-record/list-current-fines/list-current-fines.component';
-
+import { DeclarationPaymentsComponent } from './taxpayer-record/declaration-payments/declaration-payments.component';
+import { TableManagementComponent } from './support/table-management/table-management.component';
+import { RoleUserComponent } from './support/role-user/role-user.component';
+import { PermissionsUserComponent } from './support/permissions-user/permissions-user.component';
+import { ChangePasswordComponent } from './support/change-password/change-password.component';
+import { BackupsComponent } from './support/backups/backups.component';
+import { CompanyProjectsRecosupComponent } from './projects/company-projects-recosup/company-projects-recosup.component';
+import { GoalManagementComponent } from './financial-collection/goal-management/goal-management.component';
+import { GenerateNonRegisteredFinesComponent } from './financial-collection/generate-non-registered-fines/generate-non-registered-fines.component';
+import { GenerateFinesComponent } from './financial-collection/generate-fines/generate-fines.component';
+import { ContributingCompaniesComponent } from './financial-collection/contributing-companies/contributing-companies.component';
+import { TaxpayersComponent } from './digital-documentation/taxpayers/taxpayers.component';
 
 
 @NgModule({
@@ -36,6 +47,18 @@ import { ListCurrentFinesComponent } from './taxpayer-record/list-current-fines/
       UsersComponent,
       UsersStatusComponent,
       ProfileComponent,
+      DeclarationPaymentsComponent,
+      TableManagementComponent,
+      RoleUserComponent,
+      PermissionsUserComponent,
+      ChangePasswordComponent,
+      BackupsComponent,
+      CompanyProjectsRecosupComponent,
+      GoalManagementComponent,
+      GenerateNonRegisteredFinesComponent,
+      GenerateFinesComponent,
+      ContributingCompaniesComponent,
+      TaxpayersComponent
     ],
   imports: [
     CommonModule,
