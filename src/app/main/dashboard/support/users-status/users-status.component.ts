@@ -261,6 +261,59 @@ export class UsersStatusComponent implements OnInit {
     })
   }
 
+
+  async RechazarUsuarioDelete(data: any) {
+    Swal.fire({
+      title: 'Esta Seguro de Rechazarlo?',
+      html: `<strong>Usuario: <font color="red">${data.Codigo}</font> </strong> <br> tenga en cuenta que el registro se eliminara de la Base de Datos`,
+      icon: 'warning',
+      showCancelButton: true,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      allowEnterKey: false,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Rechazarlo!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.xAPI.funcion = 'RECOSUP_D_EliminarUsuarioRechazado'
+        this.xAPI.parametros = data.UsuarioId
+        this.xAPI.valores = ''
+        this.apiService.Ejecutar(this.xAPI).subscribe(
+          (data) => {
+            this.rowsUsuariosInactivos.push(this.dataListUsers)
+            if (data.tipo === 1) {
+              this.dataListUsers = []
+              this.ListUsuarios()
+              // this._router.navigate(['/support/users-status']).then(() => {window.location.reload()});
+              const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                  toast.addEventListener('mouseenter', Swal.stopTimer)
+                  toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+              })
+              Toast.fire({
+                icon: 'success',
+                title: 'Usuario Rechazado Exitosamente'
+              })
+            } else {
+              this.utilService.alertConfirmMini('error', 'Oops algo salio mal!, Porfavor verifique e intente nuevamente.')
+            }
+          },
+          (error) => {
+            console.error(error)
+          }
+        )
+      }
+    })
+  }
+
   /**
    * On destroy
    */

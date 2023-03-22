@@ -21,14 +21,14 @@ import { IUsuariosSistema } from '@core/services/empresa/empresa.service';
 export class AuthRegisterUsersComponent implements OnInit {
 
   public fechaActual = new Date();
-  
-  public UsersRegister : IUsuariosSistema = {
+
+  public UsersRegister: IUsuariosSistema = {
     Codigo: '',
     Clave: '',
     Nombres: '',
     Apellidos: '',
     Cedula: '',
-    FechaNacimiento : this.datePipe.transform(this.fechaActual,"yyyy-MM-dd"),
+    FechaNacimiento: this.datePipe.transform(this.fechaActual, "yyyy-MM-dd"),
     TelefonoLocal: '',
     TelefonoCelular: '',
     CorreoPrincipal: '',
@@ -37,24 +37,24 @@ export class AuthRegisterUsersComponent implements OnInit {
     EsAdministrador: 0,
     Estatus: 0,
     SuspencionId: 'NULL',
-    SuspencionDescripcion:  'NULL',
+    SuspencionDescripcion: 'NULL',
     UsuarioCreo: 1,
-    FechaCreo: this.datePipe.transform(this.fechaActual,"yyyy-MM-dd"),
+    FechaCreo: this.datePipe.transform(this.fechaActual, "yyyy-MM-dd"),
     UsuarioModifico: 1,
-    FechaModifico: this.datePipe.transform(this.fechaActual,"yyyy-MM-dd")
+    FechaModifico: this.datePipe.transform(this.fechaActual, "yyyy-MM-dd")
   }
 
 
-  public xAPI : IAPICore = {
+  public xAPI: IAPICore = {
     funcion: '',
     parametros: '',
-    valores : {},
+    valores: {},
   };
 
   //  SELECT 
   public SelectCedula = [
-    { name: 'J'},
-    { name: 'G'}
+    { name: 'J' },
+    { name: 'G' }
   ]
 
 
@@ -65,8 +65,8 @@ export class AuthRegisterUsersComponent implements OnInit {
   public tipoDocumento
   public confirmeContrasenaUsuario
 
-public username
-  
+  public username
+
   //  Public
   public coreConfig: any;
   public loginForm: FormGroup;
@@ -91,9 +91,9 @@ public username
    * @param {CoreConfigService} _coreConfigService
    */
   constructor(
-    private apiService : ApiService,
+    private apiService: ApiService,
     private datePipe: DatePipe,
-    private utilService : UtilService,
+    private utilService: UtilService,
     private _coreConfigService: CoreConfigService,
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
@@ -138,33 +138,64 @@ public username
     if (sessionStorage.getItem("token") != undefined) {
       this._router.navigate(['/home'])
       return
-   }
+    }
     // Subscribe to config changes
     this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
       this.coreConfig = config;
     });
   }
 
-  async registerTaxpayer(){
+  async registerTaxpayer() {
     this.UsersRegister.Clave = this.utilService.md5(this.UsersRegister.Clave)
-    this.UsersRegister.Codigo = this.tipoDocumento.name+this.UsersRegister.Codigo
-    // this.UsersRegister.FechaNacimiento = this.UsersRegister.FechaNacimiento.year+'-'+this.UsersRegister.FechaNacimiento.month+'-'+this.UsersRegister.FechaNacimiento.day
-    this.xAPI.funcion = 'RECOSUP_C_Usuarios_Sistema'
-    this.xAPI.parametros = ''
-    this.xAPI.valores = JSON.stringify(this.UsersRegister)
+    this.UsersRegister.Codigo = this.tipoDocumento.name + this.UsersRegister.Codigo
+    this.xAPI.funcion = 'RECOSUP_C_ChequearRIFEmpresa'
+    this.xAPI.parametros = this.UsersRegister.Codigo
+    this.xAPI.valores = ''
     await this.apiService.EjecutarDev(this.xAPI).subscribe(
       (data) => {
-       if (data.tipo === 1) {
-        this.utilService.alertConfirmMini('success', 'Felicidades! Registro Exitoso')
-        this._router.navigate(['/'])
-       } else {
-        this.utilService.alertConfirmMini('error', 'Oops! Lo sentimos algo salio mal, intente de nuevo.')
-       }
+        if (data.Cuerpo.length != 1) {
+          this.xAPI.funcion = 'RECOSUP_C_Usuarios_Sistema'
+          this.xAPI.parametros = ''
+          this.xAPI.valores = JSON.stringify(this.UsersRegister)
+          this.apiService.EjecutarDev(this.xAPI).subscribe(
+            (data) => {
+              if (data.tipo === 1) {
+                this.utilService.alertConfirmMini('success', 'Felicidades! Registro Exitoso')
+                this._router.navigate(['/'])
+              } else {
+                this.utilService.alertConfirmMini('warning', 'Oops! Lo sentimos el RIF ya se encuentra registrado, intente de nuevo y/o contacte a Recaudación FONA.')
+              }
+            },
+            (error) => {
+              console.error(error)
+            }
+          )
+        } else {
+          this.utilService.alertConfirmMini('warning', 'Oops! Lo sentimos el RIF ya se encuentra registrado, intente de nuevo y/o contacte a Recaudación FONA.')
+        }
       },
-      (error) => {
-        console.error(error)
+      (err) => {
+        console.log(err)
       }
     )
+
+    // this.xAPI.funcion = 'RECOSUP_C_Usuarios_Sistema'
+    // this.xAPI.parametros = ''
+    // this.xAPI.valores = JSON.stringify(this.UsersRegister)
+    // await this.apiService.EjecutarDev(this.xAPI).subscribe(
+    //   (data) => {
+    //    if (data.tipo === 1) {
+    //     this.utilService.alertConfirmMini('success', 'Felicidades! Registro Exitoso')
+    //     this._router.navigate(['/'])
+    //    } else {
+    //     this.utilService.alertConfirmMini('error', 'Oops! Lo sentimos algo salio mal, intente de nuevo.')
+    //    }
+    //   },
+    //   (error) => {
+    //     console.error(error)
+    //   }
+    // )
+
   }
 
   /**
@@ -177,5 +208,5 @@ public username
   }
 
 
-  
+
 }
