@@ -355,7 +355,7 @@ export class DeclarationPaymentsComponent implements OnInit {
    FuncSelectAnioAporte(id:any) {
     var anioActual = new Date()
     var anio = anioActual.getFullYear()
-    this.xAPI.funcion = "RECOSUP_R_utilidad_cierre_fiscal_Contribuyente";
+    this.xAPI.funcion = "RECOSUP_R_utilidad_cierre_fiscal_Contribuyente_SelectDeclaracionAnio";
     this.xAPI.parametros = id 
     this.xAPI.valores = ''
      this.apiService.Ejecutar(this.xAPI).subscribe(
@@ -369,8 +369,8 @@ export class DeclarationPaymentsComponent implements OnInit {
             this.SelectAnioAporte.push(index)
           }
         }
-        console.log('Nueva Lista '+this.NuevaListFecha)
-        console.log('Años Disponibles '+this.SelectAnioAporte)
+        console.log(this.NuevaListFecha)
+        console.log(this.SelectAnioAporte)
       },
       (error) => {
         console.log(error);
