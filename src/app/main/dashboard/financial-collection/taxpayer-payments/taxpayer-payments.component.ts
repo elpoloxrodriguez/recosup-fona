@@ -47,7 +47,11 @@ export class TaxpayerPaymentsComponent implements OnInit {
     banco: '',
     monto: '',
     MontoPagar : undefined,
-    MontoTotalDeclarado: undefined
+    MontoTotalDeclarado: undefined,
+    FechaAporte : undefined,
+    TipoAporte: undefined,
+    FechaInicioFiscal : undefined,
+    FechaCierreFiscal : undefined,
   }
   public rowsUtilidadCierreFiscal
   public Utilidad = [];
@@ -217,7 +221,7 @@ export class TaxpayerPaymentsComponent implements OnInit {
 
 
     RegistrarPagarAporte(modal, data) {
-      console.log(data)
+      // console.log(data)
       this.IdPago = data.EmpresaGananciaId
       this.titleModal = data.RazonSocial
       this.aporte.fecha = data.FechaDocumento
@@ -228,7 +232,11 @@ export class TaxpayerPaymentsComponent implements OnInit {
         monto: data.Monto,
         MontoPagar : data.MontoPagar,
         Codigo : data.Codigo,
-        MontoTotalDeclarado: data.MontoTotalDeclarado
+        FechaAporte: data.FechaAporte,
+        MontoTotalDeclarado: data.MontoTotalDeclarado,
+        TipoAporte : data.TipoAporte,
+        FechaInicioFiscal : data.FechaDesde,
+        FechaCierreFiscal : data.FechaHasta
       }
       this.modalService.open(modal,{
         centered: true,
