@@ -163,6 +163,9 @@ export class AuthRegisterUsersComponent implements OnInit {
                 this.utilService.alertConfirmMini('success', 'Felicidades! Registro Exitoso')
                 this._router.navigate(['/'])
               } else {
+                this.SelectCedula = undefined
+                this.tipoDocumento = undefined
+                this.UsersRegister.Codigo = ''
                 this.utilService.alertConfirmMini('warning', 'Oops! Lo sentimos el RIF ya se encuentra registrado, intente de nuevo y/o contacte a Recaudación FONA.')
               }
             },
@@ -171,6 +174,9 @@ export class AuthRegisterUsersComponent implements OnInit {
             }
           )
         } else {
+          this.SelectCedula = undefined
+          this.tipoDocumento = undefined
+          this.UsersRegister.Codigo = ''
           this.utilService.alertConfirmMini('warning', 'Oops! Lo sentimos el RIF ya se encuentra registrado, intente de nuevo y/o contacte a Recaudación FONA.')
         }
       },
