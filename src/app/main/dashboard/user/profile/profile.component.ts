@@ -42,6 +42,8 @@ export class ProfileComponent implements OnInit {
   public resetPasswordForm: FormGroup;
   public submitted = false;
 
+  public BtnCambiarClave
+
 public password1
 public password2
 
@@ -52,6 +54,7 @@ public password2
 
   ngOnInit(): void {
     this.token = jwt_decode(sessionStorage.getItem('token'));
+    this.BtnCambiarClave = this.token.Usuario[0].EsAdministrador
     this.UsuarioId = this.token.Usuario[0].UsuarioId
     this.Rif = this.token.Usuario[0].Rif
     this.Codigo = this.token.Usuario[0].Codigo
@@ -90,6 +93,35 @@ public password2
         this.I_CambiarClaveUsuario.FechaModifico = this.utilService.FechaActual()
         this.I_CambiarClaveUsuario.Clave = this.utilService.md5(this.password1),
         this.xAPI.funcion = "RECOSUP_U_PasswordUsersID";
+        this.xAPI.valores = JSON.stringify(this.I_CambiarClaveUsuario)
+        if (this.password1 === this.password2) {
+          await this.apiService.Ejecutar(this.xAPI).subscribe(
+            (data) => {
+             if (data.tipo === 1) {
+              this.password1 = ''
+              this.password2 = ''
+              this.utilService.alertConfirmMini('success', 'Felicidades! Contraseña Actualizada Exitosamente')
+             } else {
+              this.utilService.alertConfirmMini('error', 'Oops Lo Sentimos! Algo Salio Mal, Verifique e intente nuevamente')
+             }
+            },
+            (error) => {
+              console.log(error)
+            }
+          )
+        } else {
+          this.utilService.alertConfirmMini('error', 'Oops Lo Sentimos! Las Contraseñas deben ser iguales')
+        }
+      }
+
+      async ChangePasswordAdmin(){
+        // console.log(this.password1, this.password2)
+        this.I_CambiarClaveUsuario.UsuarioId = this.UsuarioId
+        this.I_CambiarClaveUsuario.Codigo = this.NewUser
+        this.I_CambiarClaveUsuario.UsuarioModifico = this.UsuarioId
+        this.I_CambiarClaveUsuario.FechaModifico = this.utilService.FechaActual()
+        this.I_CambiarClaveUsuario.Clave = this.utilService.md5(this.password1),
+        this.xAPI.funcion = "RECOSUP_U_PasswordUsersAdminID";
         this.xAPI.valores = JSON.stringify(this.I_CambiarClaveUsuario)
         if (this.password1 === this.password2) {
           await this.apiService.Ejecutar(this.xAPI).subscribe(
