@@ -84,7 +84,29 @@
           </span>
         </div>
       </div>
-      <div class="col-md-6 col-12">
+      <div class="col-md-2 col-12">
+        <div class="form-group">
+          <label class="form-label">Seleccion Tipo de Documento</label>
+          <ng-select
+                [items]="SelectDocumentoCedula"
+                bindLabel="name"
+                #TipoDocumentoCedula="ngModel"
+                [class.error]="!TipoDocumentoCedula.valid && formUsersRegister.submitted"
+                [(ngModel)]="tipoDocumentoCedula"
+                [ngModelOptions]="{standalone: true}"
+                placeholder="Seleccione Tipo Documento"
+                required
+                autocomplete="off"
+                >
+              </ng-select>
+              <span *ngIf="formUsersRegister.submitted && TipoDocumentoCedula.invalid" class="invalid-form">
+                <small class="form-text text-danger" *ngIf="TipoDocumentoCedula.errors.required"
+                  >Tipo de Documento es requerido!</small
+                >
+              </span>
+        </div>
+      </div>
+      <div class="col-md-4 col-12">
         <div class="form-group">
           <label class="form-label">Cedula Representante Legal</label>
           <input
@@ -96,7 +118,7 @@
             #Apellidos="ngModel"
             [class.error]="!Apellidos.valid && formUsersRegister.submitted"
             class="form-control"
-            placeholder="Ingrese Cedula Representante Legal (EJ: V12345657)"
+            placeholder="Ingrese Cedula Representante Legal (EJ: 12345657)"
           />
           <span *ngIf="formUsersRegister.submitted && Apellidos.invalid" class="invalid-form">
             <small class="form-text text-danger" *ngIf="Apellidos.errors.required"

@@ -369,6 +369,11 @@ export class DeclarationPaymentsComponent implements OnInit {
             this.SelectAnioAporte.push(index)
           }
         }
+        if (this.NuevaListFecha.length <= 0) {
+           for (let index = 2010; index <= anio - 1; index++) {
+            this.SelectAnioAporte.push(index)
+           }
+        }
         console.log(this.NuevaListFecha)
         console.log(this.SelectAnioAporte)
       },

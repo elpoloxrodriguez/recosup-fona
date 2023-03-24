@@ -57,12 +57,19 @@ export class AuthRegisterUsersComponent implements OnInit {
     { name: 'G' }
   ]
 
+  public SelectDocumentoCedula = [
+    { name: 'V' },
+    { name: 'E' }
+
+  ]
+
 
 
   //  input register taxpaye
   // public fechaActual = new Date();
   public register
   public tipoDocumento
+  public tipoDocumentoCedula
   public confirmeContrasenaUsuario
 
   public username
@@ -148,6 +155,7 @@ export class AuthRegisterUsersComponent implements OnInit {
   async registerTaxpayer() {
     this.UsersRegister.Clave = this.utilService.md5(this.UsersRegister.Clave)
     this.UsersRegister.Codigo = this.tipoDocumento.name + this.UsersRegister.Codigo
+    this.UsersRegister.Cedula = this.tipoDocumentoCedula.name+this.UsersRegister.Cedula
     this.xAPI.funcion = 'RECOSUP_C_ChequearRIFEmpresa'
     this.xAPI.parametros = this.UsersRegister.Codigo
     this.xAPI.valores = ''
@@ -165,6 +173,7 @@ export class AuthRegisterUsersComponent implements OnInit {
               } else {
                 this.SelectCedula = undefined
                 this.tipoDocumento = undefined
+                this.UsersRegister.Cedula = undefined
                 this.UsersRegister.Codigo = ''
                 this.utilService.alertConfirmMini('warning', 'Oops! Lo sentimos el RIF ya se encuentra registrado, intente de nuevo y/o contacte a Recaudación FONA.')
               }
@@ -176,6 +185,7 @@ export class AuthRegisterUsersComponent implements OnInit {
         } else {
           this.SelectCedula = undefined
           this.tipoDocumento = undefined
+          this.UsersRegister.Cedula = undefined
           this.UsersRegister.Codigo = ''
           this.utilService.alertConfirmMini('warning', 'Oops! Lo sentimos el RIF ya se encuentra registrado, intente de nuevo y/o contacte a Recaudación FONA.')
         }
