@@ -63,6 +63,7 @@ import { GenerateFinesComponent } from './main/dashboard/financial-collection/ge
 import { ReportsProjectsComponent } from './main/dashboard/projects/reports/reports-projects/reports-projects.component';
 import { GenerateNonRegisteredFinesComponent } from './main/dashboard/financial-collection/generate-non-registered-fines/generate-non-registered-fines.component';
 import { environment } from '../environments/environment';
+import { ServiceWorkerModule } from '@angular/service-worker';
 //  subir Archivos
 
 const appRoutes: Routes = [
@@ -116,6 +117,12 @@ const appRoutes: Routes = [
     // App modules
     LayoutModule,
     DashboardModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
     // PagesModule
   ],
   providers: [
