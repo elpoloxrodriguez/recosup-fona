@@ -65,6 +65,8 @@ export class ListCurrentFinesComponent implements OnInit {
     public ColumnMode = ColumnMode;
     public temp = [];
 
+    public SelectBancos = []
+
   public searchValue = '';
 
   public titleModal
@@ -178,17 +180,39 @@ export class ListCurrentFinesComponent implements OnInit {
   }
 
 
+  async SelecBanco(id: any) {
+    // console.log(id)
+    this.xAPI.funcion = "RECOSUP_R_Tipo_Aporte_Cuenta";
+    this.xAPI.parametros = id
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        // console.log(data.Cuerpo)
+        this.SelectBancos = data.Cuerpo.map(e => {
+          e.name = 'Banco' + ' ' + e.Nombre + ' ' + e.Numero
+          e.id = e.TipoAporteCuentaId
+          return e
+          // this.SelectBancos.push(e)
+        });
+        console.log(this.SelectBancos)
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+
   async PagarMultasNuevas(modal: any, data: any){
-    console.log(data)
+    // console.log(data)
+    this.SelecBanco(data.articulo)
     this.xPagarMultas.banco = data.id_banco
     this.xPagarMultas.id_mif = data.id_mif
     this.MontoModal = data.Monto_mif
-    this.ListaBanco = [
-      {
-        id: data.id_banco,
-        name: data.cuenta_bancos_MIF +' - '+ '('+data.nombre_banco_bancos_MIF+')'
-      }
-    ]
+    // this.ListaBanco = [
+    //   {
+    //     id: data.id_banco,
+    //     name: data.cuenta_bancos_MIF +' - '+ '('+data.nombre_banco_bancos_MIF+')'
+    //   }
+    // ]
     this.titleModal = data.RazonSocial;
     this.modalService.open(modal, {
       centered: true,
