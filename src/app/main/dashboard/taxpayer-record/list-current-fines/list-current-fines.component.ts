@@ -48,10 +48,26 @@ export class ListCurrentFinesComponent implements OnInit {
     fechaPago: '',
     UsuarioModifico: 0,
     id_mif: 0,
-    status_mif: undefined
+    status_mif: undefined,
+    Bauche: undefined,
+    Observacion: undefined
   }
 
-  
+  public hashcontrol = ''
+  public numControl: string = ''
+    // Subir Archivos
+    public archivos = []
+
+
+  public DocAdjunto: DocumentoAdjunto = {
+    usuario: '',
+    nombre: '',
+    empresa: '',
+    numc: '',
+    tipo: 0,
+    vencimiento: ''
+  }
+
 
   @BlockUI() blockUI: NgBlockUI;
   @BlockUI('section-block') sectionBlockUI: NgBlockUI;
@@ -201,9 +217,55 @@ export class ListCurrentFinesComponent implements OnInit {
     )
   }
 
+  fileSelected(e) {
+    this.archivos.push(e.target.files[0])
+    // console.log(this.archivos[0].name)
+  }
+
+  async subirArchivo(e) {
+    var frm = new FormData(document.forms.namedItem("forma"))
+    // this.sectionBlockUI.start('Subiendo Documento, Porfavor Espere!!!');
+    this.DocAdjunto.nombre = this.archivos[0].name
+    this.xPagarMultas.Bauche = this.DocAdjunto.nombre
+    this.DocAdjunto.usuario = this.token.Usuario[0].UsuarioId
+    this.DocAdjunto.empresa = this.token.Usuario[0].EmpresaId
+    this.DocAdjunto.numc = this.numControl
+    this.DocAdjunto.tipo = 1
+    this.DocAdjunto.vencimiento = '2022-08-28'
+    try {
+      await this.apiService.EnviarArchivos(frm).subscribe(
+        (data) => {
+          // console.log(data)
+          this.xAPI.funcion = 'RECOSUP_I_DocumentosAdjuntos_Empresas'
+          this.xAPI.parametros = ''
+          this.xAPI.valores = JSON.stringify(this.DocAdjunto)
+          this.apiService.Ejecutar(this.xAPI).subscribe(
+            (xdata) => {
+              if (xdata.tipo == 1) {
+                this.utilService.alertConfirmMini('success', 'Tu archivo ha sido cargado con exito')
+                this.modalService.dismissAll('Cerrar Modal')
+                //  this.sectionBlockUI.stop();
+              } else {
+                this.utilService.alertConfirmMini('info', xdata.msj)
+              }
+            },
+            (error) => {
+              this.utilService.alertConfirmMini('error', error)
+            }
+          )
+        }
+      )
+    } catch (error) {
+      this.utilService.alertConfirmMini('error', error)
+    }
+
+  }
+
   async PagarMultasNuevas(modal: any, data: any){
     // console.log(data)
-   
+    this.SelecBanco(data.articulo)
+    this.numControl = this.token.Usuario[0].Rif
+    this.hashcontrol = btoa("D" + this.numControl) //Cifrar documentos
     this.xPagarMultas.banco = data.id_banco
     this.xPagarMultas.id_mif = data.id_mif
     this.MontoModal = data.Monto_mif
@@ -228,7 +290,12 @@ export class ListCurrentFinesComponent implements OnInit {
   }
 
   async EditarMultasNuevas(modal: any, data: any){
-    // console.log(data)
+    console.log(data)
+    this.numControl = this.token.Usuario[0].Rif
+    this.hashcontrol = btoa("D" + this.numControl) //Cifrar documentos
+    var e = ''
+    this.subirArchivo(e)
+    this.xPagarMultas.Observacion = data.Observacion
     this.xPagarMultas.status_mif = 2
     this.xPagarMultas.referencia = data.referencia
     this.xPagarMultas.montoPagado = data.montoPagado
@@ -255,6 +322,8 @@ export class ListCurrentFinesComponent implements OnInit {
 
 
   async PagarMultaConciliacion(){
+    var e = ''
+    this.subirArchivo(e)
     this.xPagarMultas.status_mif = 2
    this.xAPI.funcion = 'RECOSUP_U_PagarMultas'
   this.xAPI.parametros = ''

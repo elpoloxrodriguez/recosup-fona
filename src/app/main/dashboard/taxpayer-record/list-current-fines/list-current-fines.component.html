@@ -145,7 +145,7 @@
     
               <ngx-datatable-column name="Accion" [width]="20" [sortable]="false">
                 <ng-template  ngx-datatable-cell-template let-row="row">
-                  <div ngbDropdown container="body" >
+                  <div ngbDropdown container="body"  *ngIf="row.status_mif != 2">
                     <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
                       <span [data-feather]="'settings'" [class]="'cursor-pointer'"></span>
                     </button>
@@ -186,7 +186,8 @@
       <!-- Invoice -->
       <div class="col-xl-12 col-md-12 col-12 printRef">
         <!-- Header Starts -->
-  
+        <form method="post" enctype="multipart/form-data" id="forma" name="forma">
+          <input type="hidden" name="identificador" value="{{hashcontrol}}" readonly="readonly">
         <div class="row">
   
           <div class="col-md-12 col-12 mb-1">
@@ -249,9 +250,31 @@
                 [(ngModel)]="xPagarMultas.montoPagado" [ngModelOptions]="{standalone: true}" required >
             </div>
           </div>  
+
+          <div class="col-md-12 col-12 mb-1">
+            <div class="form-group">
+              <label for="basicSelect">Observacion de Pago</label>
+              <div class="custom-file">
+                <textarea class="form-control" readonly id="basicTextarea"  [(ngModel)]="xPagarMultas.Observacion" [ngModelOptions]="{standalone: true}"  rows="5" placeholder="Observacion de Pago"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicInputFile">Seleccionar Archivo</label>
+            <div >
+              <input  (change)="fileSelected($event)" class="custom-file-input" name="archivos" type="file" class="form-control"  accept=".pdf" />
+              <!-- <input (change)="fileSelected($event)" class="custom-file-input" name="archivos" type="file" accept=".pdf"> -->
+              <!-- <label class="custom-file-label" for="customFile">Solo formato PDF</label> -->
+            </div>
+          </div>
+        </div>
   
         </div>
   
+      </form>
+
       </div>
     </div>
   

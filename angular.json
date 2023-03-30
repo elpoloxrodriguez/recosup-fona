@@ -32,7 +32,17 @@
               "contra/emitter",
               "crossvent",
               "highlight.js",
-              "ng2-flatpickr"
+              "ng2-flatpickr",
+              "raf",
+              "rgbcolor",
+              "dompurify",
+              "html2canvas",
+              "file-saver",
+              "sweetalert2",
+              "moment",
+              "ts-md5/dist/md5",
+              "bs-stepper",
+              "jspdf-autotable"
             ],
             "outputPath": "dist/",
             "index": "src/index.html",

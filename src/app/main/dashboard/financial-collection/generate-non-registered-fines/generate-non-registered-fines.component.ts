@@ -32,7 +32,9 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
     fechaPago: '',
     UsuarioModifico: 0,
     id_mif: 0,
-    status_mif: undefined
+    status_mif: undefined,
+    Bauche: undefined,
+    Observacion: undefined
   }
 
   public CrearCert: ICrearCertificados = {

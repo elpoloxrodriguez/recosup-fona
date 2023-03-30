@@ -156,6 +156,8 @@
                       </button>
                       <div ngbDropdownMenu>
                         <div>
+                          <a [href]="dwUrl(row.Rif,row.Bauche)" ngbDropdownItem *ngIf="row.Bauche != null"><span
+                            [data-feather]="'download'"  [size]="16" [class]="'mr-50'"></span> Descargar Bauche</a>
                           <a (click)="DetalleModal(ModalDetails,row)" ngbDropdownItem *ngIf="row.status_mif == 2"><span
                             [data-feather]="'book-open'"  [size]="16" [class]="'mr-50'"></span> Conciliar Pago</a>
                             <a (click)="DeleteMultasMIF(row)" ngbDropdownItem><span
@@ -622,6 +624,41 @@
           </div>
         </div>  
 
+        <div class="col-6">
+          <div class="form-group">
+            <label for="basicInput">Año</label>
+            <input class="form-control" type="text" readonly  [(ngModel)]="CamposConciliacionViews.anio" [ngModelOptions]="{standalone: true}" placeholder="Articulo"/>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="form-group">
+            <label for="basicInput">Articulo</label>
+            <input class="form-control" type="text" readonly  [(ngModel)]="CamposConciliacionViews.articulo" [ngModelOptions]="{standalone: true}" placeholder="Articulo"/>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="form-group">
+            <label for="basicInput">Fecha Inicio Fiscal</label>
+            <input class="form-control" type="text" readonly  [(ngModel)]="CamposConciliacionViews.inicio_fiscal" [ngModelOptions]="{standalone: true}" placeholder="Fecha Inicio Fiscal"/>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="form-group">
+            <label for="basicInput">Fecha Cierre Fiscal</label>
+            <input class="form-control" type="text" readonly  [(ngModel)]="CamposConciliacionViews.cierre_fiscal" [ngModelOptions]="{standalone: true}" placeholder="Fecha Cierre Fiscal"/>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="form-group">
+            <label for="basicInput">Fecha de Notificacion</label>
+            <input class="form-control" type="text" readonly  [(ngModel)]="CamposConciliacionViews.notificacion" [ngModelOptions]="{standalone: true}" placeholder="Fecha de Notificacion"/>
+          </div>
+        </div>
+
         <div class="col-md-12 col-12 mb-1">
           <div class="form-group">
             <label for="basicSelect">Seleccione Status</label>
@@ -629,6 +666,15 @@
               autocomplete="off" name="bancos" [(ngModel)]="xPagarMultas.status_mif" [ngModelOptions]="{standalone: true}"
               required autocomplete="off">
             </ng-select>
+          </div>
+        </div>
+
+        <div class="col-md-12 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicSelect">Observacion de Pago</label>
+            <div class="custom-file">
+              <textarea class="form-control" id="basicTextarea"  [(ngModel)]="xPagarMultas.Observacion" [ngModelOptions]="{standalone: true}"  rows="5" placeholder="Observacion de Pago"></textarea>
+            </div>
           </div>
         </div>
 

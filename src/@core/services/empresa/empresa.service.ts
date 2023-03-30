@@ -282,6 +282,8 @@ export interface RECOSUP_U_PagarMultas { // pagar multas
 	UsuarioModifico	 :	number
 	id_mif	 :	number,
 	status_mif : any
+	Bauche : any,
+	Observacion : any,
 }
 
 

@@ -34,7 +34,9 @@ export class GenerateFinesComponent implements OnInit {
     fechaPago: '',
     UsuarioModifico: 0,
     id_mif: 0,
-    status_mif: undefined
+    status_mif: undefined,
+    Bauche: undefined,
+    Observacion: undefined
   }
 
   public CrearCert: ICrearCertificados = {
@@ -112,6 +114,14 @@ export class GenerateFinesComponent implements OnInit {
   public UserId
 
   public titleModal
+
+  public CamposConciliacionViews = {
+    articulo: undefined,
+    inicio_fiscal: undefined,
+    cierre_fiscal: undefined,
+    notificacion: undefined,
+    anio: undefined
+  }
 
   constructor(
     private apiService: ApiService,
@@ -311,7 +321,11 @@ export class GenerateFinesComponent implements OnInit {
     )
   }
 
-
+  dwUrl(ncontrol: string, archivo: string): string {
+    return this.apiService.Dws(btoa("D" + ncontrol) + '/' + archivo)
+    // this.router.navigate([this.url]) .then(() => {window.location.reload()});
+  }
+  
   async ListaEmpresasSimple() {
     this.xAPI.funcion = "RECOSUP_R_Empresas_Simple";
     await this.apiService.Ejecutar(this.xAPI).subscribe(
@@ -420,12 +434,18 @@ export class GenerateFinesComponent implements OnInit {
   }
 
   DetalleModal(modal, data) {
-    // console.log(data)
+    console.log(data)
     this.bancoPagoMultas = data.nombre_banco_bancos_MIF +' -  ('+ data.cuenta_bancos_MIF +') - ' + data.nombre_bancos_MIF
     this.MontoModal = data.Monto_mif
     this.xPagarMultas.id_mif = data.id_mif
+    this.CamposConciliacionViews.articulo = data.articulo
+    this.CamposConciliacionViews.anio = data.anio
+    this.CamposConciliacionViews.inicio_fiscal = data.inicio_fiscal
+    this.CamposConciliacionViews.cierre_fiscal = data.cierre_fiscal
+    this.CamposConciliacionViews.notificacion = data.notificacion
     this.xPagarMultas.UsuarioModifico = this.UserId
     this.xPagarMultas.banco = data.id_banco
+    this.xPagarMultas.Bauche = data.Bauche
     this.xPagarMultas.referencia = data.referencia
     this.montoPagadox = this.utilService.ConvertirMoneda(data.montoPagado)
     this.xPagarMultas.montoPagado = data.montoPagado
