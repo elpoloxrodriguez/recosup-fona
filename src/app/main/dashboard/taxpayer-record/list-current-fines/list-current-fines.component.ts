@@ -263,14 +263,14 @@ export class ListCurrentFinesComponent implements OnInit {
 
   async PagarMultasNuevas(modal: any, data: any){
     // console.log(data)
-    this.SelecBanco(data.articulo)
     this.numControl = this.token.Usuario[0].Rif
     this.hashcontrol = btoa("D" + this.numControl) //Cifrar documentos
     this.xPagarMultas.banco = data.id_banco
     this.xPagarMultas.id_mif = data.id_mif
     this.MontoModal = data.Monto_mif
-    if (data.TipoMultaId == '4') {
+    if (data.nombre_bancos_MIF == "Pago Complementario") {
       this.SelecBanco(data.articulo)
+      this.ListaBanco = []
     } else {
       this.ListaBanco = [
         {
