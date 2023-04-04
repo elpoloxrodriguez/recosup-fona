@@ -355,10 +355,7 @@
           <div class="col-12">
             <div class="form-group">
               <label for="basicInput">RIF Empresa</label>
-              <!-- <ng-select [items]="ListaEmpresas" [(ngModel)]="ICrearMultasMIF.id_EmpresaId" [ngModelOptions]="{standalone: true}"
-                placeholder="Seleccione Empresa" bindLabel="name" bindValue="id" required>
-              </ng-select> -->
-              <input class="form-control" type="text"  [(ngModel)]="ICrearMultasMIF.Monto_mif" [ngModelOptions]="{standalone: true}" placeholder="Rif Empresa"/>
+              <input class="form-control" type="text"  [(ngModel)]="ICrearMultasMIF.Rif" [ngModelOptions]="{standalone: true}" placeholder="Rif Empresa"/>
             </div>
           </div>
 
@@ -368,14 +365,14 @@
               <!-- <ng-select [items]="ListaEmpresas" [(ngModel)]="ICrearMultasMIF.id_EmpresaId" [ngModelOptions]="{standalone: true}"
                 placeholder="Seleccione Empresa" bindLabel="name" bindValue="id" required>
               </ng-select> -->
-              <input class="form-control" type="text"  [ngModelOptions]="{standalone: true}" placeholder="Nombre Empresa"/>
+              <input class="form-control" type="text"  [(ngModel)]="ICrearMultasMIF.NombreEmpresa"  [ngModelOptions]="{standalone: true}" placeholder="Nombre Empresa"/>
             </div>
           </div>
   
           <div class="col-6">
             <div class="form-group">
               <label for="basicInput">Monto de Multa</label>
-              <input class="form-control" type="number" [ngModelOptions]="{standalone: true}" placeholder="Monto"/>
+              <input class="form-control"  [(ngModel)]="ICrearMultasMIF.Monto_mif"  type="number" [ngModelOptions]="{standalone: true}" placeholder="Monto"/>
             </div>
           </div>
           
@@ -444,7 +441,7 @@
     </div>
   
     <div class="modal-footer">
-      <button type="button" class="btn btn-success" (click)="RegistrarMultas()" rippleEffect>Generar Multas</button>
+      <button type="button" class="btn btn-success" (click)="RegistrarMultasNoIncriptas()" rippleEffect>Generar Multas</button>
       <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>Cerrar</button>
     </div>
   </ng-template>

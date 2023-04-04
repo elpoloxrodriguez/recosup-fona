@@ -320,6 +320,29 @@ export interface RECOSUP_U_UsuarioAdmim {
 	UsuarioId	 :	number
 }
 
+export interface RECOSUP_C_MultasNuevasMIFNoInscritas {
+	Rif	 :	string
+	NombreEmpresa	 :	string
+	status_mif	 :	number
+	Monto_mif	 :	string
+	Nomenclatura_mif	 :	string
+	TipoMultaId	 :	number
+	articulo	 :	number
+	anio	 :	number
+	notificacion	 :	string
+	inicio_fiscal	 :	string
+	cierre_fiscal	 :	string
+	Cuenta_mif	 :	string
+	banco	 :	number
+	referencia	 :	string
+	montoPagado	 :	string
+	fechaPago	 :	string
+	UsuarioCreo	 :	number
+	FechaCreo	 :	string
+	UsuarioModifico	 :	number
+	FechaModifico	 :	string
+}
+
 @Injectable({
 	providedIn: 'root'
 })

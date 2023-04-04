@@ -6,7 +6,7 @@ import { NgbModal, NgbActiveModal, NgbModalConfig } from '@ng-bootstrap/ng-boots
 import { PdfService } from '@core/services/pdf/pdf.service';
 import jwt_decode from "jwt-decode";
 import { UtilService } from '@core/services/util/util.service';
-import { ICrearCertificados, RECOSUP_C_MultasNuevasMIF, RECOSUP_U_AprobarGanancias, RECOSUP_U_PagarAportesConciliar, RECOSUP_U_PagarMultas } from '@core/services/empresa/empresa.service';
+import { ICrearCertificados, RECOSUP_C_MultasNuevasMIF, RECOSUP_C_MultasNuevasMIFNoInscritas, RECOSUP_U_AprobarGanancias, RECOSUP_U_PagarAportesConciliar, RECOSUP_U_PagarMultas } from '@core/services/empresa/empresa.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
@@ -44,19 +44,27 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
     created_user: 0
   }
 
-  public ICrearMultasMIF: RECOSUP_C_MultasNuevasMIF = {
-    id_EmpresaId: undefined,
-    status_mif: undefined,
+  public ICrearMultasMIF: RECOSUP_C_MultasNuevasMIFNoInscritas = {
+    Rif: '',
+    NombreEmpresa: '',
+    status_mif: 0,
     Monto_mif: '',
     Nomenclatura_mif: '',
     TipoMultaId: undefined,
-    Cuenta_mif: '',
-    UsuarioCreo: undefined,
     articulo: undefined,
     anio: undefined,
-    notificacion: undefined,
-    inicio_fiscal: undefined,
-    cierre_fiscal: undefined
+    notificacion: '',
+    inicio_fiscal: '',
+    cierre_fiscal: '',
+    Cuenta_mif: '',
+    banco: undefined,
+    referencia: '',
+    montoPagado: undefined,
+    fechaPago: '',
+    UsuarioCreo: 0,
+    FechaCreo: '',
+    UsuarioModifico: 0,
+    FechaModifico: ''
   }
 
   public añoActual = new Date()
@@ -198,11 +206,11 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
     )
   }
 
-  async DetalleMultasNuevas() {
+   DetalleMultasNuevas() {
     this.ListaMultasNuevas = []
     this.xAPI.funcion = "RECOSUP_R_ListarMultasNuevasMIF_NOINSCRITAS";
     this.xAPI.parametros = ""
-    await this.apiService.Ejecutar(this.xAPI).subscribe(
+     this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(e => {
           if (e.status_mif != '1') {
@@ -283,11 +291,14 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
     )
   }
 
-  async RegistrarMultas() {
+  async RegistrarMultasNoIncriptas() {
     // console.log(this.ICrearMultasMIF)
     this.ICrearMultasMIF.status_mif = 0
+    this.ICrearMultasMIF.montoPagado = '0'
+    this.ICrearMultasMIF.FechaCreo = this.utilService.FechaActual()
+    this.ICrearMultasMIF.FechaModifico = this.utilService.FechaActual()
     this.ICrearMultasMIF.UsuarioCreo = this.UserId
-    this.xAPI.funcion = "RECOSUP_C_MultasNuevasMIF";
+    this.xAPI.funcion = "RECOSUP_C_MultasNuevasMIFNoInscritas";
     this.xAPI.parametros = ""
     this.xAPI.valores = JSON.stringify(this.ICrearMultasMIF)
     await this.apiService.Ejecutar(this.xAPI).subscribe(
@@ -297,7 +308,7 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
           this.ListaMultasNuevas = []
           this.DetalleMultasNuevas()
           this.modalService.dismissAll('Close')
-          this.router.navigate(['/financial-collection/generate-fines']).then(() => { window.location.reload() });
+          this.router.navigate(['/financial-collection/generate-non-registered-fines']).then(() => { window.location.reload() });
           this.utilservice.alertConfirmMini('success', 'Multa Creada Exitosamente')
         } else {
           this.utilservice.alertConfirmMini('error', 'Oops! Algo salio mal, intente de nuevo')
@@ -334,9 +345,11 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(e => {
-          e.name = e.nombre_bancos_MIF
+          if (e.id_bancos_MIF <=3) {
+            e.name = e.nombre_bancos_MIF
           e.id = e.id_bancos_MIF
           this.ListaPlanilla.push(e)
+          }
         });
       },
       (error) => {
@@ -393,8 +406,8 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.xAPI.funcion = "RECOSUP_D_MultasMIF";
-        this.xAPI.parametros = data.id_mif
+        this.xAPI.funcion = "RECOSUP_D_MultasMIF_NoInscritas";
+        this.xAPI.parametros = data.id_mif_no_inscri
         this.xAPI.valores = ''
         this.apiService.Ejecutar(this.xAPI).subscribe(
           (data) => {
