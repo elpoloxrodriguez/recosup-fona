@@ -1,45 +1,18 @@
 
   <div class="auth-wrapper auth-v2">
     <div class="auth-inner row m-0">
-    
-      
-      <div class="misc-inner d-none d-lg-flex col-lg-6 align-items-center p-5" 
-        style='width:100%;
-        height:100%;
-        background-image: url("assets/images/background/background.jpeg");
-        background-repeat:no-repeat;
-        background-size:cover;
-        background-position:center center;'
-        >
-        <div class="w-100 text-center">
-          <h1 class="mb-1 drop"><strong><font color="#ffffff">FONDO NACIONAL ANTIDROGAS</font></strong></h1>
-          <img
-          class="img-fluid drop"
-          [src]="
-            coreConfig.layout.skin === 'dark'
-              ? 'assets/images/logos/fona.png'
-              : 'assets/images/logos/fona.png'
-          "
-          alt="Login"
-          width="300px"
-        />
-          <h2 class="mb-1 drop"><strong><font color="#ffffff">Validación de Certificados ✅</font></strong></h2>
-          <p class="mb-3 drop"><font color="#ffffff">Ingrese el codigo QR del certificado.</font></p>
-          <form class="form-inline justify-content-center row m-0 mb-2" action="javascript:void(0);">
-            <input
-              class="form-control col-12 col-md-5 mb-1 mr-md-2"
-              id="notify-email"
-              type="text"
-              autocomplete="off"
-              [(ngModel)]="Qr"
-              [ngModelOptions]="{standalone: true, required: true}"
-              placeholder="Ingrese el numero del certificado"
-            />
-            <button class="btn btn-primary mb-1 btn-sm-block" type="submit" (click)="Certificado(Qr)" rippleEffect>Verificar</button>
-          </form>
-        </div>
-      </div>
-      
+
+      <div 
+      class="misc-inner d-none d-lg-flex col-lg-6 align-items-center p-5"
+      style='width:100%;
+      height:100%;
+      background-image: url("assets/images/background/background.jpeg");
+      background-repeat:no-repeat;
+      background-size:cover;
+      background-position:center center;'
+      >
+      <app-certificates class="w-100 text-center"></app-certificates>
+    </div>
       <!-- /Left Text-->
       <!-- Login-->
       <div class="d-flex col-lg-6 align-items-center auth-bg px-2 p-lg-5">
@@ -104,29 +77,10 @@
           <p class="text-center mt-2">
         <a class="btn btn-warning btn-block" routerLink="/register-taxpayer"><span>&nbsp;Crear nueva cuenta</span></a>
         </p>
-          <div class="divider my-2">
-            <div class="divider-text">Contáctanos</div>
-          </div>
-          <div class="auth-footer-btn d-flex justify-content-center">
-            <a class="btn btn-facebook" href="https://www.facebook.com/FONAoficial/" target="new"><i data-feather="facebook"></i></a
-              ><a class="btn btn-twitter white" href="https://twitter.com/FONA_oficial" target="new"><i data-feather="twitter"></i></a
-              >
-              </div>
-              <br>
-            <div class="auth-footer-btn d-flex justify-content-center">
-              <p class="text-center mt-2">
-                <small align="center">Fondo Nacional Antidrogas - Rif: G-20009057-0
-                <br>
-                Dirección: Av. Francisco de Miranda, Edif. Centro Empresarial Metropolitano de Automoviles 407, PB. Oficina FONA, Los Ruices (al lado del INCES)
-                <br>
-                E-mail: <a href="mailto:recaudacion_fona@fona.gob.ve">recaudacion_fona@fona.gob.ve</a> - <a href="mailto:recaudacion_fona@fona.gob.ve">soporteypagos3234@gmail.com</a>
-                <br>
-                Telf: <a href="Tel:02122329541">0212-2329541 / 2697 / 5522 </a> Ext: 8270-8271 
-                </small>
-                </p>
-          </div>
-        </div>
+        <app-asistente-virtual></app-asistente-virtual>
+        <app-footer></app-footer>
       </div>
+    </div>
       <!-- /Login-->
     </div>
   </div>

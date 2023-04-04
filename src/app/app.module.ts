@@ -84,7 +84,7 @@ const appRoutes: Routes = [
                           StaticReportsComponent,
                           MenuModuleComponent,
                           ReportsComponent,
-                          ReportsProjectsComponent
+                          ReportsProjectsComponent,
                           ],
   imports: [
     BrowserModule,

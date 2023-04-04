@@ -21,6 +21,8 @@ import { AuthRegisterV2Component } from './auth-register-v2/auth-register-v2.com
 import { CertificatesComponent } from './certificates/certificates.component';
 import { LoginInternalComponent } from './login-internal/login-internal.component';
 import { AuthRegisterUsersComponent } from './auth-register-users/auth-register-users.component';
+import { FooterComponent } from './footer/footer.component';
+import { AsistenteVirtualComponent } from 'app/main/asistente-virtual/asistente-virtual.component';
 
 
 
@@ -65,6 +67,8 @@ const routes: Routes = [
                           AuthForgotPasswordV2Component,
                           LoginInternalComponent,
                           AuthRegisterUsersComponent,
+                          FooterComponent,
+                          AsistenteVirtualComponent
 ],
   imports: [CommonModule, RouterModule.forChild(routes), NgbModule,  NgSelectModule,
     FormsModule, ReactiveFormsModule, CoreCommonModule, ContentHeaderModule,

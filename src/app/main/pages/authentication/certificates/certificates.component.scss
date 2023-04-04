@@ -8,8 +8,8 @@
   right: 10px;
 }
 
-.drop { 
-  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.7));
+.dropB { 
+  filter: drop-shadow(0 3px 10px rgba(255, 255, 255));
   border-top-left-radius: 100px;
   border-top-right-radius: 100px;
   border-bottom-right-radius: 100px;
@@ -17,6 +17,14 @@
   z-index: -1;
 }
 
+.drop { 
+  filter: drop-shadow(0 2px 10px rgb(0, 0, 0));
+  border-top-left-radius: 100px;
+  border-top-right-radius: 100px;
+  border-bottom-right-radius: 100px;
+  border-bottom-left-radius: 100px;
+  z-index: -1;
+}
 
 div#myDiv{
   width:100%;

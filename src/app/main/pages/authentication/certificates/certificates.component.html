@@ -1,27 +1,24 @@
-    <div class="w-100 text-center">
-      <h1 class="mb-1 drop"><strong><font color="#ffffff">FONDO NACIONAL ANTIDROGAS</font></strong></h1>
-      <img
-      class="img-fluid drop"
-      [src]="
-        coreConfig.layout.skin === 'dark'
-          ? 'assets/images/logos/fona.png'
-          : 'assets/images/logos/fona.png'
-      "
-      alt="Login"
-      width="300px"
-    />
-      <h2 class="mb-1 drop"><strong><font color="#ffffff">Validación de Certificados ✅</font></strong></h2>
-      <p class="mb-3 drop"><font color="#ffffff">Ingrese el codigo QR del certificado.</font></p>
-      <form class="form-inline justify-content-center row m-0 mb-2" action="javascript:void(0);">
-        <input
-          class="form-control col-12 col-md-5 mb-1 mr-md-2"
-          id="notify-email"
-          type="text"
-          autocomplete="off"
-          [(ngModel)]="Qr"
-          [ngModelOptions]="{standalone: true, required: true}"
-          placeholder="Ingrese el numero del certificado"
+
+        <div class="">
+          <h1 class="mb-1 drop"><strong><font color="#ffffff">FONDO NACIONAL ANTIDROGAS</font></strong></h1>
+          <img
+          class="img-fluid dropB"
+          src="assets/images/logos/fona.png"
+          alt="Login"
+          width="300px"
         />
-        <button class="btn btn-primary mb-1 btn-sm-block" type="submit" (click)="Certificado(Qr)" rippleEffect>Verificar</button>
-      </form>
-    </div>
+          <h2 class="mb-1 drop"><strong><font color="#ffffff">Validación de Certificados ✅</font></strong></h2>
+          <p class="mb-3 drop"><font color="#ffffff">Ingrese el codigo QR del certificado.</font></p>
+          <form class="form-inline justify-content-center row m-0 mb-2" action="javascript:void(0);">
+            <input
+              class="form-control col-12 col-md-5 mb-1 mr-md-2"
+              id="notify-email"
+              type="text"
+              autocomplete="off"
+              [(ngModel)]="Qr"
+              [ngModelOptions]="{standalone: true, required: true}"
+              placeholder="Ingrese el numero del certificado"
+            />
+            <button class="btn btn-primary mb-1 btn-sm-block" type="submit" (click)="Certificado(Qr)" rippleEffect>Verificar</button>
+          </form>
+        </div>
