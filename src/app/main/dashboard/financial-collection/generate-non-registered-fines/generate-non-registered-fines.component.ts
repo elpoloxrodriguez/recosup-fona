@@ -282,6 +282,7 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
             this.ListaMultasNuevas.push(e);
           }
         });
+        console.log(this.ListaMultasNuevas)
         this.rowsDetalleMultasNuevas = this.ListaMultasNuevas;
         this.tempDataDetalleMultasNuevas = this.rowsDetalleMultasNuevas
       },
