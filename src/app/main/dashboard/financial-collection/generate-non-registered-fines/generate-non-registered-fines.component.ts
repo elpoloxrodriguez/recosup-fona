@@ -271,7 +271,7 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
   
   async mifAprobadas(){
     this.ListaMultasNuevas = []
-    this.xAPI.funcion = "RECOSUP_R_ListarMultasNuevasMIF";
+    this.xAPI.funcion = "RECOSUP_R_ListarMultasNuevasMIF_NOINSCRITAS";
     this.xAPI.parametros = ""
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
@@ -282,7 +282,7 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
             this.ListaMultasNuevas.push(e);
           }
         });
-        console.log(this.ListaMultasNuevas)
+        // console.log(this.ListaMultasNuevas)
         this.rowsDetalleMultasNuevas = this.ListaMultasNuevas;
         this.tempDataDetalleMultasNuevas = this.rowsDetalleMultasNuevas
       },
