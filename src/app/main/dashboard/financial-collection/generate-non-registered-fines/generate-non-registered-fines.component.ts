@@ -232,7 +232,7 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
     //this.pdf.CertificadoPagoMIF(data)
     this.CrearCert.usuario = datay.UsuarioId
     this.CrearCert.token = this.utilService.TokenAleatorio(10),
-      this.CrearCert.type = 4, // 1 INSCRIPCIÓN
+    this.CrearCert.type = 4, // 1 INSCRIPCIÓN
       this.CrearCert.created_user = this.token.Usuario[0].UsuarioId
     this.xAPI.funcion = "RECOSUP_C_Certificados";
     this.xAPI.parametros = ''
@@ -290,6 +290,47 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
         console.log(error)
       }
     )
+  }
+
+  async GenerarPlanillaMIF(dataY: any){
+    this.CrearCert.usuario = dataY.id_mif_no_inscri
+    this.CrearCert.token = this.utilService.TokenAleatorio(10),
+    this.CrearCert.type = 5, // 5 NOTIFICACION DE MIF NO INSCRITAS
+      this.CrearCert.created_user = this.token.Usuario[0].UsuarioId
+    this.xAPI.funcion = "RECOSUP_C_Certificados";
+    this.xAPI.parametros = ''
+    this.xAPI.valores = JSON.stringify(this.CrearCert)
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        if (data.tipo === 1) {
+          var id = this.CrearCert.token
+          let ruta: string = btoa('https://recosup.fona.gob.ve');
+          this.apiService.GenQR(id, ruta).subscribe(
+            (data) => {
+              // INSERT API
+              this.apiService.LoadQR(id).subscribe(
+                (xdata) => {
+                  this.pdf.NotificacionEmpresasNoInscritas(dataY, xdata.contenido, this.CrearCert.token)
+                  this.utilService.alertConfirmMini('success', 'Notificación Descagado Exitosamente')
+                },
+                (error) => {
+                  console.log(error)
+                }
+              )
+            },
+            (error) => {
+              console.log(error)
+            }
+          )
+        } else {
+          this.utilService.alertConfirmMini('error', 'Oops! Algo salio mal, intente de nuevo')
+        }
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+
   }
 
   async RegistrarMultasNoIncriptas() {
