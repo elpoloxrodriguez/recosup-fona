@@ -477,7 +477,7 @@ export class PdfService {
 
     doc.setFontSize(10);
     doc.setFont(undefined, "bold");
-    doc.text(`N°: ${data.anio} -FONA-RECOSUP-${data.id_mif}-${TokenQr}`, pageWidth - 50, pageHeight - 250, { align: 'center' });
+    doc.text(`N°: ${data.anio} -${data.Nomenclatura_mif}-${data.id_mif}-${TokenQr}`, pageWidth - 50, pageHeight - 250, { align: 'center' });
 
 
     doc.setFontSize(14);
@@ -487,7 +487,7 @@ export class PdfService {
     doc.setFont(undefined, "");
 
     doc.setFontSize(14);
-    doc.text(`El Director Ejecutivo del Fondo Nacional Antidrogas (FONA), conforme a lo dispuesto en el Artículo 148 del Código Orgánico Tributario, certifica la recepción de la DECLARACIÓN del pago de ${data.nombre_bancos_MIF.toUpperCase()}  del contribuyente ${data.RazonSocial.toUpperCase()}  RIF ${data.Rif}, fecha de notificación ${data.notificacion} y pago realizado en fecha ${data.fechaPago}, correspondiente al período fiscal ${data.anio}, bajo el número de resolución FONA-${data.Nomenclatura_mif}, por la cantidad de Bs. ${data.Monto_mif} , en el Banco ${data.nombre_banco_bancos_MIF} bajo el numero de referencia #${data.referencia}, ante el Fondo Nacional Antidrogas, correspondiente al período desde ${data.inicio_fiscal} hasta el ${data.cierre_fiscal}.`,
+    doc.text(`El Director Ejecutivo del Fondo Nacional Antidrogas (FONA), conforme a lo dispuesto en el Artículo 148 del Código Orgánico Tributario, certifica la recepción de la DECLARACIÓN del pago de ${data.nombre_bancos_MIF.toUpperCase()}  del contribuyente ${data.RazonSocial.toUpperCase()}  RIF ${data.Rif}, fecha de notificación ${data.notificacion} y pago realizado en fecha ${data.fechaPago}, correspondiente al período fiscal ${data.anio}, bajo el número de resolución ${data.Nomenclatura_mif}, por la cantidad de Bs. ${data.Monto_mif} , en el ${data.nombre_banco_bancos_MIF} bajo el numero de referencia #${data.referencia}, ante el Fondo Nacional Antidrogas, correspondiente al período desde ${data.inicio_fiscal} hasta el ${data.cierre_fiscal}.`,
       14,
       110,
       { maxWidth: 180, align: "justify" }
@@ -556,7 +556,7 @@ export class PdfService {
 
     doc.setFontSize(10);
     doc.setFont(undefined, "bold");
-    doc.text(`N°: ${data.anio} -FONA-DFC-AF-${data.id_mif_no_inscri}-${TokenQr}`, pageWidth - 50, pageHeight - 250, { align: 'center' });
+    doc.text(`N°: ${data.anio} -${data.Nomenclatura_mif}-${data.id_mif_no_inscri}-${TokenQr}`, pageWidth - 50, pageHeight - 250, { align: 'center' });
 
 
     doc.setFontSize(14);
@@ -566,7 +566,7 @@ export class PdfService {
     doc.setFont(undefined, "");
 
     doc.setFontSize(14);
-    doc.text(`Se le notifica al contribuyente ${data.NombreEmpresa.toUpperCase()}  RIF ${data.Rif}, que posee una multa por  ${data.nombre_bancos_MIF.toUpperCase()} ante el Fondo Nacional Antidrogas con fecha de notificación ${data.notificacion} correspondiente al período fiscal ${data.anio}, bajo el número de resolución ${data.Nomenclatura_mif}, por la cantidad de Bs. ${data.Monto_mif}, pagar ante el ${data.nombre_banco_bancos_MIF.toUpperCase()} (${data.cuenta_bancos_MIF})`,
+    doc.text(`Se le notifica al contribuyente ${data.NombreEmpresa.toUpperCase()}  RIF ${data.Rif}, que posee un(a)  ${data.nombre_bancos_MIF.toUpperCase()} ante el Fondo Nacional Antidrogas con fecha de notificación ${data.notificacion} correspondiente al período fiscal ${data.anio}, bajo el número de resolución ${data.Nomenclatura_mif}, por la cantidad de Bs. ${data.Monto_mif}, pagar ante el ${data.nombre_banco_bancos_MIF.toUpperCase()} (${data.cuenta_bancos_MIF})`,
       14,
       110,
       { maxWidth: 180, align: "justify" }
