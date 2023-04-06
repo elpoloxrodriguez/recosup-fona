@@ -566,7 +566,7 @@ export class PdfService {
     doc.setFont(undefined, "");
 
     doc.setFontSize(14);
-    doc.text(`Se le notifica al contribuyente ${data.NombreEmpresa.toUpperCase()}  RIF ${data.Rif}, que posee un(a)  ${data.nombre_bancos_MIF.toUpperCase()} ante el Fondo Nacional Antidrogas con fecha de notificación ${data.notificacion} correspondiente al período fiscal ${data.anio}, bajo el número de resolución ${data.Nomenclatura_mif}, por la cantidad de Bs. ${data.Monto_mif}, pagar ante el ${data.nombre_banco_bancos_MIF.toUpperCase()} (${data.cuenta_bancos_MIF})`,
+    doc.text(`Se le informa al contribuyente ${data.NombreEmpresa.toUpperCase()}  RIF ${data.Rif}, que posee una notificación de pago de  ${data.nombre_bancos_MIF.toUpperCase()} ante el Fondo Nacional Antidrogas con fecha de  ${data.notificacion} correspondiente al período fiscal ${data.anio}, bajo el número de resolución ${data.Nomenclatura_mif}, por la cantidad de Bs. ${data.Monto_mif}, pagar ante el ${data.nombre_banco_bancos_MIF.toUpperCase()} (${data.cuenta_bancos_MIF})`,
       14,
       110,
       { maxWidth: 180, align: "justify" }
