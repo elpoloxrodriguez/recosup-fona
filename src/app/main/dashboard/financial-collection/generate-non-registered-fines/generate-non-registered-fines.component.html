@@ -158,7 +158,7 @@
                           <div>
                             <a (click)="GenerarPlanillaMIF(row)" ngbDropdownItem *ngIf="row.status_mif == 0"><span
                               [data-feather]="'download'"  [size]="16" [class]="'mr-50'"></span> Descargar Planilla</a>
-                              <a (click)="DetalleModal(ModalDetails,row)" ngbDropdownItem *ngIf="row.status_mif == 0"><span
+                              <a (click)="DetalleModal(ModalDetails,row)" ngbDropdownItem ><span
                                 [data-feather]="'book-open'"  [size]="16" [class]="'mr-50'"></span> Conciliar Pago</a>
                               <a (click)="DeleteMultasMIF(row)" ngbDropdownItem><span
                                 [data-feather]="'trash'" [size]="16" [class]="'mr-50'"></span> Eliminar</a>
@@ -472,7 +472,7 @@
             <div class="form-group">
               <label for="basicSelect">Numero de Referencia</label>
               <input type="text" class="form-control" placeholder="Ingrese Numero de Referencia" autocomplete="off"
-                [(ngModel)]="xPagarMultas.referencia" readonly [ngModelOptions]="{standalone: true}">
+                [(ngModel)]="xPagarMultas.referencia"  [ngModelOptions]="{standalone: true}">
             </div>
           </div>
   
@@ -483,7 +483,7 @@
               <label for="helperText">Fecha de Pago Banco</label>
               <div class="form-group">
                 <div class="input-group">
-                    <input type="date"  class="form-control" readonly  placeholder="Seleccione la Fecha del Pago a Banco" autocomplete="off"  [(ngModel)]="xPagarMultas.fechaPago" [ngModelOptions]="{standalone: true}">
+                    <input type="date"  class="form-control"   placeholder="Seleccione la Fecha del Pago a Banco" autocomplete="off"  [(ngModel)]="xPagarMultas.fechaPago" [ngModelOptions]="{standalone: true}">
                 </div>
               </div>
             </div>
@@ -503,8 +503,8 @@
           <div class="col-md-6 col-12 mb-1">
             <div class="form-group">
               <label for="basicSelect">Monto Pagado a Banco</label>
-              <input type="text" class="form-control" readonly placeholder="Ingrese Monto del Pago en Banco" autocomplete="off"
-                [(ngModel)]="montoPagadox" [ngModelOptions]="{standalone: true}" required >
+              <input type="text" class="form-control"  placeholder="Ingrese Monto del Pago en Banco" autocomplete="off"
+                [(ngModel)]="xPagarMultas.montoPagado" [ngModelOptions]="{standalone: true}" required >
             </div>
           </div>  
   
@@ -517,6 +517,16 @@
               </ng-select>
             </div>
           </div>
+
+          
+          <div class="col-md-12 col-12 mb-1">
+            <div class="form-group">
+              <label for="basicSelect">Observación</label>
+              <textarea row="3" class="form-control"  [(ngModel)]="xPagarMultas.Observacion" [ngModelOptions]="{standalone: true}" placeholder="Ingrese Observación"  ></textarea>
+            </div>
+          </div>
+
+
   
         </div>
   

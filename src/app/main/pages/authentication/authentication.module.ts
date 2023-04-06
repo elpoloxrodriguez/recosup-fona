@@ -22,7 +22,7 @@ import { CertificatesComponent } from './certificates/certificates.component';
 import { LoginInternalComponent } from './login-internal/login-internal.component';
 import { AuthRegisterUsersComponent } from './auth-register-users/auth-register-users.component';
 import { FooterComponent } from './footer/footer.component';
-import { AsistenteVirtualComponent } from 'app/main/asistente-virtual/asistente-virtual.component';
+import { AsistenteVirtualComponent } from 'app/main/asistente-virtual/asistente-virtual/asistente-virtual.component';
 
 
 

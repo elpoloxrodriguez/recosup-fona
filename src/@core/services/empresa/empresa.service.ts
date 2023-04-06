@@ -343,6 +343,40 @@ export interface RECOSUP_C_MultasNuevasMIFNoInscritas {
 	FechaModifico	 :	string
 }
 
+export interface RECOSUP_U_PagarMultasEmpresasNoInscritas {
+	banco	:	number
+	referencia	:	string
+	status_mif	:	number
+	montoPagado	:	string
+	Bauche	:	string
+	Observacion	:	string
+	fechaPago	:	string
+	UsuarioModifico	:	number
+	id_mif_no_inscri	:	number
+}
+
+
+// Registrar Enseñar al CHATBOOT
+export interface RECOSUP_C_AsistenteVirtual {
+	id: number
+	idio:	string
+	tipo:	string
+	clas:	string
+	preg:	string
+	resp:	string
+	obse:	string
+}
+
+export interface RECOSUP_U_AsistenteVirtual {
+	idio	 :	string
+	tipo	 :	string
+	clas	 :	string
+	preg	 :	string
+	resp	 :	string
+	obse	 :	string
+	id	 :	number
+}
+
 @Injectable({
 	providedIn: 'root'
 })

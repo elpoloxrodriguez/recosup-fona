@@ -1,0 +1,158 @@
+<div class="card content-wrapper container-xxl p-0">
+    <div class="card-body">
+
+        <section class="users-list-wrapper">
+
+            <div class="container" align="justify">
+                <h4><font color="red">Demostración de 3 Preguntas y Respuestas para el Asistente Virtual, la cual podra editar pero no podra Enseñar al ChatBoot hasta que adquiera cualquiera de sus planes y/o tarifas</font></h4>
+            </div>
+
+            <div class="card">
+              <div class="row">
+                <div class="col-md-3 col-12">
+                  <div class="d-flex justify-content-between align-items-center m-1">
+                    <label class="d-flex align-items-center"
+                      >Mostrar
+                      <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                      </select>
+                      Registros</label
+                    >
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                    <div class="d-flex justify-content-between align-items-center m-1">
+                      <button type="button" *ngIf="BtnEnsenar < 3" (click)="ModalAdd(ModalEnsenarChatBoot)" class="btn btn-primary"
+                        rippleEffect>
+                        <span
+                              [data-feather]="'cpu'" [size]="16" [class]="'mr-50'"></span>
+                       Enseñar</button>
+                    </div>
+                  </div>
+                <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+                  <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+                    <label class="d-flex align-items-center ml-1 ml-md-0"
+                      >Buscar:<input
+                        [(ngModel)]="searchValue"
+                        name="searchValue"
+                        type="search"
+                        class="form-control ml-25"
+                        placeholder="Ingrese Nombre"
+                        (keyup)="filterUpdate($event)"
+                        (search)="filterUpdate($event)"
+                    /></label>
+                  </div>
+                </div>
+              </div>
+              <ngx-datatable [rows]="rowsAsistenteVirtual" rowHeight="auto" class="bootstrap core-bootstrap"
+              [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
+              [scrollbarH]="true">
+        
+        
+                <ngx-datatable-column name="Pregunta" prop="preg" width="auto">
+                  <ng-template let-preg="value" ngx-datatable-cell-template>
+                    <div>
+                      <span class="font-weight-bold"> {{ preg}} </span>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="Respuesta" prop="resp"  width="auto">
+                    <ng-template let-resp="value" ngx-datatable-cell-template>
+                      <div>
+                        <span class="font-weight-bold"> {{ resp}} </span>
+                      </div>
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column name="Accion" [width]="5" [sortable]="false">
+                    <ng-template  ngx-datatable-cell-template let-row="row">
+                      <div ngbDropdown container="body">
+                        <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
+                          <span [data-feather]="'settings'" [class]="'cursor-pointer'"></span>
+                        </button>
+                        <div ngbDropdownMenu>
+                            <a  (click)="ModalUpdate(ModalEnsenarChatBoot,row)" ngbDropdownItem><span
+                              [data-feather]="'edit'" [size]="16" [class]="'mr-50'"></span> Editar</a>
+                              <a  (click)="Delete(row)" ngbDropdownItem><span
+                                [data-feather]="'trash'" [size]="16" [class]="'mr-50'"></span> Eliminar</a>
+                      </div>
+                      </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                    
+        
+              </ngx-datatable>
+            </div>
+          </section>
+
+    </div>
+</div>
+
+
+
+<ng-template #ModalEnsenarChatBoot let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="myModalLabel160">{{TitleModal}}</h5>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <!-- Invoice -->
+      <div class="col-xl-12 col-md-12 col-12 printRef">
+        <!-- Header Starts -->
+  
+        <div class="row">
+  
+          <!-- <div class="col-6">
+            <div class="form-group">
+              <label for="basicInput">Seleccione Idioma</label>
+              <ng-select [items]="ListaIdioma" [(ngModel)]="chatboot.idio" [ngModelOptions]="{standalone: true}"
+                placeholder="Seleccione Idioma" bindLabel="name"  bindValue="id"  required>
+              </ng-select>
+            </div>
+          </div> -->
+
+          <!-- <div class="col-6">
+            <div class="form-group">
+              <label for="basicInput">Seleccione Tipo</label>
+              <ng-select [items]="ListaTipo" [(ngModel)]="chatboot.tipo" [ngModelOptions]="{standalone: true}"
+                placeholder="Seleccione Tipo" bindLabel="name"  bindValue="id"  required>
+              </ng-select>
+            </div>
+          </div> -->
+          
+          <div class="col-12">
+            <div class="form-group">
+              <label for="basicInput">Que Preguntara el Usuario?</label>
+              <textarea class="form-control" [(ngModel)]="chatboot.preg" [ngModelOptions]="{standalone: true}" type="text" rows="5"  placeholder="Indica que preguntara el usuario"></textarea>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="form-group">
+              <label for="basicInput">Que Respondera el Asistente Virtual?</label>
+              <textarea class="form-control" type="text" [(ngModel)]="chatboot.resp" [ngModelOptions]="{standalone: true}" rows="5"  placeholder="Indica que respondera el Asistente Virtual"></textarea>
+            </div>
+          </div>
+
+          <!-- <div class="col-12">
+            <div class="form-group">
+              <label for="basicInput">Observación</label>
+              <textarea class="form-control" type="text" [(ngModel)]="chatboot.obse" [ngModelOptions]="{standalone: true}" rows="3"  placeholder="Observación"></textarea>
+            </div>
+          </div> -->
+  
+  
+        </div>
+  
+      </div>
+    </div>
+  
+    <div class="modal-footer">
+      <button type="button" *ngIf="BtnAdd"  class="btn btn-success" (click)="EnsenarAsistente()" rippleEffect>Enseñar</button>
+      <button type="button" *ngIf="BtnUpdate"  class="btn btn-success" (click)="UpdateEnsenarAsistente()" rippleEffect>Actualizar</button>
+      <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>Cerrar</button>
+    </div>
+ </ng-template>

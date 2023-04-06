@@ -6,7 +6,7 @@ import { NgbModal, NgbActiveModal, NgbModalConfig } from '@ng-bootstrap/ng-boots
 import { PdfService } from '@core/services/pdf/pdf.service';
 import jwt_decode from "jwt-decode";
 import { UtilService } from '@core/services/util/util.service';
-import { ICrearCertificados, RECOSUP_C_MultasNuevasMIF, RECOSUP_C_MultasNuevasMIFNoInscritas, RECOSUP_U_AprobarGanancias, RECOSUP_U_PagarAportesConciliar, RECOSUP_U_PagarMultas } from '@core/services/empresa/empresa.service';
+import { ICrearCertificados, RECOSUP_C_MultasNuevasMIF, RECOSUP_C_MultasNuevasMIFNoInscritas, RECOSUP_U_AprobarGanancias, RECOSUP_U_PagarAportesConciliar, RECOSUP_U_PagarMultas, RECOSUP_U_PagarMultasEmpresasNoInscritas } from '@core/services/empresa/empresa.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
@@ -25,16 +25,16 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
     valores: {},
   };
 
-  public xPagarMultas : RECOSUP_U_PagarMultas = {
+  public xPagarMultas : RECOSUP_U_PagarMultasEmpresasNoInscritas = {
     banco: 0,
     referencia: '',
+    status_mif: 0,
     montoPagado: '',
+    Bauche: '',
+    Observacion: '',
     fechaPago: '',
     UsuarioModifico: 0,
-    id_mif: 0,
-    status_mif: undefined,
-    Bauche: undefined,
-    Observacion: undefined
+    id_mif_no_inscri: 0
   }
 
   public CrearCert: ICrearCertificados = {
@@ -229,10 +229,10 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
   }
 
   async GenerarConstancia(datay: any){
-    //this.pdf.CertificadoPagoMIF(data)
+    // console.log(datay)
     this.CrearCert.usuario = datay.UsuarioId
     this.CrearCert.token = this.utilService.TokenAleatorio(10),
-    this.CrearCert.type = 4, // 1 INSCRIPCIÓN
+    this.CrearCert.type = 6, // Certifacion de pago a empresas no inscritas
       this.CrearCert.created_user = this.token.Usuario[0].UsuarioId
     this.xAPI.funcion = "RECOSUP_C_Certificados";
     this.xAPI.parametros = ''
@@ -247,7 +247,7 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
               // INSERT API
               this.apiService.LoadQR(id).subscribe(
                 (xdata) => {
-                  this.pdf.CertificadoPagoMIF(datay, xdata.contenido, this.CrearCert.token)
+                  this.pdf.CertificadoPagoMIF_NoInscritas(datay, xdata.contenido, this.CrearCert.token)
                   this.utilService.alertConfirmMini('success', 'Certificado Descagado Exitosamente')
                 },
                 (error) => {
@@ -418,7 +418,7 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
     const val = event.target.value.toLowerCase();
     // Filter Our Data
     const temp = this.tempDataDetalleMultas.filter(function (d) {
-      return d.RazonSocial.toLowerCase().indexOf(val) !== -1 || !val;
+      return d.NombreEmpresa.toLowerCase().indexOf(val) !== -1 || !val;
     });
     // Update The Rows
     this.rowsDetalleMultas = temp;
@@ -475,7 +475,7 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
     // console.log(data)
     this.bancoPagoMultas = data.nombre_banco_bancos_MIF +' -  ('+ data.cuenta_bancos_MIF +') - ' + data.nombre_bancos_MIF
     this.MontoModal = data.Monto_mif
-    this.xPagarMultas.id_mif = data.id_mif
+    this.xPagarMultas.id_mif_no_inscri = data.id_mif_no_inscri
     this.xPagarMultas.UsuarioModifico = this.UserId
     this.xPagarMultas.banco = data.id_banco
     this.xPagarMultas.referencia = data.referencia
@@ -493,14 +493,14 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
   }
 
   async MultaConciliacion(){
-  this.xAPI.funcion = 'RECOSUP_U_PagarMultas'
+  this.xAPI.funcion = 'RECOSUP_U_PagarMultasEmpresasNoInscritas'
    this.xAPI.parametros = ''
    this.xAPI.valores = JSON.stringify(this.xPagarMultas)
    await this.apiService.Ejecutar(this.xAPI).subscribe(
      (data) => {
-       // this.rowsDetalleMultasNuevas = []
+       this.rowsDetalleMultasNuevas = []
        if (data.tipo === 1) {
-         this.router.navigate(['/financial-collection/generate-fines']).then(() => {window.location.reload()});
+         this.router.navigate(['/financial-collection/generate-non-registered-fines']).then(() => {window.location.reload()});
          this.modalService.dismissAll('Close')
          this.utilService.alertConfirmMini('success', 'Conciliacion Exitosamente')
        } else {

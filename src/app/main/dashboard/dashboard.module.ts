@@ -35,6 +35,7 @@ import { GenerateNonRegisteredFinesComponent } from './financial-collection/gene
 import { GenerateFinesComponent } from './financial-collection/generate-fines/generate-fines.component';
 import { ContributingCompaniesComponent } from './financial-collection/contributing-companies/contributing-companies.component';
 import { TaxpayersComponent } from './digital-documentation/taxpayers/taxpayers.component';
+import { PanelAsistenteVirtualComponent } from '../asistente-virtual/panel-asistente-virtual/panel-asistente-virtual.component';
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import { TaxpayersComponent } from './digital-documentation/taxpayers/taxpayers.
       GenerateNonRegisteredFinesComponent,
       GenerateFinesComponent,
       ContributingCompaniesComponent,
-      TaxpayersComponent
+      TaxpayersComponent,
+      PanelAsistenteVirtualComponent
     ],
   imports: [
     CommonModule,

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core'
+import { Component, NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { CommonModule } from '@angular/common'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
@@ -20,6 +20,7 @@ import { SupportRoutingModule } from './support/support-routing.module'
 import { LegalRoutingModule } from './legal/legal-routing.module'
 import { InspectionRoutingModule } from './inspection/inspection-routing.module'
 import { UserRoutingModule } from './user/user-routing.module'
+import { PanelAsistenteVirtualComponent } from '../asistente-virtual/panel-asistente-virtual/panel-asistente-virtual.component'
 
 const routes: Routes = [
   {
@@ -29,6 +30,12 @@ const routes: Routes = [
     canActivate: [AuthGuard,AuthGuardGuard],
     data: { roles: ['0','1','2','3','4','5','6','7','8','9'] },
   },
+  {
+    path: 'virtual-assistant',
+    component: PanelAsistenteVirtualComponent,
+    canActivate: [AuthGuard,AuthGuardGuard],
+    data: { roles: ['9'] },
+  }
 ]
 
 @NgModule({

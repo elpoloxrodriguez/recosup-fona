@@ -332,4 +332,13 @@ export const menu: CoreMenu[] = [
       }
     ]
   },
+  // Asistente Virtual
+  {
+    id: 'asistente-virtual',
+    nombre: 'Asistente Virtual',
+    role: ['9'], 
+    icono: 'cpu',
+    type: 'item',
+    url: 'virtual-assistant',
+  },
 ];

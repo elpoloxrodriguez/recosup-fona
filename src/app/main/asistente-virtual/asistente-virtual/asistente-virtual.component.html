@@ -1,0 +1,94 @@
+<!--button-->
+<div id="chat-circle"  *ngIf="status">
+    <!-- <div id="chat-overlay"></div> -->
+    <img class="chat-circle_robot fondo-negro" (click)="chat_box()" src="assets/images/logos/logo-fona.png" title="CHATBOT">
+</div>
+
+<!--chat-bot-->
+<div class="chat-box" *ngIf="MostrarChat" style="position: auto; z-index: 1200;">
+    <div class="chat-box-body">
+        <!--welcome message-->
+        <div class="chat-box-welcome__header" *ngIf="ChatWelcome">
+            <div class="chat-box-header">
+                Asistente Virtual
+                <span class="chat-box-toggle" (click)="hideChat()"><i class="fa fa-minus-square-o"></i></span>
+            </div>
+
+            <div id="chat-box-welcome__ava">
+                <img class="chat-box-welcome_robot" src="assets/images/logos/logo-fona.png">
+            </div>
+            <div class="chat-box-welcome__welcome-text">
+                <p>¡Hola! Soy <strong>RECOSUP</strong>, ¿en qué puedo ayudarlo?</p>
+            </div>
+        </div>
+
+
+
+
+        <!--chat-bot after welcome was toggled-->
+        <div id="chat-box__wraper" *ngIf="ChatMessage">
+            <div class="chat-box-header">
+                Asistente Virtual
+                <span class="chat-box-toggle" (click)="hideChat()"><i class="fa fa-minus-square-o"></i></span>
+            </div>
+
+            <div class="chat-box-overlay">
+            </div>
+
+            <div class="chat-logs" style="overflow: scroll; background-image: url('https://cdn.wallpapersafari.com/28/83/ls0Ajp.jpg'); height: 400px;">
+                <div id="cm-msg-0" style="padding: 1px;" class="chat-msg bot">
+                    <span class="msg-avatar">
+                        <img class="chat-box-overlay_robot"  width="60px" src="assets/images/logos/logo-fona.png">
+                    </span>
+                    <div class="cm-msg-text">
+                        ¡Hola! Soy <strong>RECOSUP</strong>, ¿en qué puedo ayudarlo?
+                    </div>
+                </div>
+
+                <div class="" *ngFor="let item of client">
+                    <div  class="chat-msg bot">
+                        <span class="msg-avatar-client">
+                            <img class="chat-box-overlay_robot"  width="60px" src="assets/images/avatar.png">
+                        </span>
+                        <div class="cm-msg-text-client">
+                            {{ item.preg }}
+                        </div>
+                    </div>
+
+                    <div class="chat-msg bot">
+                        <br>
+                        <span class="msg-avatar">
+                            <img class="chat-box-overlay_robot"  width="60px" src="assets/images/logos/logo-fona.png">
+                        </span>
+                        <div class="cm-msg-text">
+                            {{ item.resp }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="spin-container" *ngIf="hidden">
+                    <div class="spiner">
+                        <div aria-hidden="true"></div>
+                        <div aria-hidden="true"></div>
+                        <div aria-hidden="true"></div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <!--chat-log-->
+        </div>
+
+    </div>
+    <div class="chat-input-box">
+        <form class="chat-input__form">
+            <input type="text" (click)="ChatMessages()" autocomplete="off" [(ngModel)]="msj" [ngModelOptions]="{standalone: true}" required class="chat-input__text"
+                id="chat-input__text" placeholder="Enviar un mensaje..." />
+            <button (click)="ChatBot()" class="chat-submit" id="chat-submit">
+                <i class="fa fa-send-o"></i>
+            </button>
+        </form>
+        <p class="chat-box__sign"><a href="https://code-epic.com" target="_blank">Powered by Code-Epic Technologies</a></p>
+    </div>
+</div>
