@@ -28,7 +28,7 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
   public xPagarMultas : RECOSUP_U_PagarMultasEmpresasNoInscritas = {
     banco: 0,
     referencia: '',
-    status_mif: 0,
+    status_mif: undefined,
     montoPagado: '',
     Bauche: '',
     Observacion: '',
@@ -102,6 +102,11 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
   public searchValue = '';
 
   public bancoPagoMultas
+  public anio
+  public articulo
+  public inicio_fiscal
+  public cierre_fiscal
+  public notificacion
 
   // decorator
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -478,6 +483,11 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
     this.xPagarMultas.id_mif_no_inscri = data.id_mif_no_inscri
     this.xPagarMultas.UsuarioModifico = this.UserId
     this.xPagarMultas.banco = data.id_banco
+    this.anio = data.anio
+    this.articulo = data.articulo
+    this.inicio_fiscal = data.inicio_fiscal
+    this.cierre_fiscal = data.cierre_fiscal
+    this.notificacion = data.notificacion
     this.xPagarMultas.referencia = data.referencia
     this.montoPagadox = this.utilService.ConvertirMoneda(data.montoPagado)
     this.xPagarMultas.montoPagado = data.montoPagado
