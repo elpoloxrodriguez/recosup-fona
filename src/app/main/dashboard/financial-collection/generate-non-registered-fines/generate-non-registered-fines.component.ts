@@ -482,7 +482,7 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
     this.montoPagadox = this.utilService.ConvertirMoneda(data.montoPagado)
     this.xPagarMultas.montoPagado = data.montoPagado
     this.xPagarMultas.fechaPago = data.fechaPago
-    this.titleModal = data.RazonSocial
+    this.titleModal = data.NombreEmpresa
     this.modalService.open(modal, {
       centered: true,
       size: 'lg',

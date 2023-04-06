@@ -640,7 +640,7 @@ export class PdfService {
 
     doc.setFontSize(14);
     doc.setFont(undefined, "bold");
-    doc.text(`CERTIFICADO DE PAGO DE ${data.nombre_bancos_MIF.toUpperCase()} (Art.${data.articulo}) A TRAVÉS DEL SISTEMA DE REGISTRO Y CONTROL DE SUJETOS PASIVOS (RECOSUP).`, pageWidth / 2, pageHeight - 230, { maxWidth: 150, align: "center" });
+    doc.text(`CERTIFICADO DE PAGO DE POR ${data.nombre_bancos_MIF.toUpperCase()} DE APORTE (Art.${data.articulo}) EMPRESAS NO INSCRITAS A TRAVÉS DEL SISTEMA DE REGISTRO Y CONTROL DE SUJETOS PASIVOS (RECOSUP).`, pageWidth / 2, pageHeight - 230, { maxWidth: 150, align: "center" });
 
     doc.setFont(undefined, "");
 
