@@ -82,9 +82,17 @@
 
     </div>
     <div class="chat-input-box">
-        <form class="chat-input__form">
-            <input type="text" (click)="ChatMessages()" autocomplete="off" [(ngModel)]="msj" [ngModelOptions]="{standalone: true}" required class="chat-input__text"
-                id="chat-input__text" placeholder="Enviar un mensaje..." />
+        <form class="chat-input__form" #formUsersRegister="ngForm">
+            <input type="text" (click)="ChatMessages()" autocomplete="off" [(ngModel)]="msj"
+            [ngModelOptions]="{standalone: true}" required  class="chat-input__text"
+                #ChatBoot="ngModel"
+                  [class.error]="!ChatBoot.valid && formUsersRegister.submitted"
+                id="chat-input__text" placeholder="Preguntame..." />
+                <!-- <span *ngIf="formUsersRegister.submitted && ChatBoot.invalid" class="invalid-form">
+                    <small class="form-text text-danger" *ngIf="ChatBoot.errors.required"
+                      >Mensaje es requerido!</small
+                    >
+                  </span> -->
             <button (click)="ChatBot()" class="chat-submit" id="chat-submit">
                 <i class="fa fa-send-o"></i>
             </button>
