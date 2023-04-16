@@ -39,6 +39,8 @@ export class TaxpayerPaymentsComponent implements OnInit {
   public statusPago
   public observacionPago
 
+  public fechaDocumento
+
   public titleModal
   public aporte = {
     Codigo: '',
@@ -221,10 +223,11 @@ export class TaxpayerPaymentsComponent implements OnInit {
 
 
     RegistrarPagarAporte(modal, data) {
-      //console.log(data)
+      // console.log(data)
       this.IdPago = data.EmpresaGananciaId
       this.titleModal = data.RazonSocial
-      this.aporte.fecha = data.FechaBancoPago
+      this.aporte.fecha = data.FechaDocumento
+      this.fechaDocumento = this.utilservice.FechaMomentL(data.FechaDocumento),
       this.aporte = {
         fecha:  this.utilservice.FechaMomentL(data.FechaBancoPago),
         referencia: data.ReferenciaBancaria,

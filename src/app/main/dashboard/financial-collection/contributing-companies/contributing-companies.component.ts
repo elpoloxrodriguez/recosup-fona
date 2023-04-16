@@ -257,7 +257,7 @@ export class ContributingCompaniesComponent implements OnInit {
         })
             this.rowsEmpresasAportes = this.ListaEmpresasAportes
             this.tempDataEmpresasAportes = this.rowsEmpresasAportes;
-            console.log(this.ListaEmpresasAportes)
+            // console.log(this.ListaEmpresasAportes)
       },
       (error) => {
         console.log(error)
@@ -609,17 +609,18 @@ export class ContributingCompaniesComponent implements OnInit {
   }
 
   ModalEditarEmpresa(modal,row) {
-    // console.log(row)
+    console.log(row)
     this.UpdateEmpresa.RazonSocial = row.RazonSocial
     this.UpdateEmpresa.CorreoElectronico = row.CorreoEmpresa
-    this.UpdateEmpresa.Telefono = row.TelefonoEmpresa
-    this.UpdateEmpresa.Fax = row.FaxEmpresa
-    this.UpdateEmpresa.ActividadEconomicaId = row.ActividadEconomicaId
-    this.UpdateEmpresa.Estado = row.Estado
-    this.UpdateEmpresa.Ciudad = row.Ciudad
-    this.UpdateEmpresa.Municipio = row.Municipio
-    this.UpdateEmpresa.ParroquiaId = row.ParroquiaId
+    this.UpdateEmpresa.Telefono = row.TelefonoCelular
+    this.UpdateEmpresa.Fax = row.TelefonoLocal
+    this.UpdateEmpresa.ActividadEconomicaId = row.ActividadEconomica
+    this.UpdateEmpresa.Estado = row.estado
+    this.UpdateEmpresa.Ciudad = row.ciudad
+    this.UpdateEmpresa.Municipio = row.municipio
+    // this.UpdateEmpresa.ParroquiaId = row.parroquia
     this.UpdateEmpresa.Direccion = row.Direccion
+    this.UpdateEmpresa.CorreoElectronico = row.Email
     this.UpdateEmpresa.CantidadEmpleados = row.CantidadEmpleados
     this.modalService.open(modal, {
       centered: true,

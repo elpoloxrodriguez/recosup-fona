@@ -114,7 +114,13 @@
         <!-- Header Starts -->
   
         <div class="row">
-          <div class="col-md-6 col-12 mb-1">
+          <div class="col-md-3 col-12 mb-1">
+            <div class="form-group">
+              <label for="basicSelect">Fecha de Documento</label>
+              <input type="text" readonly class="form-control" [value]="fechaDocumento">
+            </div>
+          </div>
+          <div class="col-md-3 col-12 mb-1">
             <div class="form-group">
               <label for="basicSelect">Fecha de Pago del Aporte</label>
               <input type="text" readonly class="form-control" [value]="aporte.fecha">
