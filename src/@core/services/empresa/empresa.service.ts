@@ -377,6 +377,23 @@ export interface RECOSUP_U_AsistenteVirtual {
 	id	 :	number
 }
 
+
+export interface RECOSUP_U_RepresentanteLegal {
+	TipoContactoId	 :	number
+	EmpresaId	 :	number
+	Cedula	 :	string
+	Nombre	 :	string
+	Apellido	 :	string
+	Telefono	 :	string
+	Celular	 :	string
+	Fax	 :	string
+	CorreoElectronico	 :	string
+	Estatus	 :	number
+	UsuarioModifico	 :	number
+	FechaModifico	 :	string
+	ContactoId	 :	number
+}
+
 @Injectable({
 	providedIn: 'root'
 })

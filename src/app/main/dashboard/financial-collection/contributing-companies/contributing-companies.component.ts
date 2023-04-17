@@ -3,12 +3,12 @@ import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 import { Subject } from 'rxjs';
 import { NgbModal, NgbActiveModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService, IAPICore } from '@core/services/apicore/api.service';
-import { IActualizarDatosEmpresa, ICrearCertificados, IDataEmpresaCompleta } from '@core/services/empresa/empresa.service';
+import { IActualizarDatosEmpresa, ICrearCertificados, IDataEmpresaCompleta, RECOSUP_U_RepresentanteLegal } from '@core/services/empresa/empresa.service';
 import { UtilService } from '@core/services/util/util.service';
 import Swal from 'sweetalert2';
 import jwt_decode from "jwt-decode";
 import { PdfService } from '@core/services/pdf/pdf.service';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-contributing-companies',
@@ -90,6 +90,32 @@ export class ContributingCompaniesComponent implements OnInit {
     Cargo: ''
   }
 
+  public U_RepresentanteLegal : RECOSUP_U_RepresentanteLegal = {
+    TipoContactoId: 0,
+    EmpresaId: 0,
+    Cedula: '',
+    Nombre: '',
+    Apellido: '',
+    Telefono: '',
+    Celular: '',
+    Fax: '',
+    CorreoElectronico: '',
+    Estatus: 0,
+    UsuarioModifico: 0,
+    FechaModifico: '',
+    ContactoId: 0
+  }
+
+  public Status = [
+    {id: '0', name: 'Inactivo'},
+    {id: "1", name: 'Activo'}
+  ]
+
+  public TipoContacto = [
+    {id: '1', name: 'Representante Legal'},
+    {id: '2', name: 'Contacto'}
+  ]
+
   public ListaStatusEmpresa
   public titleModal
   public DataEmpresa
@@ -110,10 +136,16 @@ export class ContributingCompaniesComponent implements OnInit {
 
   public IdActividadEconomica
   public IdParroquiaEmpresa
+  public IdUsuarioEmpresa
 
   public ShowFiscalizar = false
 
   showUpdateEmpresaRecaudacion = false
+
+  public rowsRepresentantesContactos
+  public dataRepresentantesContactos = [];
+  public RepresentantesContactosLista = []
+  public tempDataRepresentantesContactos = [];
 
   public dataEmpresasAportes = [];
   public sidebarToggleRef = false;
@@ -135,6 +167,7 @@ export class ContributingCompaniesComponent implements OnInit {
   public showUpdateEmpresa = false
 
   public searchValue = '';
+  public searchValueRepresentanteLegal = ''
 
   public selectActividadEconomica
   public selectEstados
@@ -157,6 +190,7 @@ export class ContributingCompaniesComponent implements OnInit {
     private modalService: NgbModal,
     private utilService: UtilService,
     private pdf: PdfService,
+    private _router: Router,
 
   ) {
     this._unsubscribeAll = new Subject();
@@ -276,6 +310,27 @@ export class ContributingCompaniesComponent implements OnInit {
     )
   }
 
+  async ListaRepresentantesContactos(id: any) {
+    // console.log(id)
+    this.xAPI.funcion = "RECOSUP_R_ListaRepresentantesContactos";
+    this.xAPI.parametros = id
+    this.RepresentantesContactosLista = []
+     await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        data.Cuerpo.map(e => {
+          e.Nombres = e.Nombre +' '+ e.Apellido
+          this.RepresentantesContactosLista.push(e);
+        })
+            this.rowsRepresentantesContactos = this.RepresentantesContactosLista
+            this.tempDataRepresentantesContactos = this.rowsRepresentantesContactos;
+            // console.log(this.RepresentantesContactosLista)
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+
   FiscalizarEmpresa(row : any){
     console.log(row)
     Swal.fire({
@@ -326,7 +381,8 @@ export class ContributingCompaniesComponent implements OnInit {
       (data) => {
         data.Cuerpo.length
         data.Cuerpo.map(e => {
-          console.log(e)
+          // console.log(e)
+          this.IdUsuarioEmpresa = e.EmpresaId
           this.UpdateEmpresa.UsuarioId = e.UsuarioId
           this.DataEmpresaCompleta.RazonSocial = e.RazonSocial
           this.DataEmpresaCompleta.Rif = e.Rif
@@ -644,7 +700,35 @@ export class ContributingCompaniesComponent implements OnInit {
   }
 
   ModalEditarRepresentanteLegal(modal, data){
+    this.modalService.dismissAll('Cerrar')
+    // console.log(data);
+    this.ListaRepresentantesContactos(this.IdUsuarioEmpresa)
     this.titleModal = data.RazonSocial
+    this.modalService.open(modal, {
+      centered: true,
+      size: 'xl',
+      backdrop: false,
+      keyboard: false,
+      windowClass: 'fondo-modal',
+    });   
+  }
+
+  EditarRepresentanteLegalModal(modal, data){
+    this.modalService.dismissAll('Cerrar')
+    // console.log(data);
+    this.U_RepresentanteLegal.ContactoId = data.ContactoId
+    this.U_RepresentanteLegal.EmpresaId = data.EmpresaId
+    this.U_RepresentanteLegal.Cedula = data.Cedula
+    this.U_RepresentanteLegal.Nombre = data.Nombre
+    this.U_RepresentanteLegal.Apellido = data.Apellido
+    this.U_RepresentanteLegal.Celular = data.Celular
+    this.U_RepresentanteLegal.Telefono = data.Telefono
+    this.U_RepresentanteLegal.Fax = data.Fax
+    this.U_RepresentanteLegal.TipoContactoId = data.TipoContactoId
+    this.U_RepresentanteLegal.Estatus = data.Estatus
+    this.U_RepresentanteLegal.CorreoElectronico = data.CorreoElectronico
+    this.U_RepresentanteLegal.FechaModifico = this.utilService.FechaActual()
+    this.titleModal = data.Nombres
     this.modalService.open(modal, {
       centered: true,
       size: 'lg',
@@ -652,6 +736,27 @@ export class ContributingCompaniesComponent implements OnInit {
       keyboard: false,
       windowClass: 'fondo-modal',
     });   
+  }
+
+  async UpdateRepresentanteLegal(){
+    this.xAPI.funcion = 'RECOSUP_U_RepresentanteLegal'
+    this.xAPI.parametros = ''
+    this.xAPI.valores = JSON.stringify(this.U_RepresentanteLegal)
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        if (data.tipo === 1) {
+          this.modalService.dismissAll('Cerrar')
+          this.utilService.alertConfirmMini('success', 'Datos actualizados exitosamente')
+          // Actualizamos la tabla
+          this._router.navigate(['financial-collection/contributing-companies']).then(() => { window.location.reload() });
+        } else {
+          this.utilService.alertConfirmMini('error', 'Oops! Algo salio mal, intente de nuevo!')
+        }
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
   }
 
   filterUpdateUtilidadAportes(event) {
@@ -738,6 +843,19 @@ export class ContributingCompaniesComponent implements OnInit {
     });
     // Update The Rows
     this.rowsEmpresasAportes = temp;
+    // Whenever The Filter Changes, Always Go Back To The First Page
+    this.table.offset = 0;
+  }
+
+  filterUpdateRepresentanteLegal(event) {
+    // Reset ng-select on search
+    const val = event.target.value.toLowerCase();
+    // Filter Our Data
+    const temp = this.tempDataRepresentantesContactos.filter(function (d) {
+      return d.Nombres.toLowerCase().indexOf(val) !== -1 || !val;
+    });
+    // Update The Rows
+    this.rowsRepresentantesContactos = temp;
     // Whenever The Filter Changes, Always Go Back To The First Page
     this.table.offset = 0;
   }
