@@ -34,9 +34,9 @@ export class ContributingCompaniesComponent implements OnInit {
     ActividadEconomicaId: undefined,
     CorreoElectronico: '',
     Ciudad: '',
-    Estado: '',
+    Estado: undefined,
     CantidadEmpleados: '',
-    Municipio: '',
+    Municipio: undefined,
     RazonSocial: ''
   }
 
@@ -108,7 +108,12 @@ export class ContributingCompaniesComponent implements OnInit {
   public idEmpresaCert
   public idUsuarioCert
 
+  public IdActividadEconomica
+  public IdParroquiaEmpresa
+
   public ShowFiscalizar = false
+
+  showUpdateEmpresaRecaudacion = false
 
   public dataEmpresasAportes = [];
   public sidebarToggleRef = false;
@@ -161,12 +166,17 @@ export class ContributingCompaniesComponent implements OnInit {
     this.token = jwt_decode(sessionStorage.getItem('token'));
     if (this.token.Usuario[0].role == 9) {
       this.showUpdateEmpresa = true;
+      this.showUpdateEmpresaRecaudacion = true
     } 
     if (this.token.Usuario[0].role == 3) {
       this.ShowFiscalizar = true
     }
+    if (this.token.Usuario[0].role == 1) {
+      // this.showUpdateEmpresa = true;
+      this.showUpdateEmpresaRecaudacion = true
+    }
    await  this.EmpresasAportes()
-   await this.ListaParroquias()
+  //  await this.ListaParroquias()
    await this.ListaEstados()
    await this.ListaActividadEconomica()
 
@@ -225,11 +235,12 @@ export class ContributingCompaniesComponent implements OnInit {
   }
 
 
-  async ListaParroquias() {
-    this.xAPI.funcion = "RECOSUP_R_Parroquias";
-    this.xAPI.parametros = '';
+  ListaParroquias(id: string) {
+    // console.log(id)
+    this.xAPI.funcion = "RECOSUP_R_Parroquias_ID";
+    this.xAPI.parametros = id;
     this.selectParroquias = []
-    await this.apiService.Ejecutar(this.xAPI).subscribe(
+     this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         // console.log(data.Cuerpo)
         this.selectParroquias = data.Cuerpo.map(e => {
@@ -288,7 +299,6 @@ export class ContributingCompaniesComponent implements OnInit {
   }
 
   async GuardarActualizacionDatosEmpresas() {
-    this.UpdateEmpresa.UsuarioId = this.token.Usuario[0].UsuarioId
     this.xAPI.funcion = 'RECOSUP_U_MiEmpresa'
     this.xAPI.parametros = ''
     this.xAPI.valores = JSON.stringify(this.UpdateEmpresa)
@@ -316,6 +326,8 @@ export class ContributingCompaniesComponent implements OnInit {
       (data) => {
         data.Cuerpo.length
         data.Cuerpo.map(e => {
+          console.log(e)
+          this.UpdateEmpresa.UsuarioId = e.UsuarioId
           this.DataEmpresaCompleta.RazonSocial = e.RazonSocial
           this.DataEmpresaCompleta.Rif = e.Rif
           this.DataEmpresaCompleta.Email = e.CorreoEmpresa
@@ -323,6 +335,8 @@ export class ContributingCompaniesComponent implements OnInit {
           this.DataEmpresaCompleta.Telefonos = e.TelefonoEmpresa + ' | ' + e.TelefonoLocal
           this.DataEmpresaCompleta.FaxEmpresa = e.FaxEmpresa
           this.DataEmpresaCompleta.ActividadEconomica = e.ActividadEconomica
+          this.IdActividadEconomica  = e.ActividadEconomicaId
+          this.IdParroquiaEmpresa = e.ParroquiaId
           this.DataEmpresaCompleta.estado = e.Estado
           this.DataEmpresaCompleta.ciudad = e.Ciudad
           this.DataEmpresaCompleta.municipio = e.Municipio
@@ -363,8 +377,6 @@ export class ContributingCompaniesComponent implements OnInit {
       }
     )
   }
-
-
 
   async GenerarCertificadoInscripcion() {
     this.CrearCert.usuario = this.idUsuarioCert
@@ -609,19 +621,30 @@ export class ContributingCompaniesComponent implements OnInit {
   }
 
   ModalEditarEmpresa(modal,row) {
-    console.log(row)
+    // console.log(row)
     this.UpdateEmpresa.RazonSocial = row.RazonSocial
     this.UpdateEmpresa.CorreoElectronico = row.CorreoEmpresa
     this.UpdateEmpresa.Telefono = row.TelefonoCelular
     this.UpdateEmpresa.Fax = row.TelefonoLocal
-    this.UpdateEmpresa.ActividadEconomicaId = row.ActividadEconomica
+    this.UpdateEmpresa.ActividadEconomicaId = this.IdActividadEconomica
     this.UpdateEmpresa.Estado = row.estado
     this.UpdateEmpresa.Ciudad = row.ciudad
     this.UpdateEmpresa.Municipio = row.municipio
-    // this.UpdateEmpresa.ParroquiaId = row.parroquia
+    this.UpdateEmpresa.ParroquiaId = this.IdParroquiaEmpresa
     this.UpdateEmpresa.Direccion = row.Direccion
     this.UpdateEmpresa.CorreoElectronico = row.Email
     this.UpdateEmpresa.CantidadEmpleados = row.CantidadEmpleados
+    this.modalService.open(modal, {
+      centered: true,
+      size: 'lg',
+      backdrop: false,
+      keyboard: false,
+      windowClass: 'fondo-modal',
+    });   
+  }
+
+  ModalEditarRepresentanteLegal(modal, data){
+    this.titleModal = data.RazonSocial
     this.modalService.open(modal, {
       centered: true,
       size: 'lg',
@@ -675,6 +698,7 @@ export class ContributingCompaniesComponent implements OnInit {
   }
 
   async DetalleEmpresa(modal, data) {
+    // console.log(data)
     this.idEmpresaCert = data.EmpresaId
     this.idUsuarioCert = data.UsuarioId
     await this.EmpresaRIF(data.Rif)

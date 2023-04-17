@@ -117,7 +117,7 @@ export interface IActualizarDatosEmpresa {
 	Direccion: string
 	Telefono: string
 	Fax: string
-	ParroquiaId: any
+	ParroquiaId: undefined
 	CantidadEmpleados: string
 	ActividadEconomicaId: any
 	CorreoElectronico: string
