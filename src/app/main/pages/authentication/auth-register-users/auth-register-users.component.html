@@ -3,7 +3,7 @@
 
     <!-- <div class="brand-logo img" align="center"> -->
     <img src="assets/images/banner/cintillo-fona-carabobo.jpg" class="d-none d-sm-none d-md-block banner-fona"
-      alt="banner" width="100%" />
+      alt="banner" width="100%"  height="20%"/>
     <!-- </div>  -->
 
     <!-- /Left Text-->
@@ -19,185 +19,130 @@
 
 
 
-        <form class="form" (ngSubmit)="(formUsersRegister.form.valid)" #formUsersRegister="ngForm">
-          <div class="row">
-            <div class="col-md-6 col-12">
-              <div class="form-group">
-                <label class="form-label">Seleccion Tipo de RIF</label>
-                <ng-select [items]="SelectCedula" bindLabel="name" #TipoDocumento="ngModel"
-                  [class.error]="!TipoDocumento.valid && formUsersRegister.submitted" [(ngModel)]="tipoDocumento"
-                  [ngModelOptions]="{standalone: true}" placeholder="Seleccione Tipo Documento" required
-                  autocomplete="off">
-                </ng-select>
-                <span *ngIf="formUsersRegister.submitted && TipoDocumento.invalid" class="invalid-form">
-                  <small class="form-text text-danger" *ngIf="TipoDocumento.errors.required">Tipo de RIF es
-                    requerido!</small>
+        <form (ngSubmit)="(HWForm.form.valid)" #HWForm="ngForm">
+          <form #accountDetailsForm="ngForm">
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label class="form-label" for="TipoRif">Tipo de RIF</label>
+                <ng-select [items]="SelectCedula"  bindLabel="name" placeholder="Seleccione Tipo de RIF"
+                [(ngModel)]="tipoDocumento"  required
+                name="TipoRif" id="TipoRif"
+          #Estado="ngModel" [ngModelOptions]="{standalone: true}"
+          [class.error]="!Estado.valid && accountDetailsForm.submitted"  
+          autocomplete="off"
+                ></ng-select>
+                <span *ngIf="accountDetailsForm.submitted && Estado.invalid" class="invalid-form">
+                  <small class="form-text text-danger" *ngIf="Estado.errors.required">Tipo RIF requerido!</small>
                 </span>
               </div>
-            </div>
-            <div class="col-md-6 col-12">
-              <div class="form-group">
-                <label class="form-label">Numero de RIF</label>
-                <input required email type="text" [(ngModel)]="UsersRegister.Codigo"
-                  [ngModelOptions]="{standalone: true}" #Cedula="ngModel"
-                  [class.error]="!Cedula.valid && formUsersRegister.submitted" class="form-control"
+              <div class="form-group col-md-6">
+                <label class="form-label" for="rif">Numero de RIF</label>
+                <input [(ngModel)]="UsersRegister.Codigo" #RIf="ngModel" required type="number" name="rif"
+                  id="rif" class="form-control" [class.error]="!RIf.valid && accountDetailsForm.submitted"
                   placeholder="Ingrese RIF" />
-                <span *ngIf="formUsersRegister.submitted && Cedula.invalid" class="invalid-form">
-                  <small class="form-text text-danger" *ngIf="Cedula.errors.required">RIF es requerido!</small>
-                </span>
-              </div>
-            </div>
-            <div class="col-md-6 col-12">
-              <div class="form-group">
-                <label class="form-label" for="email">Nombre de la Empresa</label>
-                <input required email type="text" [(ngModel)]="UsersRegister.Nombres"
-                  [ngModelOptions]="{standalone: true}" #Nombres="ngModel"
-                  [class.error]="!Nombres.valid && formUsersRegister.submitted" class="form-control"
-                  placeholder="Ingrese Nombre de la Empresa" />
-                <span *ngIf="formUsersRegister.submitted && Nombres.invalid" class="invalid-form">
-                  <small class="form-text text-danger" *ngIf="Nombres.errors.required">Nombre es requerido!</small>
-                </span>
-              </div>
-            </div>
-            <div class="col-md-2 col-12">
-              <div class="form-group">
-                <label class="form-label">Seleccion Tipo de Documento</label>
-                <ng-select [items]="SelectDocumentoCedula" bindLabel="name" #TipoDocumentoCedula="ngModel"
-                  [class.error]="!TipoDocumentoCedula.valid && formUsersRegister.submitted"
-                  [(ngModel)]="tipoDocumentoCedula" [ngModelOptions]="{standalone: true}"
-                  placeholder="Seleccione Tipo Documento" required autocomplete="off">
-                </ng-select>
-                <span *ngIf="formUsersRegister.submitted && TipoDocumentoCedula.invalid" class="invalid-form">
-                  <small class="form-text text-danger" *ngIf="TipoDocumentoCedula.errors.required">Tipo de Documento es
+                <span *ngIf="accountDetailsForm.submitted && RIf.invalid" class="invalid-form">
+                  <small class="form-text text-danger" *ngIf="RIf.errors.required">Numero de RIF es
                     requerido!</small>
                 </span>
               </div>
-            </div>
-            <div class="col-md-4 col-12">
-              <div class="form-group">
-                <label class="form-label">Cedula Representante Legal</label>
-                <input required email type="text" [(ngModel)]="UsersRegister.Cedula"
-                  [ngModelOptions]="{standalone: true}" #Apellidos="ngModel"
-                  [class.error]="!Apellidos.valid && formUsersRegister.submitted" class="form-control"
-                  placeholder="Ingrese Cedula Representante Legal (EJ: 12345657)" />
-                <span *ngIf="formUsersRegister.submitted && Apellidos.invalid" class="invalid-form">
-                  <small class="form-text text-danger" *ngIf="Apellidos.errors.required">Cedula es requerido!</small>
-                </span>
-              </div>
-            </div>
-            <!-- <div class="col-md-6 col-12">
-        <div class="form-group">
-          <label class="form-label" for="email">Fecha Nacimiento</label>
-        <input class="form-control" readonly placeholder="Seleccione Fecha de Nacimiento" autocomplete="off"
-        name="inicio" [(ngModel)]="UsersRegister.FechaNacimiento" [ngModelOptions]="{standalone: true}" ngbDatepicker
-        #FechaNacimiento="ngModel" [class.error]="!FechaNacimiento.valid && formUsersRegister.submitted"
-        #basicDP="ngbDatepicker"  (click)="basicDP.toggle()">
-        <span *ngIf="formUsersRegister.submitted && FechaNacimiento.invalid" class="invalid-form">
-          <small class="form-text text-danger" *ngIf="FechaNacimiento.errors.required"
-            >Fecha de Nacimiento es requerido!</small
-          >
-        </span>
-        </div>
-      </div> -->
-            <div class="col-md-6 col-12">
-              <div class="form-group">
-                <label class="form-label">Teléfono Local</label>
-                <input required email type="text" [(ngModel)]="UsersRegister.TelefonoLocal"
-                  [ngModelOptions]="{standalone: true}" #TelefonoLocal="ngModel"
-                  [class.error]="!TelefonoLocal.valid && formUsersRegister.submitted" class="form-control"
-                  placeholder="Ingrese Telefono Local" />
-                <span *ngIf="formUsersRegister.submitted && TelefonoLocal.invalid" class="invalid-form">
-                  <small class="form-text text-danger" *ngIf="TelefonoLocal.errors.required">Telefono Local es
-                    requerido!</small>
-                </span>
-              </div>
-            </div>
-            <div class="col-md-6 col-12">
-              <div class="form-group">
-                <label class="form-label" for="email">Teléfono Celular</label>
-                <input required email type="text" [(ngModel)]="UsersRegister.TelefonoCelular"
-                  [ngModelOptions]="{standalone: true}" #TelefonoCelular="ngModel"
-                  [class.error]="!TelefonoCelular.valid && formUsersRegister.submitted" class="form-control"
-                  placeholder="Ingrese Telefono Celular" />
-                <span *ngIf="formUsersRegister.submitted && TelefonoCelular.invalid" class="invalid-form">
-                  <small class="form-text text-danger" *ngIf="TelefonoCelular.errors.required">Telefono Celular es
-                    requerido!</small>
-                </span>
-              </div>
-            </div>
-            <!-- <div class="col-md-6 col-12">
-        <div class="form-group">
-          <label class="form-label">Cargo</label>
-          <input
-          required
-          email
-          type="text"
-          [(ngModel)]="UsersRegister.Cargo"
-          [ngModelOptions]="{standalone: true}"  
-          #Cargo="ngModel"
-          [class.error]="!Cargo.valid && formUsersRegister.submitted"
-          class="form-control"
-          placeholder="Ingrese Cargo"
-        />
-        <span *ngIf="formUsersRegister.submitted && Cargo.invalid" class="invalid-form">
-          <small class="form-text text-danger" *ngIf="Cargo.errors.required"
-            >Cargo es requerido!</small
-          >
-        </span>
-        </div>
-      </div> -->
-            <div class="col-md-6 col-12">
-              <div class="form-group">
-                <label class="form-label" for="email">Correo Electronico Principal</label>
-                <input required email type="email" [(ngModel)]="UsersRegister.CorreoPrincipal"
-                  [ngModelOptions]="{standalone: true}" #CorreoPrincipal="ngModel"
-                  [class.error]="!CorreoPrincipal.valid && formUsersRegister.submitted" class="form-control"
-                  placeholder="Ingrese Correo Principal" />
-                <span *ngIf="formUsersRegister.submitted && CorreoPrincipal.invalid" class="invalid-form">
-                  <small class="form-text text-danger" *ngIf="CorreoPrincipal.errors.required">Correo Principal es
-                    requerido!</small>
-                </span>
-              </div>
-            </div>
 
-            <div class="col-md-6 col-12">
-              <div class="form-group">
-                <label class="form-label" for="email">Correo Electronico Secundario</label>
-                <input required email type="email" [(ngModel)]="UsersRegister.CorreoSecundario"
-                  [ngModelOptions]="{standalone: true}" class="form-control"
-                  placeholder="Ingrese Correo Electronico Secundario" />
+              <div class="form-group col-md-6">
+                <label class="form-label" for="NombreEmpresa">Nombre Empresa</label>
+                <input [(ngModel)]="UsersRegister.Nombres" #NombreEmpresa="ngModel" required type="text" name="NombreEmpresa"
+                  id="NombreEmpresa" class="form-control" [class.error]="!NombreEmpresa.valid && accountDetailsForm.submitted"
+                  placeholder="Ingrese RIF" />
+                <span *ngIf="accountDetailsForm.submitted && NombreEmpresa.invalid" class="invalid-form">
+                  <small class="form-text text-danger" *ngIf="NombreEmpresa.errors.required">Nombre Empresa es
+                    requerido!</small>
+                </span>
               </div>
-            </div>
-            <!-- <div class="col-md-12 col-12">
-        <div class="form-group">
-          <label class="form-label" for="email">Nombre de Usuario</label>
-          <input
-          required
-          email
-          type="text"
-          [(ngModel)]="username"
-          [ngModelOptions]="{standalone: true}"  
-          #Codigo="ngModel"
-          [class.error]="!Codigo.valid && formUsersRegister.submitted"
-          class="form-control"
-          readonly
-          placeholder="Ingrese Nombre de Usuario"
-        />
-        <span *ngIf="formUsersRegister.submitted && Codigo.invalid" class="invalid-form">
-          <small class="form-text text-danger" *ngIf="Codigo.errors.required"
-            >Nombre de Usuario es requerido!</small
-          >
-        </span>
-        </div>
-      </div> -->
-            <div class="col-md-6 col-12">
+
+                <div class="form-group col-md-2">
+                  <label class="form-label" for="TipoDocumento">Seleccion Tipo de Documento</label>
+                  <ng-select [items]="SelectDocumentoCedula"  bindLabel="name" placeholder="Seleccione Tipo de Documento"
+                  [(ngModel)]="tipoDocumentoCedula"  required
+                  name="TipoDocumento" id="TipoDocumento"
+            #TipoDocumento="ngModel"
+            [class.error]="!TipoDocumento.valid && accountDetailsForm.submitted"  
+            autocomplete="off"
+                  ></ng-select>
+                  <span *ngIf="accountDetailsForm.submitted && TipoDocumento.invalid" class="invalid-form">
+                    <small class="form-text text-danger" *ngIf="TipoDocumento.errors.required">Tipo RIF requerido!</small>
+                  </span>
+                </div>
+
+                <div class="col-md-4 col-12">
+                  <div class="form-group">
+                    <label class="form-label" for="CedulaRepresentante">Cedula Representante Legal</label>
+                    <input  type="number" [(ngModel)]="UsersRegister.Cedula"
+                      #Apellidos="ngModel"  required name="CedulaRepresentante" id="CedulaRepresentante"
+                      [class.error]="!Apellidos.valid && accountDetailsForm.submitted" class="form-control"
+                      placeholder="Ingrese Cedula Representante Legal (EJ: 12345657)" />
+                    <span *ngIf="accountDetailsForm.submitted && Apellidos.invalid" class="invalid-form">
+                      <small class="form-text text-danger" *ngIf="Apellidos.errors.required">Cedula es requerido!</small>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="col-md-6 col-12">
+                  <div class="form-group">
+                    <label class="form-label" for="TelefonoLocal">Teléfono Local</label>
+                    <input  type="number" [(ngModel)]="UsersRegister.TelefonoLocal"
+                     #TelefonoLocal="ngModel"
+                      name="TelefonoLocal" id="TelefonoLocal" required
+                      [class.error]="!TelefonoLocal.valid && accountDetailsForm.submitted" class="form-control"
+                      placeholder="Ingrese Telefono Local" />
+                    <span *ngIf="accountDetailsForm.submitted && TelefonoLocal.invalid" class="invalid-form">
+                      <small class="form-text text-danger" *ngIf="TelefonoLocal.errors.required">Telefono Local es
+                        requerido!</small>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                  <div class="form-group">
+                    <label class="form-label" for="TelefonoCelular">Teléfono Celular</label>
+                    <input required  name="TelefonoCelular"  id="TelefonoCelular" type="number" [(ngModel)]="UsersRegister.TelefonoCelular"
+                       #TelefonoCelular="ngModel"
+                      [class.error]="!TelefonoCelular.valid && accountDetailsForm.submitted" class="form-control"
+                      placeholder="Ingrese Telefono Celular" />
+                    <span *ngIf="accountDetailsForm.submitted && TelefonoCelular.invalid" class="invalid-form">
+                      <small class="form-text text-danger" *ngIf="TelefonoCelular.errors.required">Telefono Celular es
+                        requerido!</small>
+                    </span>
+                  </div>
+                </div>
+
+
+                <div class="col-md-6 col-12">
+                  <label class="form-label" for="email">Correo Electronico</label>
+                  <input [(ngModel)]="UsersRegister.CorreoPrincipal" #TDEmailRef="ngModel" required email type="email" name="email"
+                    id="email" class="form-control"
+                    [class.error]="!TDEmailRef.valid && accountDetailsForm.submitted"
+                    placeholder="john.doe@email.com" aria-label="john.doe" />
+                  <span *ngIf="accountDetailsForm.submitted" class="invalid-form">
+                    <small class="form-text text-danger" *ngIf="!TDEmailRef.valid">El Correo Electronico debe ser valido!</small>
+                  </span>
+                </div>
+
+
+                <div class="col-md-6 col-12">
+                  <div class="form-group">
+                    <label class="form-label" for="email">Correo Electronico Secundario</label>
+                    <input required email type="email" [(ngModel)]="UsersRegister.CorreoSecundario"
+                      [ngModelOptions]="{standalone: true}" class="form-control"
+                      placeholder="Ingrese Correo Electronico Secundario" />
+                  </div>
+                </div>
+
+
+             <div class="col-md-6 col-12">
               <div class="form-group">
-                <label class="form-label" for="email">Contraseña de Usuario</label>
-                <input required email type="text" [(ngModel)]="UsersRegister.Clave"
-                  [ngModelOptions]="{standalone: true}" #Clave="ngModel"
-                  [class.error]="!Clave.valid && formUsersRegister.submitted" class="form-control"
+                <label class="form-label" for="password">Contraseña de Usuario</label>
+                <input required name="password" id="password" type="text" [(ngModel)]="UsersRegister.Clave"
+                   #Clave="ngModel"
+                  [class.error]="!Clave.valid && accountDetailsForm.submitted" class="form-control"
                   placeholder="Ingrese Contraseña" />
-                <span *ngIf="formUsersRegister.submitted && Clave.invalid" class="invalid-form">
+                <span *ngIf="accountDetailsForm.submitted && Clave.invalid" class="invalid-form">
                   <small class="form-text text-danger" *ngIf="Clave.errors.required">Contraseña de Usuario es
                     requerido!</small>
                 </span>
@@ -205,23 +150,27 @@
             </div>
             <div class="col-md-6 col-12">
               <div class="form-group">
-                <label class="form-label">Confirme Contraseña de Usuario</label>
-                <input required email type="text" [(ngModel)]="confirmeContrasenaUsuario"
-                  [ngModelOptions]="{standalone: true}" #ConfirmePassword="ngModel"
-                  [class.error]="!ConfirmePassword.valid && formUsersRegister.submitted" class="form-control"
+                <label class="form-label"  for="passwordConfirm">Confirme Contraseña de Usuario</label>
+                <input required  name="passwordConfirm"  id="passwordConfirm" type="text" [(ngModel)]="confirmeContrasenaUsuario"
+                   #ConfirmePassword="ngModel"
+                  [class.error]="!ConfirmePassword.valid && accountDetailsForm.submitted" class="form-control"
                   placeholder="Ingrese Confirmacion de Contraseña" />
-                <span *ngIf="formUsersRegister.submitted && ConfirmePassword.invalid" class="invalid-form">
+                <span *ngIf="accountDetailsForm.submitted && ConfirmePassword.invalid" class="invalid-form">
                   <small class="form-text text-danger" *ngIf="ConfirmePassword.errors.required">Confirmar la Contraseña
                     es requerido!</small>
                 </span>
               </div>
             </div>
-            <div class="col-12" align="center">
-              <button type="submit" [disabled]="!formUsersRegister.form.valid" (click)="registerTaxpayer()" rippleEffect
-                class="btn btn-success mr-1">Registrarse</button>
-              <button routerLink="/" rippleEffect class="btn btn-outline-secondary">Regresar</button>
-            </div>
-          </div>
+
+
+              <div class="col-12" align="center">
+                <button type="submit" [disabled]="!accountDetailsForm.form.valid" (click)="registerTaxpayer()" rippleEffect
+                  class="btn btn-success mr-1">Registrarse</button>
+                <button routerLink="/" rippleEffect class="btn btn-outline-secondary">Regresar</button>
+              </div>
+
+              </div>
+          </form>
         </form>
 
 
