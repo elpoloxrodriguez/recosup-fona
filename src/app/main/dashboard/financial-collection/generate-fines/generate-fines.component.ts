@@ -451,6 +451,7 @@ export class GenerateFinesComponent implements OnInit {
     this.xPagarMultas.UsuarioModifico = this.UserId
     this.xPagarMultas.banco = data.id_banco
     this.xPagarMultas.Bauche = data.Bauche
+    this.xPagarMultas.PG_Banco =  this.bancoPagoMultas
     this.xPagarMultas.referencia = data.referencia
     this.montoPagadox = this.utilService.ConvertirMoneda(data.montoPagado)
     this.xPagarMultas.montoPagado = data.montoPagado

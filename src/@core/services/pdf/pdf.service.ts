@@ -452,6 +452,12 @@ export class PdfService {
 
   CertificadoPagoMIF(data: any, Qr: any, TokenQr: any){
     // console.log(data)
+    let BancoPago 
+    if (data.nombre_bancos_MIF == 'Pago Complementario') {
+      BancoPago = data.PG_Banco
+    } else {
+      BancoPago = data.nombre_banco_bancos_MIF
+    }
     const doc = new jsPDF();
     const pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
     const pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
@@ -487,7 +493,7 @@ export class PdfService {
     doc.setFont(undefined, "");
 
     doc.setFontSize(14);
-    doc.text(`El Director Ejecutivo del Fondo Nacional Antidrogas (FONA), conforme a lo dispuesto en el Artículo 148 del Código Orgánico Tributario, certifica la recepción de la DECLARACIÓN del pago de ${data.nombre_bancos_MIF.toUpperCase()}  del contribuyente ${data.RazonSocial.toUpperCase()}  RIF ${data.Rif}, fecha de notificación ${data.notificacion} y pago realizado en fecha ${data.fechaPago}, correspondiente al período fiscal ${data.anio}, bajo el número de resolución ${data.Nomenclatura_mif}, por la cantidad de Bs. ${data.Monto_mif} , en el ${data.nombre_banco_bancos_MIF} bajo el numero de referencia #${data.referencia}, ante el Fondo Nacional Antidrogas, correspondiente al período desde ${data.inicio_fiscal} hasta el ${data.cierre_fiscal}.`,
+    doc.text(`El Director Ejecutivo del Fondo Nacional Antidrogas (FONA), conforme a lo dispuesto en el Artículo 148 del Código Orgánico Tributario, certifica la recepción de la DECLARACIÓN del pago de ${data.nombre_bancos_MIF.toUpperCase()}  del contribuyente ${data.RazonSocial.toUpperCase()}  RIF ${data.Rif}, fecha de notificación ${data.notificacion} y pago realizado en fecha ${data.fechaPago}, correspondiente al período fiscal ${data.anio}, bajo el número de resolución ${data.Nomenclatura_mif}, por la cantidad de Bs. ${data.Monto_mif} , en el ${BancoPago} bajo el numero de referencia #${data.referencia}, ante el Fondo Nacional Antidrogas, correspondiente al período desde ${data.inicio_fiscal} hasta el ${data.cierre_fiscal}.`,
       14,
       110,
       { maxWidth: 180, align: "justify" }

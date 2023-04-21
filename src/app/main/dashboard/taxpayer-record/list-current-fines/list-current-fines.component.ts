@@ -174,7 +174,7 @@ export class ListCurrentFinesComponent implements OnInit {
             this.ListaMultasNuevas.push(e);
             // }
           });
-          // console.log(this.ListaMultasNuevas)
+          console.log(this.ListaMultasNuevas)
         this.rowsDetalleMultasNuevas = this.ListaMultasNuevas;
         this.tempDataDetalleMultasNuevas = this.rowsDetalleMultasNuevas
       },
@@ -294,6 +294,8 @@ export class ListCurrentFinesComponent implements OnInit {
 
   async EditarMultasNuevas(modal: any, data: any){
     // console.log(data)
+    this.SelecBanco(data.articulo)
+    this.id_bancoMultas = data.PG_Banco
     this.numControl = this.token.Usuario[0].Rif
     this.hashcontrol = btoa("D" + this.numControl) //Cifrar documentos
     var e = ''
@@ -306,13 +308,13 @@ export class ListCurrentFinesComponent implements OnInit {
     this.xPagarMultas.id_mif = data.id_mif
     this.MontoModal = data.Monto_mif
     this.xPagarMultas.fechaPago = data.fechaPago
-    this.id_bancoMultas = data.id_banco
-    this.ListaBanco = [
-      {
-        id: data.id_banco,
-        name: data.cuenta_bancos_MIF +' - '+ '('+data.nombre_banco_bancos_MIF+')'
-      }
-    ]
+    // this.id_bancoMultas = data.id_banco
+    // this.ListaBanco = [
+    //   {
+    //     id: data.id_banco,
+    //     name: data.cuenta_bancos_MIF +' - '+ '('+data.nombre_banco_bancos_MIF+')'
+    //   }
+    // ]
     this.titleModal = data.RazonSocial;
     this.modalService.open(modal, {
       centered: true,
