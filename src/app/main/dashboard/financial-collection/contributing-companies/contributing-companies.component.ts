@@ -832,7 +832,7 @@ export class ContributingCompaniesComponent implements OnInit {
   }
 
   async DetalleEmpresa(modal, data) {
-    console.log(data)
+    // console.log(data)
     await this.DetalleMultasNuevas(data)
     this.idEmpresaCert = data.EmpresaId
     this.idUsuarioCert = data.UsuarioId
@@ -849,6 +849,49 @@ export class ContributingCompaniesComponent implements OnInit {
       keyboard: false,
       windowClass: 'fondo-modal',
     });
+  }
+
+
+  async GenerarConstancia(datay: any){
+    // console.log(datay)
+    // this.pdf.CertificadoPagoMIF(data)
+    this.CrearCert.usuario = datay.UsuarioId
+    this.CrearCert.token = this.utilService.TokenAleatorio(10),
+      this.CrearCert.type = 4, // 1 INSCRIPCIÓN
+      this.CrearCert.created_user = this.token.Usuario[0].UsuarioId
+    this.xAPI.funcion = "RECOSUP_C_Certificados";
+    this.xAPI.parametros = ''
+    this.xAPI.valores = JSON.stringify(this.CrearCert)
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        if (data.tipo === 1) {
+          var id = this.CrearCert.token
+          let ruta: string = btoa('https://recosup.fona.gob.ve');
+          this.apiService.GenQR(id, ruta).subscribe(
+            (data) => {
+              // INSERT API
+              this.apiService.LoadQR(id).subscribe(
+                (xdata) => {
+                  this.pdf.CertificadoPagoMIF(datay, xdata.contenido, this.CrearCert.token)
+                  this.utilService.alertConfirmMini('success', 'Certificado Descagado Exitosamente')
+                },
+                (error) => {
+                  console.log(error)
+                }
+              )
+            },
+            (error) => {
+              console.log(error)
+            }
+          )
+        } else {
+          this.utilService.alertConfirmMini('error', 'Oops! Algo salio mal, intente de nuevo')
+        }
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
   }
 
   filterUpdateDocumentoAdjuntoEmpresa(event) {
