@@ -81,13 +81,33 @@
               </ng-template>
             </ngx-datatable-column>
   
-            <ngx-datatable-column name="Acción" [width]="5" [sortable]="false">
+            <!-- <ngx-datatable-column name="Acción" [width]="5" [sortable]="false">
               <ng-template ngx-datatable-cell-template let-row="row">
                 <button type="button" class="btn btn-sm btn-success" (click)="RegistrarPagarAporte(ModalAddRegisterAporte, row)"
                   rippleEffect>
                   <span [data-feather]="'eye'"  [class]="'mr-25'"></span></button>
               </ng-template>
-            </ngx-datatable-column>
+            </ngx-datatable-column> -->
+
+            <ngx-datatable-column name="Accion" [width]="20" [sortable]="false">
+              <ng-template  ngx-datatable-cell-template let-row="row">
+                <div ngbDropdown container="body">
+                  <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
+                    <span [data-feather]="'settings'" [class]="'cursor-pointer'"></span>
+                  </button>
+                  <div ngbDropdownMenu>
+                    <div>
+                      <!-- <a [href]="dwUrl(row.Rif,row.Bauche)" ngbDropdownItem > -->
+                        <a  ngbDropdownItem >
+                        <span
+                        [data-feather]="'download'"  [size]="16" [class]="'mr-50'"></span> Descargar Bauche</a>
+                      <a (click)="RegistrarPagarAporte(ModalAddRegisterAporte, row)" ngbDropdownItem ><span
+                        [data-feather]="'book-open'"  [size]="16" [class]="'mr-50'"></span> Conciliar Pago</a>
+                  </div>
+                </div>
+                </div>  
+                  </ng-template>
+                </ngx-datatable-column>
   
   
           </ngx-datatable>

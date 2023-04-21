@@ -222,6 +222,7 @@ export class GenerateFinesComponent implements OnInit {
             this.ListaMultasNuevas.push(e);
           }
         });
+        // console.log(this.ListaMultasNuevas)
         this.rowsDetalleMultasNuevas = this.ListaMultasNuevas;
         this.tempDataDetalleMultasNuevas = this.rowsDetalleMultasNuevas
       },
@@ -434,8 +435,12 @@ export class GenerateFinesComponent implements OnInit {
   }
 
   DetalleModal(modal, data) {
-    console.log(data)
-    this.bancoPagoMultas = data.nombre_banco_bancos_MIF +' -  ('+ data.cuenta_bancos_MIF +') - ' + data.nombre_bancos_MIF
+    // console.log(data)
+    if (data.nombre_bancos_MIF === 'Pago Complementario') {
+      this.bancoPagoMultas = data.PG_Banco +' ('+ data.nombre_bancos_MIF +')'
+    } else {      
+      this.bancoPagoMultas = data.nombre_banco_bancos_MIF +' -  ('+ data.cuenta_bancos_MIF +') - ' + data.nombre_bancos_MIF
+    }
     this.MontoModal = data.Monto_mif
     this.xPagarMultas.id_mif = data.id_mif
     this.CamposConciliacionViews.articulo = data.articulo

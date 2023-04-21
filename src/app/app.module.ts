@@ -65,6 +65,8 @@ import { GenerateNonRegisteredFinesComponent } from './main/dashboard/financial-
 import { environment } from '../environments/environment';
 import { ServiceWorkerModule } from '@angular/service-worker';
 //  subir Archivos
+// import { NgxMaskModule, IConfig } from 'ngx-mask'
+
 
 const appRoutes: Routes = [
   {
@@ -102,6 +104,7 @@ const appRoutes: Routes = [
     //NgBootstrap
     NgbModule,
     ToastrModule.forRoot({}),
+    // NgxMaskModule.forRoot(),
 
     // Core modules
     CoreModule.forRoot(coreConfig),

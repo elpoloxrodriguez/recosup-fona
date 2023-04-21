@@ -84,24 +84,27 @@
                   </div>
                 </div>
 
+                
+
                 <div class="col-md-6 col-12">
                   <div class="form-group">
                     <label class="form-label" for="TelefonoLocal">Teléfono Local</label>
-                    <input  type="number" [(ngModel)]="UsersRegister.TelefonoLocal"
+                    <input  type="text" mask="(0000) 000 00 00" [(ngModel)]="UsersRegister.TelefonoLocal"
                      #TelefonoLocal="ngModel"
                       name="TelefonoLocal" id="TelefonoLocal" required
                       [class.error]="!TelefonoLocal.valid && accountDetailsForm.submitted" class="form-control"
                       placeholder="Ingrese Telefono Local" />
-                    <span *ngIf="accountDetailsForm.submitted && TelefonoLocal.invalid" class="invalid-form">
+                     <span *ngIf="accountDetailsForm.submitted && TelefonoLocal.invalid" class="invalid-form">
                       <small class="form-text text-danger" *ngIf="TelefonoLocal.errors.required">Telefono Local es
                         requerido!</small>
-                    </span>
+                    </span> 
                   </div>
                 </div>
+
                 <div class="col-md-6 col-12">
                   <div class="form-group">
                     <label class="form-label" for="TelefonoCelular">Teléfono Celular</label>
-                    <input required  name="TelefonoCelular"  id="TelefonoCelular" type="number" [(ngModel)]="UsersRegister.TelefonoCelular"
+                    <input required  name="TelefonoCelular" mask="(0000) 000 00 00"  id="TelefonoCelular" type="text" [(ngModel)]="UsersRegister.TelefonoCelular"
                        #TelefonoCelular="ngModel"
                       [class.error]="!TelefonoCelular.valid && accountDetailsForm.submitted" class="form-control"
                       placeholder="Ingrese Telefono Celular" />

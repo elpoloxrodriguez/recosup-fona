@@ -50,7 +50,8 @@ export class ListCurrentFinesComponent implements OnInit {
     id_mif: 0,
     status_mif: undefined,
     Bauche: undefined,
-    Observacion: undefined
+    Observacion: undefined,
+    PG_Banco: ''
   }
 
   public hashcontrol = ''
@@ -290,7 +291,7 @@ export class ListCurrentFinesComponent implements OnInit {
   }
 
   async EditarMultasNuevas(modal: any, data: any){
-    console.log(data)
+    // console.log(data)
     this.numControl = this.token.Usuario[0].Rif
     this.hashcontrol = btoa("D" + this.numControl) //Cifrar documentos
     var e = ''
@@ -320,6 +321,11 @@ export class ListCurrentFinesComponent implements OnInit {
     });
   }
 
+  CapturarBanco(event: any){
+    // console.log(event)
+    let banco = event.name
+    this.xPagarMultas.PG_Banco = banco
+  }
 
   async PagarMultaConciliacion(){
     var e = ''

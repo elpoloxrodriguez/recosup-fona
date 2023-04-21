@@ -131,15 +131,19 @@ export class TaxpayerPaymentsComponent implements OnInit {
           e.Monto = this.utilservice.ConvertirMoneda(e.Monto)
           this.Utilidad.push(e)
         });
-        // setTimeout(() => {
+        // console.log(this.Utilidad)
           this.rowsUtilidadCierreFiscal = this.Utilidad;
           this.tempDataCierreFiscal = this.rowsUtilidadCierreFiscal;
-      // }, 450);
       },
       (error) => {
         console.log(error)
       }
     )
+  }
+
+  dwUrl(ncontrol: string, archivo: string): string {
+    return this.apiService.Dws(btoa("D" + ncontrol) + '/' + archivo)
+    // this.router.navigate([this.url]) .then(() => {window.location.reload()});
   }
 
 
@@ -223,7 +227,7 @@ export class TaxpayerPaymentsComponent implements OnInit {
 
 
     RegistrarPagarAporte(modal, data) {
-      // console.log(data)
+      console.log(data)
       this.IdPago = data.EmpresaGananciaId
       this.titleModal = data.RazonSocial
       this.aporte.fecha = data.FechaDocumento

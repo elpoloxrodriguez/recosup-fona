@@ -284,6 +284,7 @@ export interface RECOSUP_U_PagarMultas { // pagar multas
 	status_mif : any
 	Bauche : any,
 	Observacion : any,
+	PG_Banco ?: string
 }
 
 

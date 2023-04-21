@@ -174,6 +174,10 @@ export class ContributingCompaniesComponent implements OnInit {
   public selectMunicipios
   public selectParroquias
 
+  public IdEmpresa
+  public ListaMultasNuevas = []
+  public rowsDetalleMultasNuevas
+  public tempDataDetalleMultasNuevas
   
   // Decorator
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -620,6 +624,28 @@ export class ContributingCompaniesComponent implements OnInit {
     )
   }
 
+  async DetalleMultasNuevas(data: any) {
+    this.ListaMultasNuevas = []
+    this.xAPI.funcion = "RECOSUP_R_ListarMultasNuevasMIF_ID";
+    this.xAPI.parametros = data.EmpresaId
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        data.Cuerpo.map(e => {
+          // if (e.status_mif == '0' && this.Rif == e.Rif) {
+            e.Nomenclatura_mif = e.Nomenclatura_mif.toUpperCase()
+            e.Monto_mif = this.utilService.ConvertirMoneda(e.Monto_mif)
+            this.ListaMultasNuevas.push(e);
+          // }
+        });
+        this.rowsDetalleMultasNuevas = this.ListaMultasNuevas;
+        this.tempDataDetalleMultasNuevas = this.rowsDetalleMultasNuevas
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+
   async DocumentosAdjuntosEmpresa(usuario: any, empresa: any) {
     var idd = empresa
     var usua = usuario
@@ -806,7 +832,8 @@ export class ContributingCompaniesComponent implements OnInit {
   }
 
   async DetalleEmpresa(modal, data) {
-    // console.log(data)
+    console.log(data)
+    await this.DetalleMultasNuevas(data)
     this.idEmpresaCert = data.EmpresaId
     this.idUsuarioCert = data.UsuarioId
     await this.EmpresaRIF(data.Rif)

@@ -24,6 +24,7 @@ import { AuthRegisterUsersComponent } from './auth-register-users/auth-register-
 import { FooterComponent } from './footer/footer.component';
 import { AsistenteVirtualComponent } from 'app/main/asistente-virtual/asistente-virtual/asistente-virtual.component';
 
+import { NgxMaskModule, IConfig } from 'ngx-mask'
 
 
 // routing
@@ -72,6 +73,7 @@ const routes: Routes = [
 ],
   imports: [CommonModule, RouterModule.forChild(routes), NgbModule,  NgSelectModule,
     FormsModule, ReactiveFormsModule, CoreCommonModule, ContentHeaderModule,
-    CardSnippetModule]
+    CardSnippetModule, NgxMaskModule.forRoot(),
+  ]
 })
 export class AuthenticationModule {}

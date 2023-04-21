@@ -26,7 +26,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     FormsModule,
     ReactiveFormsModule,
     AuthenticationModule,
-    MiscellaneousModule
+    MiscellaneousModule,
   ],
 
 })
