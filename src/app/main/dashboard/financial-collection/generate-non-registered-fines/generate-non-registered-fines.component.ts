@@ -220,10 +220,12 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
         data.Cuerpo.map(e => {
           if (e.status_mif != '1') {
             e.Nomenclatura_mif = e.Nomenclatura_mif.toUpperCase()
+            e.Monto = e.Monto_mif
             e.Monto_mif = this.utilservice.ConvertirMoneda(e.Monto_mif)
             this.ListaMultasNuevas.push(e);
           }
         });
+        // console.log( this.ListaMultasNuevas)
         this.rowsDetalleMultasNuevas = this.ListaMultasNuevas;
         this.tempDataDetalleMultasNuevas = this.rowsDetalleMultasNuevas
       },
@@ -490,7 +492,7 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
     this.notificacion = data.notificacion
     this.xPagarMultas.referencia = data.referencia
     this.montoPagadox = this.utilService.ConvertirMoneda(data.montoPagado)
-    this.xPagarMultas.montoPagado = data.montoPagado
+    this.xPagarMultas.montoPagado = data.Monto
     this.xPagarMultas.fechaPago = data.fechaPago
     this.titleModal = data.NombreEmpresa
     this.modalService.open(modal, {

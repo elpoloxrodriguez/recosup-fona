@@ -169,6 +169,7 @@ export class ListCurrentFinesComponent implements OnInit {
         data.Cuerpo.map(e => {
           // if (e.status_mif == '0' || e.status_mif == '2') {
             e.Nomenclatura_mif = e.Nomenclatura_mif.toUpperCase()
+            e.Monto = e.Monto_mif
             e.Monto_mif = this.utilService.ConvertirMoneda(e.Monto_mif)
             this.ListaMultasNuevas.push(e);
             // }
@@ -266,6 +267,7 @@ export class ListCurrentFinesComponent implements OnInit {
     // console.log(data)
     this.numControl = this.token.Usuario[0].Rif
     this.hashcontrol = btoa("D" + this.numControl) //Cifrar documentos
+    this.xPagarMultas.montoPagado = data.Monto
     this.xPagarMultas.banco = data.id_banco
     this.xPagarMultas.id_mif = data.id_mif
     this.MontoModal = data.Monto_mif
