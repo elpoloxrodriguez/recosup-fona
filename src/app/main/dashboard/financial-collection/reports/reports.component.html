@@ -7,7 +7,7 @@
         <div class="col-12">
             <div class="form-group">
               <label for="basicInput">Seleccione Reporte</label>
-              <ng-select
+              <!-- <ng-select
               [items]="ListReport"
               placeholder="Seleccione Reporte"
               bindLabel="name"
@@ -17,7 +17,18 @@
               (ngModelChange)="NuevosReportes($event)"
               required
               >
-            </ng-select>
+            </ng-select> -->
+            <ng-select
+            [items]="ListReport"
+            placeholder="Seleccione Reporte"
+            bindLabel="name"
+            bindValue="id"
+            [(ngModel)]="itemReports"
+            [ngModelOptions]="{standalone: true}"
+            (ngModelChange)="NuevosReportesX($event)"
+            required
+            >
+          </ng-select>
             </div>
           </div>
 

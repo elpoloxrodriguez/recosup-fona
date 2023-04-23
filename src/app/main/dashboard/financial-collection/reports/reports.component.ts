@@ -25,10 +25,25 @@ export class ReportsComponent implements OnInit {
   public itemReports
   public statusEmpresa
   public ListReport = [
-    { id: 1, name: 'Todas las Empresas que Declararon un año en Especifico con Monto de Utilidad y Aporte' },
-    { id: 2, name: 'Empresas Registradas en el Recosup con Representante Legal ' },
-    { id: 3, name: 'Empresas que no han Declarado en Varios años con mas de 50 Trabajadores' },
-    { id: 4, name: 'Total Empresas con Correo y Actividad Economica Aprobadas'}
+    { id: 1, name: 'Todas las empresas que declararon un año en especifico con monto de utilidad y aporte' },
+    { id: 2, name: 'Empresas que declararon y no generaron APORTE con mas de 50 trabajadores' },
+    { id: 3, name: 'Total empresas con correo y actividad economica aprobadas' },
+    { id: 4, name: 'Empresas que no han declarado un ejercicio fiscal' },
+    { id: 5, name: 'Empresas que declaradon y no generaron planilla con mas de 50 trabajadores' },
+    { id: 6, name: 'Total empresas con correo y actividad economica aprobadas' },
+    { id: 7, name: 'Empresas que no han declarado en varios años con mas de 50 trabajadores' },
+    { id: 8, name: 'Empresas registradas en el recosup con representante legal' },
+    { id: 9, name: 'Empresas registradas en el recosup con 50 o mas tarbajadores que no declararon un año en especifico' },
+    { id: 10, name: 'Empresa Irregulares' },
+    { id: 11, name: 'Consulta de empresas por Activida Económica' },
+    { id: 12, name: 'Multas pagadas' },
+    { id: 13, name: 'Empresas aprobadas completas que existen en la tabla usuario y en empresas' },
+    { id: 14, name: 'Empresas pre-inscritas que no estan completas o no han pasado a la tabla empresa' },
+    { id: 15, name: 'Empresas con declaracion y pagos conciliados por año de utilidad' }
+    // { id: 1, name: 'Todas las Empresas que Declararon un año en Especifico con Monto de Utilidad y Aporte' },
+    // { id: 2, name: 'Empresas Registradas en el Recosup con Representante Legal ' },
+    // { id: 3, name: 'Empresas que no han Declarado en Varios años con mas de 50 Trabajadores' },
+    // { id: 4, name: 'Total Empresas con Correo y Actividad Economica Aprobadas'}
     // REPORTES PREDETERMINADOS
     // { id: 1, name: 'Empresas Aprobadas' },
     // { id: 2, name: 'Empresas por Aprobar' },
@@ -67,6 +82,314 @@ export class ReportsComponent implements OnInit {
   //   }, 2500);
   // }
 
+  async NuevosReportesX(data: any) {
+    switch (data) {
+      case 1:
+        this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
+        this.xAPI.funcion = "RECOSUP_R_ReporteRecaudacion_01";
+        this.xAPI.parametros = ''
+        this.xAPI.valores = ''
+        await this.apiService.Ejecutar(this.xAPI).subscribe(
+          (data) => {
+            if (data.Cuerpo.length > 0) {
+              this.exportAsXLSX(data.Cuerpo, 'Todas las empresas que declararon un año en especifico con monto de utilidad y aporte')
+              this.sectionBlockUI.stop()
+            } else {
+              this.sectionBlockUI.stop(),
+                this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
+            }
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+        break;
+      case 2:
+        this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
+        this.xAPI.funcion = "RECOSUP_R_ReporteRecaudacion_02";
+        this.xAPI.parametros = ''
+        this.xAPI.valores = ''
+        await this.apiService.Ejecutar(this.xAPI).subscribe(
+          (data) => {
+            if (data.Cuerpo.length > 0) {
+              this.exportAsXLSX(data.Cuerpo, 'Empresas que declararon y no generaron APORTE con mas de 50 trabajadores')
+              this.sectionBlockUI.stop()
+            } else {
+              this.sectionBlockUI.stop(),
+                this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
+            }
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+        break;
+      case 3:
+        this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
+        this.xAPI.funcion = "RECOSUP_R_ReporteRecaudacion_03";
+        this.xAPI.parametros = ''
+        this.xAPI.valores = ''
+        await this.apiService.Ejecutar(this.xAPI).subscribe(
+          (data) => {
+            if (data.Cuerpo.length > 0) {
+              this.exportAsXLSX(data.Cuerpo, 'Total empresas con correo y actividad economica aprobadas')
+              this.sectionBlockUI.stop()
+            } else {
+              this.sectionBlockUI.stop(),
+                this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
+            }
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+        break;
+      case 4:
+        this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
+        this.xAPI.funcion = "RECOSUP_R_ReporteRecaudacion_04";
+        this.xAPI.parametros = ''
+        this.xAPI.valores = ''
+        await this.apiService.Ejecutar(this.xAPI).subscribe(
+          (data) => {
+            if (data.Cuerpo.length > 0) {
+              this.exportAsXLSX(data.Cuerpo, 'Empresas que no han declarado un ejercicio fiscal')
+              this.sectionBlockUI.stop()
+            } else {
+              this.sectionBlockUI.stop(),
+                this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
+            }
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+        break;
+      case 5:
+        this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
+        this.xAPI.funcion = "RECOSUP_R_ReporteRecaudacion_05";
+        this.xAPI.parametros = ''
+        this.xAPI.valores = ''
+        await this.apiService.Ejecutar(this.xAPI).subscribe(
+          (data) => {
+            if (data.Cuerpo.length > 0) {
+              this.exportAsXLSX(data.Cuerpo, 'Empresas que declaradon y no generaron planilla con mas de 50 trabajadores')
+              this.sectionBlockUI.stop()
+            } else {
+              this.sectionBlockUI.stop(),
+                this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
+            }
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+        break;
+      case 6:
+        this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
+        this.xAPI.funcion = "RECOSUP_R_ReporteRecaudacion_03";
+        this.xAPI.parametros = ''
+        this.xAPI.valores = ''
+        await this.apiService.Ejecutar(this.xAPI).subscribe(
+          (data) => {
+            if (data.Cuerpo.length > 0) {
+              this.exportAsXLSX(data.Cuerpo, 'Total empresas con correo y actividad economica aprobadas')
+              this.sectionBlockUI.stop()
+            } else {
+              this.sectionBlockUI.stop(),
+                this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
+            }
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+        break;
+      case 7:
+        this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
+        this.xAPI.funcion = "RECOSUP_R_ReporteRecaudacion_07";
+        this.xAPI.parametros = ''
+        this.xAPI.valores = ''
+        await this.apiService.Ejecutar(this.xAPI).subscribe(
+          (data) => {
+            if (data.Cuerpo.length > 0) {
+              this.exportAsXLSX(data.Cuerpo, 'Empresas que no han declarado en varios años con mas de 50 trabajadores')
+              this.sectionBlockUI.stop()
+            } else {
+              this.sectionBlockUI.stop(),
+                this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
+            }
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+        break;
+      case 8:
+        this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
+        this.xAPI.funcion = "RECOSUP_R_ReporteRecaudacion_08";
+        this.xAPI.parametros = ''
+        this.xAPI.valores = ''
+        await this.apiService.Ejecutar(this.xAPI).subscribe(
+          (data) => {
+            if (data.Cuerpo.length > 0) {
+              this.exportAsXLSX(data.Cuerpo, 'Empresas registradas en el recosup con representante legal')
+              this.sectionBlockUI.stop()
+            } else {
+              this.sectionBlockUI.stop(),
+                this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
+            }
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+        break;
+      case 9:
+        this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
+        this.xAPI.funcion = "RECOSUP_R_ReporteRecaudacion_09";
+        this.xAPI.parametros = ''
+        this.xAPI.valores = ''
+        await this.apiService.Ejecutar(this.xAPI).subscribe(
+          (data) => {
+            if (data.Cuerpo.length > 0) {
+              this.exportAsXLSX(data.Cuerpo, 'Empresas registradas en el recosup con 50 o mas tarbajadores que no declararon un año en especifico')
+              this.sectionBlockUI.stop()
+            } else {
+              this.sectionBlockUI.stop(),
+                this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
+            }
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+        break;
+      case 10:
+        this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
+        this.xAPI.funcion = "RECOSUP_R_ReporteRecaudacion_10";
+        this.xAPI.parametros = ''
+        this.xAPI.valores = ''
+        await this.apiService.Ejecutar(this.xAPI).subscribe(
+          (data) => {
+            if (data.Cuerpo.length > 0) {
+              this.exportAsXLSX(data.Cuerpo, 'Empresa Irregulares')
+              this.sectionBlockUI.stop()
+            } else {
+              this.sectionBlockUI.stop(),
+                this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
+            }
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+        break;
+      case 11:
+        this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
+        this.xAPI.funcion = "RECOSUP_R_ReporteRecaudacion_11";
+        this.xAPI.parametros = ''
+        this.xAPI.valores = ''
+        await this.apiService.Ejecutar(this.xAPI).subscribe(
+          (data) => {
+            if (data.Cuerpo.length > 0) {
+              this.exportAsXLSX(data.Cuerpo, 'Consulta de empresas por Activida Económica')
+              this.sectionBlockUI.stop()
+            } else {
+              this.sectionBlockUI.stop(),
+                this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
+            }
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+        break;
+      case 12:
+        this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
+        this.xAPI.funcion = "RECOSUP_R_ReporteRecaudacion_12";
+        this.xAPI.parametros = ''
+        this.xAPI.valores = ''
+        await this.apiService.Ejecutar(this.xAPI).subscribe(
+          (data) => {
+            if (data.Cuerpo.length > 0) {
+              this.exportAsXLSX(data.Cuerpo, 'Multas pagadas')
+              this.sectionBlockUI.stop()
+            } else {
+              this.sectionBlockUI.stop(),
+                this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
+            }
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+        break;
+      case 13:
+        this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
+        this.xAPI.funcion = "RECOSUP_R_ReporteRecaudacion_13";
+        this.xAPI.parametros = ''
+        this.xAPI.valores = ''
+        await this.apiService.Ejecutar(this.xAPI).subscribe(
+          (data) => {
+            if (data.Cuerpo.length > 0) {
+              this.exportAsXLSX(data.Cuerpo, 'Empresas aprobadas completas que existen en la tabla usuario y en empresas')
+              this.sectionBlockUI.stop()
+            } else {
+              this.sectionBlockUI.stop(),
+                this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
+            }
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+        break;
+      case 14:
+        this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
+        this.xAPI.funcion = "RECOSUP_R_ReporteRecaudacion_14";
+        this.xAPI.parametros = ''
+        this.xAPI.valores = ''
+        await this.apiService.Ejecutar(this.xAPI).subscribe(
+          (data) => {
+            if (data.Cuerpo.length > 0) {
+              this.exportAsXLSX(data.Cuerpo, 'Empresas pre-inscritas que no estan completas o no han pasado a la tabla empresa')
+              this.sectionBlockUI.stop()
+            } else {
+              this.sectionBlockUI.stop(),
+                this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
+            }
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+        break;
+      case 15:
+        this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
+        this.xAPI.funcion = "RECOSUP_R_ReporteRecaudacion_15";
+        this.xAPI.parametros = ''
+        this.xAPI.valores = ''
+        await this.apiService.Ejecutar(this.xAPI).subscribe(
+          (data) => {
+            if (data.Cuerpo.length > 0) {
+              this.exportAsXLSX(data.Cuerpo, 'Empresas con declaracion y pagos conciliados por año de utilidad')
+              this.sectionBlockUI.stop()
+            } else {
+              this.sectionBlockUI.stop(),
+                this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
+            }
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+        break;
+      default:
+        break;
+    }
+  }
+
+
   async NuevosReportes(id: any) {
     switch (this.itemReports) {
       case 1:
@@ -98,35 +421,35 @@ export class ReportsComponent implements OnInit {
           }
         )
         break;
-        case 3:
-          if (this.itemReports === 3) {
-            this.BtnShow = true
+      case 3:
+        if (this.itemReports === 3) {
+          this.BtnShow = true
+        }
+        break;
+      case 4:
+        this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
+        this.xAPI.funcion = "RECOSUP_R_ReporteRecaudacion4";
+        this.xAPI.parametros = ''
+        this.xAPI.valores = ''
+        await this.apiService.Ejecutar(this.xAPI).subscribe(
+          (data) => {
+            console.log(data)
+            if (data.Cuerpo.length > 0) {
+              this.exportAsXLSX(data.Cuerpo, 'Total Empresas con Correo y Actividad Economica Aprobadas')
+              this.sectionBlockUI.stop(),
+                this.BtnShow = false
+              this.itemReports = undefined
+              this.inputAnio = undefined
+            } else {
+              this.sectionBlockUI.stop(),
+                this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
+            }
+          },
+          (error) => {
+            console.log(error)
           }
-          break;
-          case 4:
-            this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
-            this.xAPI.funcion = "RECOSUP_R_ReporteRecaudacion4";
-            this.xAPI.parametros = ''
-            this.xAPI.valores = ''
-            await this.apiService.Ejecutar(this.xAPI).subscribe(
-              (data) => {
-                console.log(data)
-                if (data.Cuerpo.length > 0) {
-                  this.exportAsXLSX(data.Cuerpo, 'Total Empresas con Correo y Actividad Economica Aprobadas')
-                  this.sectionBlockUI.stop(),
-                    this.BtnShow = false
-                  this.itemReports = undefined
-                  this.inputAnio = undefined
-                } else {
-                  this.sectionBlockUI.stop(),
-                    this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
-                }
-              },
-              (error) => {
-                console.log(error)
-              }
-            )
-            break;
+        )
+        break;
       default:
         break;
     }
@@ -159,30 +482,30 @@ export class ReportsComponent implements OnInit {
           }
         )
         break;
-        case 3:
-          this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
-          this.xAPI.funcion = "RECOSUP_R_ReporteRecaudacion3";
-          this.xAPI.parametros = fecha
-          this.xAPI.valores = ''
-          await this.apiService.Ejecutar(this.xAPI).subscribe(
-            (data) => {
-              console.log(data)
-              if (data.Cuerpo.length > 0) {
-                this.exportAsXLSX(data.Cuerpo, 'Empresas que no han Declarado en Varios años con mas de 50 Trabajadores')
-                this.sectionBlockUI.stop(),
-                  this.BtnShow = false
-                this.itemReports = undefined
-                this.inputAnio = undefined
-              } else {
-                this.sectionBlockUI.stop(),
-                  this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
-              }
-            },
-            (error) => {
-              console.log(error)
+      case 3:
+        this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
+        this.xAPI.funcion = "RECOSUP_R_ReporteRecaudacion3";
+        this.xAPI.parametros = fecha
+        this.xAPI.valores = ''
+        await this.apiService.Ejecutar(this.xAPI).subscribe(
+          (data) => {
+            console.log(data)
+            if (data.Cuerpo.length > 0) {
+              this.exportAsXLSX(data.Cuerpo, 'Empresas que no han Declarado en Varios años con mas de 50 Trabajadores')
+              this.sectionBlockUI.stop(),
+                this.BtnShow = false
+              this.itemReports = undefined
+              this.inputAnio = undefined
+            } else {
+              this.sectionBlockUI.stop(),
+                this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
             }
-          )
-          break;
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+        break;
 
       default:
         break;
