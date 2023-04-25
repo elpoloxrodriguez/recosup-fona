@@ -38,6 +38,7 @@ import { TaxpayersComponent } from './digital-documentation/taxpayers/taxpayers.
 import { PanelAsistenteVirtualComponent } from '../asistente-virtual/panel-asistente-virtual/panel-asistente-virtual.component';
 
 
+
 @NgModule({
     declarations: [
       DashboardComponent,

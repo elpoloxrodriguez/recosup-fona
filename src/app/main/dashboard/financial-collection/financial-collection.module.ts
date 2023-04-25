@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
 
 
+import { NgxMaskModule, IConfig } from 'ngx-mask'
 
 
 
@@ -43,6 +44,7 @@ import { GenerateNonRegisteredFinesComponent } from './generate-non-registered-f
   declarations: [
   ],
   imports: [
+    NgxMaskModule.forRoot(),
     TranslateModule,
     CommonModule,
     RouterModule,

@@ -21,6 +21,23 @@ export class ReportsComponent implements OnInit {
     valores: {},
   };
 
+  public ReporteRecaudacion_01 = false
+  public ReporteRecaudacion_02 = false
+  public ReporteRecaudacion_03 = false
+  public ReporteRecaudacion_04 = false
+  public ReporteRecaudacion_05 = false
+  public ReporteRecaudacion_06 = false
+  public ReporteRecaudacion_07 = false
+  public ReporteRecaudacion_08 = false
+  public ReporteRecaudacion_09 = false
+  public ReporteRecaudacion_10 = false
+  public ReporteRecaudacion_11 = false
+  public ReporteRecaudacion_12 = false
+  public ReporteRecaudacion_13 = false
+  public ReporteRecaudacion_14 = false
+  public ReporteRecaudacion_15 = false
+
+
   public ListReportEmpresasAprobadas = []
   public itemReports
   public statusEmpresa
@@ -64,6 +81,14 @@ export class ReportsComponent implements OnInit {
   public BtnShow = false
   public inputAnio
 
+
+
+  public Reporte01_valor1
+  public Reporte01_valor2
+  public Reporte01_valor3 = 1
+  public Reporte01_valor4 = 0
+  public Reporte01_valor5
+
   constructor(
     private excelservice: ExcelService,
     private apiService: ApiService,
@@ -82,18 +107,37 @@ export class ReportsComponent implements OnInit {
   //   }, 2500);
   // }
 
+  SaberQReporteEscogio(event) {
+    switch (event) {
+      case 1:
+        this.ReporteRecaudacion_01 = true
+        break;
+    
+      default:
+        break;
+    }
+  }
+
   async NuevosReportesX(data: any) {
     switch (data) {
       case 1:
         this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
         this.xAPI.funcion = "RECOSUP_R_ReporteRecaudacion_01";
-        this.xAPI.parametros = ''
+        this.xAPI.parametros = this.Reporte01_valor1+','+this.Reporte01_valor2+','+this.Reporte01_valor3+','+this.Reporte01_valor4+','+this.Reporte01_valor5
         this.xAPI.valores = ''
         await this.apiService.Ejecutar(this.xAPI).subscribe(
           (data) => {
+            // console.log(data)
             if (data.Cuerpo.length > 0) {
               this.exportAsXLSX(data.Cuerpo, 'Todas las empresas que declararon un año en especifico con monto de utilidad y aporte')
               this.sectionBlockUI.stop()
+               this.Reporte01_valor1 = ''
+              this.Reporte01_valor2 = ''
+              this.Reporte01_valor3 = 1
+              this.Reporte01_valor4 = 0
+              this.Reporte01_valor5 = ''
+              this.itemReports = undefined
+              this.ReporteRecaudacion_01 = false
             } else {
               this.sectionBlockUI.stop(),
                 this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
