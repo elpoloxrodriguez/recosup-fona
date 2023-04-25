@@ -21,6 +21,12 @@ export class ReportsComponent implements OnInit {
     valores: {},
   };
 
+  public SelectReporte01 = [
+    {id: 7, name: 'Pagados y Conciliados' },
+    {id: 17, name: 'Por Conciliar' },
+    {id: 18, name: 'Rechazadas' }
+  ]
+
   public ReporteRecaudacion_01 = false
   public ReporteRecaudacion_02 = false
   public ReporteRecaudacion_03 = false
@@ -86,7 +92,7 @@ export class ReportsComponent implements OnInit {
   public Reporte01_valor1
   public Reporte01_valor2
   public Reporte01_valor3 = 1
-  public Reporte01_valor4 = 0
+  public Reporte01_valor4 = undefined
   public Reporte01_valor5
 
   constructor(
@@ -134,7 +140,7 @@ export class ReportsComponent implements OnInit {
                this.Reporte01_valor1 = ''
               this.Reporte01_valor2 = ''
               this.Reporte01_valor3 = 1
-              this.Reporte01_valor4 = 0
+              this.Reporte01_valor4 = undefined
               this.Reporte01_valor5 = ''
               this.itemReports = undefined
               this.ReporteRecaudacion_01 = false

@@ -7,17 +7,6 @@
         <div class="col-12">
             <div class="form-group">
               <label for="basicInput">Seleccione Reporte</label>
-              <!-- <ng-select
-              [items]="ListReport"
-              placeholder="Seleccione Reporte"
-              bindLabel="name"
-              bindValue="id"
-              [(ngModel)]="itemReports"
-              [ngModelOptions]="{standalone: true}"
-              (ngModelChange)="NuevosReportes($event)"
-              required
-              >
-            </ng-select> -->
             <ng-select
             [items]="ListReport"
             placeholder="Seleccione Reporte"
@@ -34,9 +23,7 @@
 
           <div class="col-6" *ngIf="ReporteRecaudacion_01 != false">
             <div class="form-group">
-              <label for="basicInput">Ingrese Monto</label>
-             <!-- <input class="form-control"  [(ngModel)]="Reporte01_valor1"
-             [ngModelOptions]="{standalone: true}" type="text" placeholder="Ingrese Monto"> -->
+              <label for="basicInput">Ingrese Monto <strong><font color="red"> >= Mayor o Igual </font></strong></label>
              <input class="form-control" type="text"  [(ngModel)]="Reporte01_valor1"
              [ngModelOptions]="{standalone: true}" placeholder="10.00" mask="separator" thousandSeparator="." />
             </div>
@@ -55,13 +42,23 @@
              [ngModelOptions]="{standalone: true}" readonly type="number" placeholder="Seleccion Estatus Empresa">
             </div>
           </div>
+
+          
           <div class="col-6" *ngIf="ReporteRecaudacion_01 != false">
             <div class="form-group">
               <label for="basicInput">Seleccione Estatus General</label>
-             <input class="form-control" readonly  [(ngModel)]="Reporte01_valor4"
-             [ngModelOptions]="{standalone: true}" type="number" placeholder="Seleccion Estatus General">
+            <ng-select
+            [items]="SelectReporte01"
+            bindLabel="name"
+            bindValue="id" 
+            placeholder="Seleccione Estatus General"
+            [(ngModel)]="Reporte01_valor4"
+            [ngModelOptions]="{standalone: true}"
+           >
+          </ng-select>
             </div>
           </div>
+
           <div class="col-6" *ngIf="ReporteRecaudacion_01 != false">
             <div class="form-group">
               <label for="basicInput">Ingrese Cantidad Empleados <strong><font color="red"> >= Mayor o Igual </font></strong></label>
