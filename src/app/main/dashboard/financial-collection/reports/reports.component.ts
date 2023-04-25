@@ -27,6 +27,9 @@ export class ReportsComponent implements OnInit {
     {id: 18, name: 'Rechazadas' }
   ]
 
+
+  public btnGenerarReporte = false
+
   public ReporteRecaudacion_01 = false
   public ReporteRecaudacion_02 = false
   public ReporteRecaudacion_03 = false
@@ -95,6 +98,17 @@ export class ReportsComponent implements OnInit {
   public Reporte01_valor4 = undefined
   public Reporte01_valor5
 
+  public Reporte02_valor1
+  public Reporte02_valor2
+  public Reporte02_valor3 = 1
+  public Reporte02_valor4 = 2
+  public Reporte02_valor5
+
+  public Reporte04_valor1
+  public Reporte04_valor2 = 1
+  public Reporte04_valor3
+
+  
   constructor(
     private excelservice: ExcelService,
     private apiService: ApiService,
@@ -116,10 +130,48 @@ export class ReportsComponent implements OnInit {
   SaberQReporteEscogio(event) {
     switch (event) {
       case 1:
+        this.btnGenerarReporte = true
         this.ReporteRecaudacion_01 = true
+        this.ReporteRecaudacion_02 = false
         break;
+        case 2:
+          this.btnGenerarReporte = true
+          this.ReporteRecaudacion_01 = false
+          this.ReporteRecaudacion_02 = true
+          break;
+         case 3:
+          this.btnGenerarReporte = false
+          this.ReporteRecaudacion_01 = false
+          this.ReporteRecaudacion_02 = false  
+          this.ReporteRecaudacion_03 = false  
+          this.NuevosReportesX(event)
+          break;
+          case 4:
+            this.btnGenerarReporte = true
+            this.ReporteRecaudacion_01 = false
+            this.ReporteRecaudacion_02 = false  
+            this.ReporteRecaudacion_03 = false  
+            this.ReporteRecaudacion_04 = true  
+            break;          
     
       default:
+        this.btnGenerarReporte = false
+        this.ReporteRecaudacion_01 = false
+        this.ReporteRecaudacion_02 = false
+        this.ReporteRecaudacion_03 = false
+        this.ReporteRecaudacion_04 = false
+        this.ReporteRecaudacion_05 = false
+        this.ReporteRecaudacion_06 = false
+        this.ReporteRecaudacion_07 = false
+        this.ReporteRecaudacion_08 = false
+        this.ReporteRecaudacion_09 = false
+        this.ReporteRecaudacion_10 = false
+        this.ReporteRecaudacion_11 = false
+        this.ReporteRecaudacion_12 = false
+        this.ReporteRecaudacion_13 = false
+        this.ReporteRecaudacion_14 = false
+        this.ReporteRecaudacion_15 = false
+      
         break;
     }
   }
@@ -144,6 +196,7 @@ export class ReportsComponent implements OnInit {
               this.Reporte01_valor5 = ''
               this.itemReports = undefined
               this.ReporteRecaudacion_01 = false
+              this.btnGenerarReporte = false
             } else {
               this.sectionBlockUI.stop(),
                 this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
@@ -157,13 +210,21 @@ export class ReportsComponent implements OnInit {
       case 2:
         this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
         this.xAPI.funcion = "RECOSUP_R_ReporteRecaudacion_02";
-        this.xAPI.parametros = ''
+        this.xAPI.parametros = this.Reporte02_valor1+','+this.Reporte02_valor2+','+this.Reporte02_valor3+','+this.Reporte02_valor4+','+this.Reporte02_valor5
         this.xAPI.valores = ''
         await this.apiService.Ejecutar(this.xAPI).subscribe(
           (data) => {
             if (data.Cuerpo.length > 0) {
               this.exportAsXLSX(data.Cuerpo, 'Empresas que declararon y no generaron APORTE con mas de 50 trabajadores')
               this.sectionBlockUI.stop()
+              this.Reporte02_valor1 = ''
+             this.Reporte02_valor2 = ''
+             this.Reporte02_valor3 = 1
+             this.Reporte02_valor4 = undefined
+             this.Reporte02_valor5 = ''
+             this.itemReports = undefined
+             this.ReporteRecaudacion_02 = false
+             this.btnGenerarReporte = false
             } else {
               this.sectionBlockUI.stop(),
                 this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
@@ -184,6 +245,10 @@ export class ReportsComponent implements OnInit {
             if (data.Cuerpo.length > 0) {
               this.exportAsXLSX(data.Cuerpo, 'Total empresas con correo y actividad economica aprobadas')
               this.sectionBlockUI.stop()
+              this.itemReports = undefined
+              this.ReporteRecaudacion_03 = false
+              this.btnGenerarReporte = false
+
             } else {
               this.sectionBlockUI.stop(),
                 this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
@@ -197,13 +262,19 @@ export class ReportsComponent implements OnInit {
       case 4:
         this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
         this.xAPI.funcion = "RECOSUP_R_ReporteRecaudacion_04";
-        this.xAPI.parametros = ''
+        this.xAPI.parametros = this.Reporte04_valor1+','+this.Reporte04_valor2+','+this.Reporte04_valor3
         this.xAPI.valores = ''
         await this.apiService.Ejecutar(this.xAPI).subscribe(
           (data) => {
             if (data.Cuerpo.length > 0) {
               this.exportAsXLSX(data.Cuerpo, 'Empresas que no han declarado un ejercicio fiscal')
               this.sectionBlockUI.stop()
+              this.Reporte04_valor1 = ''
+              this.Reporte04_valor2 = 1
+              this.Reporte04_valor3 = ''
+              this.itemReports = undefined
+              this.ReporteRecaudacion_04 = false
+              this.btnGenerarReporte = false
             } else {
               this.sectionBlockUI.stop(),
                 this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
