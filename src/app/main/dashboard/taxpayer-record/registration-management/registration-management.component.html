@@ -1661,7 +1661,7 @@
           <div class="form-group">
             <label for="disabledInput">Actividad Economica</label>
             <ng-select [items]="selectActividadEconomica" placeholder="Seleccione Actividad Economica" bindLabel="name"
-              bindValue="id" autocomplete="off" [(ngModel)]="UpdateEmpresa.ActividadEconomicaId"
+              bindValue="id" readonly="readonly" autocomplete="off" [(ngModel)]="UpdateEmpresa.ActividadEconomicaId"
               [ngModelOptions]="{standalone: true}" required>
             </ng-select>
           </div>

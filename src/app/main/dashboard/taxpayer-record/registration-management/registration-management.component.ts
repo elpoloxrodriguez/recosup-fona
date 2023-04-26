@@ -55,7 +55,7 @@ export class RegistrationManagementComponent implements OnInit {
     FechaCierreFiscal: '',
     NotariaId: undefined,
     CantidadEmpleados: undefined,
-    EstatusEmpresa: '0',
+    EstatusEmpresa: '1',
     UsuarioAprobo: 0,
     FechaAprobo:  this.datePipe.transform(this.fechaActual, "yyyy-MM-dd HH:mm:ss"),
     UsuarioCreo: 0,

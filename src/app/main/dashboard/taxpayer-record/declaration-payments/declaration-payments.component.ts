@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
-import { ApiService, IAPICore } from '@core/services/apicore/api.service';
+import { ApiService, DocumentoAdjunto, IAPICore } from '@core/services/apicore/api.service';
 import { NgbModal, NgbActiveModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { PdfService } from '@core/services/pdf/pdf.service';
 import jwt_decode from "jwt-decode";
@@ -9,9 +9,10 @@ import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { UtilService } from '@core/services/util/util.service';
-import { IDeclararUtilidad, RECOSUP_U_EmpresasAportes } from '@core/services/empresa/empresa.service';
+import { ICrearCertificados, IDeclararUtilidad, RECOSUP_U_EmpresasAportes } from '@core/services/empresa/empresa.service';
 import { FlatpickrOptions } from 'ng2-flatpickr';
 import Spanish from 'flatpickr/dist/l10n/es.js';
+import { AngularFileUploaderComponent } from 'angular-file-uploader';
 
 import { NgbDateStruct, NgbDatepickerI18n } from '@ng-bootstrap/ng-bootstrap';
 
@@ -29,6 +30,10 @@ import {
 
 })
 export class DeclarationPaymentsComponent implements OnInit {
+
+  @ViewChild('fileUpload1')
+  private fileUpload1: AngularFileUploaderComponent
+
 
   public Dutilidad: IDeclararUtilidad = {
     EmpresaId: 0,
@@ -55,6 +60,28 @@ export class DeclarationPaymentsComponent implements OnInit {
     parametros: '',
     valores: {},
   };
+
+  public hashcontrol = ''
+  public numControl: string = ''
+    // Subir Archivos
+    public archivos = []
+
+
+  public DocAdjunto: DocumentoAdjunto = {
+    usuario: '',
+    nombre: '',
+    empresa: '',
+    numc: '',
+    tipo: 0,
+    vencimiento: ''
+  }
+
+  public CrearCert: ICrearCertificados = {
+    usuario: 0,
+    token: '',
+    type: 0,
+    created_user: 0
+  }
 
   public FechaSelect : {
     id: undefined,
@@ -319,7 +346,48 @@ export class DeclarationPaymentsComponent implements OnInit {
   }
 
 
+  fileSelected(e) {
+    this.archivos.push(e.target.files[0])
+  }
 
+  async subirArchivo(e) {
+    var frm = new FormData(document.forms.namedItem("forma"))
+    // this.sectionBlockUI.start('Subiendo Documento, Porfavor Espere!!!');
+    this.DocAdjunto.nombre = this.archivos[0].name
+    this.AddPagoAporte.Bauche = this.DocAdjunto.nombre
+    this.DocAdjunto.usuario = this.token.Usuario[0].UsuarioId
+    this.DocAdjunto.empresa = this.token.Usuario[0].EmpresaId
+    this.DocAdjunto.numc = this.numControl
+    this.DocAdjunto.tipo = 1
+    this.DocAdjunto.vencimiento = '2022-08-28'
+    try {
+      await this.apiService.EnviarArchivos(frm).subscribe(
+        (data) => {
+          // console.log(data)
+          this.xAPI.funcion = 'RECOSUP_I_DocumentosAdjuntos_Empresas'
+          this.xAPI.parametros = ''
+          this.xAPI.valores = JSON.stringify(this.DocAdjunto)
+          this.apiService.Ejecutar(this.xAPI).subscribe(
+            (xdata) => {
+              if (xdata.tipo == 1) {
+                this.utilService.alertConfirmMini('success', 'Tu archivo ha sido cargado con exito')
+                this.modalService.dismissAll('Cerrar Modal')
+                //  this.sectionBlockUI.stop();
+              } else {
+                this.utilService.alertConfirmMini('info', xdata.msj)
+              }
+            },
+            (error) => {
+              this.utilService.alertConfirmMini('error', error)
+            }
+          )
+        }
+      )
+    } catch (error) {
+      this.utilService.alertConfirmMini('error', error)
+    }
+
+  }
 
 
   async UtilidadCierreFiscal(id: any) {
@@ -630,7 +698,10 @@ export class DeclarationPaymentsComponent implements OnInit {
 
   async PagarAporteContribuyente() {
     let data = this.DataGananaciasContribuyente
+    var e = ''
+    this.subirArchivo(e)
     this.AddPagoAporte = {
+      Bauche: this.DocAdjunto.nombre,
       EmpresaId: this.token.Usuario[0].EmpresaId,
       TipoAporteCuentaId: this.pTipoAporteCuentaId,
       CanalPago: this.pTipoPagoId.name.substr(0, 3),
@@ -713,6 +784,10 @@ export class DeclarationPaymentsComponent implements OnInit {
   }
 
   RegistrarPagarAporte(modal, data) {
+    this.token = jwt_decode(sessionStorage.getItem('token'));
+    this.numControl = this.token.Usuario[0].Rif
+    this.hashcontrol = btoa("D" + this.numControl) //Cifrar documentos
+
     this.SaberArticuloSeleccionado = data.Articulo
     // console.log(data)
     if (data.Articulo == '32') {

@@ -97,10 +97,11 @@
                   </button>
                   <div ngbDropdownMenu>
                     <div>
-                      <!-- <a [href]="dwUrl(row.Rif,row.Bauche)" ngbDropdownItem > -->
-                        <a  ngbDropdownItem >
+                      <a [href]="dwUrl(row.Rif,row.Bauche)" *ngIf="row.Bauche != null" ngbDropdownItem >
+                        <!-- <a  ngbDropdownItem > -->
                         <span
                         [data-feather]="'download'"  [size]="16" [class]="'mr-50'"></span> Descargar Bauche</a>
+                
                       <a (click)="RegistrarPagarAporte(ModalAddRegisterAporte, row)" ngbDropdownItem ><span
                         [data-feather]="'book-open'"  [size]="16" [class]="'mr-50'"></span> Conciliar Pago</a>
                   </div>
