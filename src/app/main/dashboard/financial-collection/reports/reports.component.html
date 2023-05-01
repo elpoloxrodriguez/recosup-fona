@@ -111,7 +111,7 @@
           <div class="col-6" *ngIf="ReporteRecaudacion_04 != false">
             <div class="form-group">
               <label for="basicInput">Seleccione Año</label>
-              <input class="form-control" [(ngModel)]="Reporte4_valor1" [ngModelOptions]="{standalone: true}"
+              <input class="form-control" [(ngModel)]="Reporte04_valor1" [ngModelOptions]="{standalone: true}"
                 type="number" placeholder="Seleccion Año">
             </div>
           </div>
@@ -138,31 +138,30 @@
           <div class="col-6" *ngIf="ReporteRecaudacion_09 != false">
             <div class="form-group">
               <label for="basicInput">Seleccione Status </label>
-                <ng-select [items]="ListaStatusMIF" placeholder="Seleccione Estatus" bindLabel="name" bindValue="id"
-              [(ngModel)]="Reporte09_valor1" [ngModelOptions]="{standalone: true}"
-               required>
-            </ng-select>
+              <ng-select [items]="ListaStatusMIF" placeholder="Seleccione Estatus" bindLabel="name" bindValue="id"
+                [(ngModel)]="Reporte09_valor1" [ngModelOptions]="{standalone: true}" required>
+              </ng-select>
             </div>
           </div>
         </div>
 
-                <!-- REPORTE 11 -->
-                <div class="col-12 row" *ngIf="ReporteRecaudacion_11 != false">
-                  <div class="col-6" *ngIf="ReporteRecaudacion_11 != false">
-                    <div class="form-group">
-                      <label for="basicInput">Seleccione Fecha Inicio</label>
-                      <input class="form-control" [(ngModel)]="Reporte11_valor1" [ngModelOptions]="{standalone: true}"
-                        type="date" placeholder="Seleccion Mes">
-                    </div>
-                  </div>
-                  <div class="col-6" *ngIf="ReporteRecaudacion_11 != false">
-                    <div class="form-group">
-                      <label for="basicInput">Seleccione Fecha Final</label>
-                      <input class="form-control" [(ngModel)]="Reporte11_valor2" [ngModelOptions]="{standalone: true}"
-                        type="date" placeholder="Seleccion Mes">
-                    </div>
-                  </div>
-                </div>
+        <!-- REPORTE 11 -->
+        <div class="col-12 row" *ngIf="ReporteRecaudacion_11 != false">
+          <div class="col-6" *ngIf="ReporteRecaudacion_11 != false">
+            <div class="form-group">
+              <label for="basicInput">Seleccione Fecha Inicio</label>
+              <input class="form-control" [(ngModel)]="Reporte11_valor1" [ngModelOptions]="{standalone: true}"
+                type="date" placeholder="Seleccion Mes">
+            </div>
+          </div>
+          <div class="col-6" *ngIf="ReporteRecaudacion_11 != false">
+            <div class="form-group">
+              <label for="basicInput">Seleccione Fecha Final</label>
+              <input class="form-control" [(ngModel)]="Reporte11_valor2" [ngModelOptions]="{standalone: true}"
+                type="date" placeholder="Seleccion Mes">
+            </div>
+          </div>
+        </div>
         <!-- REPORTE 12 -->
         <div class="col-12 row" *ngIf="ReporteRecaudacion_12 != false">
           <div class="col-6" *ngIf="ReporteRecaudacion_12 != false">
@@ -191,8 +190,8 @@
           <div class="col-6" *ngIf="ReporteRecaudacion_12 != false">
             <div class="form-group">
               <label for="basicInput">Seleccione Estatus Empresa</label>
-              <input class="form-control" [(ngModel)]="Reporte12_valor4" readonly [ngModelOptions]="{standalone: true}" readonly
-                type="number" placeholder="Seleccion Estatus Empresa">
+              <input class="form-control" [(ngModel)]="Reporte12_valor4" readonly [ngModelOptions]="{standalone: true}"
+                readonly type="number" placeholder="Seleccion Estatus Empresa">
             </div>
           </div>
 
