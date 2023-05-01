@@ -1,151 +1,232 @@
 <div class="card content-wrapper container-xxl p-0" *blockUI="'section-block'">
-    <div class="card-body">
+  <div class="card-body">
 
-      <div class="card">
-        <div class="row">
-          
+    <div class="card">
+      <div class="row">
+
         <div class="col-12">
-            <div class="form-group">
-              <label for="basicInput">Seleccione Reporte</label>
-            <ng-select
-            [items]="ListReport"
-            placeholder="Seleccione Reporte"
-            bindLabel="name"
-            bindValue="id"
-            [(ngModel)]="itemReports"
-            [ngModelOptions]="{standalone: true}"
-            (ngModelChange)="SaberQReporteEscogio($event)"
-            required
-            >
-          </ng-select>
-            </div>
-          </div>
-
-          <!-- REPORTE 1 -->
-          <div  class="col-12 row" *ngIf="ReporteRecaudacion_01 != false">
-            <div class="col-6" *ngIf="ReporteRecaudacion_01 != false">
-              <div class="form-group">
-                <label for="basicInput">Ingrese Monto <strong><font color="red"> >= Mayor o Igual </font></strong></label>
-               <input class="form-control" type="text"  [(ngModel)]="Reporte01_valor1"
-               [ngModelOptions]="{standalone: true}" placeholder="10.00" mask="separator" thousandSeparator="." />
-              </div>
-            </div>
-            <div class="col-6" *ngIf="ReporteRecaudacion_01 != false">
-              <div class="form-group">
-                <label for="basicInput">Seleccione Año</label>
-               <input class="form-control"  [(ngModel)]="Reporte01_valor2"
-               [ngModelOptions]="{standalone: true}" type="number" placeholder="Seleccion Año">
-              </div>
-            </div>
-            <div class="col-6" *ngIf="ReporteRecaudacion_01 != false">
-              <div class="form-group">
-                <label for="basicInput">Seleccione Estatus Empresa</label>
-               <input class="form-control"  [(ngModel)]="Reporte01_valor3"
-               [ngModelOptions]="{standalone: true}" readonly type="number" placeholder="Seleccion Estatus Empresa">
-              </div>
-            </div>
-  
-            
-            <div class="col-6" *ngIf="ReporteRecaudacion_01 != false">
-              <div class="form-group">
-                <label for="basicInput">Seleccione Estatus General</label>
-              <ng-select
-              [items]="SelectReporte01"
-              bindLabel="name"
-              bindValue="id" 
-              placeholder="Seleccione Estatus General"
-              [(ngModel)]="Reporte01_valor4"
-              [ngModelOptions]="{standalone: true}"
-             >
+          <div class="form-group">
+            <label for="basicInput">Seleccione Reporte</label>
+            <ng-select [items]="ListReport" placeholder="Seleccione Reporte" bindLabel="name" bindValue="id"
+              [(ngModel)]="itemReports" [ngModelOptions]="{standalone: true}"
+              (ngModelChange)="SaberQReporteEscogio($event)" required>
             </ng-select>
-              </div>
-            </div>
-  
-            <div class="col-6" *ngIf="ReporteRecaudacion_01 != false">
-              <div class="form-group">
-                <label for="basicInput">Ingrese Cantidad Empleados <strong><font color="red"> >= Mayor o Igual </font></strong></label>
-               <input class="form-control"  [(ngModel)]="Reporte01_valor5"
-               [ngModelOptions]="{standalone: true}" type="number" placeholder="Ingrese Cantidad Empleados">
-              </div>
-            </div>
           </div>
-          <!-- REPORTE 2 -->
-          <div class="col-12 row" *ngIf="ReporteRecaudacion_02 != false">
-            <div class="col-6" *ngIf="ReporteRecaudacion_02 != false">
-              <div class="form-group">
-                <label for="basicInput">Ingrese Monto <strong><font color="red"> >= Mayor o Igual </font></strong></label>
-               <input class="form-control" type="text"  [(ngModel)]="Reporte02_valor1"
-               [ngModelOptions]="{standalone: true}" placeholder="10.00" mask="separator" thousandSeparator="." />
-              </div>
-            </div>
-            <div class="col-6" *ngIf="ReporteRecaudacion_02 != false">
-              <div class="form-group">
-                <label for="basicInput">Seleccione Año</label>
-               <input class="form-control"  [(ngModel)]="Reporte02_valor2"
-               [ngModelOptions]="{standalone: true}" type="number" placeholder="Seleccion Año">
-              </div>
-            </div>
-            <div class="col-6" *ngIf="ReporteRecaudacion_02 != false">
-              <div class="form-group">
-                <label for="basicInput">Seleccione Estatus Empresa</label>
-               <input class="form-control"  [(ngModel)]="Reporte02_valor3"
-               [ngModelOptions]="{standalone: true}" readonly type="number" placeholder="Seleccion Estatus Empresa">
-              </div>
-            </div>
-  
-            
-            <div class="col-6" *ngIf="ReporteRecaudacion_02 != false">
-              <div class="form-group">
-                <label for="basicInput">Seleccione Estatus General</label>
-                <input class="form-control"  [(ngModel)]="Reporte02_valor4"
-               [ngModelOptions]="{standalone: true}" readonly type="number" placeholder="Seleccion Estatus General">
-              </div>
-            </div>
-  
-            <div class="col-6" *ngIf="ReporteRecaudacion_02 != false">
-              <div class="form-group">
-                <label for="basicInput">Ingrese Cantidad Empleados <strong><font color="red"> >= Mayor o Igual </font></strong></label>
-               <input class="form-control"  [(ngModel)]="Reporte02_valor5"
-               [ngModelOptions]="{standalone: true}" type="number" placeholder="Ingrese Cantidad Empleados">
-              </div>
-            </div>
-          </div>
-                    <!-- REPORTE 4 -->
-                    <div class="col-12 row" *ngIf="ReporteRecaudacion_04 != false">
-                      <div class="col-6" *ngIf="ReporteRecaudacion_04 != false">
-                        <div class="form-group">
-                          <label for="basicInput">Seleccione Año</label>
-                         <input class="form-control"  [(ngModel)]="Reporte4_valor1"
-                         [ngModelOptions]="{standalone: true}" type="number" placeholder="Seleccion Año">
-                        </div>
-                      </div>
-                      <div class="col-6" *ngIf="ReporteRecaudacion_04 != false">
-                        <div class="form-group">
-                          <label for="basicInput">Seleccione Estatus Empresa</label>
-                         <input class="form-control"  [(ngModel)]="Reporte04_valor2"
-                         [ngModelOptions]="{standalone: true}" readonly type="number" placeholder="Seleccion Estatus Empresa">
-                        </div>
-                      </div>
-                      <div class="col-6" *ngIf="ReporteRecaudacion_04 != false">
-                        <div class="form-group">
-                          <label for="basicInput">Ingrese Cantidad Empleados <strong><font color="red"> >= Mayor o Igual </font></strong></label>
-                         <input class="form-control"  [(ngModel)]="Reporte04_valor3"
-                         [ngModelOptions]="{standalone: true}" type="number" placeholder="Ingrese Cantidad Empleados">
-                        </div>
-                      </div>
-                    </div>
-
-          <div  *ngIf="btnGenerarReporte != false">
-            <div class="d-flex justify-content-between align-items-center m-2">
-              <button type="button" class="btn btn-primary"
-              (click)="NuevosReportesX(itemReports)"
-                rippleEffect>
-                Generar Reporte</button>
-            </div>
-          </div>
-
         </div>
+
+        <!-- REPORTE 1 -->
+        <div class="col-12 row" *ngIf="ReporteRecaudacion_01 != false">
+          <div class="col-6" *ngIf="ReporteRecaudacion_01 != false">
+            <div class="form-group">
+              <label for="basicInput">Ingrese Monto <strong>
+                  <font color="red"> >= Mayor o Igual </font>
+                </strong></label>
+              <input class="form-control" type="text" [(ngModel)]="Reporte01_valor1"
+                [ngModelOptions]="{standalone: true}" placeholder="10.00" mask="separator" thousandSeparator="." />
+            </div>
+          </div>
+          <div class="col-6" *ngIf="ReporteRecaudacion_01 != false">
+            <div class="form-group">
+              <label for="basicInput">Seleccione Año</label>
+              <input class="form-control" [(ngModel)]="Reporte01_valor2" [ngModelOptions]="{standalone: true}"
+                type="number" placeholder="Seleccion Año">
+            </div>
+          </div>
+          <div class="col-6" *ngIf="ReporteRecaudacion_01 != false">
+            <div class="form-group">
+              <label for="basicInput">Seleccione Estatus Empresa</label>
+              <input class="form-control" [(ngModel)]="Reporte01_valor3" [ngModelOptions]="{standalone: true}" readonly
+                type="number" placeholder="Seleccion Estatus Empresa">
+            </div>
+          </div>
+
+
+          <div class="col-6" *ngIf="ReporteRecaudacion_01 != false">
+            <div class="form-group">
+              <label for="basicInput">Seleccione Estatus General</label>
+              <ng-select [items]="SelectReporte01" bindLabel="name" bindValue="id"
+                placeholder="Seleccione Estatus General" [(ngModel)]="Reporte01_valor4"
+                [ngModelOptions]="{standalone: true}">
+              </ng-select>
+            </div>
+          </div>
+
+          <div class="col-6" *ngIf="ReporteRecaudacion_01 != false">
+            <div class="form-group">
+              <label for="basicInput">Ingrese Cantidad Empleados <strong>
+                  <font color="red"> >= Mayor o Igual </font>
+                </strong></label>
+              <input class="form-control" [(ngModel)]="Reporte01_valor5" [ngModelOptions]="{standalone: true}"
+                type="number" placeholder="Ingrese Cantidad Empleados">
+            </div>
+          </div>
+        </div>
+        <!-- REPORTE 2 -->
+        <div class="col-12 row" *ngIf="ReporteRecaudacion_02 != false">
+          <div class="col-6" *ngIf="ReporteRecaudacion_02 != false">
+            <div class="form-group">
+              <label for="basicInput">Ingrese Monto <strong>
+                  <font color="red"> >= Mayor o Igual </font>
+                </strong></label>
+              <input class="form-control" type="text" [(ngModel)]="Reporte02_valor1"
+                [ngModelOptions]="{standalone: true}" placeholder="10.00" mask="separator" thousandSeparator="." />
+            </div>
+          </div>
+          <div class="col-6" *ngIf="ReporteRecaudacion_02 != false">
+            <div class="form-group">
+              <label for="basicInput">Seleccione Año</label>
+              <input class="form-control" [(ngModel)]="Reporte02_valor2" [ngModelOptions]="{standalone: true}"
+                type="number" placeholder="Seleccion Año">
+            </div>
+          </div>
+          <div class="col-6" *ngIf="ReporteRecaudacion_02 != false">
+            <div class="form-group">
+              <label for="basicInput">Seleccione Estatus Empresa</label>
+              <input class="form-control" [(ngModel)]="Reporte02_valor3" [ngModelOptions]="{standalone: true}" readonly
+                type="number" placeholder="Seleccion Estatus Empresa">
+            </div>
+          </div>
+
+
+          <div class="col-6" *ngIf="ReporteRecaudacion_02 != false">
+            <div class="form-group">
+              <label for="basicInput">Seleccione Estatus General</label>
+              <input class="form-control" [(ngModel)]="Reporte02_valor4" [ngModelOptions]="{standalone: true}" readonly
+                type="number" placeholder="Seleccion Estatus General">
+            </div>
+          </div>
+
+          <div class="col-6" *ngIf="ReporteRecaudacion_02 != false">
+            <div class="form-group">
+              <label for="basicInput">Ingrese Cantidad Empleados <strong>
+                  <font color="red"> >= Mayor o Igual </font>
+                </strong></label>
+              <input class="form-control" [(ngModel)]="Reporte02_valor5" [ngModelOptions]="{standalone: true}"
+                type="number" placeholder="Ingrese Cantidad Empleados">
+            </div>
+          </div>
+        </div>
+        <!-- REPORTE 4 -->
+        <div class="col-12 row" *ngIf="ReporteRecaudacion_04 != false">
+          <div class="col-6" *ngIf="ReporteRecaudacion_04 != false">
+            <div class="form-group">
+              <label for="basicInput">Seleccione Año</label>
+              <input class="form-control" [(ngModel)]="Reporte4_valor1" [ngModelOptions]="{standalone: true}"
+                type="number" placeholder="Seleccion Año">
+            </div>
+          </div>
+          <div class="col-6" *ngIf="ReporteRecaudacion_04 != false">
+            <div class="form-group">
+              <label for="basicInput">Seleccione Estatus Empresa</label>
+              <input class="form-control" [(ngModel)]="Reporte04_valor2" [ngModelOptions]="{standalone: true}" readonly
+                type="number" placeholder="Seleccion Estatus Empresa">
+            </div>
+          </div>
+          <div class="col-6" *ngIf="ReporteRecaudacion_04 != false">
+            <div class="form-group">
+              <label for="basicInput">Ingrese Cantidad Empleados <strong>
+                  <font color="red"> >= Mayor o Igual </font>
+                </strong></label>
+              <input class="form-control" [(ngModel)]="Reporte04_valor3" [ngModelOptions]="{standalone: true}"
+                type="number" placeholder="Ingrese Cantidad Empleados">
+            </div>
+          </div>
+        </div>
+
+        <!-- REPORTE 9 -->
+        <div class="col-12 row" *ngIf="ReporteRecaudacion_09 != false">
+          <div class="col-6" *ngIf="ReporteRecaudacion_09 != false">
+            <div class="form-group">
+              <label for="basicInput">Seleccione Status </label>
+                <ng-select [items]="ListaStatusMIF" placeholder="Seleccione Estatus" bindLabel="name" bindValue="id"
+              [(ngModel)]="Reporte09_valor1" [ngModelOptions]="{standalone: true}"
+               required>
+            </ng-select>
+            </div>
+          </div>
+        </div>
+
+                <!-- REPORTE 11 -->
+                <div class="col-12 row" *ngIf="ReporteRecaudacion_11 != false">
+                  <div class="col-6" *ngIf="ReporteRecaudacion_11 != false">
+                    <div class="form-group">
+                      <label for="basicInput">Seleccione Fecha Inicio</label>
+                      <input class="form-control" [(ngModel)]="Reporte11_valor1" [ngModelOptions]="{standalone: true}"
+                        type="date" placeholder="Seleccion Mes">
+                    </div>
+                  </div>
+                  <div class="col-6" *ngIf="ReporteRecaudacion_11 != false">
+                    <div class="form-group">
+                      <label for="basicInput">Seleccione Fecha Final</label>
+                      <input class="form-control" [(ngModel)]="Reporte11_valor2" [ngModelOptions]="{standalone: true}"
+                        type="date" placeholder="Seleccion Mes">
+                    </div>
+                  </div>
+                </div>
+        <!-- REPORTE 12 -->
+        <div class="col-12 row" *ngIf="ReporteRecaudacion_12 != false">
+          <div class="col-6" *ngIf="ReporteRecaudacion_12 != false">
+            <div class="form-group">
+              <label for="basicInput">Ingrese Monto <strong>
+                  <font color="red"> >= Mayor o Igual </font>
+                </strong></label>
+              <input class="form-control" type="text" [(ngModel)]="Reporte12_valor6"
+                [ngModelOptions]="{standalone: true}" placeholder="10.00" mask="separator" thousandSeparator="." />
+            </div>
+          </div>
+          <div class="col-6" *ngIf="ReporteRecaudacion_12 != false">
+            <div class="form-group">
+              <label for="basicInput">Seleccione Año</label>
+              <input class="form-control" [(ngModel)]="Reporte12_valor2" [ngModelOptions]="{standalone: true}"
+                type="number" placeholder="Seleccion Año">
+            </div>
+          </div>
+          <div class="col-6" *ngIf="ReporteRecaudacion_12 != false">
+            <div class="form-group">
+              <label for="basicInput">Seleccione Año Aporte</label>
+              <input class="form-control" [(ngModel)]="Reporte12_valor3" [ngModelOptions]="{standalone: true}"
+                type="number" placeholder="Seleccion Año Aporte">
+            </div>
+          </div>
+          <div class="col-6" *ngIf="ReporteRecaudacion_12 != false">
+            <div class="form-group">
+              <label for="basicInput">Seleccione Estatus Empresa</label>
+              <input class="form-control" [(ngModel)]="Reporte12_valor4" readonly [ngModelOptions]="{standalone: true}" readonly
+                type="number" placeholder="Seleccion Estatus Empresa">
+            </div>
+          </div>
+
+
+          <div class="col-6" *ngIf="ReporteRecaudacion_12 != false">
+            <div class="form-group">
+              <label for="basicInput">Seleccione Estatus General</label>
+              <ng-select [items]="ListaDeclaracionPagos" bindLabel="name" bindValue="id"
+                placeholder="Seleccione Estatus General" [(ngModel)]="Reporte12_valor5"
+                [ngModelOptions]="{standalone: true}">
+              </ng-select>
+            </div>
+          </div>
+
+          <div class="col-6" *ngIf="ReporteRecaudacion_12 != false">
+            <div class="form-group">
+              <label for="basicInput">Ingrese Cantidad Empleados <strong>
+                  <font color="red"> >= Mayor o Igual </font>
+                </strong></label>
+              <input class="form-control" [(ngModel)]="Reporte12_valor1" [ngModelOptions]="{standalone: true}"
+                type="number" placeholder="Ingrese Cantidad Empleados">
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="btnGenerarReporte != false">
+          <div class="d-flex justify-content-between align-items-center m-2">
+            <button type="button" class="btn btn-primary" (click)="NuevosReportesX(itemReports)" rippleEffect>
+              Generar Reporte</button>
+          </div>
+        </div>
+
       </div>
+    </div>
 
   </div>
-  </div>
+</div>
