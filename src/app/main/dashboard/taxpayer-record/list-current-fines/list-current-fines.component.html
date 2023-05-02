@@ -190,15 +190,35 @@
           <input type="hidden" name="identificador" value="{{hashcontrol}}" readonly="readonly">
         <div class="row">
   
-          <div class="col-md-12 col-12 mb-1">
+          <div class="col-md-12 col-12 mb-1" *ngIf="ID_BANCO != 4">
             <div class="form-group">
-              <label for="basicSelect">Seleccione Banco </label>
-              <ng-select [items]="ListaBanco" (change)="CapturarBanco($event)"  placeholder="Seleccione Banco" bindLabel="name" bindValue="id"
+              <label for="basicSelect">Seleccione Banco</label>
+              <ng-select [items]="ListaBanco" *ngIf="StatusMIF != 3" (change)="CapturarBanco($event)"  placeholder="Seleccione Banco" bindLabel="name" bindValue="id"
+                autocomplete="off" name="bancos"   [(ngModel)]="id_bancoMultas"  [ngModelOptions]="{standalone: true}"
+                required autocomplete="off">
+              </ng-select>
+              <input type="text" readonly *ngIf="StatusMIF == 3" class="form-control" placeholder="Ingrese Numero de Referencia" autocomplete="off"
+                [(ngModel)]="id_bancoMultas" [ngModelOptions]="{standalone: true}">
+            </div>
+          </div>
+
+          <div class="col-md-12 col-12 mb-1" *ngIf="ID_BANCO == 4">
+            <div class="form-group">
+              <label for="basicSelect">Banco</label>
+              <input type="text" readonly class="form-control" placeholder="Ingrese Numero de Referencia" autocomplete="off"
+                [(ngModel)]="id_bancoMultas" [ngModelOptions]="{standalone: true}">
+            </div>
+          </div>
+
+          <!-- <div class="col-md-12 col-12 mb-1" *ngIf="ID_BANCO == 4">
+            <div class="form-group">
+              <label for="basicSelect">Seleccione Banco</label>
+              <ng-select [items]="ListaBanco"  (change)="CapturarBanco($event)"  placeholder="Seleccione Banco" bindLabel="name" bindValue="id"
                 autocomplete="off" name="bancos"   [(ngModel)]="id_bancoMultas"  [ngModelOptions]="{standalone: true}"
                 required autocomplete="off">
               </ng-select>
             </div>
-          </div>
+          </div> -->
   
           <div class="col-md-6 col-12 mb-1">
             <div class="form-group">
@@ -286,7 +306,6 @@
       </button>
     </div>
 </ng-template>
-
 
 
 </div>

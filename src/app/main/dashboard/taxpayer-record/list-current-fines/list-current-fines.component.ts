@@ -69,6 +69,8 @@ export class ListCurrentFinesComponent implements OnInit {
     vencimiento: ''
   }
 
+  public StatusMIF
+  public ID_BANCO
 
   @BlockUI() blockUI: NgBlockUI;
   @BlockUI('section-block') sectionBlockUI: NgBlockUI;
@@ -295,6 +297,8 @@ export class ListCurrentFinesComponent implements OnInit {
   async EditarMultasNuevas(modal: any, data: any){
     // console.log(data)
     this.SelecBanco(data.articulo)
+    this.ID_BANCO = data.banco
+    this.StatusMIF = data.status_mif
     this.id_bancoMultas = data.PG_Banco
     this.numControl = this.token.Usuario[0].Rif
     this.hashcontrol = btoa("D" + this.numControl) //Cifrar documentos
@@ -302,6 +306,7 @@ export class ListCurrentFinesComponent implements OnInit {
     this.subirArchivo(e)
     this.xPagarMultas.Observacion = data.Observacion
     this.xPagarMultas.status_mif = 2
+    this.xPagarMultas.PG_Banco = data.PG_Banco
     this.xPagarMultas.referencia = data.referencia
     this.xPagarMultas.montoPagado = data.montoPagado
     this.xPagarMultas.banco = data.id_banco
