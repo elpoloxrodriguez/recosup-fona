@@ -36,6 +36,7 @@ import { GenerateFinesComponent } from './financial-collection/generate-fines/ge
 import { ContributingCompaniesComponent } from './financial-collection/contributing-companies/contributing-companies.component';
 import { TaxpayersComponent } from './digital-documentation/taxpayers/taxpayers.component';
 import { PanelAsistenteVirtualComponent } from '../asistente-virtual/panel-asistente-virtual/panel-asistente-virtual.component';
+import { ProjectEvaluationComponent } from './projects/project-evaluation/project-evaluation.component';
 
 
 
@@ -61,7 +62,8 @@ import { PanelAsistenteVirtualComponent } from '../asistente-virtual/panel-asist
       GenerateFinesComponent,
       ContributingCompaniesComponent,
       TaxpayersComponent,
-      PanelAsistenteVirtualComponent
+      PanelAsistenteVirtualComponent,
+      ProjectEvaluationComponent
     ],
   imports: [
     CommonModule,

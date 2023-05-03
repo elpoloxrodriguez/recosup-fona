@@ -424,8 +424,8 @@ export class PdfService {
       creator: "CAP. ANDRÉS RICARDO RODRÍGUEZ DURÁN",
     });
 
-    doc.addImage('assets/images/pdf/fona.png', "PNG", 10, 10, 20, 25);
-    // doc.addImage('assets/images/pdf/sunad.png', "PNG", 180, 10, 20, 25);
+    doc.addImage('assets/images/pdf/sunad.png', "PNG", 10, 10, 20, 25);
+    doc.addImage('assets/images/pdf/fona.png', "PNG", 180, 10, 20, 25);
     
     doc.setFontSize(14);
     doc.setFont(undefined, "bold");

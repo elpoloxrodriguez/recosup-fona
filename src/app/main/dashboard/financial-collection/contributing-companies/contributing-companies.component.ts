@@ -591,7 +591,7 @@ export class ContributingCompaniesComponent implements OnInit {
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(e => {
-          if (e.EstatusGeneralId == '7') {            
+          if (e.EstatusGeneralId == 7 || e.EstatusGeneralId == 0 || e.EstatusGeneralId == 1 || e.EstatusGeneralId == 14) {            
             e.ejercicioFiscal = e.FechaDesde + ' | ' + e.FechaHasta
             // console.log(e)
             this.EmpresaDetalleAportes.push(e);

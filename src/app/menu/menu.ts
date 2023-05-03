@@ -200,6 +200,13 @@ export const menu: CoreMenu[] = [
           url: 'projects/company-projects-recosup'
         },
         {
+          id: 'projects/project-evaluation',
+          nombre: 'Evaluación',
+          type: 'item',
+          icono: 'circle',
+          url: 'projects/project-evaluation'
+        },
+        {
           id: 'reportes',
           nombre: 'Reportes',
           type: 'item',

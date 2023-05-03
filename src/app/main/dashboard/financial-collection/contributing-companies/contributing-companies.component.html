@@ -460,6 +460,14 @@
                                 </div>
                               </ng-template>
                             </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Status Genetal" prop="EstatusGeneralId" [width]="20">
+                              <ng-template let-EstatusGeneralId="value" ngx-datatable-cell-template>
+                                <div>
+                                  <span class="font-weight-bold"> {{ EstatusGeneralId }} </span>
+                                </div>
+                              </ng-template>
+                            </ngx-datatable-column>
             
             
                             <ngx-datatable-column name="Año" prop="FechaAporte" [width]="20">

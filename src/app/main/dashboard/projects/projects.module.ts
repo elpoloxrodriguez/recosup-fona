@@ -29,6 +29,7 @@ import { AngularFileUploaderModule } from "angular-file-uploader";
 
 @NgModule({
   declarations: [
+  
   ],
   imports: [
     CommonModule,

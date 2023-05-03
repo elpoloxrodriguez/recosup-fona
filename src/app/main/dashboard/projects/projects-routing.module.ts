@@ -12,6 +12,7 @@ import { Role } from 'app/auth/models';
 import { CompanyProjectsComponent } from './company-projects/company-projects.component'
 import { CompanyProjectsRecosupComponent } from './company-projects-recosup/company-projects-recosup.component'
 import { ReportsProjectsComponent } from './reports/reports-projects/reports-projects.component'
+import { ProjectEvaluationComponent } from './project-evaluation/project-evaluation.component'
 
 
 const routes: Routes = [
@@ -24,6 +25,12 @@ const routes: Routes = [
   {
     path: 'projects/company-projects-recosup',
     component: CompanyProjectsRecosupComponent,
+    canActivate: [AuthGuard,AuthGuardGuard],
+    data: { roles: ['4','9'] },
+  },
+  {
+    path: 'projects/project-evaluation',
+    component: ProjectEvaluationComponent,
     canActivate: [AuthGuard,AuthGuardGuard],
     data: { roles: ['4','9'] },
   },
