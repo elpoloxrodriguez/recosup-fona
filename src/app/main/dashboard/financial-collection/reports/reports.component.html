@@ -133,6 +133,18 @@
           </div>
         </div>
 
+                <!-- REPORTE 8 -->
+                <div class="col-12 row" *ngIf="ReporteRecaudacion_08 != false">
+                  <div class="col-6" *ngIf="ReporteRecaudacion_08 != false">
+                    <div class="form-group">
+                      <label for="basicInput">Seleccione Tipo de Empresa </label>
+                      <ng-select [items]="SelectActividadEconomica" bindLabel="name" bindValue="id"
+                placeholder="Seleccione Tipo de Empresa" [(ngModel)]="Reporte08_valor1"
+                [ngModelOptions]="{standalone: true}">
+              </ng-select>
+                  </div>
+                </div>
+
         <!-- REPORTE 9 -->
         <div class="col-12 row" *ngIf="ReporteRecaudacion_09 != false">
           <div class="col-6" *ngIf="ReporteRecaudacion_09 != false">

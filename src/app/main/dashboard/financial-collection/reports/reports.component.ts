@@ -76,10 +76,16 @@ export class ReportsComponent implements OnInit {
     { id: 18, name: 'Rechazadas' }
   ]
 
+  public SelectActividadEconomica = [
+    { id: 0, name: 'Empresas Doble Aportante'},
+    { id: 1, name: 'Empresas Aportantes'}, 
+  ]
+
   public BtnShow = false
   public inputAnio
 
-
+public valor081
+public valor082
 
   public Reporte01_valor1
   public Reporte01_valor2
@@ -97,6 +103,7 @@ export class ReportsComponent implements OnInit {
   public Reporte04_valor2 = 1
   public Reporte04_valor3
 
+  public Reporte08_valor1 = undefined
   public Reporte09_valor1 = undefined
 
   public Reporte11_valor1 = ''
@@ -180,7 +187,7 @@ export class ReportsComponent implements OnInit {
         this.NuevosReportesX(event)
         break;
       case 8:
-        this.btnGenerarReporte = false
+        this.btnGenerarReporte = true
         this.ReporteRecaudacion_01 = false
         this.ReporteRecaudacion_02 = false
         this.ReporteRecaudacion_03 = false
@@ -188,8 +195,7 @@ export class ReportsComponent implements OnInit {
         this.ReporteRecaudacion_05 = false
         this.ReporteRecaudacion_06 = false
         this.ReporteRecaudacion_07 = false
-        this.ReporteRecaudacion_08 = false
-        this.NuevosReportesX(event)
+        this.ReporteRecaudacion_08 = true
         break;
       case 9:
         this.btnGenerarReporte = true
@@ -436,13 +442,21 @@ export class ReportsComponent implements OnInit {
       case 8:
         this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
         this.xAPI.funcion = "RECOSUP_R_ReporteRecaudacion_08";
-        this.xAPI.parametros = ''
+       if (this.Reporte08_valor1 === 0) {
+        this.xAPI.parametros = '='
+       } else {
+        this.xAPI.parametros = '!='
+       }
         this.xAPI.valores = ''
         await this.apiService.Ejecutar(this.xAPI).subscribe(
           (data) => {
             if (data.Cuerpo.length > 0) {
               this.exportAsXLSX(data.Cuerpo, 'Empresas por Activida Económica')
               this.sectionBlockUI.stop()
+              this.Reporte08_valor1 = undefined
+              this.itemReports = undefined
+              this.ReporteRecaudacion_08 = false
+              this.btnGenerarReporte = false
             } else {
               this.sectionBlockUI.stop(),
                 this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
