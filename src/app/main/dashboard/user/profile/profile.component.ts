@@ -54,7 +54,15 @@ public password2
 
   ngOnInit(): void {
     this.token = jwt_decode(sessionStorage.getItem('token'));
-    this.BtnCambiarClave = this.token.Usuario[0].EsAdministrador
+    let tok = parseInt(this.token.Usuario[0].EsAdministrador)
+    // console.log(tok)
+    if (tok >= 1) {
+      // 1 Administrador
+      //  0 Usuario Empresa
+      this.BtnCambiarClave = 1
+    } else {
+      this.BtnCambiarClave = 0
+    }
     this.UsuarioId = this.token.Usuario[0].UsuarioId
     this.Rif = this.token.Usuario[0].Rif
     this.Codigo = this.token.Usuario[0].Codigo

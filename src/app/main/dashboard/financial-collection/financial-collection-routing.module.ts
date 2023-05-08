@@ -44,7 +44,7 @@ const routes: Routes = [
     path: 'financial-collection/reports',
     component: ReportsComponent,
     canActivate: [AuthGuard,AuthGuardGuard],
-    data: { roles: ['9','1']  },
+    data: { roles: ['9','1','2','3']  },
   },
     
 ];

@@ -122,6 +122,7 @@ export const menu: CoreMenu[] = [
       }
     ]
   },
+
   
   // Usuarios Estatus Recaudacion
   {
@@ -156,6 +157,13 @@ export const menu: CoreMenu[] = [
         icono: 'circle',
         url: 'inspection/contributing-companies'
       },
+      {
+        id: 'Repotres',
+        nombre: 'Reportes',
+        type: 'item',
+        icono: 'circle',
+        url: 'financial-collection/reports'
+      },
     ]
   },
   // Juridico
@@ -180,6 +188,13 @@ export const menu: CoreMenu[] = [
         type: 'item',
         icono: 'circle',
         // url: 'financial-collection/contributing-companies'
+      },
+      {
+        id: 'Repotres',
+        nombre: 'Reportes',
+        type: 'item',
+        icono: 'circle',
+        url: 'financial-collection/reports'
       },
     ]
   },

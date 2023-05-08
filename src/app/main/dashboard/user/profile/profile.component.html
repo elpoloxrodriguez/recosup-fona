@@ -85,8 +85,8 @@
                       </div>
                     </div>
                   </div>
-                  <button class="btn btn-primary btn-block" *ngIf="BtnCambiarClave == 0" tabindex="3"  (click)="ChangePassword()" rippleEffect>Establecer Nueva Contraseña</button>
-                  <button class="btn btn-primary btn-block" *ngIf="BtnCambiarClave == 1" tabindex="3"  (click)="ChangePasswordAdmin()" rippleEffect>Establecer Nueva Contraseña Administrador</button>
+                  <button class="btn btn-primary btn-block" *ngIf="BtnCambiarClave === 0" tabindex="3"  (click)="ChangePassword()" rippleEffect>Establecer Nueva Contraseña</button>
+                  <button class="btn btn-primary btn-block" *ngIf="BtnCambiarClave === 1" tabindex="3"  (click)="ChangePasswordAdmin()" rippleEffect>Establecer Nueva Contraseña Administrador</button>
                 </form>
                 </div>
               </div>

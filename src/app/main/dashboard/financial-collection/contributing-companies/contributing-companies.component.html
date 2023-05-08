@@ -225,8 +225,9 @@
                               </tbody>
                             </table>
                           </div>
-                          <div class="col-xl-4 p-0 mt-xl-0 mt-2">
+                          <div class="col-xl-4 p-0 mt-xl-0 mt-2" >
                             <button type="button" class="btn btn-sm btn-icon btn-warning"
+                            *ngIf="showUpdateEmpresaRecaudacion"
                                   (click)="ModalEditarRepresentanteLegal(ListaRepresentanteContacto,DataEmpresaCompleta)">
                                   <span [data-feather]="'edit'"></span>
                                   Actualizar Representante
