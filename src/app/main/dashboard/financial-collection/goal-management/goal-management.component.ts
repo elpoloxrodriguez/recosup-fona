@@ -85,9 +85,9 @@ export class GoalManagementComponent implements OnInit {
               display: true
             },
             ticks: {
-              stepSize: 1000000,
+              stepSize: 5000000,
               min: 0,
-              max: 30000000,
+              max: 150000000,
               fontColor: this.labelColor
             },
             gridLines: {
@@ -191,13 +191,14 @@ export class GoalManagementComponent implements OnInit {
    */
   async ngOnInit() {
     // content header
-    await this.DataRecaudacionAnioAnterior(this.añoAn)
-    await this.DataRecaudacionAnioActual(this.añoAc)
+    await this.DataRecaudacionAnioAnterior(this.FechaDesde ? this.FechaDesde : this.añoAn)
+    await this.DataRecaudacionAnioActual(this.FechaHasta ? this.FechaHasta :this.añoAc)
     this.CapacidadGraficos = 30000000
   }
 
 
   async DataRecaudacionAnioAnterior(fecha) {
+    // this.MontoRecaudacionAnioAnterior = []
     this.xAPI.funcion = "RECOSUP_R_GestionMetasRecaudacion";
     var fec = this.FechaDesde ? this.FechaDesde : this.añoAn
     this.xAPI.parametros = fecha.toString()
@@ -215,6 +216,7 @@ export class GoalManagementComponent implements OnInit {
   }
 
   async DataRecaudacionAnioActual(fecha) {
+    // this.MontoRecaudacionAnioActual = []
     this.xAPI.funcion = "RECOSUP_R_GestionMetasRecaudacion";
     var fec = this.FechaHasta ? this.FechaHasta : this.añoAc
     this.xAPI.parametros = fecha.toString()

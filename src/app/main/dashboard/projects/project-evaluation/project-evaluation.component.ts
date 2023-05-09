@@ -28,26 +28,46 @@ export class ProjectEvaluationComponent implements OnInit {
   public  mesActual = new Date().getMonth()
 
   public a = 0
+  public aX = []
   public b = 0
+  public bX = []
   public c = 0
+  public cX = []
   public d = 0
+  public dX = []
   public e = 0
+  public eX = []
   public f = 0
+  public fX = []
   public g = 0
+  public gX = []
   public h = 0
+  public hX = []
   public i = 0
+  public iX = []
   public j = 0
+  public jX = []
 
   public totalA = 0
+  public totalAX = []
   public totalB = 0
+  public totalBX = []
   public totalC = 0
+  public totalCX = []
   public totalD = 0
+  public totalDX = []
   public totalE = 0
+  public totalEX = []
   public totalF  = 0
+  public totalFX = []
   public totalG = 0
+  public totalGX = []
   public totalH = 0
+  public totalHX = []
   public totalI = 0
+  public totalIX = []
   public totalJ = 0
+  public totalJX = []
 
   public rowTotalesEvaluacion = [
     {id:1, nomenclatura: 'A', nombre: 'Talleres Sencibilización e Información', total: this.totalA},
@@ -61,20 +81,6 @@ export class ProjectEvaluationComponent implements OnInit {
     {id:9, nomenclatura: 'I', nombre: 'Diagnosticos Comunitarios', total: this.totalI},
     {id:10, nomenclatura: 'J', nombre: 'Total Personas Atendidas', total: this.totalJ},
   ]
-
-  // public ListaEvaluacion = [
-  //   {id:1, nomenclatura: 'A', nombre: 'Talleres Sencibilización e Información'},
-  //   {id:2, nomenclatura: 'B', nombre: 'Abordajes Preventivos Comunitarios'},
-  //   {id:3, nomenclatura: 'C', nombre: 'Reuniones Interinstitucionales'},
-  //   {id:4, nomenclatura: 'D', nombre: 'Jornadas Deportivas'},
-  //   {id:5, nomenclatura: 'E', nombre: 'Jornadas Culturales'},
-  //   {id:6, nomenclatura: 'F', nombre: 'Dotación de Kit Deportivo'},
-  //   {id:7, nomenclatura: 'G', nombre: 'Cines Foros'},
-  //   {id:8, nomenclatura: 'H', nombre: 'Escuelas Deportivas'},
-  //   {id:9, nomenclatura: 'I', nombre: 'Diagnosticos Comunitarios'},
-  //   {id:10, nomenclatura: 'J', nombre: 'Total Personas Atendidas'},
-  // ]
-
 
   public dataMeses = []
   public rowEvaluacion = []
@@ -147,7 +153,48 @@ export class ProjectEvaluationComponent implements OnInit {
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(e => {
-          console.log(e)
+         switch (e.mes) {
+          case "ENERO":
+            console.log(e)
+            this.a = e.cantidad
+            break;
+            case "FEBRERO":
+            console.log(e)
+            break;
+            case "MARZO":
+            console.log(e)
+            break;
+            case "ABRIL":
+            console.log(e)
+            break;
+            case "MAYO":
+            console.log(e)
+            break;
+            case "JUNIO":
+            console.log(e)
+            break;
+            case "JULIO":
+            console.log(e)
+            break;
+            case "AGOSTO":
+            console.log(e)
+            break;
+            case "SEPTIEMBRE":
+            console.log(e)
+            break;
+            case "OCTUBE":
+            console.log(e)
+            break;
+            case "NOVIEMBRE":
+            console.log(e)
+            break;
+            case "DICIEMBRE":
+            console.log(e)
+            break;
+         
+          default:
+            break;
+         }
           });
       },
       (error) => {
@@ -196,6 +243,7 @@ export class ProjectEvaluationComponent implements OnInit {
   }
 
   onSubmit(){
+
   }
 
 

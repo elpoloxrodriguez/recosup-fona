@@ -86,6 +86,8 @@ const appRoutes: Routes = [
                           MenuModuleComponent,
                           ReportsComponent,
                           ReportsProjectsComponent,
+                           GoalManagementComponent,
+
                           ],
   imports: [
     BrowserModule,

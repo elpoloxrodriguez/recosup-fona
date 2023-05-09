@@ -243,6 +243,7 @@ export class DeclarationPaymentsComponent implements OnInit {
   async ngOnInit() {
     this.token = jwt_decode(sessionStorage.getItem('token'))
     this.ActividadEconomicaEmpresa = this.token.Usuario[0].ActividadEconomicaId
+    // console.log(this.ActividadEconomicaEmpresa)
     this.IdEmpresa = this.token.Usuario[0].EmpresaId
 
     if (this.IdEmpresa != null) {
@@ -421,6 +422,7 @@ export class DeclarationPaymentsComponent implements OnInit {
   }
 
    FuncSelectAnioAporte(id:any) {
+    // console.log(id)
     var anioActual = new Date()
     var anio = anioActual.getFullYear()
     this.xAPI.funcion = "RECOSUP_R_utilidad_cierre_fiscal_Contribuyente_SelectDeclaracionAnio";
@@ -442,8 +444,8 @@ export class DeclarationPaymentsComponent implements OnInit {
             this.SelectAnioAporte.push(index)
            }
         }
-        console.log(this.NuevaListFecha)
-        console.log(this.SelectAnioAporte)
+        // console.log(this.NuevaListFecha)
+        // console.log(this.SelectAnioAporte)
       },
       (error) => {
         console.log(error);

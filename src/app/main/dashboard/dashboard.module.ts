@@ -57,7 +57,7 @@ import { ProjectEvaluationComponent } from './projects/project-evaluation/projec
       ChangePasswordComponent,
       BackupsComponent,
       CompanyProjectsRecosupComponent,
-      GoalManagementComponent,
+      // GoalManagementComponent,
       GenerateNonRegisteredFinesComponent,
       GenerateFinesComponent,
       ContributingCompaniesComponent,
