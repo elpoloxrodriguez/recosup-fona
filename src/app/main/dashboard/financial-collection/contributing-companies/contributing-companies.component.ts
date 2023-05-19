@@ -3,7 +3,7 @@ import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 import { Subject } from 'rxjs';
 import { NgbModal, NgbActiveModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService, IAPICore } from '@core/services/apicore/api.service';
-import { IActualizarDatosEmpresa, ICrearCertificados, IDataEmpresaCompleta, RECOSUP_U_RepresentanteLegal } from '@core/services/empresa/empresa.service';
+import { IActualizarDatosEmpresa, ICrearCertificados, IDataEmpresaCompleta, RECOSUP_U_FizcalizarEmpresa, RECOSUP_U_RepresentanteLegal } from '@core/services/empresa/empresa.service';
 import { UtilService } from '@core/services/util/util.service';
 import Swal from 'sweetalert2';
 import jwt_decode from "jwt-decode";
@@ -24,6 +24,12 @@ export class ContributingCompaniesComponent implements OnInit {
     parametros: '',
     valores : {},
   };
+
+
+  public IFizcalizacionBloqueo : RECOSUP_U_FizcalizarEmpresa = {
+    status_bloqueo: 0,
+    EmpresaId: 0
+  }
 
   public UpdateEmpresa: IActualizarDatosEmpresa = {
     UsuarioId: 0,
@@ -301,8 +307,10 @@ export class ContributingCompaniesComponent implements OnInit {
      await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(e => {
-          e.EmpresaFiscalizada = 0
+          e.EmpresaFiscalizada = e.status_bloqueo
+        //  if (e.status_bloqueo == 1) {
           this.ListaEmpresasAportes.push(e);
+        //  }
         })
             this.rowsEmpresasAportes = this.ListaEmpresasAportes
             this.tempDataEmpresasAportes = this.rowsEmpresasAportes;
@@ -335,8 +343,10 @@ export class ContributingCompaniesComponent implements OnInit {
     )
   }
 
-  FiscalizarEmpresa(row : any){
-    console.log(row)
+  FiscalizarEmpresaBloqueo(row : any){
+    // console.log(row)
+    this.IFizcalizacionBloqueo.EmpresaId = row.EmpresaId
+    this.IFizcalizacionBloqueo.status_bloqueo = 0
     Swal.fire({
       title: 'Esta seguro?',
       html: `Desea Fiscalizar la Empresa! <br> <font color='red'><strong>${row.RazonSocial}</strong></font> <br> Tenga en cuenta que la misma estará  <font color='red'><strong>INHABILITADA</strong></font> para los demas modulos del sistema`,
@@ -348,10 +358,60 @@ export class ContributingCompaniesComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire(
-          'Felicidades!',
-          `<font color='red'><strong>${row.RazonSocial}</strong></font> <br> se encuenta Fiscalizada`,
-          'success'
+        this.xAPI.funcion = 'RECOSUP_U_FizcalizarEmpresa'
+        this.xAPI.parametros = ''
+        this.xAPI.valores = JSON.stringify(this.IFizcalizacionBloqueo)
+        this.apiService.Ejecutar(this.xAPI).subscribe(
+          (data) => {
+            if (data.tipo === 1) {
+              this.modalService.dismissAll('Cerrar')
+              this.utilService.alertConfirmMini('success', 'Datos actualizados exitosamente')
+              // Actualizamos la tabla
+              this._router.navigate(['inspection/contributing-companies']).then(() => { window.location.reload() });
+            } else {
+              this.utilService.alertConfirmMini('error', 'Oops! Algo salio mal, intente de nuevo!')
+            }
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+      }
+    })
+  }
+
+  FiscalizarEmpresaDesbloqueo(row : any){
+    // console.log(row)
+    this.IFizcalizacionBloqueo.EmpresaId = row.EmpresaId
+    this.IFizcalizacionBloqueo.status_bloqueo = 1
+    Swal.fire({
+      title: 'Esta seguro?',
+      html: `Desea Desactivar la Fizcalizacion de la Empresa! <br> <font color='red'><strong>${row.RazonSocial}</strong></font> <br> Tenga en cuenta que la misma estará  <font color='red'><strong>HABILITADA</strong></font> para los demas modulos del sistema`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Desbloquearla!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.xAPI.funcion = 'RECOSUP_U_FizcalizarEmpresa'
+        this.xAPI.parametros = ''
+        this.xAPI.valores = JSON.stringify(this.IFizcalizacionBloqueo)
+        this.apiService.Ejecutar(this.xAPI).subscribe(
+          (data) => {
+            if (data.tipo === 1) {
+              this.modalService.dismissAll('Cerrar')
+              this.utilService.alertConfirmMini('success', 'Datos actualizados exitosamente')
+              // Actualizamos la tabla
+              this._router.navigate(['inspection/contributing-companies']).then(() => { window.location.reload() });
+            } else {
+              this.utilService.alertConfirmMini('error', 'Oops! Algo salio mal, intente de nuevo!')
+            }
+          },
+          (error) => {
+            console.log(error)
+          }
         )
       }
     })

@@ -34,6 +34,7 @@ import { GoalManagementComponent } from './financial-collection/goal-management/
 import { GenerateNonRegisteredFinesComponent } from './financial-collection/generate-non-registered-fines/generate-non-registered-fines.component';
 import { GenerateFinesComponent } from './financial-collection/generate-fines/generate-fines.component';
 import { ContributingCompaniesComponent } from './financial-collection/contributing-companies/contributing-companies.component';
+
 import { TaxpayersComponent } from './digital-documentation/taxpayers/taxpayers.component';
 import { PanelAsistenteVirtualComponent } from '../asistente-virtual/panel-asistente-virtual/panel-asistente-virtual.component';
 import { ProjectEvaluationComponent } from './projects/project-evaluation/project-evaluation.component';
@@ -63,7 +64,7 @@ import { ProjectEvaluationComponent } from './projects/project-evaluation/projec
       ContributingCompaniesComponent,
       TaxpayersComponent,
       PanelAsistenteVirtualComponent,
-      ProjectEvaluationComponent
+      ProjectEvaluationComponent,
     ],
   imports: [
     CommonModule,

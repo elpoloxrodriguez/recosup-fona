@@ -78,13 +78,13 @@
           <ng-template let-row="row" ngx-datatable-cell-template>
             <div>
               <div
-              *ngIf="row.EmpresaFiscalizada == 1"
+              *ngIf="row.EmpresaFiscalizada == 0"
                 class="badge badge-pill"
                 ngClass="badge-light-danger">
                 Fiscalizada
               </div>
               <div
-              *ngIf="row.EmpresaFiscalizada == 0"
+              *ngIf="row.EmpresaFiscalizada == 1"
                 class="badge badge-pill"
                 ngClass="badge-light-success">
                 Disponible
@@ -105,12 +105,12 @@
                   <a  (click)="DetalleEmpresa(ModalDetalleEmpresa,row)" ngbDropdownItem><span
                     [data-feather]="'archive'" [size]="16" [class]="'mr-50'"></span> Ver Detalles</a>
               </div>
-              <div *ngIf="ShowFiscalizar != false && row.EmpresaFiscalizada != 1">
-                <a  (click)="FiscalizarEmpresa(row)" ngbDropdownItem><span
-                  [data-feather]="'lock'" [size]="16" [class]="'mr-50'"></span> Bloquear</a>
+              <div *ngIf="ShowFiscalizar != false && row.EmpresaFiscalizada != 0">
+                <a  (click)="FiscalizarEmpresaBloqueo(row)" ngbDropdownItem><span
+                  [data-feather]="'lock'" [size]="16" [class]="'mr-50'"></span> Fizcalizar</a>
           </div>
-          <div *ngIf="ShowFiscalizar != false && row.EmpresaFiscalizada != 0">
-            <a  (click)="FiscalizarEmpresa(row)" ngbDropdownItem><span
+          <div *ngIf="ShowFiscalizar != false && row.EmpresaFiscalizada != 1">
+            <a  (click)="FiscalizarEmpresaDesbloqueo(row)" ngbDropdownItem><span
               [data-feather]="'unlock'" [size]="16" [class]="'mr-50'"></span> Desbloquear</a>
         </div>
             </div>

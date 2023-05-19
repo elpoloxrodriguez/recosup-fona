@@ -148,13 +148,11 @@ export class GenerateFinesComponent implements OnInit {
     await this.ListaPlanillas()
     await this.SelecArticulo()
     await this.FuncSelectAnioAporte()
-    if (sessionStorage.getItem('Empresas') != undefined) {
-      // alert('Ya esta cargada')
-      this.ListaEmpresas = JSON.parse(sessionStorage.getItem('Empresas'))
-    } else {
+    // if (sessionStorage.getItem('Empresas') != undefined) {
+    //   this.ListaEmpresas = JSON.parse(sessionStorage.getItem('Empresas'))
+    // } else {
       await this.ListaEmpresasSimple()
-      // alert('NOO esta cargada')
-    }
+    // }
   }
   // Public Methods
   // -----------------------------------------------------------------------------------------------------
@@ -335,9 +333,11 @@ export class GenerateFinesComponent implements OnInit {
           e.name = '(' + e.Rif + ') - ' + e.RazonSocial
           e.id = e.EmpresaId
           // return e
+         if (e.status_bloqueo ==  1) {
           this.ListaEmpresas.push(e)
+         }
         });
-        sessionStorage.setItem('Empresas',  JSON.stringify(this.ListaEmpresas));
+        // sessionStorage.setItem('Empresas',  JSON.stringify(this.ListaEmpresas));
       },
       (error) => {
         console.log(error)

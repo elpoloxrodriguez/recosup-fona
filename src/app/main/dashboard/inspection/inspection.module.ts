@@ -23,10 +23,13 @@ import { CorePipesModule } from '@core/pipes/pipes.module';
 import { CoreSidebarModule } from '@core/components';
 
 import { InspectionRoutingModule } from './inspection-routing.module';
+import { ContributingCompaniesComponent } from './contributing-companies/contributing-companies.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    ContributingCompaniesComponent
+  ],
   imports: [
     CommonModule,
     InspectionRoutingModule,

@@ -395,6 +395,13 @@ export interface RECOSUP_U_RepresentanteLegal {
 	ContactoId	 :	number
 }
 
+
+export interface RECOSUP_U_FizcalizarEmpresa {
+	status_bloqueo	 :	number
+	EmpresaId	 :	number
+}
+
+
 @Injectable({
 	providedIn: 'root'
 })
