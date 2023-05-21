@@ -37,7 +37,7 @@
               </div>
               <div class="form-group col-md-6">
                 <label class="form-label" for="rif">Numero de RIF</label>
-                <input [(ngModel)]="UsersRegister.Codigo" #RIf="ngModel" required type="number" name="rif"
+                <input [(ngModel)]="UsersRegister.Codigo" #RIf="ngModel" required type="text" name="rif"
                   id="rif" class="form-control" [class.error]="!RIf.valid && accountDetailsForm.submitted"
                   placeholder="Ingrese RIF" />
                 <span *ngIf="accountDetailsForm.submitted && RIf.invalid" class="invalid-form">

@@ -3,7 +3,7 @@ import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 import { Subject } from 'rxjs';
 import { NgbModal, NgbActiveModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService, IAPICore } from '@core/services/apicore/api.service';
-import { IActualizarDatosEmpresa, ICrearCertificados, IDataEmpresaCompleta, RECOSUP_U_FizcalizarEmpresa, RECOSUP_U_RepresentanteLegal } from '@core/services/empresa/empresa.service';
+import { IActualizarDatosEmpresa, ICrearCertificados, IDataEmpresaCompleta, RECOSUP_U_FizcalizarEmpresa, RECOSUP_U_RepresentanteLegal, RECOSUP_U_Usuarios } from '@core/services/empresa/empresa.service';
 import { UtilService } from '@core/services/util/util.service';
 import Swal from 'sweetalert2';
 import jwt_decode from "jwt-decode";
@@ -24,6 +24,20 @@ export class ContributingCompaniesComponent implements OnInit {
     parametros: '',
     valores : {},
   };
+
+  public IUpdateUsuario : RECOSUP_U_Usuarios = {
+    Codigo: '',
+    Nombres: '',
+    Apellidos: '',
+    Cedula: '',
+    FechaModifico: '',
+    TelefonoLocal: '',
+    TelefonoCelular: '',
+    CorreoPrincipal: '',
+    CorreoSecundario: '',
+    Cargo: '',
+    UsuarioId: 0
+  }
 
 
   public IFizcalizacionBloqueo : RECOSUP_U_FizcalizarEmpresa = {
@@ -56,6 +70,7 @@ export class ContributingCompaniesComponent implements OnInit {
   }
 
   public DataEmpresaCompleta: IDataEmpresaCompleta = {
+    UsuarioId: 0,
     RazonSocial: '',
     Rif: '',
     Email: '',
@@ -450,6 +465,7 @@ export class ContributingCompaniesComponent implements OnInit {
           this.UpdateEmpresa.UsuarioId = e.UsuarioId
           this.DataEmpresaCompleta.RazonSocial = e.RazonSocial
           this.DataEmpresaCompleta.Rif = e.Rif
+          this.DataEmpresaCompleta.UsuarioId = e.UsuarioId
           this.DataEmpresaCompleta.Email = e.CorreoEmpresa
           this.DataEmpresaCompleta.SitioWeb = e.PaginaWeb
           this.DataEmpresaCompleta.Telefonos = e.TelefonoEmpresa + ' | ' + e.TelefonoLocal
@@ -803,6 +819,39 @@ export class ContributingCompaniesComponent implements OnInit {
     });   
   }
 
+  ModalEditarUsuario(modal, data){
+    this.modalService.dismissAll('Cerrar')
+    this.titleModal = data.RazonSocial
+    this.xAPI.funcion = "RECOSUP_R_UsuarioID";
+    this.xAPI.parametros = data.UsuarioId
+    this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        data.Cuerpo.map(e => {
+          this.IUpdateUsuario.UsuarioId =  this.DataEmpresaCompleta.UsuarioId
+          this.IUpdateUsuario.Codigo = e.Codigo
+          this.IUpdateUsuario.Nombres = e.Nombres
+          this.IUpdateUsuario.Apellidos = e.Apellidos
+          this.IUpdateUsuario.Cedula = e.Cedula
+          this.IUpdateUsuario.FechaModifico = this.utilService.FechaActual()
+          this.IUpdateUsuario.TelefonoLocal = e.TelefonoLocal
+          this.IUpdateUsuario.TelefonoCelular = e.TelefonoCelular
+          this.IUpdateUsuario.CorreoPrincipal = e.CorreoPrincipal
+          this.IUpdateUsuario.CorreoSecundario = e.CorreoSecundario
+          this.IUpdateUsuario.Cargo = e.Cargo
+        });
+      },
+      err => {
+
+      })
+    this.modalService.open(modal, {
+      centered: true,
+      size: 'lg',
+      backdrop: false,
+      keyboard: false,
+      windowClass: 'fondo-modal',
+    });   
+  }
+
   EditarRepresentanteLegalModal(modal, data){
     this.modalService.dismissAll('Cerrar')
     // console.log(data);
@@ -848,6 +897,29 @@ export class ContributingCompaniesComponent implements OnInit {
       }
     )
   }
+
+  async UpdateUsuarios(){
+    this.xAPI.funcion = 'RECOSUP_U_Usuarios'
+    this.xAPI.parametros = ''
+    this.xAPI.valores = JSON.stringify(this.IUpdateUsuario)
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        if (data.tipo === 1) {
+          this.modalService.dismissAll('Cerrar')
+          this.utilService.alertConfirmMini('success', 'Datos actualizados exitosamente')
+          // Actualizamos la tabla
+          this._router.navigate(['financial-collection/contributing-companies']).then(() => { window.location.reload() });
+        } else {
+          this.utilService.alertConfirmMini('error', 'Oops! Algo salio mal, intente de nuevo!')
+        }
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+
+  
 
   filterUpdateUtilidadAportes(event) {
     // Reset ng-select on search

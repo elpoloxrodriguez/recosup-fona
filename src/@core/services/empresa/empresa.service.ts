@@ -126,8 +126,22 @@ export interface IActualizarDatosEmpresa {
 	Municipio: string
 }
 
+export interface RECOSUP_U_Usuarios {
+	Codigo	 :	string
+	Nombres	 :	string
+	Apellidos	 :	string
+	Cedula	 :	string
+	FechaModifico	 :	string
+	TelefonoLocal	 :	string
+	TelefonoCelular	 :	string
+	CorreoPrincipal	 :	string
+	CorreoSecundario	 :	string
+	Cargo	 :	string
+	UsuarioId	 :	number
+}
 
 export interface IDataEmpresaCompleta {
+	UsuarioId ?: number;
 	RazonSocial: string;
 	Rif: string;
 	Email: string;
