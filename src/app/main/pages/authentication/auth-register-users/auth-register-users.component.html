@@ -50,7 +50,7 @@
                 <label class="form-label" for="NombreEmpresa">Nombre Empresa</label>
                 <input [(ngModel)]="UsersRegister.Nombres" #NombreEmpresa="ngModel" required type="text" name="NombreEmpresa"
                   id="NombreEmpresa" class="form-control" [class.error]="!NombreEmpresa.valid && accountDetailsForm.submitted"
-                  placeholder="Ingrese RIF" />
+                  placeholder="Ingrese Nombre Empresa" />
                 <span *ngIf="accountDetailsForm.submitted && NombreEmpresa.invalid" class="invalid-form">
                   <small class="form-text text-danger" *ngIf="NombreEmpresa.errors.required">Nombre Empresa es
                     requerido!</small>
