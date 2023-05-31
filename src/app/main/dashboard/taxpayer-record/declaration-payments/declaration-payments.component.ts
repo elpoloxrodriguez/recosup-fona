@@ -209,6 +209,8 @@ export class DeclarationPaymentsComponent implements OnInit {
 
   public NuevaListFecha = []
 
+  public ArticuloAnio = []
+
   // decorator
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
@@ -246,9 +248,15 @@ export class DeclarationPaymentsComponent implements OnInit {
     // console.log(this.ActividadEconomicaEmpresa)
     this.IdEmpresa = this.token.Usuario[0].EmpresaId
 
+    if (this.token.Usuario[0].ActividadEconomicaId == '11' || this.token.Usuario[0].ActividadEconomicaId == '60') {
+      this.FuncSelectAnioDobleAportante(this.token.Usuario[0].EmpresaId)
+    } else {
+      this.FuncSelectAnioAporte(this.token.Usuario[0].EmpresaId)
+    }
+
     if (this.IdEmpresa != null) {
       this.ButtonShow = true
-      this.FuncSelectAnioAporte(this.token.Usuario[0].EmpresaId)
+      // this.FuncSelectAnioAporte(this.token.Usuario[0].EmpresaId)
       await this.UtilidadCierreFiscal(this.token.Usuario[0].EmpresaId)
       await this.SelecArticulo()
       await this.SelecTiposPagos()
@@ -431,7 +439,7 @@ export class DeclarationPaymentsComponent implements OnInit {
      this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(e => {
-          this.NuevaListFecha.push(parseInt(e.Fecha))
+            this.NuevaListFecha.push(parseInt(e.Fecha))
         });
         for (let index = 2010; index <= anio - 1; index++) {
           let regex = new  RegExp(this.ConvertirCadena(this.NuevaListFecha.join('|')))
@@ -451,6 +459,27 @@ export class DeclarationPaymentsComponent implements OnInit {
         console.log(error);
       }
       )
+  }
+
+  FuncSelectAnioDobleAportante(id:any){
+    var anioActual = new Date()
+    var anio = anioActual.getFullYear()
+    this.xAPI.funcion = "RECOSUP_R_utilidad_cierre_fiscal_Contribuyente_SelectDeclaracionAnio";
+    this.xAPI.parametros = id 
+    this.xAPI.valores = ''
+     this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        data.Cuerpo.map(e => {
+          // console.log(e.Fecha +' - '+ e.Articulo)
+      });
+      },
+      (error) => {
+        console.log(error);
+      }
+     )
+    for (let index = 2010; index <= anio - 1; index++) {
+      this.SelectAnioAporte.push(index)
+     }
   }
 
   ConvertirCadena(cadena: string): string {
