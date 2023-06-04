@@ -67,6 +67,13 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 //  subir Archivos
 
 
+// Recaptcha V3
+import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
+
+//  Recaptcha V2
+import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
+
+
 const appRoutes: Routes = [
   {
     path: '',
@@ -112,6 +119,12 @@ const appRoutes: Routes = [
     CoreSidebarModule,
     AngularFileUploaderModule,
     CoreThemeCustomizerModule,
+
+        //  Recaptcha V3
+    RecaptchaV3Module,
+    //  Recaptcha V2
+    RecaptchaFormsModule,
+    RecaptchaModule,
     
     FormsModule,
     ReactiveFormsModule,
@@ -140,6 +153,15 @@ const appRoutes: Routes = [
     },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        //  Recaptcha V3
+        { provide: RECAPTCHA_V3_SITE_KEY, useValue: environment.recaptcha.siteKey},
+        // Recaptcha V2
+        { provide: RECAPTCHA_SETTINGS,
+          useValue: {
+            siteKey: environment.recaptcha.siteKey,
+          } as RecaptchaSettings,
+        },
+        // Fin de Recaptcha
 
   ],
   bootstrap: [AppComponent]

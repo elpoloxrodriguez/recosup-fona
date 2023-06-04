@@ -46,6 +46,7 @@ export class NavbarNotificationComponent implements OnInit {
    * On init
    */
   async ngOnInit() {
+    if (sessionStorage.getItem('token') != null) {
     this.token =  jwt_decode(sessionStorage.getItem('token'));
     if (this.token.Usuario[0].EsAdministrador == '9' || this.token.Usuario[0].EsAdministrador == '1') {
       await this.NotificacionesTotal()
@@ -55,6 +56,7 @@ export class NavbarNotificationComponent implements OnInit {
     } else {
       this.notifications
     }
+  }
   }
 
 

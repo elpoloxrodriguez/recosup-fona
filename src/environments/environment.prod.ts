@@ -1,5 +1,8 @@
 export const environment = {
   production: true,
+  recaptcha: {
+    siteKey: '6LdwJNwlAAAAAI8-p7XKKCtfJ51goRFyBBbjaAJL',
+  },
   Url: 'https://recosup.fona.gob.ve',
   API: '/v1/api/',
   hmr: false,

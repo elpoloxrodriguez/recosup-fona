@@ -187,18 +187,16 @@ public cargo = ''
       this.ShowNotificationsUsers = true
       this.ShowNotificationsContribuyente = true
     } 
-
     if (this.rol === '0') {
       this.ShowNotificationsContribuyente = true
     } 
-
     if (this.rol === '4') {
       this.ShowNotificationsProject = true
     } 
 
     // get the currentUser details from localStorage
-    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    // Subscribe to the config changes
+    // this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
     this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
       this.coreConfig = config;
       this.horizontalMenu = config.layout.type === 'horizontal';

@@ -20,6 +20,9 @@ import { locale as es } from 'app/menu/i18n/es';
 import { LoginService } from '@core/services/seguridad/login.service';
 import jwt_decode from "jwt-decode";
 
+import { ReCaptchaV3Service } from 'ng-recaptcha';
+import { NgForm } from '@angular/forms';
+
 
 @Component({
   selector: 'app-root',
@@ -27,6 +30,10 @@ import jwt_decode from "jwt-decode";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
+
+  tokenRecaptcha: string|undefined;
+
+
   coreConfig: any;
   menu: any;
   defaultLanguage: 'es'; // This language will be used as a fallback when a translation isn't found in the current language
@@ -50,6 +57,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param {TranslateService} _translateService
    */
   constructor(
+    private recaptchaV3Service: ReCaptchaV3Service,
     private loginService: LoginService,
     @Inject(DOCUMENT) private document: any,
     private _title: Title,
@@ -62,6 +70,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private _coreTranslationService: CoreTranslationService,
     private _translateService: TranslateService
   ) {
+    this.tokenRecaptcha = undefined
     // Get the application main menu
     // if (sessionStorage.getItem('token') != undefined) {
       // this.token =  jwt_decode(sessionStorage.getItem('token'));
@@ -265,4 +274,30 @@ export class AppComponent implements OnInit, OnDestroy {
   toggleSidebar(key): void {
     this._coreSidebarService.getSidebarRegistry(key).toggleOpen();
   }
+
+  //  Recaptcha V3
+  public send(form: NgForm): void {
+    if (form.invalid) {
+      for (const control of Object.keys(form.controls)) {
+        form.controls[control].markAsTouched();
+      }
+      return;
+    }
+    this.recaptchaV3Service.execute('importantAction')
+    .subscribe((token: string) => {
+      console.debug(`Token [${token}] generated`);
+    });
+  }
+
+  // Recaptcha V2
+  public sendV2(form: NgForm): void {
+    if (form.invalid) {
+      for (const control of Object.keys(form.controls)) {
+        form.controls[control].markAsTouched();
+      }
+      return;
+    }
+    console.debug(`Token [${this.token}] generated`);
+  }
+
 }

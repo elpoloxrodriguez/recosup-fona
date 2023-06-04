@@ -16,7 +16,7 @@
 <div class="navbar-container d-flex content">
   <div class="bookmark-wrapper d-flex align-items-center">
     <!-- Menu Toggler | Menu icon will be hidden in case of layout without menu -->
-    <ul class="nav navbar-nav d-xl-none" *ngIf="!coreConfig.layout.menu.hidden">
+    <ul class="nav navbar-nav d-xl-none" *ngIf="!hiddenMenu">
       <!-- <ul class="nav navbar-nav d-xl-none"> -->
       <li class="nav-item">
         <a class="nav-link menu-toggle" (click)="toggleSidebar('menu')">

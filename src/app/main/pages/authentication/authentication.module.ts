@@ -13,7 +13,6 @@ import { ContentHeaderModule } from 'app/layout/components/content-header/conten
 import { CardSnippetModule } from '@core/components/card-snippet/card-snippet.module';
 
 
-
 import { AuthLoginV2Component } from 'app/main/pages/authentication/auth-login-v2/auth-login-v2.component';
 import { AuthResetPasswordV2Component } from './auth-reset-password-v2/auth-reset-password-v2.component';
 import { AuthForgotPasswordV2Component } from './auth-forgot-password-v2/auth-forgot-password-v2.component';
@@ -25,6 +24,14 @@ import { FooterComponent } from './footer/footer.component';
 import { AsistenteVirtualComponent } from 'app/main/asistente-virtual/asistente-virtual/asistente-virtual.component';
 
 import { NgxMaskModule, IConfig } from 'ngx-mask'
+
+//  subir Environment
+import { environment } from '../../../../environments/environment';
+// Recaptcha V3
+import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
+//  Recaptcha V2
+import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
+
 
 
 // routing
@@ -71,9 +78,33 @@ const routes: Routes = [
                           FooterComponent,
                           AsistenteVirtualComponent
 ],
-  imports: [CommonModule, RouterModule.forChild(routes), NgbModule,  NgSelectModule,
-    FormsModule, ReactiveFormsModule, CoreCommonModule, ContentHeaderModule,
-    CardSnippetModule, NgxMaskModule.forRoot(),
-  ]
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    NgbModule,
+    NgSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CoreCommonModule,
+    ContentHeaderModule,
+    CardSnippetModule,
+    NgxMaskModule.forRoot(),
+            //  Recaptcha V3
+            RecaptchaV3Module,
+            //  Recaptcha V2
+            RecaptchaFormsModule,
+            RecaptchaModule,
+  ],
+  providers: [
+    //  Recaptcha V3
+    { provide: RECAPTCHA_V3_SITE_KEY, useValue: environment.recaptcha.siteKey},
+    // Recaptcha V2
+    { provide: RECAPTCHA_SETTINGS,
+      useValue: {
+        siteKey: environment.recaptcha.siteKey,
+      } as RecaptchaSettings,
+    },
+    // Fin de Recaptcha
+  ],
 })
 export class AuthenticationModule {}

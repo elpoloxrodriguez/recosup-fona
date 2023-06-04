@@ -1,6 +1,6 @@
 import { Component, Inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, NavigationExtras } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { takeUntil, first } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
@@ -13,6 +13,10 @@ import { UtilService } from '@core/services/util/util.service';
 import jwt_decode from "jwt-decode";
 import { AuthenticationService } from 'app/auth/service/authentication.service';
 import {Md5} from 'ts-md5/dist/md5';
+import { VERSION } from '@angular/core';
+
+
+
 
 @Component({
   selector: 'app-auth-login-v2',
@@ -27,6 +31,8 @@ export class AuthLoginV2Component implements OnInit {
     parametros: '',
     valores: {},
   };
+
+  token: string|undefined;
 
   //  Public
   public coreConfig: any;
@@ -65,6 +71,7 @@ export class AuthLoginV2Component implements OnInit {
     private _authenticationService: AuthenticationService
 
   ) {
+    this.token = undefined;
     this._unsubscribeAll = new Subject();
 
     // Configure the layout
@@ -130,7 +137,21 @@ export class AuthLoginV2Component implements OnInit {
     });
   }
 
+  public send(form: NgForm): void {
+    // console.log(form.invalid)
+    if (form.invalid) {
+      for (const control of Object.keys(form.controls)) {
+        form.controls[control].markAsTouched();
+      }
+      return;
+    }
+    if (form.invalid != true) {
+      this.login()
+    }
+    console.debug(`Token [${this.token}] generated`);
+  }
 
+  
   async login() {
     this.submitted = true;
     this.loading = true;
@@ -184,8 +205,6 @@ export class AuthLoginV2Component implements OnInit {
       }
     );
   }
-
-
 
 
   async Certificado(id: string) {
