@@ -37,7 +37,7 @@
               </div>
               <div class="form-group col-md-6">
                 <label class="form-label" for="rif">Numero de RIF</label>
-                <input [(ngModel)]="UsersRegister.Codigo" #RIf="ngModel" required type="number" mask="0000000000" name="rif"
+                <input [(ngModel)]="UsersRegister.Codigo" #RIf="ngModel" required type="number" name="rif"
                   id="rif" class="form-control" [class.error]="!RIf.valid && accountDetailsForm.submitted"
                   placeholder="Ingrese RIF" />
                 <span *ngIf="accountDetailsForm.submitted && RIf.invalid" class="invalid-form">
@@ -167,6 +167,7 @@
 
 
               <div class="col-12" align="center">
+                {{accountDetailsForm.form.valid}}
                 <button type="submit" [disabled]="!accountDetailsForm.form.valid" (click)="registerTaxpayer()" rippleEffect
                   class="btn btn-success mr-1">Registrarse</button>
                 <button routerLink="/" rippleEffect class="btn btn-outline-secondary">Regresar</button>
