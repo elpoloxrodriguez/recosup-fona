@@ -163,6 +163,7 @@ export class AuthLoginV2Component implements OnInit {
     }
     this.loginService.getLoginExternas(Xapi).subscribe(
       (data) => {
+        // console.log(data);
         this.itk = data;
         sessionStorage.setItem("token", this.itk.token);
         this.infoUsuario = jwt_decode(sessionStorage.getItem('token'));
