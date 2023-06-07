@@ -59,14 +59,19 @@ export class DashboardComponent implements OnInit {
   async ngOnInit() {
     this.token =  jwt_decode(sessionStorage.getItem('token'));
     this.FechaModificoUsuario = this.token.Usuario[0].FechaModifico
-    
+    // console.log(this.token.Usuario[0])
     // console.log(this.FechaModificoUsuario);
     // console.log(this.utilService.FechaActual)
 
     this.IdEmpresa = this.token.Usuario[0].EmpresaId
     this.UsuarioId = this.token.Usuario[0].UsuarioId
 
-    await this.CambiarContraseñaEmpresa()
+    if (this.token.Usuario[0].EsAdministrador != 0) {
+      await this.CambiarContraseñaUsuarioInterno()
+    } else {
+      await this.CambiarContraseñaEmpresa()
+    }
+
     // await this.ListaEmpresasSimple()
     await this.EmpresaRIF(this.token.Usuario[0].Rif)
     // if (this.token.Usuario[0].EsAdministrador != "9") {
@@ -178,6 +183,37 @@ export class DashboardComponent implements OnInit {
   )
 
   }
+
+
+  async CambiarContraseñaUsuarioInterno(){
+    this.xAPI.funcion = "RECOSUP_R_UsuarioIdUsuarioInterno";
+    this.xAPI.parametros = this.UsuarioId
+    this.xAPI.valores = ''
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        data.Cuerpo.forEach(e => {        
+          let FechaToken = e.FechaModifico
+          const ConvertirFechaToken = new Date(FechaToken).getFullYear()
+         setTimeout(() => {
+          if (ConvertirFechaToken < 2023) {
+            this._router.navigate(['user/profile']).then(() => {window.location.reload()});
+            Swal.fire({
+              position: 'top-end',
+              icon: 'warning',
+              html: 'Estimado Usuario <br>  Recomendamos Cambiar la Contraseña de Acceso al Sistema',
+              showConfirmButton: false,
+              timer: 3000
+            })
+          }
+         }, 2000);
+        });
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  
+    }
 
 
   async ListaEmpresasSimple() {
