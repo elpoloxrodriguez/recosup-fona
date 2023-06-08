@@ -8,6 +8,9 @@ import {Md5} from 'ts-md5/dist/md5';
   providedIn: 'root'
 })
 export class UtilService {
+  GenerarFichaResumenProyecto(data: any) {
+    throw new Error('Method not implemented.');
+  }
 
 
   //
@@ -139,5 +142,6 @@ diferenciaFecha(fecha1: string, fecha2: string){
 let fecha = moment(fecha2).diff(fecha1, 'days')
 return fecha
 }
+
 
 }

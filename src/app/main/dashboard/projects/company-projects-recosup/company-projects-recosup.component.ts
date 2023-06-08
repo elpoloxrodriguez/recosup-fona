@@ -19,6 +19,7 @@ import {
   CustomDatepickerI18n
 } from '@core/services/util/datapicker.service';
 import { CoreConfigService } from '@core/services/config.service';
+import { ConvertNumberService } from '@core/services/util/convert-number.service';
 
 
 @Component({
@@ -162,6 +163,7 @@ public fechaActual = new Date();
     private _route: ActivatedRoute,
     private _formBuilder: FormBuilder,
     private _coreConfigService: CoreConfigService,
+    private convertNumberService: ConvertNumberService
   ) {
   }
 
@@ -228,7 +230,7 @@ public fechaActual = new Date();
           e.monto_inversion = this.utilService.ConvertirMoneda(e.monto_inversion)
            this.MisProjects.push(e)
           });
-          console.log(this.MisProjects)
+          // console.log(this.MisProjects)
           this.rowsProyectos = this.MisProjects;
           this.tempDataMisProjects = this.rowsProyectos;
       },
@@ -370,6 +372,12 @@ public fechaActual = new Date();
         console.log(error)
       }
     )
+    }
+
+  
+    DescargarPDF(data : any){
+      console.log(data)
+      this.pdf.GenerarFichaResumenProyecto(data)
     }
 
 

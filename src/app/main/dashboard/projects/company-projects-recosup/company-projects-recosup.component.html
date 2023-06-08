@@ -113,9 +113,11 @@
                     <div>
                     <a (click)="DetalleModal(ModalDetails,row)" ngbDropdownItem><span
                       [data-feather]="'eye'" [size]="16" [class]="'mr-50'"></span> Detalles</a>
+                      <a (click)="DescargarPDF(row)" *ngIf="row.status_proyecto == 1" ngbDropdownItem><span
+                        [data-feather]="'download'" [size]="16" [class]="'mr-50'"></span> Descargar </a>
                     <a (click)="ModalUpdateProjects(ModalUdateProjects,row)" ngbDropdownItem><span
                       [data-feather]="'edit'" [size]="16" [class]="'mr-50'"></span> Cambiar Status</a><a
-                      (click)="DeleteMisProjects(row)" ngbDropdownItem><span [data-feather]="'trash'"
+                      (click)="DeleteMisProjects(row)"  *ngIf="row.status_proyecto != 1" ngbDropdownItem><span [data-feather]="'trash'"
                         [size]="16" [class]="'mr-50'"></span> Eliminar</a>
                   </div>
                 </div>

@@ -152,6 +152,7 @@ export class AuthRegisterUsersComponent implements OnInit {
     });
   }
 
+
   async registerTaxpayer() {
     this.UsersRegister.Clave = this.utilService.md5(this.UsersRegister.Clave)
     this.UsersRegister.Codigo = this.tipoDocumento.name + this.UsersRegister.Codigo

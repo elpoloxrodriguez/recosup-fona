@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { jsPDF } from "jspdf";
 import { UtilService } from '../util/util.service';
-
+import { ConvertNumberService } from '../util/convert-number.service'
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +16,11 @@ export class PdfService {
   public numero_formato
   public siglas_formato
   public comentario_text
+
+  public monto
   constructor(
     private utilService: UtilService,
+    private convertNumberService: ConvertNumberService
   ) { }
 
   CertificadoDeclaracion(data: any,  Qr: any, TokenQr: any) {
@@ -417,36 +420,106 @@ export class PdfService {
     const pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
     const pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
     doc.setProperties({
-      title: "FICHA RESUMEN PROYECTO FONA-RECOSUP",
+      title: `${data.ambito_descripcion.toUpperCase()} (${data.ambito_nombre}).pdf`,
       subject: "https://github.com/elpoloxrodriguez",
       author: "SISTEMA  RECOSUP",
       keywords: "generated, javascript, web 2.0, ajax",
       creator: "CAP. ANDRÉS RICARDO RODRÍGUEZ DURÁN",
     });
 
+    // this.monto = 339257950.57;
+
+
     doc.addImage('assets/images/pdf/sunad.png', "PNG", 10, 10, 20, 25);
     doc.addImage('assets/images/pdf/fona.png', "PNG", 180, 10, 20, 25);
     
     doc.setFontSize(14);
     doc.setFont(undefined, "bold");
-    doc.text(`FICHA RESUMEN DEL PROYECTO`, pageWidth / 2, pageHeight - 275, { maxWidth: 150, align: "center" });
+    doc.text(`FORMATO PARA LA PRESENTACIÓN DE`, pageWidth / 2, pageHeight - 275, { maxWidth: 150, align: "center" });
+    doc.text(`${data.ambito_descripcion.toUpperCase()} (${data.ambito_nombre})`, pageWidth / 2, pageHeight - 270, { maxWidth: 150, align: "center" });
+    doc.text(`POR PARTE DE ORGANISMOS E INSTITUCIONES`, pageWidth / 2, pageHeight - 265, { maxWidth: 150, align: "center" });
 
 
+    doc.setFontSize(14);
+    doc.setFillColor(128, 128, 128);
+    doc.rect(10, 45, 190, 10, 'F');
+    doc.setTextColor(255,255,255);
+    doc.text('DATOS GENERALES',pageWidth / 2, pageHeight - 245, { maxWidth: 190, align: "center" });
     
+    doc.rect(10, 55, 70, 10, 'S');
+    doc.setFontSize(10);
+    doc.setTextColor(0,0,0);
+    doc.text('Nro # RIF', 35, pageHeight - 235);
+
+    // doc.rect(10, 60, 70, 5, 'S');
+
+    doc.rect(10, 65, 70, 10, 'S');
+    doc.setFontSize(12);
+    doc.setTextColor(0,0,0);
+    doc.text('G-20009057-0', 30, pageHeight - 225);
+
+    doc.rect(80, 55, 120, 10, 'S');
+    doc.setFontSize(12);
+    doc.setTextColor(0,0,0);
+    doc.text('Nombre del Organismo o Institución', 140, pageHeight - 235, { maxWidth: 190, align: "center" });
+    doc.setFontSize(12);
+    doc.setTextColor(0,0,0);
+    doc.text('OFICINA NACIONAL ANTIDROGAS', 140, pageHeight - 225, { maxWidth: 190, align: "center" });
 
 
+    doc.rect(80, 65, 120, 10, 'S');
+
+
+    doc.setFontSize(14);
+    doc.setFillColor(128, 128, 128);
+    doc.rect(10, 75, 190, 10, 'F');
+    doc.setTextColor(255,255,255);
+    doc.text('REPRESENTANTE DEL PROYECTO',pageWidth / 2, pageHeight - 215, { maxWidth: 190, align: "center" });
+
+
+    doc.setFontSize(14);
+    doc.setFillColor(128, 128, 128);
+    doc.rect(10, 105, 190, 10, 'F');
+    doc.setTextColor(255,255,255);
+    doc.text('DATOS DEL PROYECTO',pageWidth / 2, pageHeight - 185, { maxWidth: 190, align: "center" });
+
+
+    doc.setFontSize(14);
+    doc.setFillColor(128, 128, 128);
+    doc.rect(10, 165, 190, 10, 'F');
+    doc.setTextColor(255,255,255);
+    doc.text('MONTO DEL PROYECTO',pageWidth / 2, pageHeight - 125, { maxWidth: 100, align: "center" });
+    doc.rect(10, 175, 100, 20, 'S');
+    doc.setFontSize(10);
+    doc.setTextColor(0,0,0);
+    doc.text(this.convertNumberService.convertNumberToWords(data.monto_inversionX), 11, pageHeight - 118, { maxWidth: 98, align: "justify" });
+
+    doc.rect(110, 175, 90, 20, 'S');
+    doc.setFontSize(12);
+    doc.setTextColor(0,0,0);
+    doc.text(data.monto_inversion, 155, pageHeight - 110, { maxWidth: 190, align: "center" });
+
+
+
+    doc.setFontSize(14);
+    doc.setFillColor(128, 128, 128);
+    doc.rect(10, 195, 190, 10, 'F');
+    doc.setTextColor(255,255,255);
+    doc.text('DATOS DEL REGISTRO ANTE LA SUNAD (Art. 30 LOD)',pageWidth / 2, pageHeight - 95, { maxWidth: 190, align: "center" });
+    doc.rect(10, 205, 190, 10, 'S');
+    doc.rect(10, 215, 190, 20, 'S');
+
+
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(10);
     doc.setFont(undefined, "bold");
-    doc.text(`FONA-GEP-FP-XXXX`, pageWidth - 180, pageHeight - 10, { align: 'center' });
-
-    doc.setFontSize(10);
-    doc.setFont(undefined, "bold");
-    doc.text(`Atentamente:`, pageWidth - 90, pageHeight - 10, { align: 'center' });
+    doc.text('________________________________________', pageWidth / 2, pageHeight - 25, { maxWidth: 150, align: "center" });
+    doc.text(`Firma del Representante del Proyecto y Sello`, pageWidth / 2, pageHeight - 20, { maxWidth: 150, align: "center" });
 
 
-    doc.save("Ficha.pdf");
+    // doc.save(`${data.ambito_descripcion.toUpperCase()} (${data.ambito_nombre}).pdf`);
     // doc.autoPrint();
-    // doc.output("dataurlnewwindow", { filename: 'Ficha-Resumen-Proyecto.pdf' });
+    doc.output("dataurlnewwindow", { filename: `${data.ambito_descripcion.toUpperCase()} (${data.ambito_nombre}).pdf` });
 
   }
 

@@ -55,6 +55,12 @@ export class NotAuthorizedComponent implements OnInit {
     });
   }
 
+  salir(){
+    sessionStorage.removeItem('token')
+    window.location.href = '/';
+  }
+  
+
   /**
    * On destroy
    */
