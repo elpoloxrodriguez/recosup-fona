@@ -523,7 +523,7 @@ export class PdfService {
     doc.text(data.nombre_proyecto.toUpperCase(),11, pageHeight - 175, { maxWidth: 188, align: "justify" });
     doc.setTextColor(0,0,0);
     doc.setFontSize(10);
-    if (data.monto_financiamiento != null) {
+    if (data.monto_financiamiento != 0.00) {
       doc.text(`${data.detalle_financiamiento}, ${data.monto_financiamiento}`,11, pageHeight - 157, { maxWidth: 188, align: "justify" });
     }
     
