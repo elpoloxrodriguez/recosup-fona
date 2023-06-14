@@ -201,8 +201,8 @@ export interface IRECOSUP_C_Proyectos {
 	parroquia	 ?:	number
 	municipio	 ?:	number
 	area_proyecto	 ?:	number
-	beneficiario_directos	 ?:	number
-	beneficiario_indirectos	 ?:	number
+	beneficiario_directos	 ?:	string
+	beneficiario_indirectos	 ?:	string
 	tiempo_ejecucion_desde	 :	string
 	tiempo_ejecucion_hasta	 :	string
 	UsuarioCreo	 :	number
@@ -277,8 +277,8 @@ export interface RECOSUP_U_UsuariosStatus { // actualizar datos del usuario
 	parroquia	 :	number
 	municipio	 :	number
 	area_proyecto	 :	number
-	beneficiario_directos	 :	number
-	beneficiario_indirectos	 :	number
+	beneficiario_directos	 :	string
+	beneficiario_indirectos	 :	string
 	tiempo_ejecucion_desde	 :	string
 	tiempo_ejecucion_hasta	 :	string
 	UsuarioModifico	 :	number

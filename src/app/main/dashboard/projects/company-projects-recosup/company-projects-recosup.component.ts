@@ -50,8 +50,8 @@ export class CompanyProjectsRecosupComponent implements OnInit {
     parroquia: 0,
     municipio: 0,
     area_proyecto: 0,
-    beneficiario_directos: 0,
-    beneficiario_indirectos: 0,
+    beneficiario_directos: '',
+    beneficiario_indirectos: '',
     tiempo_ejecucion_desde: '',
     tiempo_ejecucion_hasta: '',
     UsuarioModifico: 0,
@@ -253,6 +253,8 @@ public fechaActual = new Date();
       this.BtnShow = false
       this.BtnHidden = true
     } else {
+      this.CrearProyecto.detalle_financiamiento = ''
+      this.CrearProyecto.monto_financiamiento = ''
       this.InputFinanciamiento = false
       this.BtnShow = true
       this.BtnHidden = false
@@ -498,6 +500,7 @@ public fechaActual = new Date();
     }
 
     ModalUpdateProjects(modal, data){
+      // console.log(data)
       this.IUpdateProjects.status_proyecto = data.status_proyecto
       this.IUpdateProjects.observacion = data.observacion
        this.IUpdateProjects.id_empresa = data.id_empresa

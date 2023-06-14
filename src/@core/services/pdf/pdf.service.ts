@@ -562,12 +562,12 @@ export class PdfService {
     doc.rect(10, 175, 47.5, 20, 'S');
     doc.setTextColor(0,0,0);
     doc.setFontSize(10);
-    doc.text(data.beneficiario_directos,129, pageHeight - 109, { maxWidth: 47, align: "center" });
+    doc.text(data.beneficiario_directos,129, pageHeight - 117, { maxWidth: 47, align: "center" });
 
     doc.rect(105, 175, 47.5, 20, 'S');
     doc.setTextColor(0,0,0);
     doc.setFontSize(10);
-    doc.text(data.beneficiario_indirectos,176, pageHeight - 109, { maxWidth: 47, align: "center" });
+    doc.text(data.beneficiario_indirectos,176, pageHeight - 117, { maxWidth: 47, align: "center" });
 
 
     doc.rect(152.5, 175, 47.5, 20, 'S');
