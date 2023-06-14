@@ -66,6 +66,7 @@ export class CompanyProjectsRecosupComponent implements OnInit {
     nombre_proyecto: '',
     fecha_proyecto: '',
     monto_inversion: '',
+    monto_financiamiento: '0',
     direccion: '',
     tiempo_ejecucion_desde: '',
     tiempo_ejecucion_hasta: '',
@@ -153,6 +154,11 @@ public fechaActual = new Date();
     public tiempo_ejecucion_desde
     public tiempo_ejecucion_hasta
 
+
+    public InputFinanciamiento = false
+    public BtnShow = true
+    public BtnHidden = false
+
   constructor(
     private utilService : UtilService,
     private _router: Router,
@@ -226,6 +232,7 @@ public fechaActual = new Date();
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(e => {
+          e.fecha_proyecto = this.utilService.FechaMomentL(e.fecha_proyecto)
           e.monto_inversionX = e.monto_inversion
           e.monto_inversion = this.utilService.ConvertirMoneda(e.monto_inversion)
            this.MisProjects.push(e)
@@ -238,6 +245,19 @@ public fechaActual = new Date();
         console.log(error)
       }
     )
+  }
+
+  BtnFinanciamiento(data: any){
+    if (data === true) {
+      this.InputFinanciamiento = true
+      this.BtnShow = false
+      this.BtnHidden = true
+    } else {
+      this.InputFinanciamiento = false
+      this.BtnShow = true
+      this.BtnHidden = false
+
+    }
   }
 
   async SelectAmbito() {
@@ -459,7 +479,7 @@ public fechaActual = new Date();
     AddRegister(modal) {
       this.modalService.open(modal,{
         centered: true,
-        size: 'lg',
+        size: 'xl',
         backdrop: false,
         keyboard: false,
         windowClass: 'fondo-modal',

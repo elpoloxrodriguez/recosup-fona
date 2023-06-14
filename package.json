@@ -129,7 +129,7 @@
     "@angular/compiler-cli": "^14.0.2",
     "@angular/language-service": "^14.0.2",
     "@angularclass/hmr": "3.0.0",
-    "@capacitor/cli": "latest",
+    "@capacitor/cli": "^5.0.5",
     "@types/jasmine": "^4.0.3",
     "@types/node": "^18.0.0",
     "codelyzer": "^0.0.28",

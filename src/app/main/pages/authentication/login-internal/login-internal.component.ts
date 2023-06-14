@@ -11,6 +11,7 @@ import { ApiService, IAPICore } from '@core/services/apicore/api.service';
 import { CoreMenuService } from '@core/components/core-menu/core-menu.service';
 import { UtilService } from '@core/services/util/util.service';
 import jwt_decode from "jwt-decode";
+import {Md5} from 'ts-md5/dist/md5';
 
 @Component({
   selector: 'app-login-internal',
@@ -151,9 +152,11 @@ export class LoginInternalComponent implements OnInit {
   async login() {
     this.submitted = true;
     this.loading = true;
+    const md5 = new Md5();
+    const password =  md5.appendStr(this.clave).end()
     var Xapi = {
       "funcion": 'RECOSUP_R_Login_ADMIN',
-      "parametros": this.usuario + ',' + this.clave
+      "parametros": this.usuario + ',' + password
     }
     this.loginService.getLoginExternas(Xapi).subscribe(
       (data) => {

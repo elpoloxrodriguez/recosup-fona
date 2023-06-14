@@ -218,6 +218,51 @@
               </div>
               </div>
 
+              <div class="col-md-6 col-12 mb-1">
+                <div class="form-group">
+                  <label for="basicSelect">Nombre del Representante de Proyecto</label>
+                  <input type="text" class="form-control"  [(ngModel)]="CrearProyecto.nombre_representante"
+                    [ngModelOptions]="{standalone: true}" autocomplete="off" #NombreRepresentante="ngModel"
+                    [class.error]="!NombreRepresentante.valid && formUsersRegister.submitted"
+                    placeholder="Ingrese Nombre del Representante de Proyecto" />
+                    <span *ngIf="formUsersRegister.submitted && NombreRepresentante.invalid" class="invalid-form">
+                      <small class="form-text text-danger" *ngIf="NombreRepresentante.errors.required"
+                        >Nombre del Representante es requerido!</small
+                      >
+                    </span>
+                </div>
+              </div>
+
+              <div class="col-md-3 col-12 mb-1">
+                <div class="form-group">
+                  <label for="basicSelect">Telefono Contacto del Representante de Proyecto</label>
+                  <input type="text" class="form-control"  [(ngModel)]="CrearProyecto.telefono_representante"
+                    [ngModelOptions]="{standalone: true}" autocomplete="off" #TelefonoRepresentante="ngModel"
+                    [class.error]="!TelefonoRepresentante.valid && formUsersRegister.submitted"
+                    placeholder="Ingrese Telefono Contacto del Representante de Proyecto" />
+                    <span *ngIf="formUsersRegister.submitted && TelefonoRepresentante.invalid" class="invalid-form">
+                      <small class="form-text text-danger" *ngIf="TelefonoRepresentante.errors.required"
+                        >Telefono Contacto es requerido!</small
+                      >
+                    </span>
+                </div>
+              </div>
+
+              <div class="col-md-3 col-12 mb-1">
+                <div class="form-group">
+                  <label for="basicSelect">Correo Electronico del Representante de Proyecto</label>
+                  <input type="text" class="form-control"  [(ngModel)]="CrearProyecto.email_representante"
+                    [ngModelOptions]="{standalone: true}" autocomplete="off" #EmailRepresentante="ngModel"
+                    [class.error]="!EmailRepresentante.valid && formUsersRegister.submitted"
+                    placeholder="Ingrese Correo Electronico del Representante de Proyecto" />
+                    <span *ngIf="formUsersRegister.submitted && EmailRepresentante.invalid" class="invalid-form">
+                      <small class="form-text text-danger" *ngIf="EmailRepresentante.errors.required"
+                        >Correo Electronico es requerido!</small
+                      >
+                    </span>
+                </div>
+              </div>
+
             
               <div class="col-xl-6 col-md-6 col-12">
                 <div class="form-group">
@@ -367,6 +412,25 @@
                   </div>
                 </div>
 
+
+                <div class="col-md-6 col-12 mb-1" *ngIf="InputFinanciamiento === true">
+                  <div class="form-group">
+                    <label for="basicSelect">Informe Detallado</label>
+                    <textarea class="form-control"  [(ngModel)]="CrearProyecto.detalle_financiamiento"
+                      [ngModelOptions]="{standalone: true}" autocomplete="off"
+                      placeholder="Ingrese Detalle del Financiamiento" rows="3"></textarea>
+                  </div>
+                </div>
+
+                <div class="col-md-6 col-12 mb-1" *ngIf="InputFinanciamiento === true">
+                  <div class="form-group">
+                    <label for="basicSelect">Monto del Financiamiento</label>
+                    <input type="number" class="form-control"  [(ngModel)]="CrearProyecto.monto_financiamiento"
+                      [ngModelOptions]="{standalone: true}" autocomplete="off"
+                      placeholder="Ingrese Monto de Financiamiento" />
+                  </div>
+                </div>
+
           </div>
         </div>
   
@@ -375,6 +439,9 @@
     </form>
   
     <div class="modal-footer">
+      <button type="button" *ngIf="BtnShow === true" (click)="BtnFinanciamiento(true)" rippleEffect class="btn btn-warning mr-1">El Proyecto Posee Financiamiento ?</button>
+      <button type="button" *ngIf="BtnHidden === true" (click)="BtnFinanciamiento(false)" rippleEffect class="btn btn-primary mr-1">No Posee Financiamiento del Proyecto ?</button>
+
       <button type="submit" [disabled]="!formUsersRegister.form.valid" (click)="onSubmit()" rippleEffect class="btn btn-success mr-1">Registrar Proyecto</button>
       <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
         Cerrar

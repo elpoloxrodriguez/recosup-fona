@@ -189,6 +189,11 @@ export interface IRECOSUP_C_Proyectos {
 	status_proyecto	 :	number
 	nombre_proyecto	 :	string
 	ambito_proyecto	? :	number
+	nombre_representante	 ?:	string
+	telefono_representante	 ?:	string
+	email_representante	 ?:	string
+	detalle_financiamiento	 ?:	string
+	monto_financiamiento	 ?:	string
 	fecha_proyecto	 :	string
 	monto_inversion	 :	string
 	direccion	 :	string
