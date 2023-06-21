@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService, IAPICore } from '@core/services/apicore/api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
-
+import * as Chart from 'chart.js';
 
 @Component({
   selector: 'app-project-evaluation',
@@ -10,6 +10,8 @@ import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
   styleUrls: ['./project-evaluation.component.scss']
 })
 export class ProjectEvaluationComponent implements OnInit {
+
+  chart: any;
 
   public xAPI : IAPICore = {
     funcion: '',
@@ -70,7 +72,7 @@ export class ProjectEvaluationComponent implements OnInit {
   public totalJX = []
 
   public rowTotalesEvaluacion = [
-    {id:1, nomenclatura: 'A', nombre: 'Talleres Sencibilización e Información', total: this.totalA},
+    {id:1, nomenclatura: 'A', nombre: 'Talleres Sensibilización e Información', total: this.totalA},
     {id:2, nomenclatura: 'B', nombre: 'Abordajes Preventivos Comunitarios', total: this.totalB},
     {id:3, nomenclatura: 'C', nombre: 'Reuniones Interinstitucionales', total: this.totalC},
     {id:4, nomenclatura: 'D', nombre: 'Jornadas Deportivas', total: this.totalD},
@@ -127,6 +129,10 @@ export class ProjectEvaluationComponent implements OnInit {
     public tipoEvaluado
     public cantidad = 0
     public personas = 0
+    
+    months = [];
+
+    public Cantidades = []
 
   constructor(
     private apiService : ApiService,
@@ -134,6 +140,12 @@ export class ProjectEvaluationComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
+    const currentMonth = new Date().getMonth() + 1;
+    for (let i = 1; i <= currentMonth; i++) {
+      this.months.push({ name: this.getMonthName(i), number: i });
+    }
+    // console.log(this.months)
+
     await this.SeleccionTipoEvaluacion()
     await this.ListaEvaluacionProyectos()
 
@@ -144,7 +156,72 @@ export class ProjectEvaluationComponent implements OnInit {
       this.tempDataMisProjects = this.rowsProyectos;
     }
     // console.log(this.MisProjects[0].name)
+
+    this.Barras()
+
   }
+
+  private getMonthName(monthNumber: number): string {
+    const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    return monthNames[monthNumber - 1];
+  }
+
+  
+
+  Barras() {
+    this.chart = new Chart('barChart', {
+      type: 'bar',
+      data: {
+        labels: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'],
+        datasets: [{
+          label: 'ACTIVIDADES PREVENTIVAS A NIVEL NACIONAL',
+          data: [12, 19, 3, 5, 2, 3, 10,23,17],
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(225, 49, 32, 0.2)',
+            'rgba(205, 0, 0, 0.2)'
+          ],
+          borderColor: [
+            'rgba(255,99,132,1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(255,99,132,1)',
+            'rgba(145,79,102,1)',
+            'rgba(245,39,82,1)'
+          ],
+          borderWidth: 1.5
+        }]
+      },
+      options: {
+        plugins: {
+          datalabels: {
+            anchor: 'end',
+            align: 'top',
+            formatter: (value) => {
+              return value + '%';
+            }
+          }
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+  }
+
 
   async ListaEvaluacionProyectos(){
     this.xAPI.funcion = "RECOSUP_R_EvaluacionProyectos";
@@ -152,56 +229,41 @@ export class ProjectEvaluationComponent implements OnInit {
     this.xAPI.valores = ""
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-        data.Cuerpo.map(e => {
+       data.Cuerpo.forEach(e => {
+        // console.log(e)
+        //  let suma = data.Cuerpo.reduce((acumulador, objeto) => acumulador + parseFloat(objeto.cantidad), 0);
+        //  console.log(suma)
+
          switch (e.mes) {
-          case "ENERO":
-            console.log(e)
-            this.a = e.cantidad
+          case 'ENERO':
+            if (e.id_con == '2') {
+              this.Cantidades.push(e)
+              this.a = this.Cantidades.reduce((acumulador, objeto) => acumulador + parseFloat(objeto.cantidad), 0);
+            }
             break;
-            case "FEBRERO":
-            console.log(e)
-            break;
-            case "MARZO":
-            console.log(e)
-            break;
-            case "ABRIL":
-            console.log(e)
-            break;
-            case "MAYO":
-            console.log(e)
-            break;
-            case "JUNIO":
-            console.log(e)
-            break;
-            case "JULIO":
-            console.log(e)
-            break;
-            case "AGOSTO":
-            console.log(e)
-            break;
-            case "SEPTIEMBRE":
-            console.log(e)
-            break;
-            case "OCTUBE":
-            console.log(e)
-            break;
-            case "NOVIEMBRE":
-            console.log(e)
-            break;
-            case "DICIEMBRE":
-            console.log(e)
-            break;
+            case 'FEBRERO':
+              if (e.id_con == '3') {
+                this.Cantidades.push(e)
+                this.b = this.Cantidades.reduce((acumulador, objeto) => acumulador + parseFloat(objeto.cantidad), 0);
+              }
+              break;
          
           default:
             break;
          }
-          });
+
+        });
       },
       (error) => {
         console.log(error)
       }
     )
   }
+
+
+
+
+
 
   filterUpdateMisProjects(event) {
     const val = event.target.value.toLowerCase();
@@ -244,6 +306,14 @@ export class ProjectEvaluationComponent implements OnInit {
 
   onSubmit(){
 
+  }
+
+  addData() {
+    this.chart.data.labels.push('August');
+    this.chart.data.datasets.forEach((dataset) => {
+      dataset.data.push(15);
+    });
+    this.chart.update();
   }
 
 
