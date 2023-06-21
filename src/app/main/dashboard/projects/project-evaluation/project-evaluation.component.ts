@@ -155,7 +155,6 @@ export class ProjectEvaluationComponent implements OnInit {
       this.rowsProyectos = this.MisProjects;
       this.tempDataMisProjects = this.rowsProyectos;
     }
-    // console.log(this.MisProjects[0].name)
 
     this.Barras()
 

@@ -218,6 +218,7 @@ public fechaActual = new Date();
         } else {
           this.utilService.alertConfirmMini('error','Oops! Ocurrio un Error') 
         }
+        // console.log(this.CrearProyecto)
       },
       (error) => {
         console.log(error)
@@ -232,7 +233,7 @@ public fechaActual = new Date();
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(e => {
-          e.fecha_proyecto = this.utilService.FechaMomentL(e.fecha_proyecto)
+          e.fecha_proyecto = e.fecha_proyecto
           e.monto_inversionX = e.monto_inversion
           e.monto_inversion = this.utilService.ConvertirMoneda(e.monto_inversion)
            this.MisProjects.push(e)
@@ -254,7 +255,7 @@ public fechaActual = new Date();
       this.BtnHidden = true
     } else {
       this.CrearProyecto.detalle_financiamiento = ''
-      this.CrearProyecto.monto_financiamiento = ''
+      this.CrearProyecto.monto_financiamiento = '0'
       this.InputFinanciamiento = false
       this.BtnShow = true
       this.BtnHidden = false
