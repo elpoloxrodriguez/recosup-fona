@@ -29,6 +29,7 @@ export class ProjectEvaluationComponent implements OnInit {
   public anio = this.fecha.getFullYear();
   public  mesActual = new Date().getMonth()
 
+
   public a = 0
   public aX = []
   public b = 0
