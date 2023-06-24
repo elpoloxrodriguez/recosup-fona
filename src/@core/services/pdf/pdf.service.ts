@@ -523,7 +523,7 @@ export class PdfService {
     doc.text(data.nombre_proyecto.toUpperCase(),11, pageHeight - 175, { maxWidth: 188, align: "justify" });
     doc.setTextColor(0,0,0);
     doc.setFontSize(10);
-    if (data.monto_financiamiento != 0.00) {
+    if (data.monto_financiamiento != 0.00 && data.monto_financiamiento != undefined) {
       doc.text(`${data.detalle_financiamiento}, ${data.monto_financiamiento}`,11, pageHeight - 157, { maxWidth: 188, align: "justify" });
     }
     
@@ -615,6 +615,264 @@ export class PdfService {
     doc.setFont(undefined, "bold");
     doc.text('________________________________________', pageWidth / 2, pageHeight - 15, { maxWidth: 150, align: "center" });
     doc.text(`Firma del Representante del Proyecto y Sello`, pageWidth / 2, pageHeight - 10, { maxWidth: 150, align: "center" });
+
+    // doc.setFontSize(9);
+    // doc.setFont(undefined, "bold");
+    // doc.text(TokenQr,
+    //   175,
+    //   285,
+    // );
+
+
+    doc.save(`${data.ambito_descripcion.toUpperCase()} (${data.ambito_nombre}).pdf`);
+    // doc.autoPrint();
+    // doc.output("dataurlnewwindow", { filename: `${data.ambito_descripcion.toUpperCase()} (${data.ambito_nombre}).pdf` });
+
+  }
+
+  GenerarFichaResumenProyectoLaboral(data: any) {
+    const doc = new jsPDF();
+    const pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+    const pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+    doc.setProperties({
+      title: `${data.ambito_descripcion.toUpperCase()} (${data.ambito_nombre}).pdf`,
+      subject: "https://github.com/elpoloxrodriguez",
+      author: "SISTEMA  RECOSUP",
+      keywords: "generated, javascript, web 2.0, ajax",
+      creator: "CAP. ANDRÉS RICARDO RODRÍGUEZ DURÁN",
+    });
+
+    // this.monto = 339257950.57;
+
+
+    doc.addImage('assets/images/pdf/sunad.png', "PNG", 10, 10, 20, 25);
+    doc.addImage('assets/images/pdf/fona.png', "PNG", 180, 10, 20, 25);
+    // doc.addImage(Qr, "PNG", 170, 255, 30, 30);
+    
+    doc.setFontSize(14);
+    doc.setFont(undefined, "bold");
+    doc.text(`FORMATO PARA LA PRESENTACIÓN DE`, pageWidth / 2, pageHeight - 275, { maxWidth: 150, align: "center" });
+    if (data.ambito_nombre != 'PTRRS') {
+    this.margenLargo = 265
+    } else {
+    this.margenLargo = 259
+    }
+    doc.text(`${data.ambito_descripcion.toUpperCase()} (${data.ambito_nombre})`, pageWidth / 2, pageHeight - 270, { maxWidth: 150, align: "center" });
+    doc.text(`POR PARTE DE ORGANISMOS E INSTITUCIONES`, pageWidth / 2, pageHeight - this.margenLargo, { maxWidth: 150, align: "center" });
+
+
+    doc.setFontSize(14);
+    doc.setFillColor(128, 128, 128);
+    doc.rect(10, 45, 190, 10, 'F');
+    doc.setTextColor(255,255,255);
+    doc.text('DATOS DE LA EMPRESA',pageWidth / 2, pageHeight - 245, { maxWidth: 190, align: "center" });
+    
+    doc.rect(10, 55, 40, 10, 'S');
+    doc.setFontSize(10);
+    doc.setTextColor(0,0,0);
+    doc.text(data.Rif, 30, pageHeight - 235, { maxWidth: 190, align: "center" });
+
+    doc.rect(50, 55, 150, 10, 'S');
+    doc.setFontSize(10);
+    doc.setTextColor(0,0,0);
+    doc.text(data.RazonSocial.toUpperCase(), 125, pageHeight - 235, { maxWidth: 190, align: "center" });
+    
+
+    
+    doc.setFontSize(10);
+    doc.setTextColor(0,0,0);
+    doc.text('Dirección: ', 20, pageHeight - 228, { maxWidth: 190, align: "center" });
+    doc.text(data.Direccion.toUpperCase(), 10, pageHeight - 225, { maxWidth: 189, align: "justify" });
+    doc.rect(10, 65, 190, 20, 'S');
+    
+    doc.rect(10, 85, 63.3, 10, 'S');
+    doc.setFontSize(10);
+    doc.setTextColor(0,0,0);
+    doc.text('Estado: ', 10, pageHeight - 209);
+    doc.text(data.estado, 10, pageHeight - 204, { maxWidth: 63, align: "justify" });
+    doc.rect(73.3, 85, 63.3, 10, 'S');
+    doc.text('Municipio: ', 73.3, pageHeight - 209);
+    doc.text(data.municipio, 75, pageHeight - 204, { maxWidth: 63, align: "justify" });
+    doc.rect(136.6, 85, 63.3, 10, 'S');
+    doc.text('Parroquia: ', 136.6, pageHeight - 209);
+    doc.text(data.parroquia, 138, pageHeight - 204, { maxWidth: 63, align: "justify" });
+
+    doc.rect(10, 95, 190, 10, 'S');
+    doc.setFontSize(10);
+    doc.setTextColor(0,0,0);
+    doc.text('Actividad Economica de la Empresa: ', 10, pageHeight - 199);
+    doc.text(data.actividad_economica, 105, pageHeight - 196, { maxWidth: 190, align: "center" });
+
+    doc.setFontSize(14);
+    doc.setFillColor(128, 128, 128);
+    doc.rect(10, 105, 190, 10, 'F');
+    doc.setTextColor(255,255,255);
+    doc.text('DATOS DEL REPRESENTANTE',pageWidth / 2, pageHeight - 185, { maxWidth: 190, align: "center" });
+    doc.rect(10, 115, 65, 10, 'S');
+    doc.setTextColor(0,0,0);
+    doc.setFontSize(7);
+    doc.text('TELÉFONOS CONTACTO', 25, pageHeight - 179, { maxWidth: 65, align: "center" });
+    doc.setFontSize(10);
+    doc.text(`${data.RepresentanteTelefono} - ${data.RepresentanteCelular}`, 45, pageHeight - 175, { maxWidth: 65, align: "center" });
+    doc.rect(75, 115, 125, 10, 'S');
+    doc.setFontSize(7);
+    doc.text('NOMBRE:', 81, pageHeight - 179, { maxWidth: 125, align: "center" });
+    doc.setFontSize(10);
+    doc.text(`${data.RepresentanteNombre} ${data.RepresentanteApellido}`, 138, pageHeight - 175, { maxWidth: 125, align: "center" });
+
+    doc.rect(10, 125, 65, 10, 'S');
+    doc.setTextColor(0,0,0);
+    doc.setFontSize(7);
+    doc.text('CARGO', 15, pageHeight - 169, { maxWidth: 65, align: "center" });
+    doc.setFontSize(10);
+    doc.text(data.RepresentanteCargo, 40, pageHeight - 165, { maxWidth: 65, align: "center" });
+    doc.rect(75, 125, 125, 10, 'S');
+    doc.setFontSize(7);
+    doc.text('CORREO ELECTRONICO:', 90, pageHeight - 169, { maxWidth: 125, align: "center" });
+    doc.setFontSize(10);
+    doc.text(data.RepresentanteEmail, 135, pageHeight - 165, { maxWidth: 125, align: "center" });
+
+
+    doc.setFontSize(14);
+    doc.setFillColor(128, 128, 128);
+    doc.rect(10, 135, 190, 10, 'F');
+    doc.setTextColor(255,255,255);
+    doc.text('DATOS DEL PROYECTO',pageWidth / 2, pageHeight - 155, { maxWidth: 190, align: "center" });
+    doc.rect(10, 145, 190, 30, 'S');
+    doc.setTextColor(0,0,0);
+    doc.setFontSize(7);
+    doc.text('NOMBRE DEL PROYECTO:', 11,148);
+    // doc.rect(10, 135, 190, 30, 'S');
+    doc.setTextColor(0,0,0);
+    doc.setFontSize(10);
+    doc.text(data.nombre_proyecto.toUpperCase(),11, pageHeight - 145, { maxWidth: 188, align: "justify" });
+
+    
+    doc.rect(10, 165, 47.5, 10, 'S');
+    doc.setTextColor(0,0,0);
+    doc.setFontSize(8);
+    doc.text('TIEMPO DE EJECUCIÓN',17, 171);
+    doc.setFontSize(10);
+    doc.text(`DESDE: ${this.utilService.FechaMomentL(data.tiempo_ejecucion_desde)}` ,33, pageHeight - 112, { maxWidth: 47, align: "center" });
+    doc.text(`HASTA: ${this.utilService.FechaMomentL(data.tiempo_ejecucion_hasta)}` ,33, pageHeight - 108, { maxWidth: 47, align: "center" });
+
+    doc.rect(57.5, 165, 47.5, 10, 'S');
+    doc.setTextColor(0,0,0);
+    doc.setFontSize(8);
+    doc.text('AREA',78, 171);
+    doc.text(data.nombre_area.toUpperCase(), 81, pageHeight - 119, { maxWidth: 47, align: "center" });
+
+
+    doc.rect(105, 165, 47.5, 10, 'S');
+    doc.setTextColor(0,0,0);
+    doc.setFontSize(8);
+    doc.text('BENEFICIARIOS DIRECTOS',110, 171);
+
+    doc.rect(152.5, 165, 47.5, 10, 'S');
+    doc.setTextColor(0,0,0);
+    doc.setFontSize(8);
+    doc.text('BENEFICIARIOS INDIRECTOS',157, 171);
+
+
+    
+    doc.rect(57.5, 175, 47.5, 10, 'S');
+    doc.setTextColor(0,0,0);
+    doc.setFontSize(8);
+    doc.text(data.ambito_descripcion.toUpperCase(),81, pageHeight - 109, { maxWidth: 47, align: "center" });
+    
+    doc.rect(10, 175, 47.5, 20, 'S');
+    doc.setTextColor(0,0,0);
+    doc.setFontSize(10);
+    doc.text(data.beneficiario_directos,129, pageHeight - 117, { maxWidth: 47, align: "center" });
+
+    doc.rect(105, 175, 47.5, 20, 'S');
+    doc.setTextColor(0,0,0);
+    doc.setFontSize(10);
+    doc.text(data.beneficiario_indirectos,176, pageHeight - 117, { maxWidth: 47, align: "center" });
+
+
+    doc.rect(152.5, 175, 47.5, 20, 'S');
+
+
+
+
+    doc.setFontSize(14);
+    doc.setFillColor(128, 128, 128);
+    doc.rect(10, 195, 190, 10, 'F');
+    doc.setTextColor(255,255,255);
+    doc.text('MONTO DEL PROYECTO',pageWidth / 2, pageHeight - 95, { maxWidth: 100, align: "center" });
+    doc.rect(10, 205, 100, 20, 'S');
+    doc.setFontSize(10);
+    doc.setTextColor(0,0,0);
+    doc.text(this.convertNumberService.convertNumberToWords(data.monto_inversionX), 11, pageHeight - 88, { maxWidth: 98, align: "justify" });
+
+    doc.rect(110, 205, 90, 20, 'S');
+    doc.setFontSize(12);
+    doc.setTextColor(0,0,0);
+    doc.text(data.monto_inversion, 155, pageHeight - 82, { maxWidth: 190, align: "center" });
+
+
+
+    doc.setFontSize(14);
+    doc.setFillColor(128, 128, 128);
+    doc.rect(10, 225, 190, 10, 'F');
+    doc.setTextColor(255,255,255);
+    doc.text('DATOS DE LA INSTITUCIÓN ASESORA',pageWidth / 2,  pageHeight - 65, { maxWidth: 190, align: "center" });
+    doc.rect(10, 235, 95, 10, 'S');
+    doc.setTextColor(0,0,0);
+    doc.setFontSize(7);
+    doc.text('RIF DE LA INSTITUCIÓN', 25,  pageHeight - 58, { maxWidth: 95, align: "center" });
+    doc.rect(10, 245, 95, 10, 'S');
+    doc.setTextColor(0,0,0);
+    doc.setFontSize(10);
+    doc.text(data.Asesor_Rif, 50,  pageHeight - 54, { maxWidth: 95, align: "center" });
+    doc.rect(105, 235, 95, 10, 'S');
+    doc.setTextColor(0,0,0);
+    doc.setFontSize(10);
+    doc.text('Nombre de la Institución, Persona Natural o Comité de Prevención Laboral',152,  pageHeight - 57, { maxWidth: 95, align: "center" });
+    doc.rect(105, 245, 95, 10, 'S');
+    doc.setTextColor(0,0,0);
+    doc.setFontSize(10);
+    doc.text(data.Asesor_Nombre, 152,  pageHeight - 48, { maxWidth: 95, align: "center" });
+
+
+
+
+    doc.rect(10, 255, 95, 10, 'S');
+    doc.setTextColor(0,0,0);
+    doc.setFontSize(7);
+    doc.text('TELÉFONO CONTACTO', 25,  pageHeight - 49, { maxWidth: 95, align: "center" });
+
+
+
+    doc.setTextColor(0,0,0);
+    doc.setFontSize(10);
+    doc.text(data.Asesor_Telefono, 50,  pageHeight - 45, { maxWidth: 95, align: "center" });
+
+
+
+    doc.rect(105, 255, 95, 10, 'S');
+    doc.setTextColor(0,0,0);
+    doc.setFontSize(7);
+    doc.text('CORREO ELECTRÓNICO', 25,  pageHeight - 39, { maxWidth: 95, align: "center" });
+    doc.setTextColor(0,0,0);
+    doc.setFontSize(9);
+    doc.text(data.Asesor_Correo, 50,  pageHeight - 34, { maxWidth: 95, align: "center" });
+
+    doc.setTextColor(0,0,0);
+    doc.setFontSize(7);
+    doc.text('NOMBRE DEL REPRESENTANTE',125,  pageHeight - 39, { maxWidth: 95, align: "center" });
+    doc.setTextColor(0,0,0);
+    doc.setFontSize(9);
+    doc.text(data.Asesor_Representante, 152,  pageHeight - 34, { maxWidth: 95, align: "center" });
+
+
+
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(10);
+    doc.setFont(undefined, "bold");
+    // doc.text('________________________________________', pageWidth / 2, pageHeight - 15, { maxWidth: 150, align: "center" });
+    doc.text(`Asesorado por: `, pageWidth / 2, pageHeight - 10, { maxWidth: 145, align: "left" });
 
     // doc.setFontSize(9);
     // doc.setFont(undefined, "bold");

@@ -49,7 +49,8 @@ export class CompanyProjectsComponent implements OnInit {
     tiempo_ejecucion_desde: '',
     tiempo_ejecucion_hasta: '',
     UsuarioCreo: 0,
-    UsuarioModifico: 0
+    UsuarioModifico: 0,
+    monto_financiamiento: '0'
   }
 
   public Details = {
@@ -172,6 +173,8 @@ public fechaActual = new Date();
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(e => {
+          // console.log(e)
+          e.monto_inversionX = e.monto_inversion
           e.monto_inversion = this.utilService.ConvertirMoneda(e.monto_inversion)
            this.MisProjects.push(e)
           });
@@ -306,7 +309,7 @@ public fechaActual = new Date();
 
   async DownloadFichaResumen(data: any){
     console.log(data)
-    this.pdf.GenerarFichaResumenProyecto(data)
+    this.pdf.GenerarFichaResumenProyectoLaboral(data)
     this.utilService.alertConfirmMini('success', 'Tu archivo ha sido cargado con exito')
   }
 
