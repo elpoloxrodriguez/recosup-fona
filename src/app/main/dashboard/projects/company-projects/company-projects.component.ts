@@ -50,7 +50,12 @@ export class CompanyProjectsComponent implements OnInit {
     tiempo_ejecucion_hasta: '',
     UsuarioCreo: 0,
     UsuarioModifico: 0,
-    monto_financiamiento: '0'
+    monto_financiamiento: '0',
+    Asesor_Nombre: '',
+    Asesor_Rif: '',
+    Asesor_Telefono: '',
+    Asesor_Correo: '',
+    Asesor_Representante: ''
   }
 
   public Details = {

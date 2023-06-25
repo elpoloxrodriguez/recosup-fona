@@ -211,7 +211,7 @@
               <div class="form-group">
                 <label for="basicSelect">Seleccione Ambito</label>
                 <ng-select [items]="Ambito" placeholder="Seleccione Ambito" bindLabel="name" bindValue="id"
-                  autocomplete="off" name="name" [(ngModel)]="CrearProyecto.ambito_proyecto" [ngModelOptions]="{standalone: true}"
+                  autocomplete="off" name="name" (ngModelChange)="SelectAmbitosEvent($event)" [(ngModel)]="CrearProyecto.ambito_proyecto" [ngModelOptions]="{standalone: true}"
                    required 
                   autocomplete="off">
                 </ng-select>
@@ -413,6 +413,52 @@
                 </div>
 
 
+                <div class="col-xl-12 col-md-6 col-12" *ngIf="InputProyetoLaboral === true">
+                  <div class="form-group">
+                    <label for="basicSelect">Nombre de la Empresa Asesora</label>
+                    <input type="text" class="form-control"  [(ngModel)]="CrearProyecto.Asesor_Nombre"
+                      [ngModelOptions]="{standalone: true}" autocomplete="off"
+                      placeholder="Ingrese Nombre de la Empresa Asesora" />
+                  </div>
+                </div>
+
+                <div class="col-xl-6 col-md-6 col-12" *ngIf="InputProyetoLaboral === true">
+                  <div class="form-group">
+                    <label for="basicSelect">Rif de la Empresa Asesora</label>
+                    <input type="text" class="form-control"  [(ngModel)]="CrearProyecto.Asesor_Rif"
+                      [ngModelOptions]="{standalone: true}" autocomplete="off"
+                      placeholder="Ingrese Rif de la Empresa Asesora" />
+                  </div>
+                </div>
+
+                <div class="col-xl-6 col-md-6 col-12" *ngIf="InputProyetoLaboral === true">
+                  <div class="form-group">
+                    <label for="basicSelect">Telefono de la Empresa Asesora</label>
+                    <input type="text" class="form-control"  [(ngModel)]="CrearProyecto.Asesor_Telefono"
+                      [ngModelOptions]="{standalone: true}" autocomplete="off"
+                      placeholder="Ingrese Telefono de la Empresa Asesora" />
+                  </div>
+                </div>
+
+                <div class="col-xl-6 col-md-6 col-12" *ngIf="InputProyetoLaboral === true">
+                  <div class="form-group">
+                    <label for="basicSelect">Correo de la Empresa Asesora</label>
+                    <input type="text" class="form-control"  [(ngModel)]="CrearProyecto.Asesor_Correo"
+                      [ngModelOptions]="{standalone: true}" autocomplete="off"
+                      placeholder="Ingrese Correo de la Empresa Asesora" />
+                  </div>
+                </div>
+
+                <div class="col-xl-6 col-md-6 col-12" *ngIf="InputProyetoLaboral === true">
+                  <div class="form-group">
+                    <label for="basicSelect">Representante de la Empresa Asesora</label>
+                    <input type="text" class="form-control"  [(ngModel)]="CrearProyecto.Asesor_Representante"
+                      [ngModelOptions]="{standalone: true}" autocomplete="off"
+                      placeholder="Ingrese Representante de la Empresa Asesora" />
+                  </div>
+                </div>
+
+
                 <div class="col-md-6 col-12 mb-1" *ngIf="InputFinanciamiento === true">
                   <div class="form-group">
                     <label for="basicSelect">Informe Detallado</label>
@@ -431,8 +477,11 @@
                   </div>
                 </div>
 
+              
+
           </div>
         </div>
+        
   
   
       </div>

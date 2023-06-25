@@ -670,19 +670,19 @@ export class PdfService {
     doc.rect(10, 55, 40, 10, 'S');
     doc.setFontSize(10);
     doc.setTextColor(0,0,0);
-    doc.text(data.Rif, 30, pageHeight - 235, { maxWidth: 190, align: "center" });
+    doc.text(data.Rif ? data.Rif : 'N/A', 30, pageHeight - 235, { maxWidth: 190, align: "center" });
 
     doc.rect(50, 55, 150, 10, 'S');
     doc.setFontSize(10);
     doc.setTextColor(0,0,0);
-    doc.text(data.RazonSocial.toUpperCase(), 125, pageHeight - 235, { maxWidth: 190, align: "center" });
+    doc.text(data.RazonSocial ? data.RazonSocial.toUpperCase() : 'N/A', 125, pageHeight - 235, { maxWidth: 190, align: "center" });
     
 
     
     doc.setFontSize(10);
     doc.setTextColor(0,0,0);
     doc.text('Dirección: ', 20, pageHeight - 228, { maxWidth: 190, align: "center" });
-    doc.text(data.Direccion.toUpperCase(), 10, pageHeight - 225, { maxWidth: 189, align: "justify" });
+    doc.text(data.Direccion ? data.Direccion.toUpperCase() : 'N/A', 10, pageHeight - 225, { maxWidth: 189, align: "justify" });
     doc.rect(10, 65, 190, 20, 'S');
     
     doc.rect(10, 85, 63.3, 10, 'S');
@@ -701,7 +701,7 @@ export class PdfService {
     doc.setFontSize(10);
     doc.setTextColor(0,0,0);
     doc.text('Actividad Economica de la Empresa: ', 10, pageHeight - 199);
-    doc.text(data.actividad_economica, 105, pageHeight - 196, { maxWidth: 190, align: "center" });
+    doc.text(data.actividad_economica ? data.actividad_economica : 'N/A', 105, pageHeight - 196, { maxWidth: 190, align: "center" });
 
     doc.setFontSize(14);
     doc.setFillColor(128, 128, 128);
@@ -725,12 +725,12 @@ export class PdfService {
     doc.setFontSize(7);
     doc.text('CARGO', 15, pageHeight - 169, { maxWidth: 65, align: "center" });
     doc.setFontSize(10);
-    doc.text(data.RepresentanteCargo, 40, pageHeight - 165, { maxWidth: 65, align: "center" });
+    doc.text(data.RepresentanteCargo ? data.RepresentanteCargo : 'N/A', 40, pageHeight - 165, { maxWidth: 65, align: "center" });
     doc.rect(75, 125, 125, 10, 'S');
     doc.setFontSize(7);
     doc.text('CORREO ELECTRONICO:', 90, pageHeight - 169, { maxWidth: 125, align: "center" });
     doc.setFontSize(10);
-    doc.text(data.RepresentanteEmail, 135, pageHeight - 165, { maxWidth: 125, align: "center" });
+    doc.text(data.RepresentanteEmail ? data.RepresentanteEmail : 'N/A', 135, pageHeight - 165, { maxWidth: 125, align: "center" });
 
 
     doc.setFontSize(14);

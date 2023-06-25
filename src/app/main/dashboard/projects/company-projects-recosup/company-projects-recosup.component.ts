@@ -159,6 +159,8 @@ public fechaActual = new Date();
     public BtnShow = true
     public BtnHidden = false
 
+    public InputProyetoLaboral = false
+
   constructor(
     private utilService : UtilService,
     private _router: Router,
@@ -196,6 +198,20 @@ public fechaActual = new Date();
    }
   // Public Methods
   // -----------------------------------------------------------------------------------------------------
+
+  SelectAmbitosEvent(event){
+    // console.log(event)
+    if (event === '2') {
+      this.InputProyetoLaboral = true
+    } else {
+      this.InputProyetoLaboral = false
+      this.CrearProyecto.Asesor_Nombre = ''
+      this.CrearProyecto.Asesor_Rif = ''
+      this.CrearProyecto.Asesor_Telefono = ''
+      this.CrearProyecto.Asesor_Correo = ''
+      this.CrearProyecto.Asesor_Representante = ''
+    }
+  }
 
   async onSubmit(){
     this.CrearProyecto.id_empresa = this.IdEmpresa
@@ -399,8 +415,12 @@ public fechaActual = new Date();
 
   
     DescargarPDF(data : any){
-      console.log(data)
-      this.pdf.GenerarFichaResumenProyecto(data)
+      console.log(data) 
+      if (data.ambito_nombre == 'PL') {
+        this.pdf.GenerarFichaResumenProyectoLaboral(data)
+      } else {
+        this.pdf.GenerarFichaResumenProyecto(data)
+      }
     }
 
 

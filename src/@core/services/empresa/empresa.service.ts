@@ -207,6 +207,12 @@ export interface IRECOSUP_C_Proyectos {
 	tiempo_ejecucion_hasta	 :	string
 	UsuarioCreo	 :	number
 	UsuarioModifico	 :	number
+	Asesor_Nombre	 ?:	string
+	Asesor_Rif	 ?:	string
+	Asesor_Telefono	 ?:	string
+	Asesor_Correo	 ?:	string
+	Asesor_Representante	 ?:	string
+
 }
 
 
