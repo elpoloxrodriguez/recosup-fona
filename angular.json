@@ -19,6 +19,7 @@
           "options": {
             "allowedCommonJsDependencies": [
               "hammerjs",
+              "lodash",
               "node-waves",
               "app/main/ui/icons/feather/feather.component",
               "@angularclass/hmr",

@@ -141,23 +141,23 @@ export class ProjectEvaluationComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    const currentMonth = new Date().getMonth() + 1;
-    for (let i = 1; i <= currentMonth; i++) {
-      this.months.push({ name: this.getMonthName(i), number: i });
-    }
-    // console.log(this.months)
 
-    await this.SeleccionTipoEvaluacion()
-    await this.ListaEvaluacionProyectos()
+    // const currentMonth = new Date().getMonth() + 1;
+    // for (let i = 1; i <= currentMonth; i++) {
+    //   this.months.push({ name: this.getMonthName(i), number: i });
+    // }
 
-    for (let i = 0; i <= this.mesActual; i++) {
-      this.dataMeses.push(this.meses[i])
-      this.MisProjects.push(this.rowMesesEvaluacion[i])
-      this.rowsProyectos = this.MisProjects;
-      this.tempDataMisProjects = this.rowsProyectos;
-    }
+    // await this.SeleccionTipoEvaluacion()
+    // await this.ListaEvaluacionProyectos()
 
-    this.Barras()
+    // for (let i = 0; i <= this.mesActual; i++) {
+    //   this.dataMeses.push(this.meses[i])
+    //   this.MisProjects.push(this.rowMesesEvaluacion[i])
+    //   this.rowsProyectos = this.MisProjects;
+    //   this.tempDataMisProjects = this.rowsProyectos;
+    // }
+
+    // this.Barras()
 
   }
 
