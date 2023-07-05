@@ -1,0 +1,245 @@
+<div class="card content-wrapper container-xxl p-0">
+    <div class="card-body">
+
+       
+
+        <section class="users-list-wrapper">
+            <div class="card">
+
+                <div class="row">
+                    <div class="col-md-3 col-12">
+                        <div class="d-flex justify-content-between align-items-center m-1">
+                            <label class="d-flex align-items-center">Mostrar
+                                <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                                    <option value="12">12</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                Registros</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-12">
+                        <div class="d-flex justify-content-between align-items-center m-1">
+                            <button type="button" (click)="ModalAggEvaluacion(ModalAddEvaluacion)" class="btn btn-success" rippleEffect>
+                                Crear Registro</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+                        <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+                            <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input
+                                    [(ngModel)]="searchValue" name="searchValue" type="search"
+                                    class="form-control ml-25" placeholder="Mes"
+                                    (keyup)="filterUpdateMisProjects($event)"
+                                    (search)="filterUpdateMisProjects($event)" /></label>
+                        </div>
+                    </div>
+                </div>
+
+                <ngx-datatable [rows]="rowsProyectos" [rowHeight]="40" class="bootstrap responsive core-bootstrap"
+                    [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" footerHeight="auto"
+                    [scrollbarH]="true">
+
+                    <ngx-datatable-column name="MES" [width]="10">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div>
+                                <span class="font-weight-bold">{{ row.name }} </span>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="A" [width]="30">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div>
+                                <span class="font-weight-bold"> {{ a }}</span>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="B" [width]="30">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div>
+                                <span class="font-weight-bold"> {{ b }}</span>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="C" [width]="30">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div>
+                                <span class="font-weight-bold"> {{ c }}</span>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="D" [width]="30">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div>
+                                <span class="font-weight-bold"> {{ d }}</span>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="E" [width]="30">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div>
+                                <span class="font-weight-bold"> {{ e }}</span>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="F" [width]="30">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div>
+                                <span class="font-weight-bold"> {{ f }}</span>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="G" [width]="30">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div>
+                                <span class="font-weight-bold"> {{ g }}</span>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="H" [width]="30">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div>
+                                <span class="font-weight-bold"> {{ h }}</span>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="I" prop="fecha_proyecto" [width]="30">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div>
+                                <span class="font-weight-bold"> {{ i }}</span>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Total Personas" [width]="60">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div>
+                                <span class="font-weight-bold"> {{ j }}</span>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                </ngx-datatable>
+
+                <canvas id="barChart"></canvas>
+
+                <div class="card-content">
+                    <div style="padding: 5px 15px">
+                        <hr style="width:100%" />
+                        <div align="center"><strong>TOTAL EVALUACION ANUAL DE PROYECTOS {{anio}}</strong></div>
+                        <hr style="width:100%" />
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col"  width="5">#</th>
+                                    <th scope="col" width="15">NOMENCLATURA</th>
+                                    <th scope="col" width="70">NOMBRE</th>
+                                    <th scope="col" width="20">TOTAL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr  *ngFor="let row of rowTotalesEvaluacion; let i = index">
+                                    <th scope="row">{{row.id}}</th>
+                                    <td>{{row.nomenclatura}}</td>
+                                    <td>{{row.nombre}}</td>
+                                    <td><strong>{{row.total}}</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <hr style="width:100%" />
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<ng-template #ModalAddEvaluacion let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="myModalLabel160">Registro de Evaluación de Proyectos</h5>
+    </div>
+    <form class="form" (ngSubmit)="(formUsersRegister.form.valid)" #formUsersRegister="ngForm">
+      <div class="modal-body" tabindex="0" ngbAutofocus>
+        <!-- Invoice -->
+        <div class="col-xl-12 col-md-12 col-12">
+          <!-- Header Starts -->
+          <div class="row">
+            
+            <div class="col-md-4 col-12 mb-1">
+              <div class="form-group">
+                <label for="basicSelect">Año Actual</label>
+                <input type="number" readonly class="form-control"  [(ngModel)]="anio"
+                  [ngModelOptions]="{standalone: true}" autocomplete="off" 
+                  placeholder="Ingrese Año" />
+              </div>
+            </div>
+            
+            <div class="col-md-4 col-12 mb-1">
+                <div class="form-group">
+                  <label for="basicSelect">Seleccione Mes</label>
+                <ng-select [items]="dataMeses" placeholder="Seleccione Mes" bindLabel="name" bindValue="id"
+                  autocomplete="off" name="name" [(ngModel)]="mesEvaluado" [ngModelOptions]="{standalone: true}"
+                   required 
+                  autocomplete="off">
+                </ng-select>
+                </div>
+              </div>
+
+              <div class="col-md-4 col-12 mb-1">
+                <div class="form-group">
+                  <label for="basicSelect">Seleccione Tipologia</label>
+                <ng-select [items]="TipoEvaluacion" placeholder="Seleccione Tipo" bindLabel="name" bindValue="id"
+                  autocomplete="off" name="nombre" [(ngModel)]="tipoEvaluado" [ngModelOptions]="{standalone: true}"
+                   required 
+                  autocomplete="off">
+                </ng-select>
+                </div>
+              </div>
+
+              <hr>
+              <div class="col-md-6 col-12 mb-1">
+                <div class="form-group">
+                  <label for="basicSelect">Cantidad</label>
+                  <input type="number"  class="form-control"  [(ngModel)]="cantidad"
+                    [ngModelOptions]="{standalone: true}" autocomplete="off" 
+                    placeholder="Ingrese Cantidad" />
+                </div>
+              </div>
+              
+              <div class="col-md-6 col-12 mb-1">
+                <div class="form-group">
+                  <label for="basicSelect">Personas</label>
+                  <input type="number"  class="form-control"  [(ngModel)]="personas"
+                    [ngModelOptions]="{standalone: true}" autocomplete="off" 
+                    placeholder="Ingrese Cantidad de Personas Atendidas" />
+                </div>
+              </div>
+
+
+  
+          </div>
+        </div>
+  
+  
+      </div>
+    </form>
+  
+    <div class="modal-footer">
+      <button type="submit" [disabled]="!formUsersRegister.form.valid" (click)="onSubmit()" rippleEffect class="btn btn-success mr-1">Registrar</button>
+      <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+        Cerrar
+      </button>
+    </div>
+  </ng-template>
