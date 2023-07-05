@@ -12,7 +12,6 @@ import { Role } from 'app/auth/models';
 import { CompanyProjectsComponent } from './company-projects/company-projects.component'
 import { CompanyProjectsRecosupComponent } from './company-projects-recosup/company-projects-recosup.component'
 import { ReportsProjectsComponent } from './reports/reports-projects/reports-projects.component'
-import { ProjectEvaluationComponent } from './project-evaluation/project-evaluation.component'
 import { AdminEvaluationProjectComponent } from './admin-evaluation-project/admin-evaluation-project.component'
 
 
