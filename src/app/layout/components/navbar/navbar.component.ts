@@ -101,7 +101,7 @@ public cargo = ''
       
       es: {
         title: 'Spanish',
-        flag: 'es'
+        flag: 've'
       },
       en: {
         title: 'English',

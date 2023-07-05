@@ -66,7 +66,7 @@ export class NavbarProjectNotificationComponent implements OnInit {
          data.Cuerpo.map(e => {
           this.Notificaciones.push(e)
         });
-        console.log(this.Notificaciones)
+        // console.log(this.Notificaciones)
       },
       (error) => {
         console.log(error)

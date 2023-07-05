@@ -415,7 +415,7 @@ public fechaActual = new Date();
 
   
     DescargarPDF(data : any){
-      console.log(data) 
+      // console.log(data) 
       if (data.ambito_nombre == 'PL') {
         this.pdf.GenerarFichaResumenProyectoLaboral(data)
       } else {
