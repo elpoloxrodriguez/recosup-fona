@@ -152,10 +152,10 @@ export class AdminEvaluationProjectComponent implements OnInit {
     // }
 
 
-    for (let i = 0; i <= this.mesActual; i++) {
-      this.dataMeses.push(this.meses[i])
-      this.MisProjects.push(this.rowMesesEvaluacion[i])
-    }
+    // for (let i = 0; i <= this.mesActual; i++) {
+    //   this.dataMeses.push(this.meses[i])
+    //   this.MisProjects.push(this.rowMesesEvaluacion[i])
+    // }
     
     this.rowsProyectos = this.MisProjects;
     this.tempDataMisProjects = this.rowsProyectos;
