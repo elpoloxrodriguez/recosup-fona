@@ -142,8 +142,8 @@ export class AdminEvaluationProjectComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    await this.SeleccionTipoEvaluacion()
-    await this.ListaEvaluacionProyectos()
+    // await this.SeleccionTipoEvaluacion()
+    // await this.ListaEvaluacionProyectos()
     // this.Barras()
 
     // const currentMonth = new Date().getMonth() + 1;
@@ -157,8 +157,8 @@ export class AdminEvaluationProjectComponent implements OnInit {
     //   this.MisProjects.push(this.rowMesesEvaluacion[i])
     // }
     
-    this.rowsProyectos = this.MisProjects;
-    this.tempDataMisProjects = this.rowsProyectos;
+    // this.rowsProyectos = this.MisProjects;
+    // this.tempDataMisProjects = this.rowsProyectos;
 
   }
 
