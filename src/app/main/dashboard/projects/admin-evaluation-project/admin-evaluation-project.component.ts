@@ -144,7 +144,7 @@ export class AdminEvaluationProjectComponent implements OnInit {
   async ngOnInit() {
     await this.SeleccionTipoEvaluacion()
     await this.ListaEvaluacionProyectos()
-    this.Barras()
+    // this.Barras()
 
     // const currentMonth = new Date().getMonth() + 1;
     // for (let i = 1; i <= currentMonth; i++) {
