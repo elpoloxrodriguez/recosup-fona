@@ -142,8 +142,8 @@ export class AdminEvaluationProjectComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    // await this.SeleccionTipoEvaluacion()
-    // await this.ListaEvaluacionProyectos()
+    //  this.SeleccionTipoEvaluacion()
+    //  this.ListaEvaluacionProyectos()
     this.Barras()
 
     // const currentMonth = new Date().getMonth() + 1;
@@ -152,13 +152,13 @@ export class AdminEvaluationProjectComponent implements OnInit {
     // }
 
 
-    // for (let i = 0; i <= this.mesActual; i++) {
-    //   this.dataMeses.push(this.meses[i])
-    //   this.MisProjects.push(this.rowMesesEvaluacion[i])
-    // }
+    for (let i = 0; i <= this.mesActual; i++) {
+      this.dataMeses.push(this.meses[i])
+      this.MisProjects.push(this.rowMesesEvaluacion[i])
+    }
     
-    // this.rowsProyectos = this.MisProjects;
-    // this.tempDataMisProjects = this.rowsProyectos;
+    this.rowsProyectos = this.MisProjects;
+    this.tempDataMisProjects = this.rowsProyectos;
 
   }
 
@@ -224,11 +224,11 @@ export class AdminEvaluationProjectComponent implements OnInit {
   }
 
 
-  async ListaEvaluacionProyectos(){
+   ListaEvaluacionProyectos(){
     this.xAPI.funcion = "RECOSUP_R_EvaluacionProyectos";
     this.xAPI.parametros = ""
     this.xAPI.valores = ""
-    await this.apiService.Ejecutar(this.xAPI).subscribe(
+     this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
        data.Cuerpo.forEach(e => {
         // console.log(e)
@@ -262,10 +262,6 @@ export class AdminEvaluationProjectComponent implements OnInit {
   }
 
 
-
-
-
-
   filterUpdateMisProjects(event) {
     const val = event.target.value.toLowerCase();
     const temp = this.tempDataMisProjects.filter(function (d) {
@@ -287,11 +283,11 @@ export class AdminEvaluationProjectComponent implements OnInit {
     });
   }
 
-  async SeleccionTipoEvaluacion() {
+   SeleccionTipoEvaluacion() {
     this.xAPI.funcion = "RECOSUP_R_ListaConexionEvaluacionProyectos";
     this.xAPI.parametros =""
     this.xAPI.valores = ""
-    await this.apiService.Ejecutar(this.xAPI).subscribe(
+     this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(e => {
           e.id = e.id_con,
