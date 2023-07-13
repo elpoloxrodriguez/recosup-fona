@@ -142,7 +142,7 @@ export class AdminEvaluationProjectComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    //  this.SeleccionTipoEvaluacion()
+     this.SeleccionTipoEvaluacion()
     //  this.ListaEvaluacionProyectos()
     this.Barras()
 
