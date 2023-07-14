@@ -137,7 +137,7 @@
   
   <ng-template #ModalUdateProjects let-modal>
     <div class="modal-header">
-      <h5 class="modal-title" id="myModalLabel160">Registro de Proyectos</h5>
+      <h5 class="modal-title" id="myModalLabel160">Status de Proyectos</h5>
     </div>
     <form class="form" (ngSubmit)="(formUsersRegister.form.valid)" #formUsersRegister="ngForm">
       <div class="modal-body" tabindex="0" ngbAutofocus>
@@ -160,10 +160,10 @@
       
               <div class="col-12 mb-1">
                 <div class="form-group">
-                  <label for="basicSelect">Dirección del Proyecto</label>
+                  <label for="basicSelect">Observación</label>
                   <textarea type="text" class="form-control"  [(ngModel)]="IUpdateProjects.observacion"
                     [ngModelOptions]="{standalone: true}" autocomplete="off"
-                    placeholder="Ingrese Direccion de Proyecto"></textarea>
+                    placeholder="Ingrese Observación"></textarea>
                 </div>
               </div> 
 

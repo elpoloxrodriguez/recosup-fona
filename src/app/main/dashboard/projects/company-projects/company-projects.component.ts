@@ -273,9 +273,11 @@ public fechaActual = new Date();
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(e => {
+          if (e.id_area == 6) {
           e.id = e.id_area
           e.name = e.nombre_area
           this.Area.push(e)
+          }
         });
       },
       (error) => {
