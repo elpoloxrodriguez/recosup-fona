@@ -134,6 +134,11 @@ public fechaActual = new Date();
     public tiempo_ejecucion_desde
     public tiempo_ejecucion_hasta
 
+    public selectEstados
+    public selectMunicipios
+    public selectParroquias
+
+
   constructor(
     private utilService : UtilService,
     private _router: Router,
@@ -160,7 +165,7 @@ public fechaActual = new Date();
     if (this.IdEmpresa != null) {
       this.ButtonShow = true
       await this.MisProyectos(this.IdEmpresa)
-      await this.SelectEstados()
+      await this.ListaEstados()
       await this.SelectAmbito()
       await this.SelectArea()
     } else {
@@ -192,33 +197,14 @@ public fechaActual = new Date();
     )
   }
 
-  async SelectEstados() {
+  async ListaEstados() {
     this.xAPI.funcion = "RECOSUP_R_Estados";
-    this.xAPI.parametros =""
-    this.xAPI.valores = ""
+    this.selectEstados = []
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-        data.Cuerpo.map(e => {
-          e.id = e.EstadoId,
+        this.selectEstados = data.Cuerpo.map(e => {
           e.name = e.Nombre
-          this.Estados.push(e)
-        });
-      },
-      (error) => {
-        console.log(error)
-      }
-    )
-  }
-
-  async SelectMunicipio(id : any) {
-    this.xAPI.funcion = "RECOSUP_R_Municipios";
-    this.xAPI.parametros = id
-    this.xAPI.valores = ""
-    await this.apiService.Ejecutar(this.xAPI).subscribe(
-      (data) => {
-        this.Municipios = data.Cuerpo.map(e => {
-          e.id = e.EstadoId,
-          e.name = e.Nombre
+          e.id = e.EstadoId
           return e
         });
       },
@@ -228,17 +214,38 @@ public fechaActual = new Date();
     )
   }
 
-  async SelectParroquias(id : any) {
-    this.xAPI.funcion = "RECOSUP_R_Parroquias_ID";
-    this.xAPI.parametros = id
-    this.xAPI.valores = ""
+  async ListaMunicipios(id: string) {
+    this.xAPI.funcion = "RECOSUP_R_Municipios";
+    this.xAPI.parametros = id;
+    this.selectMunicipios = []
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-        this.Parroquias = data.Cuerpo.map(e => {
-          e.id = e.ParroquiaId,
+        this.selectMunicipios = data.Cuerpo.map(e => {
           e.name = e.Nombre
-         return e
+          e.id = e.MunicipioId
+          return e
         });
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+
+  ListaParroquias(id: string) {
+    // console.log(id)
+    this.xAPI.funcion = "RECOSUP_R_Parroquias_ID";
+    this.xAPI.parametros = id;
+    this.selectParroquias = []
+     this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        // console.log(data.Cuerpo)
+        this.selectParroquias = data.Cuerpo.map(e => {
+          e.name = e.Nombre
+          e.id = e.ParroquiaId
+          return e
+        });
+        // console.log(this.selectParroquias)
       },
       (error) => {
         console.log(error)

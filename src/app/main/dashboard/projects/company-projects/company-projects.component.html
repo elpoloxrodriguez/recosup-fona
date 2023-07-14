@@ -219,7 +219,7 @@
             <div class="col-md-6 col-12 mb-1">
               <div class="form-group">
                 <label for="basicSelect">Seleccione Estado</label>
-                <ng-select [items]="Estados" placeholder="Seleccione Estado" bindLabel="name"  bindValue="id"  (ngModelChange)="SelectMunicipio($event)"
+                <ng-select [items]="selectEstados" placeholder="Seleccione Estado" bindLabel="name"  (ngModelChange)="ListaMunicipios($event.Codigo)"
                 [(ngModel)]="CrearProyecto.estado"
                 [ngModelOptions]="{standalone: true}"
                   autocomplete="off"  required autocomplete="off">
@@ -232,16 +232,15 @@
               <div class="form-group">
                 <label for="basicSelect">Seleccione Municipio</label>
                 <ng-select
-                        [items]="Municipios"
+                        [items]="selectMunicipios"
                         placeholder="Seleccione Municipios"
                         bindLabel="name"
-                        bindValue="id"
                         name="municipios"
                         [(ngModel)]="CrearProyecto.municipio"
                         [ngModelOptions]="{standalone: true}"
                         required
                         autocomplete="off"
-                        (ngModelChange)="SelectParroquias($event)"
+                        (ngModelChange)="ListaParroquias($event.MunicipioId)"
                         >
                       </ng-select>
               </div>
@@ -250,7 +249,7 @@
             <div class="col-md-6 col-12 mb-1">
               <div class="form-group">
                 <label for="basicSelect">Seleccione Parroquia</label>
-                <ng-select [items]="Parroquias" placeholder="Seleccione Parroquia" bindLabel="name" bindValue="id"
+                <ng-select [items]="selectParroquias" placeholder="Seleccione Parroquia" bindLabel="name" bindValue="id"
                  autocomplete="off" [(ngModel)]="CrearProyecto.parroquia"
                 [ngModelOptions]="{standalone: true}" required autocomplete="off">
               </ng-select>
