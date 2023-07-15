@@ -118,6 +118,8 @@ public valor082
 
 
 
+  public Reporte01 = []
+
   constructor(
     private excelservice: ExcelService,
     private apiService: ApiService,
@@ -337,16 +339,21 @@ public valor082
         this.xAPI.valores = ''
         await this.apiService.Ejecutar(this.xAPI).subscribe(
           (data) => {
-            if (data.Cuerpo.length > 0) {
-              this.exportAsXLSX(data.Cuerpo, 'Total empresas con correo y actividad economica aprobadas')
-              this.sectionBlockUI.stop()
-              this.itemReports = undefined
-              this.ReporteRecaudacion_03 = false
-              this.btnGenerarReporte = false
-            } else {
-              this.sectionBlockUI.stop(),
-                this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
-            }
+            data.Cuerpo.forEach(element => {
+              element.L_CantidadEmpleados = parseFloat(element.L_CantidadEmpleados)
+              element.M_FechaCierreFiscal = new Date(element.M_FechaCierreFiscal)
+              this.Reporte01.push(element)
+           });
+           if (this.Reporte01.length > 0) {
+            this.exportAsXLSX(this.Reporte01, 'Total empresas con correo y actividad economica aprobadas')
+            this.sectionBlockUI.stop()
+            this.itemReports = undefined
+            this.ReporteRecaudacion_03 = false
+            this.btnGenerarReporte = false
+          } else {
+            this.sectionBlockUI.stop(),
+              this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
+          }
           },
           (error) => {
             console.log(error)
