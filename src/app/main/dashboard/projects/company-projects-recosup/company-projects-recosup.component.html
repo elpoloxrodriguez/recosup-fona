@@ -299,6 +299,7 @@
           <div class="col-md-6 col-12 mb-1">
             <div class="form-group">
               <label for="basicSelect">Seleccione Municipio</label>
+
               <ng-select [items]="selectMunicipios" placeholder="Seleccione Municipios" bindLabel="name"
                 name="municipios" [(ngModel)]="CrearProyecto.municipio" [ngModelOptions]="{standalone: true}" required
                 autocomplete="off" (ngModelChange)="ListaParroquias($event.MunicipioId)">

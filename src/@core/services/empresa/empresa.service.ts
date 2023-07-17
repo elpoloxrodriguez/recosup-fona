@@ -197,9 +197,9 @@ export interface IRECOSUP_C_Proyectos {
 	fecha_proyecto	 :	string
 	monto_inversion	 :	string
 	direccion	 :	string
-	estado	 ?:	number
+	estado	 ?:	any
 	parroquia	 ?:	number
-	municipio	 ?:	number
+	municipio	 ?:	any
 	area_proyecto	 ?:	number
 	beneficiario_directos	 ?:	string
 	beneficiario_indirectos	 ?:	string

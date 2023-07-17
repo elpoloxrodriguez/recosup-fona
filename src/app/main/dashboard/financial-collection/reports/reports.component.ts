@@ -341,7 +341,7 @@ public valor082
           (data) => {
             data.Cuerpo.forEach(element => {
               element.L_CantidadEmpleados = parseFloat(element.L_CantidadEmpleados)
-              element.M_FechaCierreFiscal = new Date(element.M_FechaCierreFiscal)
+              element.M_FechaCierreFiscal = this.utilservice.FechaMomentLLL(element.M_FechaCierreFiscal)
               this.Reporte01.push(element)
            });
            if (this.Reporte01.length > 0) {

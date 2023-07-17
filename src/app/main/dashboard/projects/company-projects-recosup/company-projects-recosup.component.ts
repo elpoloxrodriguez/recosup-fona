@@ -165,6 +165,9 @@ public fechaActual = new Date();
     public selectMunicipios
     public selectParroquias
 
+    public MunicipioSeleccionado
+    public EstadoSeleccionado
+
   constructor(
     private utilService : UtilService,
     private _router: Router,
@@ -218,6 +221,8 @@ public fechaActual = new Date();
   }
 
   async onSubmit(){
+    this.CrearProyecto.estado =  this.CrearProyecto.estado.Codigo
+    this.CrearProyecto.municipio = this.CrearProyecto.municipio.Codigo
     this.CrearProyecto.id_empresa = this.IdEmpresa
     this.CrearProyecto.UsuarioCreo =  this.token.Usuario[0].UsuarioId
     this.CrearProyecto.fecha_proyecto =  this.fecha_proyecto.year+'-'+this.fecha_proyecto.month+'-'+this.fecha_proyecto.day,
@@ -338,7 +343,6 @@ public fechaActual = new Date();
   }
 
   ListaParroquias(id: string) {
-    // console.log(id)
     this.xAPI.funcion = "RECOSUP_R_Parroquias_ID";
     this.xAPI.parametros = id;
     this.selectParroquias = []
