@@ -1,5 +1,27 @@
 import { Injectable } from '@angular/core';
 
+export interface IRECOSUP_U_ActualizarMatriz { // Update MAtriz proyecto evaluacion
+  anio	 :	number
+  mesEvaluado	 :	any
+  tipoEvaluado : number
+  cantidad : number
+  personas : number
+}
+
+export interface IPie { // Pie de tabla 
+	a: number
+	b: number
+	c: number
+	d: number
+	e: number
+	f: number
+	g: number
+	h: number
+	i: number
+	total: number
+  }
+
+
 export interface IEmpresa {
 	UsuarioId?: number
 	RazonSocial?: string

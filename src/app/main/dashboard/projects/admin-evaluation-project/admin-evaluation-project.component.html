@@ -37,6 +37,49 @@
                     </div>
                 </div>
 
+                <table class="table table-bordered" style="border: 1px solid #ddd !important;">
+                    <thead>
+                        <tr>
+                        <th *ngFor="let e of Cabecera">
+                            {{ e.nombre | uppercase }}
+                        </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let e of Cuerpo">
+                          <td>{{ e.mes }}</td>
+                          <td>{{ e.a }}</td>
+                          <td>{{ e.b }}</td>
+                          <td>{{ e.c }}</td>
+                          <td>{{ e.d }}</td>
+                          <td>{{ e.e }}</td>
+                          <td>{{ e.f }}</td>
+                          <td>{{ e.g }}</td>
+                          <td>{{ e.h }}</td>
+                          <td>{{ e.i }}</td>
+                          <td>{{ e.total }}</td>
+
+                        </tr>
+                    </tbody>
+                    <thead>
+                        <tr>
+                            <th>TOTALES</th>
+                            <th>{{ Pie.a }}</th>
+                            <th>{{ Pie.b }}</th>
+                            <th>{{ Pie.c }}</th>
+                            <th>{{ Pie.d }}</th>
+                            <th>{{ Pie.e }}</th>
+                            <th>{{ Pie.f }}</th>
+                            <th>{{ Pie.g }}</th>
+                            <th>{{ Pie.h }}</th>
+                            <th>{{ Pie.i }}</th>
+                            <th>{{ Pie.total }}</th>  
+                        </tr>
+                    </thead>
+                  </table>
+
+                <!-- 
+
                 <ngx-datatable [rows]="rowsProyectos" [rowHeight]="40" class="bootstrap responsive core-bootstrap"
                     [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" footerHeight="auto"
                     [scrollbarH]="true">
@@ -130,29 +173,27 @@
                     </ngx-datatable-column>
 
                 </ngx-datatable>
+                     -->
+                    <br>
 
                 <canvas id="barChart"></canvas>
 
                 <div class="card-content">
                     <div style="padding: 5px 15px">
                         <hr style="width:100%" />
-                        <div align="center"><strong>TOTAL EVALUACION ANUAL DE PROYECTOS {{anio}}</strong></div>
+                        <div align="center"><strong>LEYENDA DE EVALUACION ANUAL DE PROYECTOS </strong></div>
                         <hr style="width:100%" />
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col"  width="5">#</th>
                                     <th scope="col" width="15">NOMENCLATURA</th>
                                     <th scope="col" width="70">NOMBRE</th>
-                                    <th scope="col" width="20">TOTAL</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr  *ngFor="let row of rowTotalesEvaluacion; let i = index">
-                                    <th scope="row">{{row.id}}</th>
                                     <td>{{row.nomenclatura}}</td>
                                     <td>{{row.nombre}}</td>
-                                    <td><strong>{{row.total}}</strong></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -180,7 +221,7 @@
             <div class="col-md-4 col-12 mb-1">
               <div class="form-group">
                 <label for="basicSelect">Año Actual</label>
-                <input type="number" readonly class="form-control"  [(ngModel)]="anio"
+                <input type="number" readonly class="form-control"  [(ngModel)]="UpdateMatriz.anio"
                   [ngModelOptions]="{standalone: true}" autocomplete="off" 
                   placeholder="Ingrese Año" />
               </div>
@@ -189,8 +230,8 @@
             <div class="col-md-4 col-12 mb-1">
                 <div class="form-group">
                   <label for="basicSelect">Seleccione Mes</label>
-                <ng-select [items]="dataMeses" placeholder="Seleccione Mes" bindLabel="name" bindValue="id"
-                  autocomplete="off" name="name" [(ngModel)]="mesEvaluado" [ngModelOptions]="{standalone: true}"
+                <ng-select [items]="dataMeses" placeholder="Seleccione Mes" bindLabel="name"
+                  autocomplete="off" name="name" [(ngModel)]="UpdateMatriz.mesEvaluado" [ngModelOptions]="{standalone: true}"
                    required 
                   autocomplete="off">
                 </ng-select>
@@ -201,7 +242,7 @@
                 <div class="form-group">
                   <label for="basicSelect">Seleccione Tipologia</label>
                 <ng-select [items]="TipoEvaluacion" placeholder="Seleccione Tipo" bindLabel="name" bindValue="id"
-                  autocomplete="off" name="nombre" [(ngModel)]="tipoEvaluado" [ngModelOptions]="{standalone: true}"
+                  autocomplete="off" name="nombre" [(ngModel)]="UpdateMatriz.tipoEvaluado" [ngModelOptions]="{standalone: true}"
                    required 
                   autocomplete="off">
                 </ng-select>
@@ -212,7 +253,7 @@
               <div class="col-md-6 col-12 mb-1">
                 <div class="form-group">
                   <label for="basicSelect">Cantidad</label>
-                  <input type="number"  class="form-control"  [(ngModel)]="cantidad"
+                  <input type="number"  class="form-control"  [(ngModel)]="UpdateMatriz.cantidad"
                     [ngModelOptions]="{standalone: true}" autocomplete="off" 
                     placeholder="Ingrese Cantidad" />
                 </div>
@@ -221,7 +262,7 @@
               <div class="col-md-6 col-12 mb-1">
                 <div class="form-group">
                   <label for="basicSelect">Personas</label>
-                  <input type="number"  class="form-control"  [(ngModel)]="personas"
+                  <input type="number"  class="form-control"  [(ngModel)]="UpdateMatriz.personas"
                     [ngModelOptions]="{standalone: true}" autocomplete="off" 
                     placeholder="Ingrese Cantidad de Personas Atendidas" />
                 </div>
