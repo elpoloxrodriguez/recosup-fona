@@ -119,6 +119,17 @@ public valor082
 
 
   public Reporte01 = []
+  public Reporte02 = []
+  public Reporte03 = []
+  public Reporte04 = []
+  public Reporte05 = []
+  public Reporte06 = []
+  public Reporte07 = []
+  public Reporte08 = []
+  public Reporte09 = []
+  public Reporte010 = []
+  public Reporte011 = []
+  public Reporte012 = []
 
   constructor(
     private excelservice: ExcelService,
@@ -393,8 +404,13 @@ public valor082
         this.xAPI.valores = ''
         await this.apiService.Ejecutar(this.xAPI).subscribe(
           (data) => {
-            if (data.Cuerpo.length > 0) {
-              this.exportAsXLSX(data.Cuerpo, 'Empresas registradas en el recosup con representante legal')
+            data.Cuerpo.forEach(element => {
+              // element.L_CantidadEmpleados = parseFloat(element.L_CantidadEmpleados)
+              // element.M_FechaCierreFiscal = this.utilservice.FechaMomentLLL(element.M_FechaCierreFiscal)
+              this.Reporte05.push(element)
+           });
+            if (this.Reporte05.length > 0) {
+              this.exportAsXLSX(this.Reporte05, 'Empresas registradas en el recosup con representante legal')
               this.sectionBlockUI.stop()
             } else {
               this.sectionBlockUI.stop(),

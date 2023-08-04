@@ -23,7 +23,7 @@ import { AuthRegisterUsersComponent } from './auth-register-users/auth-register-
 import { FooterComponent } from './footer/footer.component';
 import { AsistenteVirtualComponent } from 'app/main/asistente-virtual/asistente-virtual/asistente-virtual.component';
 
-import { NgxMaskModule, IConfig } from 'ngx-mask'
+// import { NgxMaskModule, IConfig } from 'ngx-mask'
 
 //  subir Environment
 import { environment } from '../../../../environments/environment';
@@ -88,7 +88,7 @@ const routes: Routes = [
     CoreCommonModule,
     ContentHeaderModule,
     CardSnippetModule,
-    NgxMaskModule.forRoot(),
+    // NgxMaskModule.forRoot(),
             //  Recaptcha V3
             RecaptchaV3Module,
             //  Recaptcha V2

@@ -631,6 +631,7 @@ export class PdfService {
   }
 
   GenerarFichaResumenProyectoLaboral(data: any) {
+    console.log(data)
     const doc = new jsPDF();
     const pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
     const pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
@@ -689,13 +690,13 @@ export class PdfService {
     doc.setFontSize(10);
     doc.setTextColor(0,0,0);
     doc.text('Estado: ', 10, pageHeight - 209);
-    doc.text(data.estado, 10, pageHeight - 204, { maxWidth: 63, align: "justify" });
+    doc.text(data.estado ? data.estado.toUpperCase() : 'N/A', 10, pageHeight - 204, { maxWidth: 63, align: "justify" });
     doc.rect(73.3, 85, 63.3, 10, 'S');
     doc.text('Municipio: ', 73.3, pageHeight - 209);
-    doc.text(data.municipio, 75, pageHeight - 204, { maxWidth: 63, align: "justify" });
+    doc.text(data.municipio ? data.municipio.toUpperCase() : 'N/A', 75, pageHeight - 204, { maxWidth: 63, align: "justify" });
     doc.rect(136.6, 85, 63.3, 10, 'S');
     doc.text('Parroquia: ', 136.6, pageHeight - 209);
-    doc.text(data.parroquia, 138, pageHeight - 204, { maxWidth: 63, align: "justify" });
+    doc.text(data.parroquia ? data.parroquia.toUpperCase() : 'N/A', 138, pageHeight - 204, { maxWidth: 63, align: "justify" });
 
     doc.rect(10, 95, 190, 10, 'S');
     doc.setFontSize(10);
@@ -874,12 +875,6 @@ export class PdfService {
     // doc.text('________________________________________', pageWidth / 2, pageHeight - 15, { maxWidth: 150, align: "center" });
     doc.text(`Asesorado por: `, pageWidth / 2, pageHeight - 10, { maxWidth: 145, align: "left" });
 
-    // doc.setFontSize(9);
-    // doc.setFont(undefined, "bold");
-    // doc.text(TokenQr,
-    //   175,
-    //   285,
-    // );
 
 
     doc.save(`${data.ambito_descripcion.toUpperCase()} (${data.ambito_nombre}).pdf`);

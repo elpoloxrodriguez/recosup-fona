@@ -19,7 +19,11 @@
           "options": {
             "allowedCommonJsDependencies": [
               "hammerjs",
+              "rxjs-compat",
               "lodash",
+              "jspdf-autotable",
+              "raf",
+              "core-js",
               "node-waves",
               "app/main/ui/icons/feather/feather.component",
               "@angularclass/hmr",
@@ -99,7 +103,7 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "100kb"
+                  "maximumWarning": "1000kb"
                 }
               ]
             },
@@ -107,7 +111,7 @@
               "budgets": [
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "100kb"
+                  "maximumWarning": "1000kb"
                 }
               ],
               "fileReplacements": [

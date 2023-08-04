@@ -57,7 +57,7 @@ export class AdminEvaluationProjectComponent implements OnInit {
     {id:7, nomenclatura: 'G', nombre: 'Cines Foros'},
     {id:8, nomenclatura: 'H', nombre: 'Escuelas Deportivas'},
     {id:9, nomenclatura: 'I', nombre: 'Diagnosticos Comunitarios'},
-    {id:10, nomenclatura: 'TOTAL PERSONAS ATENDIDAS', nombre: 'TOTAL PERSONAS ATENDIDAS'},
+    {id:10, nomenclatura: 'TOTAL', nombre: 'TOTAL PERSONAS ATENDIDAS'},
   ]
 
   public dataMeses = []
@@ -146,7 +146,6 @@ export class AdminEvaluationProjectComponent implements OnInit {
     this.rowsProyectos = this.MisProjects;
     this.tempDataMisProjects = this.rowsProyectos;
 
-    // this.Barras()
 
   }
 
@@ -302,7 +301,7 @@ export class AdminEvaluationProjectComponent implements OnInit {
     this.xAPI.valores = ""
      this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-        console.log(data)
+        // console.log(data)
         if (data.tipo === 1) {
           this.modalService.dismissAll('Close')
           this.utilService.alertConfirmMini('success','Ganancias Registradas Exitosamente') 

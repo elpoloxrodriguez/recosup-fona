@@ -323,8 +323,8 @@ public fechaActual = new Date();
     )
   }
 
-  async DownloadFichaResumen(data: any){
-    console.log(data)
+  DownloadFichaResumen(data: any){
+    // console.log(data)
     this.pdf.GenerarFichaResumenProyectoLaboral(data)
     this.utilService.alertConfirmMini('success', 'Tu archivo ha sido cargado con exito')
   }
