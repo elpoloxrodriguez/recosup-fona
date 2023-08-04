@@ -428,12 +428,12 @@ public fechaActual = new Date();
 
   
     DescargarPDF(data : any){
-      console.log(data) 
-      // if (data.ambito_nombre == 'PL') {
-      //   this.pdf.GenerarFichaResumenProyectoLaboral(data)
-      // } else {
-      //   this.pdf.GenerarFichaResumenProyecto(data)
-      // }
+      // console.log(data) 
+      if (data.ambito_nombre == 'PL') {
+        this.pdf.GenerarFichaResumenProyectoLaboral(data)
+      } else {
+        this.pdf.GenerarFichaResumenProyecto(data)
+      }
     }
 
 
