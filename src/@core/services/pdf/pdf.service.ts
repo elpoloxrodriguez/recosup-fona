@@ -714,12 +714,12 @@ export class PdfService {
     doc.setFontSize(7);
     doc.text('TELÉFONOS CONTACTO', 25, pageHeight - 179, { maxWidth: 65, align: "center" });
     doc.setFontSize(10);
-    doc.text(`${data.RepresentanteTelefono} - ${data.RepresentanteCelular}`, 45, pageHeight - 175, { maxWidth: 65, align: "center" });
+    doc.text(`${data.RepresentanteTelefono ? data.RepresentanteTelefono : 'N/A'} - ${data.RepresentanteCelular ? data.RepresentanteCelular : 'N/A'}`, 45, pageHeight - 175, { maxWidth: 65, align: "center" });
     doc.rect(75, 115, 125, 10, 'S');
     doc.setFontSize(7);
     doc.text('NOMBRE:', 81, pageHeight - 179, { maxWidth: 125, align: "center" });
     doc.setFontSize(10);
-    doc.text(`${data.RepresentanteNombre} ${data.RepresentanteApellido}`, 138, pageHeight - 175, { maxWidth: 125, align: "center" });
+    doc.text(`${data.RepresentanteNombre ? data.RepresentanteNombre.toUpperCase() : 'N/A'} ${data.RepresentanteApellido ? data.RepresentanteApellido.toUpperCase() : 'N/A' }`, 138, pageHeight - 175, { maxWidth: 125, align: "center" });
 
     doc.rect(10, 125, 65, 10, 'S');
     doc.setTextColor(0,0,0);
