@@ -20,6 +20,7 @@ import {
 } from '@core/services/util/datapicker.service';
 import { CoreConfigService } from '@core/services/config.service';
 import { ConvertNumberService } from '@core/services/util/convert-number.service';
+import { Console } from 'console';
 
 
 @Component({
@@ -150,6 +151,8 @@ public fechaActual = new Date();
     public Ambito = []
     public Area = []
 
+    public titleModal
+
     public fecha_proyecto
     public tiempo_ejecucion_desde
     public tiempo_ejecucion_hasta
@@ -167,6 +170,8 @@ public fechaActual = new Date();
 
     public MunicipioSeleccionado
     public EstadoSeleccionado
+
+    public dataEmpresaID = []
 
   constructor(
     private utilService : UtilService,
@@ -428,9 +433,27 @@ public fechaActual = new Date();
 
   
     DescargarPDF(data : any){
-      // console.log(data) 
-      if (data.ambito_nombre == 'PL') {
-        this.pdf.GenerarFichaResumenProyectoLaboral(data)
+      // console.log(data.id_empresa,data.ambito_nombre) 
+
+      if (data.id_empresa != '0') {
+        if (data.ambito_nombre == 'PL') {
+          this.xAPI.funcion = "RECOSUP_R_Empresa_ID";
+          this.xAPI.parametros = data.id_empresa;
+          this.selectParroquias = []
+           this.apiService.Ejecutar(this.xAPI).subscribe(
+            (data) => {
+              data.Cuerpo.map(e => {
+                e.contactos = JSON.parse(e.contactos)
+                // console.log(e)
+                this.dataEmpresaID.push(e)
+              });
+            },
+            (error) => {
+              console.log(error)
+            }
+            )
+            this.pdf.GenerarFichaResumenProyectoLaboral(data, this.dataEmpresaID)
+          }
       } else {
         this.pdf.GenerarFichaResumenProyecto(data)
       }
@@ -523,6 +546,8 @@ public fechaActual = new Date();
     }
 
     DetalleModal(modal, data){
+      console.log(data)
+      this.titleModal = data.RazonSocial
       this.DetailsProject(data)
       this.modalService.open(modal,{
         centered: true,

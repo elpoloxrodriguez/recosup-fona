@@ -184,10 +184,12 @@ public fechaActual = new Date();
       (data) => {
         data.Cuerpo.map(e => {
           // console.log(e)
+          e.contactos = JSON.parse(e.contactos)
           e.monto_inversionX = e.monto_inversion
           e.monto_inversion = this.utilService.ConvertirMoneda(e.monto_inversion)
            this.MisProjects.push(e)
           });
+          // console.log(this.MisProjects)
           this.rowsProyectos = this.MisProjects;
           this.tempDataMisProjects = this.rowsProyectos;
       },
@@ -325,7 +327,7 @@ public fechaActual = new Date();
 
   DownloadFichaResumen(data: any){
     // console.log(data)
-    this.pdf.GenerarFichaResumenProyectoLaboral(data)
+    this.pdf.GenerarFichaResumenProyectoLaboral(data, '')
     this.utilService.alertConfirmMini('success', 'Tu archivo ha sido cargado con exito')
   }
 

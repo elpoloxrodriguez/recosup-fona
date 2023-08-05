@@ -630,8 +630,8 @@ export class PdfService {
 
   }
 
-  GenerarFichaResumenProyectoLaboral(data: any) {
-    console.log(data)
+  GenerarFichaResumenProyectoLaboral(data: any, empresa: any) {
+    console.log(empresa)
     const doc = new jsPDF();
     const pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
     const pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
