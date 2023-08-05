@@ -120,7 +120,7 @@ export class AuthLoginV2Component implements OnInit {
     }
 
     if (sessionStorage.getItem("token") != undefined) {
-      this._router.navigate(['/home'])
+      this._router.navigate(['/home']).then(() => {window.location.reload()});
       return
     }
     this.loginForm = this._formBuilder.group({
@@ -148,7 +148,7 @@ export class AuthLoginV2Component implements OnInit {
     if (form.invalid != true) {
       this.login()
     }
-    console.debug(`Token [${this.token}] generated`);
+    // console.debug(`Token [${this.token}] generated`);
   }
 
   

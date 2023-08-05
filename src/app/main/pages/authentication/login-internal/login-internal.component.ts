@@ -103,7 +103,7 @@ export class LoginInternalComponent implements OnInit {
       return;
     }
     if (sessionStorage.getItem("token") != undefined) {
-      this._router.navigate(['/']);
+      this._router.navigate(['/home']).then(() => {window.location.reload()});
     }
 
     // Login
@@ -111,7 +111,7 @@ export class LoginInternalComponent implements OnInit {
 
     // redirect to home page
     setTimeout(() => {
-      this._router.navigate(['/']);
+      this._router.navigate(['/']).then(() => {window.location.reload()});
     }, 200);
   }
 
@@ -132,7 +132,7 @@ export class LoginInternalComponent implements OnInit {
     }
 
     if (sessionStorage.getItem("token") != undefined) {
-      this._router.navigate(['/home'])
+      this._router.navigate(['/home']).then(() => {window.location.reload()});
       return
    }
     this.loginForm = this._formBuilder.group({
