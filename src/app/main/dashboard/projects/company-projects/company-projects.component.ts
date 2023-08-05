@@ -303,7 +303,7 @@ public fechaActual = new Date();
     this.CrearProyecto.fecha_proyecto =  this.fecha_proyecto.year+'-'+this.fecha_proyecto.month+'-'+this.fecha_proyecto.day,
     this.CrearProyecto.tiempo_ejecucion_desde = this.tiempo_ejecucion_desde.year+'-'+this.tiempo_ejecucion_desde.month+'-'+this.tiempo_ejecucion_desde.day,
     this.CrearProyecto.tiempo_ejecucion_hasta = this.tiempo_ejecucion_hasta.year+'-'+this.tiempo_ejecucion_hasta.month+'-'+this.tiempo_ejecucion_hasta.day,
-    console.log(this.CrearProyecto)
+    // console.log(this.CrearProyecto)
     this.xAPI.funcion = "RECOSUP_C_Proyectos";
     this.xAPI.parametros = ''
     this.xAPI.valores = JSON.stringify(this.CrearProyecto)
