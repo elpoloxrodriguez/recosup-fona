@@ -5,8 +5,8 @@
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",
-  "start_url": "./",
-  "scope": "./",
+  "start_url": "app/",
+  "scope": "app/",
   "icons": [
     {
       "src": "assets/icons/icon-72x72.png",
@@ -29,12 +29,6 @@
     {
       "src": "assets/icons/icon-144x144.png",
       "sizes": "128x128",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "assets/icons/icon-152x152.png",
-      "sizes": "152x152",
       "type": "image/png",
       "purpose": "any maskable"
     },
