@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, ElementRef, Renderer2 } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ElementRef, Renderer2, HostListener } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 
@@ -30,6 +30,12 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
+  
+
+  @HostListener('contextmenu', ['$event'])
+  onRightClick(event) {
+    event.preventDefault();
+  }
 
   tokenRecaptcha: string|undefined;
 

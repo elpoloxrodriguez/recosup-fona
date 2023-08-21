@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, ViewEncapsulation } from '@angular/core';
 import { CoreConfigService } from '@core/services/config.service';
 import { fadeInLeft, zoomIn, fadeIn } from '@core/animations/core.animation';
 import { Subject } from 'rxjs';
@@ -11,6 +11,8 @@ import { takeUntil } from 'rxjs/operators';
   animations: [fadeInLeft, zoomIn, fadeIn]
 })
 export class ContentComponent {
+
+  
   public coreConfig: any;
   public animate;
 

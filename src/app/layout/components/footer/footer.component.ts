@@ -10,6 +10,8 @@ import { CoreConfigService } from '@core/services/config.service';
   templateUrl: './footer.component.html'
 })
 export class FooterComponent implements OnInit, OnDestroy {
+
+  
   public coreConfig: any;
   public year: number = new Date().getFullYear();
 

@@ -1,11 +1,14 @@
 <!--button-->
 <div id="chat-circle"  *ngIf="status">
     <!-- <div id="chat-overlay"></div> -->
-    <img class="chat-circle_robot fondo-negro" (click)="chat_box()" src="assets/images/logos/logo-fona.png" title="CHATBOT">
+    <!-- <img class="btn-whatsapp" (click)="chat_box()" src="assets/images/logos/logo-fonad.png" width="80%" height="80%" title="CHATBOT"> -->
+    <a (click)="chat_box()" class="btn-whatsapp fondo-negro">
+        <img src="assets/whatsapp.svg" width="50%" height="50%" alt="ChatBoot">
+    </a>
 </div>
 
 <!--chat-bot-->
-<div class="chat-box" *ngIf="MostrarChat" style="position: auto; z-index: 1200;">
+<div class="chat-box" *ngIf="MostrarChat" style="position: auto; z-index: 1;">
     <div class="chat-box-body">
         <!--welcome message-->
         <div class="chat-box-welcome__header" *ngIf="ChatWelcome">
@@ -19,6 +22,7 @@
             </div>
             <div class="chat-box-welcome__welcome-text">
                 <p>¡Hola! Soy <strong>RECOSUP</strong>, ¿en qué puedo ayudarlo?</p>
+                <!-- <p class="maquina-escribir">Aprenderás esto 😎 <span class="cursor">|</span></p> -->
             </div>
         </div>
 
@@ -41,7 +45,8 @@
                         <img class="chat-box-overlay_robot"  width="60px" src="assets/images/logos/logo-fona.png">
                     </span>
                     <div class="cm-msg-text">
-                        ¡Hola! Soy <strong>RECOSUP</strong>, ¿en qué puedo ayudarlo?
+                        <!-- ¡Hola! Soy <strong>RECOSUP</strong>, ¿en qué puedo ayudarlo? -->
+                        <p class="maquina-escribir">¡Hola! Soy <strong>RECOSUP</strong>, ¿en qué puedo ayudarlo? <span class="cursor">|</span></p>
                     </div>
                 </div>
 
@@ -61,7 +66,7 @@
                             <img class="chat-box-overlay_robot"  width="60px" src="assets/images/logos/logo-fona.png">
                         </span>
                         <div class="cm-msg-text">
-                            {{ item.resp }}
+                            <p class="maquina-escribir">{{ item.resp }}</p>
                         </div>
                     </div>
                 </div>

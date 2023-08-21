@@ -450,10 +450,87 @@ body {
 }
 
 .fondo-negro { 
-  filter: drop-shadow(0 5px 5px #000000);
+  filter: drop-shadow(0 5px 5px #0000004a);
   border-top-left-radius: 100px;
   border-top-right-radius: 100px;
   border-bottom-right-radius: 100px;
   border-bottom-left-radius: 100px;
   z-index: -1;
 }
+
+.btn-whatsapp {
+    position: fixed;
+	z-index: 999;
+	bottom: 20px;
+	right: 20px;
+    height: 100px;
+    width: 100px;
+}
+
+.btn-whatsapp:before,
+.btn-whatsapp:after {
+	content: "";
+	position: absolute;
+	top: 2px;
+	left: 4px;
+	width: 45px;
+	height: 45px;
+	border-radius: 50%;
+	background-color: #00e676;
+	opacity: 0;
+	animation: onda 1.7s infinite;
+}
+
+.btn-whatsapp:before {
+	animation-delay: 1s;
+}
+
+.btn-whatsapp:after {
+	animation-delay: 1.3s;
+}
+
+.btn-whatsapp img {
+	position: relative;
+	z-index: 2;
+}
+
+@keyframes onda {
+	0% {
+		transform: scale(1);
+	}
+
+	15%{
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+		transform: scale(2.5);
+	}
+}
+
+.maquina-escribir {
+    // font-size: xx-large;
+    // display: block;
+    // font-family: monospace;
+    white-space: nowrap; /* los espacios en blanco no rompen la línea */        
+    width: 24ch; /* el ancho será el número de caracteres que tiene nuestra línea */
+    animation: escribiendo 2s steps(20);          
+    overflow: hidden;
+  }
+
+  .cursor{
+    animation: 0.6s parpadeo-cursor infinite;
+  }
+
+  @keyframes escribiendo {
+    from {
+      width: 0;
+    }
+  }
+
+  @keyframes parpadeo-cursor {
+    50% {
+      opacity: 0;
+    }
+  }

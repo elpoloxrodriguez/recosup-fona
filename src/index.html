@@ -113,6 +113,7 @@
   <meta name="theme-color" content="#1976d2">
 </head>
 
+
   <body>
     <!-- Vuexy loading Screen -->
     <core-loading-screen id="loading-bg">
@@ -128,8 +129,12 @@
     <!-- / Vuexy loading Screen -->
 
     <!-- Vuexy root component -->
-    <app-root> </app-root>
+    <div (contextmenu)="false">
+      <!-- Contenido de la aplicación -->
+      <app-root> </app-root>
+    </div>
     <!-- / Vuexy root component -->
-    <noscript>Please enable JavaScript to continue using this application.</noscript>
+    <noscript>Habilite JavaScript para continuar usando esta aplicación.</noscript>
 </body>
+
 </html>
