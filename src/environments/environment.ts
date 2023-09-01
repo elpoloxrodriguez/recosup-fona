@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
   recaptcha: {
-    siteKey: '6LdwJNwlAAAAAI8-p7XKKCtfJ51goRFyBBbjaAJL',
+    siteKey: '6LdcDsknAAAAAC44xkc214BZ2giOxN8JQsL7L9x2',
   },
   Url: 'https://localhost',
   API: '/devel/api/',
