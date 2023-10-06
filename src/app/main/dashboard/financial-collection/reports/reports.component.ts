@@ -77,15 +77,15 @@ export class ReportsComponent implements OnInit {
   ]
 
   public SelectActividadEconomica = [
-    { id: 0, name: 'Empresas Doble Aportante'},
-    { id: 1, name: 'Empresas Aportantes'}, 
+    { id: 0, name: 'Empresas Doble Aportante' },
+    { id: 1, name: 'Empresas Aportantes' },
   ]
 
   public BtnShow = false
   public inputAnio
 
-public valor081
-public valor082
+  public valor081
+  public valor082
 
   public Reporte01_valor1
   public Reporte01_valor2
@@ -294,8 +294,17 @@ public valor082
         await this.apiService.Ejecutar(this.xAPI).subscribe(
           (data) => {
             // console.log(data)
+            data.Cuerpo.forEach(element => {
+              element.J_CantidadEmpleados = parseFloat(element.J_CantidadEmpleados)
+              element.K_Fecha = parseInt(element.K_Fecha)
+              element.L_FechaAporte = parseInt(element.L_FechaAporte)
+              element.P_Articulo = parseInt(element.P_Articulo)
+              element.Q_FechaHasta = this.utilservice.FechaMomentLLL(element.Q_FechaHasta)
+              element.U_FechaBancoPago = this.utilservice.FechaMomentLLL(element.U_FechaBancoPago)
+              this.Reporte01.push(element)
+            });
             if (data.Cuerpo.length > 0) {
-              this.exportAsXLSX(data.Cuerpo, 'Todas las empresas que declararon un año en especifico con monto de utilidad y aporte')
+              this.exportAsXLSX(this.Reporte01, 'Todas las empresas que declararon un año en especifico con monto de utilidad y aporte')
               this.sectionBlockUI.stop()
               this.Reporte01_valor1 = ''
               this.Reporte01_valor2 = ''
@@ -322,8 +331,13 @@ public valor082
         this.xAPI.valores = ''
         await this.apiService.Ejecutar(this.xAPI).subscribe(
           (data) => {
+            // console.log(data)
+            data.Cuerpo.forEach(element => {
+              element.J_CantidadEmpleados = parseFloat(element.J_CantidadEmpleados)
+              this.Reporte02.push(element)
+            });
             if (data.Cuerpo.length > 0) {
-              this.exportAsXLSX(data.Cuerpo, 'Empresas que declararon y no generaron APORTE con mas de 50 trabajadores')
+              this.exportAsXLSX(this.Reporte02, 'Empresas que declararon y no generaron APORTE con mas de 50 trabajadores')
               this.sectionBlockUI.stop()
               this.Reporte02_valor1 = ''
               this.Reporte02_valor2 = ''
@@ -353,18 +367,18 @@ public valor082
             data.Cuerpo.forEach(element => {
               element.L_CantidadEmpleados = parseFloat(element.L_CantidadEmpleados)
               element.M_FechaCierreFiscal = this.utilservice.FechaMomentLLL(element.M_FechaCierreFiscal)
-              this.Reporte01.push(element)
-           });
-           if (this.Reporte01.length > 0) {
-            this.exportAsXLSX(this.Reporte01, 'Total empresas con correo y actividad economica aprobadas')
-            this.sectionBlockUI.stop()
-            this.itemReports = undefined
-            this.ReporteRecaudacion_03 = false
-            this.btnGenerarReporte = false
-          } else {
-            this.sectionBlockUI.stop(),
-              this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
-          }
+              this.Reporte03.push(element)
+            });
+            if (this.Reporte03.length > 0) {
+              this.exportAsXLSX(this.Reporte03, 'Total empresas con correo y actividad economica aprobadas')
+              this.sectionBlockUI.stop()
+              this.itemReports = undefined
+              this.ReporteRecaudacion_03 = false
+              this.btnGenerarReporte = false
+            } else {
+              this.sectionBlockUI.stop(),
+                this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
+            }
           },
           (error) => {
             console.log(error)
@@ -378,8 +392,13 @@ public valor082
         this.xAPI.valores = ''
         await this.apiService.Ejecutar(this.xAPI).subscribe(
           (data) => {
+            data.Cuerpo.forEach(element => {
+              element.L_CantidadEmpleados = parseFloat(element.L_CantidadEmpleados)
+              element.M_FechaCierreFiscal = this.utilservice.FechaMomentLLL(element.M_FechaCierreFiscal)
+              this.Reporte04.push(element)
+            });
             if (data.Cuerpo.length > 0) {
-              this.exportAsXLSX(data.Cuerpo, 'Empresas que no han declarado un ejercicio fiscal')
+              this.exportAsXLSX(this.Reporte04, 'Empresas que no han declarado un ejercicio fiscal')
               this.sectionBlockUI.stop()
               this.Reporte04_valor1 = ''
               this.Reporte04_valor2 = 1
@@ -405,10 +424,12 @@ public valor082
         await this.apiService.Ejecutar(this.xAPI).subscribe(
           (data) => {
             data.Cuerpo.forEach(element => {
-              // element.L_CantidadEmpleados = parseFloat(element.L_CantidadEmpleados)
-              // element.M_FechaCierreFiscal = this.utilservice.FechaMomentLLL(element.M_FechaCierreFiscal)
+              element.F_CantidadEmpleados = parseFloat(element.F_CantidadEmpleados)
+              element.U_FechaCierreFiscal = this.utilservice.FechaMomentLLL(element.U_FechaCierreFiscal)
+              element.ZG_FechaCreo = this.utilservice.FechaMomentLLL(element.ZG_FechaCreo)
+              element.ZH_FechaAprobo = this.utilservice.FechaMomentLLL(element.ZH_FechaAprobo)
               this.Reporte05.push(element)
-           });
+            });
             if (this.Reporte05.length > 0) {
               this.exportAsXLSX(this.Reporte05, 'Empresas registradas en el recosup con representante legal')
               this.sectionBlockUI.stop()
@@ -429,8 +450,13 @@ public valor082
         this.xAPI.valores = ''
         await this.apiService.Ejecutar(this.xAPI).subscribe(
           (data) => {
+            data.Cuerpo.forEach(element => {
+              element.K_CantidadEmpleados = parseFloat(element.K_CantidadEmpleados)
+              element.L_FechaCierreFiscal = this.utilservice.FechaMomentLLL(element.L_FechaCierreFiscal)
+              this.Reporte06.push(element)
+            });
             if (data.Cuerpo.length > 0) {
-              this.exportAsXLSX(data.Cuerpo, 'Empresas Irregulares')
+              this.exportAsXLSX( this.Reporte06, 'Empresas Irregulares')
               this.sectionBlockUI.stop()
             } else {
               this.sectionBlockUI.stop(),
@@ -449,8 +475,13 @@ public valor082
         this.xAPI.valores = ''
         await this.apiService.Ejecutar(this.xAPI).subscribe(
           (data) => {
+            data.Cuerpo.forEach(element => {
+              element.K_CantidadEmpleados = parseFloat(element.K_CantidadEmpleados)
+              element.L_FechaCierreFiscal = this.utilservice.FechaMomentLLL(element.L_FechaCierreFiscal)
+              this.Reporte07.push(element)
+            });
             if (data.Cuerpo.length > 0) {
-              this.exportAsXLSX(data.Cuerpo, 'Empresas Regulares')
+              this.exportAsXLSX(this.Reporte07, 'Empresas Regulares')
               this.sectionBlockUI.stop()
             } else {
               this.sectionBlockUI.stop(),
@@ -465,16 +496,20 @@ public valor082
       case 8:
         this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
         this.xAPI.funcion = "RECOSUP_R_ReporteRecaudacion_08";
-       if (this.Reporte08_valor1 === 0) {
-        this.xAPI.parametros = '='
-       } else {
-        this.xAPI.parametros = '!='
-       }
+        if (this.Reporte08_valor1 === 0) {
+          this.xAPI.parametros = '='
+        } else {
+          this.xAPI.parametros = '!='
+        }
         this.xAPI.valores = ''
         await this.apiService.Ejecutar(this.xAPI).subscribe(
           (data) => {
+            data.Cuerpo.forEach(element => {
+              element.D_CantidadEmpleados = parseFloat(element.D_CantidadEmpleados)
+              this.Reporte08.push(element)
+            });
             if (data.Cuerpo.length > 0) {
-              this.exportAsXLSX(data.Cuerpo, 'Empresas por Activida Económica')
+              this.exportAsXLSX(this.Reporte08, 'Empresas por Activida Económica')
               this.sectionBlockUI.stop()
               this.Reporte08_valor1 = undefined
               this.itemReports = undefined
@@ -497,8 +532,14 @@ public valor082
         this.xAPI.valores = ''
         await this.apiService.Ejecutar(this.xAPI).subscribe(
           (data) => {
+            data.Cuerpo.forEach(element => {
+              element.O_Notificacion = this.utilservice.FechaMomentLLL(element.O_Notificacion)
+              element.Q_InicioFiscal = this.utilservice.FechaMomentLLL(element.Q_InicioFiscal)
+              element.R_CierreFiscal = this.utilservice.FechaMomentLLL(element.R_CierreFiscal)
+              this.Reporte09.push(element)
+            });
             if (data.Cuerpo.length > 0) {
-              this.exportAsXLSX(data.Cuerpo, 'Multas Pagadas')
+              this.exportAsXLSX(this.Reporte09, 'Multas Pagadas')
               this.sectionBlockUI.stop()
               this.Reporte09_valor1 = undefined
               this.itemReports = undefined
@@ -521,8 +562,14 @@ public valor082
         this.xAPI.valores = ''
         await this.apiService.Ejecutar(this.xAPI).subscribe(
           (data) => {
+            data.Cuerpo.forEach(element => {
+              element.K_CantidadEmpleados = parseFloat(element.K_CantidadEmpleados)
+              element.L_FechaCierreFiscal = this.utilservice.FechaMomentLLL(element.L_FechaCierreFiscal)
+              element.M_FechaCreo = this.utilservice.FechaMomentLLL(element.M_FechaCreo)
+              this.Reporte010.push(element)
+            });
             if (data.Cuerpo.length > 0) {
-              this.exportAsXLSX(data.Cuerpo, 'Empresas aprobadas completas que existen en la tabla usuario y en empresas')
+              this.exportAsXLSX(this.Reporte010, 'Empresas aprobadas completas que existen en la tabla usuario y en empresas')
               this.sectionBlockUI.stop()
             } else {
               this.sectionBlockUI.stop(),
@@ -541,8 +588,12 @@ public valor082
         this.xAPI.valores = ''
         await this.apiService.Ejecutar(this.xAPI).subscribe(
           (data) => {
+            data.Cuerpo.forEach(element => {
+              element.L_FechaCreo = this.utilservice.FechaMomentLLL(element.L_FechaCreo)
+              this.Reporte011.push(element)
+            });
             if (data.Cuerpo.length > 0) {
-              this.exportAsXLSX(data.Cuerpo, 'Empresas pre-inscritas que no estan completas o no han pasado a la tabla empresa')
+              this.exportAsXLSX(this.Reporte011, 'Empresas pre-inscritas que no estan completas o no han pasado a la tabla empresa')
               this.sectionBlockUI.stop()
               this.Reporte11_valor1 = ''
               this.Reporte11_valor2 = ''
@@ -562,12 +613,21 @@ public valor082
       case 12:
         this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
         this.xAPI.funcion = "RECOSUP_R_ReporteRecaudacion_12";
-        this.xAPI.parametros = this.Reporte12_valor1 + ',' + this.Reporte12_valor2+ ',' + this.Reporte12_valor3+ ',' + this.Reporte12_valor4+ ',' + this.Reporte12_valor5+ ',' + this.Reporte12_valor6
+        this.xAPI.parametros = this.Reporte12_valor1 + ',' + this.Reporte12_valor2 + ',' + this.Reporte12_valor3 + ',' + this.Reporte12_valor4 + ',' + this.Reporte12_valor5 + ',' + this.Reporte12_valor6
         this.xAPI.valores = ''
         await this.apiService.Ejecutar(this.xAPI).subscribe(
           (data) => {
+            data.Cuerpo.forEach(element => {
+              element.H_CantidadEmpleados = parseFloat(element.H_CantidadEmpleados)
+              element.I_Fecha = this.utilservice.FechaMomentLLL(element.I_Fecha)
+              element.J_FechaAporte = this.utilservice.FechaMomentLLL(element.J_FechaAporte)
+              element.K_FechaCreo = this.utilservice.FechaMomentLLL(element.K_FechaCreo)
+              element.O_FechaHasta = this.utilservice.FechaMomentLLL(element.O_FechaHasta)
+              element.S_FechaBancoPago = this.utilservice.FechaMomentLLL(element.S_FechaBancoPago)
+              this.Reporte012.push(element)
+            });
             if (data.Cuerpo.length > 0) {
-              this.exportAsXLSX(data.Cuerpo, 'Empresas con declaracion y pagos conciliados por año de utilidad')
+              this.exportAsXLSX(this.Reporte012, 'Empresas con declaracion y pagos conciliados por año de utilidad')
               this.sectionBlockUI.stop()
               this.Reporte12_valor1 = ''
               this.Reporte12_valor2 = ''
