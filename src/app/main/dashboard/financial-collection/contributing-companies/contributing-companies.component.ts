@@ -563,7 +563,8 @@ export class ContributingCompaniesComponent implements OnInit {
     this.CrearCert.type = 2, // 2 QR DECLARACION
     this.CrearCert.token = this.utilService.TokenAleatorio(10),
     this.xAPI.funcion = "RECOSUP_R_CertificadoDeclaracion";
-    this.xAPI.parametros = EmpresaID + ',' + Fecha
+    // this.xAPI.parametros = EmpresaID + ',' + Fecha
+    this.xAPI.parametros = EmpresaID + ',' + Fecha+ ',' + data.EmpresaGananciaId
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (dataCertificados) => {
         var id = 'RIfEmpresa'
