@@ -556,6 +556,7 @@ export class ContributingCompaniesComponent implements OnInit {
   }
 
   async GenerarCertificadoDeclaracion(data: any) {
+    // console.log(data)
     var EmpresaID = this.idEmpresaCert
     var Fecha = data.Fecha
     this.CrearCert.created_user = this.token.Usuario[0].UsuarioId
@@ -563,7 +564,6 @@ export class ContributingCompaniesComponent implements OnInit {
     this.CrearCert.type = 2, // 2 QR DECLARACION
     this.CrearCert.token = this.utilService.TokenAleatorio(10),
     this.xAPI.funcion = "RECOSUP_R_CertificadoDeclaracion";
-    // this.xAPI.parametros = EmpresaID + ',' + Fecha
     this.xAPI.parametros = EmpresaID + ',' + Fecha+ ',' + data.EmpresaGananciaId
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (dataCertificados) => {
@@ -646,6 +646,7 @@ export class ContributingCompaniesComponent implements OnInit {
     this.EmpresaUtilidadCierreFiscal = []
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
+        // console.log(data)
         this.Utilidad = data.Cuerpo.map(e => {
           e.ejercicioFiscal = e.FechaDesde + ' | ' + e.FechaHasta
           e.Diferencia = this.utilService.diferenciaFecha(e.FechaHasta, e.FechaCreo)
