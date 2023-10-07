@@ -41,6 +41,10 @@ const routes: Routes = [
     component: AuthLoginV2Component,
   },
   {
+    path: 'certificates/:id',
+    component: AuthLoginV2Component,
+  },
+  {
     path: 'admin-recosup',
     component: LoginInternalComponent,
   },

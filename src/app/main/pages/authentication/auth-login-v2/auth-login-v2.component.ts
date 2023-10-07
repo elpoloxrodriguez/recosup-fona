@@ -74,8 +74,8 @@ export class AuthLoginV2Component implements OnInit {
     private loginService: LoginService,
     private _router: Router,
     private utilservice: UtilService,
-    private _authenticationService: AuthenticationService
-
+    private _authenticationService: AuthenticationService,
+    private rutaActiva: ActivatedRoute
   ) {
     this.token = undefined;
     this._unsubscribeAll = new Subject();
@@ -116,13 +116,19 @@ export class AuthLoginV2Component implements OnInit {
    * On init
    */
   ngOnInit(): void {
-    let urlQR = this._router.url
-    if (urlQR == undefined) {
-      this.Qr = ''
-    } else {
-      this.Qr = urlQR.substring(7, urlQR.length + 1)
-      // this.EmpresaRIF()
-      this.Qr = ''
+    // let urlQR = this._router.url
+    // if (urlQR == undefined) {
+    //   this.Qr = ''
+    // } else {
+    //   this.Qr = urlQR.substring(7, urlQR.length + 1)
+    //   // this.EmpresaRIF()
+    //   this.Qr = ''
+    // }
+
+    let Ruta = this.rutaActiva.snapshot.params.id
+    if (Ruta != undefined) {
+      this.Qr = Ruta
+      this.Certificado(Ruta)
     }
 
     if (sessionStorage.getItem("token") != undefined) {

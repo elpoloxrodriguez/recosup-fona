@@ -135,7 +135,7 @@ export class ListCurrentFinesComponent implements OnInit {
       (data) => {
         if (data.tipo === 1) {
           var id = this.CrearCert.token
-          let ruta: string = btoa('https://recosup.fona.gob.ve');
+          let ruta: string = btoa('https://recosup.fona.gob.ve/app/#/certificates');
           this.apiService.GenQR(id, ruta).subscribe(
             (data) => {
               // INSERT API
