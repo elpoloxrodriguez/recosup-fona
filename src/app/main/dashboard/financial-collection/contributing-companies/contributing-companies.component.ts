@@ -567,7 +567,8 @@ export class ContributingCompaniesComponent implements OnInit {
     this.xAPI.parametros = EmpresaID + ',' + Fecha+ ',' + data.EmpresaGananciaId
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (dataCertificados) => {
-        var id = 'RIfEmpresa'
+        // var id = 'RIfEmpresa'
+        var id = this.CrearCert.token
         let ruta: string = btoa('https://recosup.fona.gob.ve/app/#/certificates');
         this.apiService.GenQR(id, ruta).subscribe(
           (data) => {

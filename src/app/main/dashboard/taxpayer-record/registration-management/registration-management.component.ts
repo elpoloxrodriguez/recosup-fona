@@ -481,7 +481,8 @@ export class RegistrationManagementComponent implements OnInit {
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (dataCertificados) => {
         // console.log(dataCertificados)
-        var id = 'RIfEmpresa'
+        // var id = 'RIfEmpresa'
+        var id = this.CrearCert.token
         let ruta: string = btoa('https://recosup.fona.gob.ve/app/#/certificates');
         this.apiService.GenQR(id, ruta).subscribe(
           (data) => {
