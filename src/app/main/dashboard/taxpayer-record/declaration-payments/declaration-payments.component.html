@@ -165,7 +165,7 @@
               <label for="basicSelect">Seleccione Articulo</label>
               <ng-select [items]="SelectArticulo" placeholder="Seleccione Articulo" bindLabel="name" bindValue="id"
                 autocomplete="off" name="articulo" [(ngModel)]="Dutilidad.Articulo"
-                [ngModelOptions]="{standalone: true}" (ngModelChange)="SelecBanco($event)" required
+                [ngModelOptions]="{standalone: true}"  (ngModelChange)="SelecBanco($event);BuscarElemento()" required
                 (ngModelChange)="CambiarMonto($event)" autocomplete="off">
               </ng-select>
             </div>
@@ -185,7 +185,7 @@
               <label for="basicSelect">Seleccione el Año</label>
               <ng-select [items]="SelectAnioAporte" placeholder="Seleccione Año" bindLabel="name" name="anio"
                 autocomplete="off" [(ngModel)]="Dutilidad.Fecha" [ngModelOptions]="{standalone: true}" required
-                autocomplete="off">
+                >
               </ng-select>
             </div>
           </div>

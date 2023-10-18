@@ -171,6 +171,8 @@ export class DeclarationPaymentsComponent implements OnInit {
   public inicioFiscal: any
   public cierreFiscal: any
 
+  public ArticuloContribuyenteAporte
+
   //  Registrar pago aporte
   public AddPagoAporte: any
   public pEmpresaId
@@ -211,6 +213,8 @@ export class DeclarationPaymentsComponent implements OnInit {
 
   public ArticuloAnio = []
 
+  public lstPagos = []
+
   // decorator
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
@@ -243,20 +247,20 @@ export class DeclarationPaymentsComponent implements OnInit {
    * On init
    */
   async ngOnInit() {
+    // this.cargarAnios()
     this.token = jwt_decode(sessionStorage.getItem('token'))
     this.ActividadEconomicaEmpresa = this.token.Usuario[0].ActividadEconomicaId
     // console.log(this.ActividadEconomicaEmpresa)
     this.IdEmpresa = this.token.Usuario[0].EmpresaId
-
+    
     if (this.token.Usuario[0].ActividadEconomicaId == '11' || this.token.Usuario[0].ActividadEconomicaId == '60') {
-      this.FuncSelectAnioDobleAportante(this.token.Usuario[0].EmpresaId)
+      this.FuncSelectAnioAporte(this.token.Usuario[0].EmpresaId)
     } else {
       this.FuncSelectAnioAporte(this.token.Usuario[0].EmpresaId)
     }
 
     if (this.IdEmpresa != null) {
       this.ButtonShow = true
-      // this.FuncSelectAnioAporte(this.token.Usuario[0].EmpresaId)
       await this.UtilidadCierreFiscal(this.token.Usuario[0].EmpresaId)
       await this.SelecArticulo()
       await this.SelecTiposPagos()
@@ -429,37 +433,45 @@ export class DeclarationPaymentsComponent implements OnInit {
     )
   }
 
-   FuncSelectAnioAporte(id:any) {
-    // console.log(id)
+  cargarAnios(){
+    this.SelectAnioAporte = []
     var anioActual = new Date()
     var anio = anioActual.getFullYear()
+    for (let index = 2010; index <= anio - 1; index++) {
+      this.SelectAnioAporte.push(index)
+     }
+  }
+
+  async BuscarElemento(){
+    await this.cargarAnios()
+    this.lstPagos.map(e => {
+      if (this.Dutilidad.Articulo == e.Articulo) {
+        let pos = 0
+        for (let i = 0; i <  this.SelectAnioAporte.length; i++) {
+          const element =  this.SelectAnioAporte[i];
+          if (element == e.Fecha) {
+            pos = i
+          }
+        }
+        this.SelectAnioAporte.splice(pos,1)
+      }
+    })
+  }
+
+   FuncSelectAnioAporte(id:any) {
     this.xAPI.funcion = "RECOSUP_R_utilidad_cierre_fiscal_Contribuyente_SelectDeclaracionAnio";
     this.xAPI.parametros = id 
     this.xAPI.valores = ''
      this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-        data.Cuerpo.map(e => {
-            this.NuevaListFecha.push(parseInt(e.Fecha))
-        });
-        for (let index = 2010; index <= anio - 1; index++) {
-          let regex = new  RegExp(this.ConvertirCadena(this.NuevaListFecha.join('|')))
-          if (!regex.test(index.toString())) {
-            this.SelectAnioAporte.push(index)
-          }
-        }
-        if (this.NuevaListFecha.length <= 0) {
-           for (let index = 2010; index <= anio - 1; index++) {
-            this.SelectAnioAporte.push(index)
-           }
-        }
-        // console.log(this.NuevaListFecha)
-        // console.log(this.SelectAnioAporte)
+       this.lstPagos = data.Cuerpo
       },
       (error) => {
         console.log(error);
       }
       )
   }
+
 
   FuncSelectAnioDobleAportante(id:any){
     var anioActual = new Date()
@@ -469,18 +481,14 @@ export class DeclarationPaymentsComponent implements OnInit {
     this.xAPI.valores = ''
      this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-        data.Cuerpo.map(e => {
-          // console.log(e.Fecha +' - '+ e.Articulo)
-      });
+        this.lstPagos = data.Cuerpo
       },
       (error) => {
         console.log(error);
       }
-     )
-    for (let index = 2010; index <= anio - 1; index++) {
-      this.SelectAnioAporte.push(index)
-     }
+      )
   }
+
 
   ConvertirCadena(cadena: string): string {
     return cadena.toLowerCase().replace(/á/g, "a").replace(/ê/g, "i").replace(/í/g, "i").replace(/ó/g, "o").replace(/ú/g, "u")
