@@ -222,6 +222,13 @@ export const menu: CoreMenu[] = [
           url: 'projects/project-evaluation'
         },
         {
+          id: 'projects/movement-evaluation',
+          nombre: 'Movimientos',
+          type: 'item',
+          icono: 'circle',
+          url: 'projects/movement-evaluation'
+        },
+        {
           id: 'reportes',
           nombre: 'Reportes',
           type: 'item',

@@ -5,6 +5,7 @@ import { UtilService } from '@core/services/util/util.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 import * as Chart from 'chart.js';
+import JSONFormatter from 'json-formatter-js';
 
 
 
@@ -20,7 +21,8 @@ export class AdminEvaluationProjectComponent implements OnInit {
     tipoEvaluado: undefined,
     cantidad: 0,
     personas: 0,
-    mesEvaluado: undefined
+    mesEvaluado: undefined,
+    estado: undefined
   };
 
   public VectorEval = []
@@ -46,6 +48,10 @@ export class AdminEvaluationProjectComponent implements OnInit {
 
   public a = 0
   public b = 0
+
+  public lstEstados = [
+    {id: 1, name: 'Tachira'}
+  ]
 
   public rowTotalesEvaluacion = [
     {id:1, nomenclatura: 'A', nombre: 'Talleres Sensibilización e Información'},
@@ -278,6 +284,31 @@ export class AdminEvaluationProjectComponent implements OnInit {
           e.name = e.nombre
           this.TipoEvaluacion.push(e)
         });
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+  
+  GuardarNueva(status = 0){
+    // RECOSUP_I_MatrizMovimientos
+    this.xAPI.funcion = "RECOSUP_I_MatrizMovimientos";
+    this.xAPI.parametros = ''
+    // console.log(this.UpdateMatriz)
+    this.xAPI.valores = JSON.stringify(this.UpdateMatriz)
+    this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        if (data.tipo === 1) {
+          this.modalService.dismissAll('Close')
+          this.utilService.alertConfirmMini('success','Ganancias Registradas Exitosamente') 
+          this.CargarMatriz()
+          this.UpdateMatriz.tipoEvaluado = this.UpdateMatriz.tipoEvaluado+'p'
+          this.UpdateMatriz.cantidad = this.UpdateMatriz.personas
+          if (status == 0) this.GuardarNueva(1)
+        } else {
+          this.utilService.alertConfirmMini('error','Oops! Ocurrio un Error')
+        }
       },
       (error) => {
         console.log(error)

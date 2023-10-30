@@ -38,6 +38,7 @@ import { ContributingCompaniesComponent } from './financial-collection/contribut
 import { TaxpayersComponent } from './digital-documentation/taxpayers/taxpayers.component';
 import { PanelAsistenteVirtualComponent } from '../asistente-virtual/panel-asistente-virtual/panel-asistente-virtual.component';
 import { AdminEvaluationProjectComponent } from './projects/admin-evaluation-project/admin-evaluation-project.component';
+import { MovementEvaluationComponent } from './projects/movement-evaluation/movement-evaluation.component';
 
 
 
@@ -64,7 +65,8 @@ import { AdminEvaluationProjectComponent } from './projects/admin-evaluation-pro
       ContributingCompaniesComponent,
       TaxpayersComponent,
       PanelAsistenteVirtualComponent,
-      AdminEvaluationProjectComponent
+      AdminEvaluationProjectComponent,
+      MovementEvaluationComponent
     ],
   imports: [
     CommonModule,

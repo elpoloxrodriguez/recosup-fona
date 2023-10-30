@@ -230,7 +230,7 @@
             <div class="col-md-4 col-12 mb-1">
                 <div class="form-group">
                   <label for="basicSelect">Seleccione Mes</label>
-                <ng-select [items]="dataMeses" placeholder="Seleccione Mes" bindLabel="name"
+                <ng-select [items]="dataMeses" placeholder="Seleccione Mes" bindLabel="name" bindValue="name"
                   autocomplete="off" name="name" [(ngModel)]="UpdateMatriz.mesEvaluado" [ngModelOptions]="{standalone: true}"
                    required 
                   autocomplete="off">
@@ -241,7 +241,7 @@
               <div class="col-md-4 col-12 mb-1">
                 <div class="form-group">
                   <label for="basicSelect">Seleccione Tipologia</label>
-                <ng-select [items]="TipoEvaluacion" placeholder="Seleccione Tipo" bindLabel="name" bindValue="id"
+                <ng-select [items]="TipoEvaluacion" placeholder="Seleccione Tipo" bindLabel="name" bindValue="nomenclatura"
                   autocomplete="off" name="nombre" [(ngModel)]="UpdateMatriz.tipoEvaluado" [ngModelOptions]="{standalone: true}"
                    required 
                   autocomplete="off">
@@ -250,7 +250,7 @@
               </div>
 
               <hr>
-              <div class="col-md-6 col-12 mb-1">
+              <div class="col-md-4 col-12 mb-1">
                 <div class="form-group">
                   <label for="basicSelect">Cantidad</label>
                   <input type="number"  class="form-control"  [(ngModel)]="UpdateMatriz.cantidad"
@@ -259,12 +259,23 @@
                 </div>
               </div>
               
-              <div class="col-md-6 col-12 mb-1">
+              <div class="col-md-4 col-12 mb-1">
                 <div class="form-group">
                   <label for="basicSelect">Personas</label>
                   <input type="number"  class="form-control"  [(ngModel)]="UpdateMatriz.personas"
                     [ngModelOptions]="{standalone: true}" autocomplete="off" 
                     placeholder="Ingrese Cantidad de Personas Atendidas" />
+                </div>
+              </div>
+
+              <div class="col-md-4 col-12 mb-1">
+                <div class="form-group">
+                  <label for="basicSelect">Estado</label>
+                  <ng-select [items]="lstEstados" placeholder="Seleccione Estado" bindLabel="name" bindValue="name"
+                  autocomplete="off" [(ngModel)]="UpdateMatriz.estado" [ngModelOptions]="{standalone: true}"
+                   required 
+                  autocomplete="off">
+                </ng-select>
                 </div>
               </div>
 
@@ -278,7 +289,7 @@
     </form>
   
     <div class="modal-footer">
-      <button type="submit" [disabled]="!formUsersRegister.form.valid" (click)="onSubmit()" rippleEffect class="btn btn-success mr-1">Registrar</button>
+      <button type="submit" [disabled]="!formUsersRegister.form.valid" (click)="GuardarNueva()" rippleEffect class="btn btn-success mr-1">Registrar</button>
       <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
         Cerrar
       </button>

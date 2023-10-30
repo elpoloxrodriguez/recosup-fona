@@ -10,8 +10,6 @@ import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UtilService } from '@core/services/util/util.service';
 import { IDeclararUtilidad, IRECOSUP_C_Proyectos, RECOSUP_U_ProyectosUpdate } from '@core/services/empresa/empresa.service';
-import { FlatpickrOptions } from 'ng2-flatpickr';
-import Spanish from 'flatpickr/dist/l10n/es.js';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateStruct, NgbDatepickerI18n } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -20,7 +18,6 @@ import {
 } from '@core/services/util/datapicker.service';
 import { CoreConfigService } from '@core/services/config.service';
 import { ConvertNumberService } from '@core/services/util/convert-number.service';
-import { Console } from 'console';
 
 
 @Component({

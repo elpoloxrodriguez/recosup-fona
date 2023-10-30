@@ -13,6 +13,7 @@ import { CompanyProjectsComponent } from './company-projects/company-projects.co
 import { CompanyProjectsRecosupComponent } from './company-projects-recosup/company-projects-recosup.component'
 import { ReportsProjectsComponent } from './reports/reports-projects/reports-projects.component'
 import { AdminEvaluationProjectComponent } from './admin-evaluation-project/admin-evaluation-project.component'
+import { MovementEvaluationComponent } from './movement-evaluation/movement-evaluation.component'
 
 
 const routes: Routes = [
@@ -31,6 +32,12 @@ const routes: Routes = [
   {
     path: 'projects/project-evaluation',
     component: AdminEvaluationProjectComponent,
+    canActivate: [AuthGuard,AuthGuardGuard],
+    data: { roles: ['4','9'] },
+  },
+  {
+    path: 'projects/movement-evaluation',
+    component: MovementEvaluationComponent,
     canActivate: [AuthGuard,AuthGuardGuard],
     data: { roles: ['4','9'] },
   },

@@ -3,9 +3,10 @@ import { Injectable } from '@angular/core';
 export interface IRECOSUP_U_ActualizarMatriz { // Update MAtriz proyecto evaluacion
   anio	 :	number
   mesEvaluado	 :	any
-  tipoEvaluado : number
+  tipoEvaluado : any
   cantidad : number
   personas : number
+  estado : number
 }
 
 export interface IPie { // Pie de tabla 

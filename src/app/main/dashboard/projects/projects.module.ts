@@ -24,6 +24,7 @@ import { CorePipesModule } from '@core/pipes/pipes.module';
 import { CoreSidebarModule } from '@core/components';
 //  USer
 import { AngularFileUploaderModule } from "angular-file-uploader";
+import { MovementEvaluationComponent } from './movement-evaluation/movement-evaluation.component';
 
 
 
