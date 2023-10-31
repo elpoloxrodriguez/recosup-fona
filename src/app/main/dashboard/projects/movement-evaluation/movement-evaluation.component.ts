@@ -53,6 +53,13 @@ export class MovementEvaluationComponent implements OnInit {
     status: 0
   }
 
+  public lstanios = [
+    // {name: 2023},
+    // {name: 2024}
+  ]
+
+  public Ianio
+
   public datosReversos
   public data: any;
   public selectedOption = 10;
@@ -90,11 +97,14 @@ export class MovementEvaluationComponent implements OnInit {
     this.token =  jwt_decode(sessionStorage.getItem('token'))
     this.IdEmpresa = this.token.Usuario[0].EmpresaId
     this.IdUser = this.token.Usuario[0].UsuarioId
+    
+    this.listarAniosDesde2022()
+    this.Ianio = new Date().getFullYear();
 
-    await this.ListMovement()
+    await this.ListMovement(this.Ianio)
   }
-
-      /**
+  
+  /**
    * filterUpdate
    *
    * @param event
@@ -112,10 +122,11 @@ export class MovementEvaluationComponent implements OnInit {
         this.table.offset = 0;
       }
 
-      async ListMovement() {
+      async ListMovement(anio) {
         this.xAPI.funcion = "RECOSUP_R_ListaMovimientoEvaluacion";
-        this.xAPI.parametros = '2023'
+        this.xAPI.parametros = `${anio}`
         this.xAPI.valores = ""
+        this.movement = []
          await this.apiService.Ejecutar(this.xAPI).subscribe(
           (data) => {
             data.Cuerpo.map(e => {
@@ -175,7 +186,7 @@ export class MovementEvaluationComponent implements OnInit {
               this.apiService.Ejecutar(this.xAPI).subscribe(
                 (datax) => {
                   if (datax.tipo === 1) {
-                  this.ListMovement()
+                  this.ListMovement(this.Ianio)
                   this.utilService.alertConfirmMini('success','Movimiento Reversado Exitosamente') 
                   }
                 },(error) => {
@@ -192,6 +203,20 @@ export class MovementEvaluationComponent implements OnInit {
         )
       }
     })
+      }
+
+
+      listarAniosDesde2022() {
+        const anioActual = new Date().getFullYear();
+        const anios = [];
+        for (let i = 2022; i <= anioActual; i++) {
+          const anio = {
+            id: i,
+            name: `${i}`
+          };
+          this.lstanios.push(anio);
+        }
+        return anios;
       }
 
 }

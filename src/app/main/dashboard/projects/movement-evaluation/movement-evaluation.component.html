@@ -18,11 +18,14 @@
               </div>
             </div>
             <div class="col-md-3 col-12">
-              <!-- <div class="d-flex justify-content-between align-items-center m-1">
-                <button type="button" class="btn btn-success"
-                   rippleEffect>
-                  Crear Proyectos</button>
-              </div> -->
+              <div class="d-flex justify-content-between align-items-center m-1">
+                <label class="d-flex align-items-center">Año&nbsp;
+                <ng-select [items]="lstanios" placeholder="Seleccione Año" bindLabel="name" bindValue="name"
+                  autocomplete="off" [(ngModel)]="Ianio" (ngModelChange)="ListMovement($event)" [ngModelOptions]="{standalone: true}" 
+                  autocomplete="off">
+                </ng-select>
+                </label>
+              </div>
             </div>
             <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
               <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
