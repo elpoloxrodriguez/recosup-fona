@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UtilService } from '@core/services/util/util.service';
-import { IDeclararUtilidad, IRECOSUP_C_Proyectos, RECOSUP_U_ProyectosUpdate } from '@core/services/empresa/empresa.service';
+import { IDeclararUtilidad, IRECOSUP_C_Proyectos, IRECOSUP_U_ActualizarMatriz, RECOSUP_U_ProyectosUpdate } from '@core/services/empresa/empresa.service';
 import { FlatpickrOptions } from 'ng2-flatpickr';
 import Spanish from 'flatpickr/dist/l10n/es.js';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -32,6 +32,15 @@ import { Console } from 'console';
 
 })
 export class MovementEvaluationComponent implements OnInit {
+
+  public UpdateMatriz : IRECOSUP_U_ActualizarMatriz = {
+    anio: 0,
+    tipoEvaluado: undefined,
+    cantidad: 0,
+    personas: 0,
+    mesEvaluado: undefined,
+    estado: undefined
+  };
 
   public data: any;
   public selectedOption = 10;
@@ -108,6 +117,45 @@ export class MovementEvaluationComponent implements OnInit {
             console.log(error)
           }
         )
+      }
+
+     async ReversarMovimientos(data){
+        let valor = data.valor * -1
+        this.UpdateMatriz.cantidad = valor
+        this.UpdateMatriz.anio = data.anio
+        this.UpdateMatriz.estado = data.estado
+        this.UpdateMatriz.mesEvaluado = data.mes
+        this.UpdateMatriz.tipoEvaluado = data.codigo
+        this.xAPI.funcion = "RECOSUP_I_MatrizMovimientos";
+        this.xAPI.parametros = ''
+        this.xAPI.valores = JSON.stringify(this.UpdateMatriz)
+        this.movement = []
+        await Swal.fire({
+          title: 'Esta Seguro?',
+          text: "De Reversar Este Movimiento!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Si, Reversarlo!',
+          cancelButtonText: 'Cancelar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+         this.apiService.Ejecutar(this.xAPI).subscribe(
+          (data) => {
+            if (data.tipo === 1) {
+              this.ListMovement()
+              this.utilService.alertConfirmMini('success','Movimiento Reversado Exitosamente') 
+            } else {
+              this.utilService.alertConfirmMini('error','Oops! Ocurrio un Error')
+            }
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+      }
+    })
       }
 
 }

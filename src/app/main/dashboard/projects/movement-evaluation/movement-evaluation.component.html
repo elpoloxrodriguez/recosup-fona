@@ -55,7 +55,7 @@
             <ngx-datatable-column name="Estado" prop="estado" [width]="20">
               <ng-template let-estado="value" ngx-datatable-cell-template>
                 <div>
-                  <span class="font-weight-bold"> {{ estado }} </span>
+                  <span class="font-weight-bold"> {{ estado | uppercase }} </span>
                 </div>
               </ng-template>
             </ngx-datatable-column>
@@ -98,7 +98,7 @@
                   </button>
                   <div ngbDropdownMenu>
                     <div>
-                      <a (click)="DetalleModal(ModalDetails,row)" ngbDropdownItem><span [data-feather]="'git-pull-request'" [size]="16"
+                      <a (click)="ReversarMovimientos(row)" *ngIf="row.valor > 0" ngbDropdownItem><span [data-feather]="'git-pull-request'" [size]="16"
                           [class]="'mr-50'"></span> Reversar</a>
                     </div>
                   </div>
