@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UtilService } from '@core/services/util/util.service';
-import { IDeclararUtilidad, IRECOSUP_C_Proyectos, IRECOSUP_U_ActualizarMatriz, RECOSUP_U_ProyectosUpdate } from '@core/services/empresa/empresa.service';
+import { IDeclararUtilidad, IRECOSUP_C_Proyectos, IRECOSUP_I_EvaluacionMovimientos, IRECOSUP_U_ActualizarMatriz, RECOSUP_U_ProyectosUpdate } from '@core/services/empresa/empresa.service';
 import { FlatpickrOptions } from 'ng2-flatpickr';
 import Spanish from 'flatpickr/dist/l10n/es.js';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -39,9 +39,21 @@ export class MovementEvaluationComponent implements OnInit {
     cantidad: 0,
     personas: 0,
     mesEvaluado: undefined,
-    estado: undefined
+    estado: undefined,
+    codigo_reverso: 0,
+    status: 0
   };
 
+  public IMovimientosEvaluacion : IRECOSUP_I_EvaluacionMovimientos = {
+    mes: '',
+    anio: '',
+    codigo: '',
+    estado: '',
+    valor: 0,
+    status: 0
+  }
+
+  public datosReversos
   public data: any;
   public selectedOption = 10;
   public ColumnMode = ColumnMode;
@@ -119,13 +131,16 @@ export class MovementEvaluationComponent implements OnInit {
         )
       }
 
-     async ReversarMovimientos(data){
-        let valor = data.valor * -1
+     async ReversarMovimientos(val){
+        this.datosReversos = val
+        let valor = val.valor * -1
+        this.UpdateMatriz.codigo_reverso = val.id
+        this.UpdateMatriz.status = 1
         this.UpdateMatriz.cantidad = valor
-        this.UpdateMatriz.anio = data.anio
-        this.UpdateMatriz.estado = data.estado
-        this.UpdateMatriz.mesEvaluado = data.mes
-        this.UpdateMatriz.tipoEvaluado = data.codigo
+        this.UpdateMatriz.anio = val.anio
+        this.UpdateMatriz.estado = val.estado
+        this.UpdateMatriz.mesEvaluado = val.mes
+        this.UpdateMatriz.tipoEvaluado = val.codigo
         this.xAPI.funcion = "RECOSUP_I_MatrizMovimientos";
         this.xAPI.parametros = ''
         this.xAPI.valores = JSON.stringify(this.UpdateMatriz)
@@ -144,8 +159,29 @@ export class MovementEvaluationComponent implements OnInit {
          this.apiService.Ejecutar(this.xAPI).subscribe(
           (data) => {
             if (data.tipo === 1) {
-              this.ListMovement()
+              // console.log(this.datosReversos)
+              this.IMovimientosEvaluacion.id = this.datosReversos.id
+              this.IMovimientosEvaluacion.mes = this.datosReversos.mes
+              this.IMovimientosEvaluacion.anio = this.datosReversos.anio
+              this.IMovimientosEvaluacion.codigo = this.datosReversos.codigo
+              this.IMovimientosEvaluacion.estado = this.datosReversos.estado
+              this.IMovimientosEvaluacion.status = 1
+              this.IMovimientosEvaluacion.valor = this.datosReversos.valor
+              // console.log(this.IMovimientosEvaluacion)
               this.utilService.alertConfirmMini('success','Movimiento Reversado Exitosamente') 
+              this.xAPI.funcion = "RECOSUP_U_MovimientoEvaluacion";
+              this.xAPI.parametros = ''
+              this.xAPI.valores = JSON.stringify(this.IMovimientosEvaluacion)
+              this.apiService.Ejecutar(this.xAPI).subscribe(
+                (datax) => {
+                  if (datax.tipo === 1) {
+                  this.ListMovement()
+                  this.utilService.alertConfirmMini('success','Movimiento Reversado Exitosamente') 
+                  }
+                },(error) => {
+                  this.utilService.alertConfirmMini('error','Oops! Ocurrio un Error')
+                }
+              )
             } else {
               this.utilService.alertConfirmMini('error','Oops! Ocurrio un Error')
             }

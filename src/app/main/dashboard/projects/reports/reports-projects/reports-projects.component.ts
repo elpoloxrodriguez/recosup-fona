@@ -26,6 +26,8 @@ export class ReportsProjectsComponent implements OnInit {
   public statusEmpresa
   public ListReport = [
     { id: 1, name: 'Proyectos Aprobados' },
+    { id: 2, name: 'Proyectos Rechazados' },
+    { id: 3, name: 'Movimientos de Evaluaciones' },
   ]
 
   constructor(

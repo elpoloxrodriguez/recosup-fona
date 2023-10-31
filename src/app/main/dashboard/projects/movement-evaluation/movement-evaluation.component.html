@@ -59,12 +59,24 @@
                 </div>
               </ng-template>
             </ngx-datatable-column>
+
+
+            <ngx-datatable-column name="Tipo" prop="tipo" [width]="20">
+              <ng-template let-tipo="value" ngx-datatable-cell-template>
+                <div *ngIf="tipo == 'Personas'" class="badge badge-pill" ngClass="badge-light-warning">
+                  {{ tipo | uppercase }}
+                </div>
+                <div *ngIf="tipo == 'Cantidad'" class="badge badge-pill" ngClass="badge-light-info">
+                  {{ tipo | uppercase }}
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
   
   
-            <ngx-datatable-column name="Codigo" prop="codigo" [width]="20">
-              <ng-template let-codigo="value" ngx-datatable-cell-template>
+            <ngx-datatable-column name="Codigo" prop="nombre" [width]="300">
+              <ng-template let-nombre="value" ngx-datatable-cell-template>
                 <span>
-                  {{ codigo | uppercase }}
+                  {{ nombre | uppercase }}
                 </span>
               </ng-template>
             </ngx-datatable-column>
@@ -76,29 +88,30 @@
                 </span>
               </ng-template>
             </ngx-datatable-column>
+
   
   
-            <!-- <ngx-datatable-column name="Status" prop="status_proyecto" [width]="20">
-              <ng-template let-status_proyecto="value" ngx-datatable-cell-template>
-                <div *ngIf="status_proyecto == 0" class="badge badge-pill" ngClass="badge-light-warning">
-                  Revisión
+            <ngx-datatable-column name="Status" prop="status" [width]="20">
+              <ng-template let-status="value" ngx-datatable-cell-template>
+                <div *ngIf="status == 1" class="badge badge-pill" ngClass="badge-light-danger">
+                  Reversado
                 </div>
-                <div *ngIf="status_proyecto == 1" class="badge badge-pill" ngClass="badge-light-success">
-                  Aprobado
+                <div *ngIf="status == 0" class="badge badge-pill" ngClass="badge-light-success">
+                  Registrado
                 </div>
               </ng-template>
-            </ngx-datatable-column> -->
+            </ngx-datatable-column>
   
   
-            <ngx-datatable-column name="Accion" [width]="20" [sortable]="false">
-              <ng-template ngx-datatable-cell-template let-row="row">
-                <div ngbDropdown container="body">
+            <ngx-datatable-column name="Accion" [width]="5" [sortable]="false">
+              <ng-template ngx-datatable-cell-template let-row="row" >
+                <div ngbDropdown container="body" *ngIf="row.status == 0 ">
                   <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
                     <span [data-feather]="'settings'" [class]="'cursor-pointer'"></span>
                   </button>
                   <div ngbDropdownMenu>
                     <div>
-                      <a (click)="ReversarMovimientos(row)" *ngIf="row.valor > 0" ngbDropdownItem><span [data-feather]="'git-pull-request'" [size]="16"
+                      <a (click)="ReversarMovimientos(row)" ngbDropdownItem><span [data-feather]="'git-pull-request'" [size]="16"
                           [class]="'mr-50'"></span> Reversar</a>
                     </div>
                   </div>

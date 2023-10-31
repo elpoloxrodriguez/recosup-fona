@@ -7,7 +7,20 @@ export interface IRECOSUP_U_ActualizarMatriz { // Update MAtriz proyecto evaluac
   cantidad : number
   personas : number
   estado : number
+  codigo_reverso : number
+  status : number
+  id ?: number
 }
+
+export interface IRECOSUP_I_EvaluacionMovimientos { // Update MAtriz proyecto evaluacion
+	mes : string ,
+	anio : string ,
+	codigo : string ,
+	estado : string ,
+	valor : number ,
+	status : number ,
+	id ?: number
+  }
 
 export interface IPie { // Pie de tabla 
 	a: number

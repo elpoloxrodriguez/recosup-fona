@@ -22,7 +22,9 @@ export class AdminEvaluationProjectComponent implements OnInit {
     cantidad: 0,
     personas: 0,
     mesEvaluado: undefined,
-    estado: undefined
+    estado: undefined,
+    codigo_reverso: 0,
+    status: 0
   };
 
   public VectorEval = []
