@@ -102,7 +102,7 @@ export class AdminEvaluationProjectComponent implements OnInit {
 
     public dataPie = []
     
-
+    public selectEstados
 
     public rowMesesEvaluacion = [
       { id: 1, name: "ENERO"}, 
@@ -143,6 +143,7 @@ export class AdminEvaluationProjectComponent implements OnInit {
   async ngOnInit() {
     this.UpdateMatriz.anio = this.anio
     await this.CargarMatriz()
+    await this.ListaEstados()
     this.SeleccionTipoEvaluacion()
     
 
@@ -155,6 +156,24 @@ export class AdminEvaluationProjectComponent implements OnInit {
     this.tempDataMisProjects = this.rowsProyectos;
 
 
+  }
+
+
+  async ListaEstados() {
+    this.xAPI.funcion = "RECOSUP_R_Estados";
+    this.selectEstados = []
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        this.selectEstados = data.Cuerpo.map(e => {
+          e.name = e.Nombre
+          e.id = e.EstadoId
+          return e
+        });
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
   }
 
 

@@ -211,8 +211,11 @@
     <div class="modal-header">
       <h5 class="modal-title" id="myModalLabel160">Registro de Evaluación de Proyectos</h5>
     </div>
-    <form class="form" (ngSubmit)="(formUsersRegister.form.valid)" #formUsersRegister="ngForm">
+    <form class="form" (ngSubmit)="(accountDetailsForm.form.valid)" #accountDetailsForm="ngForm">
+    <!-- <form class="form" (ngSubmit)="(HWForm.form.valid)" #HWForm="ngForm"> -->
+ <!-- <form class="form" (ngSubmit)="TDSimpleForm.form.valid" #TDSimpleForm="ngForm"> -->
       <div class="modal-body" tabindex="0" ngbAutofocus>
+        <!-- <form #accountDetailsForm="ngForm"> -->
         <!-- Invoice -->
         <div class="col-xl-12 col-md-12 col-12">
           <!-- Header Starts -->
@@ -229,53 +232,74 @@
             
             <div class="col-md-4 col-12 mb-1">
                 <div class="form-group">
-                  <label for="basicSelect">Seleccione Mes</label>
+                  <label for="basicSelect" for="mes">Seleccione Mes</label>
                 <ng-select [items]="dataMeses" placeholder="Seleccione Mes" bindLabel="name" bindValue="name"
-                  autocomplete="off" name="name" [(ngModel)]="UpdateMatriz.mesEvaluado" [ngModelOptions]="{standalone: true}"
-                   required 
+                  autocomplete="off" name="name" [(ngModel)]="UpdateMatriz.mesEvaluado"
+                  #mesx="ngModel" [class.error]="accountDetailsForm.submitted" id="mes" name="mes" required 
                   autocomplete="off">
                 </ng-select>
+                <span *ngIf="accountDetailsForm.submitted && mesx.invalid" class="invalid-form">
+                    <small class="form-text text-danger" *ngIf="mesx.errors.required">Este campo es
+                      requerido!</small>
+                  </span>
                 </div>
               </div>
 
               <div class="col-md-4 col-12 mb-1">
                 <div class="form-group">
-                  <label for="basicSelect">Seleccione Tipologia</label>
+                  <label for="basicSelect" for="tipologia">Seleccione Tipologia</label>
                 <ng-select [items]="TipoEvaluacion" placeholder="Seleccione Tipo" bindLabel="name" bindValue="nomenclatura"
-                  autocomplete="off" name="nombre" [(ngModel)]="UpdateMatriz.tipoEvaluado" [ngModelOptions]="{standalone: true}"
-                   required 
+                  autocomplete="off" name="nombre" [(ngModel)]="UpdateMatriz.tipoEvaluado"
+                  #tipologiax="ngModel" [class.error]="accountDetailsForm.submitted" id="tipologia" name="tipologia" required 
                   autocomplete="off">
                 </ng-select>
+                <span *ngIf="accountDetailsForm.submitted && tipologiax.invalid" class="invalid-form">
+                    <small class="form-text text-danger" *ngIf="tipologiax.errors.required">Este campo es
+                      requerido!</small>
+                  </span>
                 </div>
               </div>
 
               <hr>
               <div class="col-md-4 col-12 mb-1">
                 <div class="form-group">
-                  <label for="basicSelect">Cantidad</label>
+                  <label for="basicSelect" for="cantidad">Cantidad</label>
                   <input type="number"  class="form-control"  [(ngModel)]="UpdateMatriz.cantidad"
-                    [ngModelOptions]="{standalone: true}" autocomplete="off" 
+                  #cantidadx="ngModel" [class.error]="accountDetailsForm.submitted" id="cantidad" name="cantidad" required  
+                    autocomplete="off" 
                     placeholder="Ingrese Cantidad" />
+                    <span *ngIf="accountDetailsForm.submitted && cantidadx.invalid" class="invalid-form">
+                        <small class="form-text text-danger" *ngIf="cantidadx.errors.required">Este campo es
+                          requerido!</small>
+                      </span>
                 </div>
               </div>
               
               <div class="col-md-4 col-12 mb-1">
                 <div class="form-group">
-                  <label for="basicSelect">Personas</label>
+                  <label for="basicSelect" for="personas">Personas</label>
                   <input type="number"  class="form-control"  [(ngModel)]="UpdateMatriz.personas"
-                    [ngModelOptions]="{standalone: true}" autocomplete="off" 
-                    placeholder="Ingrese Cantidad de Personas Atendidas" />
+                  #personasx="ngModel" [class.error]="accountDetailsForm.submitted" id="personas" name="personas" required    
+                  autocomplete="off" placeholder="Ingrese Cantidad de Personas Atendidas" />
+                  <span *ngIf="accountDetailsForm.submitted && personasx.invalid" class="invalid-form">
+                    <small class="form-text text-danger" *ngIf="personasx.errors.required">Este campo es
+                      requerido!</small>
+                  </span>
                 </div>
               </div>
 
               <div class="col-md-4 col-12 mb-1">
                 <div class="form-group">
-                  <label for="basicSelect">Estado</label>
-                  <ng-select [items]="lstEstados" placeholder="Seleccione Estado" bindLabel="name" bindValue="name"
-                  autocomplete="off" [(ngModel)]="UpdateMatriz.estado" [ngModelOptions]="{standalone: true}"
-                   required 
-                  autocomplete="off">
+                  <label for="basicSelect" for="estado">Estado</label>
+                  <ng-select [items]="selectEstados" placeholder="Seleccione Estado" bindLabel="name" bindValue="name"
+                  autocomplete="off" [(ngModel)]="UpdateMatriz.estado"  
+                  #estadox="ngModel" [class.error]="accountDetailsForm.submitted" id="estado" name="estado" required 
+                >
                 </ng-select>
+                <span *ngIf="accountDetailsForm.submitted && estadox.invalid" class="invalid-form">
+                    <small class="form-text text-danger" *ngIf="estadox.errors.required">Este campo es
+                      requerido!</small>
+                  </span>
                 </div>
               </div>
 
@@ -284,12 +308,12 @@
           </div>
         </div>
   
-  
+    <!-- </form> -->
       </div>
     </form>
   
     <div class="modal-footer">
-      <button type="submit" [disabled]="!formUsersRegister.form.valid" (click)="GuardarNueva()" rippleEffect class="btn btn-success mr-1">Registrar</button>
+      <button type="submit" [disabled]="!accountDetailsForm.form.valid" (click)="GuardarNueva()" rippleEffect class="btn btn-success mr-1">Registrar</button>
       <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
         Cerrar
       </button>

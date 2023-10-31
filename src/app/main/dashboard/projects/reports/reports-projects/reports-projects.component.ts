@@ -21,7 +21,10 @@ export class ReportsProjectsComponent implements OnInit {
     valores: {},
   };
 
-  public ListReportEmpresasAprobadas = []
+  public ListProyectosAprobadas = []
+  public ListProyectosRechazados = []
+  public ListMovimientosEvaluacion = []
+
   public itemReports
   public statusEmpresa
   public ListReport = [
@@ -43,22 +46,20 @@ export class ReportsProjectsComponent implements OnInit {
   
 
   async ReportEmpresasAprobadas(id: any) {
-    switch (this.itemReports) {
+    switch (id) {
       case 1:
         this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
-        this.statusEmpresa = 1
-        this.xAPI.funcion = "RECOSUP_R_Reports_Empresas";
-        this.xAPI.parametros = '=' + ',' + this.statusEmpresa
+        this.xAPI.funcion = "RECOSUP_R_ReporteProyecto1";
+        this.xAPI.parametros = '1'
         this.xAPI.valores = ''
         await this.apiService.Ejecutar(this.xAPI).subscribe(
           (data) => {
             data.Cuerpo.map(e => {
-              this.ListReportEmpresasAprobadas.push(e);
+              this.ListProyectosAprobadas.push(e);
             });
-            this.itemReports = undefined
-            this.exportAsXLSX(this.ListReportEmpresasAprobadas, 'Empresas Aprobadas')
+            this.exportAsXLSX(this.ListProyectosAprobadas, 'Proyectos Aprobadas')
             this.utilservice.alertConfirmMini('success', 'Archivo Descagado Exitosamente!')
-            this.ListReportEmpresasAprobadas = []
+            this.ListProyectosAprobadas = []
             this.sectionBlockUI.stop();
           },
           (error) => {
@@ -68,19 +69,17 @@ export class ReportsProjectsComponent implements OnInit {
         break;
       case 2:
         this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
-        this.statusEmpresa = 0
-        this.xAPI.funcion = "RECOSUP_R_Reports_Empresas";
-        this.xAPI.parametros = '=' + ',' + this.statusEmpresa
+        this.xAPI.funcion = "RECOSUP_R_ReporteProyecto1";
+        this.xAPI.parametros = '2'
         this.xAPI.valores = ''
         await this.apiService.Ejecutar(this.xAPI).subscribe(
           (data) => {
             data.Cuerpo.map(e => {
-              this.ListReportEmpresasAprobadas.push(e);
+              this.ListProyectosRechazados.push(e);
             });
-            this.itemReports = undefined
-            this.exportAsXLSX(this.ListReportEmpresasAprobadas, 'Empresas por Aprobar')
+            this.exportAsXLSX(this.ListProyectosRechazados, 'Proyectos Rechazados')
             this.utilservice.alertConfirmMini('success', 'Archivo Descagado Exitosamente!')
-            this.ListReportEmpresasAprobadas = []
+            this.ListProyectosRechazados = []
             this.sectionBlockUI.stop();
           },
           (error) => {
@@ -90,19 +89,17 @@ export class ReportsProjectsComponent implements OnInit {
         break;
       case 3:
         this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
-        this.statusEmpresa = 2
-        this.xAPI.funcion = "RECOSUP_R_Reports_Empresas";
-        this.xAPI.parametros = '=' + ',' + this.statusEmpresa
+        this.xAPI.funcion = "RECOSUP_R_ReporteProyecto2";
+        this.xAPI.parametros = '2023'
         this.xAPI.valores = ''
         await this.apiService.Ejecutar(this.xAPI).subscribe(
           (data) => {
             data.Cuerpo.map(e => {
-              this.ListReportEmpresasAprobadas.push(e);
+              this.ListMovimientosEvaluacion.push(e);
             });
-            this.itemReports = undefined
-            this.exportAsXLSX(this.ListReportEmpresasAprobadas, 'Empresas Rechazadas')
+            this.exportAsXLSX(this.ListMovimientosEvaluacion, 'Movimientos Evalacion')
             this.utilservice.alertConfirmMini('success', 'Archivo Descagado Exitosamente!')
-            this.ListReportEmpresasAprobadas = []
+            this.ListMovimientosEvaluacion = []
             this.sectionBlockUI.stop();
           },
           (error) => {
@@ -110,91 +107,6 @@ export class ReportsProjectsComponent implements OnInit {
           }
         )
         break;
-      case 4:
-        this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
-        this.statusEmpresa = 3
-        this.xAPI.funcion = "RECOSUP_R_Reports_Empresas";
-        this.xAPI.parametros = '=' + ',' + this.statusEmpresa
-        this.xAPI.valores = ''
-        await this.apiService.Ejecutar(this.xAPI).subscribe(
-          (data) => {
-            data.Cuerpo.map(e => {
-              this.ListReportEmpresasAprobadas.push(e);
-            });
-            this.itemReports = undefined
-            this.exportAsXLSX(this.ListReportEmpresasAprobadas, 'Empresas Corregidas')
-            this.utilservice.alertConfirmMini('success', 'Archivo Descagado Exitosamente!')
-            this.ListReportEmpresasAprobadas = []
-            this.sectionBlockUI.stop();
-          },
-          (error) => {
-            console.log(error)
-          }
-        )
-        break;
-      case 5:
-          this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
-          this.xAPI.funcion = "RECOSUP_R_Reports_Empresas_Aportes_Articulos";
-          this.xAPI.parametros = '34' // ARTICULOS 32 y 34
-          this.xAPI.valores = ''
-          await this.apiService.Ejecutar(this.xAPI).subscribe(
-            (data) => {
-              data.Cuerpo.map(e => {
-                this.ListReportEmpresasAprobadas.push(e);
-              });
-              this.itemReports = undefined
-              this.exportAsXLSX(this.ListReportEmpresasAprobadas, 'Consulta de Aportes Articulos 32 y 34')
-              this.utilservice.alertConfirmMini('success', 'Archivo Descagado Exitosamente!')
-              this.ListReportEmpresasAprobadas = []
-              this.sectionBlockUI.stop();
-            },
-            (error) => {
-              console.log(error)
-            }
-          )
-          break;
-      case 9:
-        this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
-          this.xAPI.funcion = "RECOSUP_R_Reports_Empresas_Declaraciones";
-          this.xAPI.parametros = '<=' + ',' + '0.01' +','+ '50 o mas'
-          this.xAPI.valores = ''
-          await this.apiService.Ejecutar(this.xAPI).subscribe(
-            (data) => {
-              data.Cuerpo.map(e => {
-                this.ListReportEmpresasAprobadas.push(e);
-              });
-              this.itemReports = undefined
-              this.exportAsXLSX(this.ListReportEmpresasAprobadas, 'Empresas Declaracion en 0,00 (50 o más trabajadores)')
-              this.utilservice.alertConfirmMini('success', 'Archivo Descagado Exitosamente!')
-              this.ListReportEmpresasAprobadas = []
-              this.sectionBlockUI.stop();
-            },
-            (error) => {
-              console.log(error)
-            }
-          )
-          break;
-      case 10:
-        this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
-            this.xAPI.funcion = "RECOSUP_R_Reports_Empresas_Declaraciones";
-            this.xAPI.parametros = '<=' + ',' + '0.01' +','+ 'Menos de 50'
-            this.xAPI.valores = ''
-            await this.apiService.Ejecutar(this.xAPI).subscribe(
-              (data) => {
-                data.Cuerpo.map(e => {
-                  this.ListReportEmpresasAprobadas.push(e);
-                });
-                this.itemReports = undefined
-                this.exportAsXLSX(this.ListReportEmpresasAprobadas, 'Empresas Declaracion en 0,00 (menos de 50 trabajadores)')
-                this.utilservice.alertConfirmMini('success', 'Archivo Descagado Exitosamente!')
-                this.ListReportEmpresasAprobadas = []
-                this.sectionBlockUI.stop();
-              },
-              (error) => {
-                console.log(error)
-              }
-            )
-            break;
       default:
         this.statusEmpresa = undefined
         break;

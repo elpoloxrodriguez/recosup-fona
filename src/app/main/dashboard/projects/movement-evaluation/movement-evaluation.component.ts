@@ -64,6 +64,7 @@ export class MovementEvaluationComponent implements OnInit {
   public data: any;
   public selectedOption = 10;
   public ColumnMode = ColumnMode;
+
   
 
   public rows = []
@@ -97,7 +98,6 @@ export class MovementEvaluationComponent implements OnInit {
     this.token =  jwt_decode(sessionStorage.getItem('token'))
     this.IdEmpresa = this.token.Usuario[0].EmpresaId
     this.IdUser = this.token.Usuario[0].UsuarioId
-    
     this.listarAniosDesde2022()
     this.Ianio = new Date().getFullYear();
 
@@ -218,5 +218,7 @@ export class MovementEvaluationComponent implements OnInit {
         }
         return anios;
       }
+
+
 
 }
