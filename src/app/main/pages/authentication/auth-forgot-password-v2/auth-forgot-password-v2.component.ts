@@ -84,6 +84,11 @@ export class AuthForgotPasswordV2Component implements OnInit {
     });
   }
 
+  EvaluarCorreo(){
+    console.log(this.forgotPasswordForm.value.email)
+    
+  }
+
   /**
    * On destroy
    */
