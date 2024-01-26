@@ -88,6 +88,12 @@ export class ApiService {
     return this.http.post<any>(url, xAPI, this.httpOptions);
   }
 
+  ExecColeccion(xObjeto): Observable<any> {
+    var url = "/v1/api/mcoleccion" + this.hash;
+    return this.http.post<any>(url, xObjeto, this.httpOptions);
+  }
+  
+
   Listar(): Observable<any> {
     var url = this.URL + 'listar';
     return this.http.get<any>(url, this.httpOptions);

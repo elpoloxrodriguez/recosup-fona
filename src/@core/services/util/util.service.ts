@@ -56,6 +56,11 @@ export class UtilService {
     return fech
   }
 
+  GenerarUnicId () : string {
+    return Math.random().toString(36).substr(2, 18);
+  }
+  
+
   TokenAleatorio(length) {
     var result           = '';
     var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

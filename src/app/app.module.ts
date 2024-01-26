@@ -82,7 +82,7 @@ const appRoutes: Routes = [
   {
     path: '**',
     redirectTo: '/miscellaneous/error' //Error 404 - Page not found
-  }
+  },
 ];
 
 @NgModule({
@@ -93,7 +93,7 @@ const appRoutes: Routes = [
                           MenuModuleComponent,
                           ReportsComponent,
                           ReportsProjectsComponent,
-                           GoalManagementComponent,
+                          GoalManagementComponent,
 
                           ],
   imports: [

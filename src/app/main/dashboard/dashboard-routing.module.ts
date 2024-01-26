@@ -11,6 +11,13 @@ import { AuthGuardGuard } from '@core/services/seguridad/auth-guard.guard';
 import { AuthGuard } from 'app/auth/helpers';
 import { Role } from 'app/auth/models';
 
+// import { FullCalendarModule } from '@fullcalendar/angular';
+// import dayGridPlugin from '@fullcalendar/daygrid';
+// import interactionPlugin from '@fullcalendar/interaction';
+// import listPlugin from '@fullcalendar/list';
+// import timeGridPlugin from '@fullcalendar/timegrid';
+
+
 
 import { TaxpayerRecordRoutingModule } from './taxpayer-record/taxpayer-record-routing.module'
 import { FinancialCollectionRoutingModule } from './financial-collection/financial-collection-routing.module'
@@ -21,6 +28,7 @@ import { LegalRoutingModule } from './legal/legal-routing.module'
 import { InspectionRoutingModule } from './inspection/inspection-routing.module'
 import { UserRoutingModule } from './user/user-routing.module'
 import { PanelAsistenteVirtualComponent } from '../asistente-virtual/panel-asistente-virtual/panel-asistente-virtual.component'
+import { EmailsModule } from './email/emails.module'
 
 const routes: Routes = [
   {
@@ -35,8 +43,10 @@ const routes: Routes = [
     component: PanelAsistenteVirtualComponent,
     canActivate: [AuthGuard,AuthGuardGuard],
     data: { roles: ['9'] },
-  }
+  },
 ]
+
+// FullCalendarModule.registerPlugins([dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]);
 
 @NgModule({
   declarations: [],
@@ -56,7 +66,8 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    UserRoutingModule
+    UserRoutingModule,
+    EmailsModule
   ],
   exports: [RouterModule]
 })

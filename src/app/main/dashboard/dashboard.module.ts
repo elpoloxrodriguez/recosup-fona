@@ -59,7 +59,6 @@ import { MovementEvaluationComponent } from './projects/movement-evaluation/move
       ChangePasswordComponent,
       BackupsComponent,
       CompanyProjectsRecosupComponent,
-      // GoalManagementComponent,
       GenerateNonRegisteredFinesComponent,
       GenerateFinesComponent,
       ContributingCompaniesComponent,

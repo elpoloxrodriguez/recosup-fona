@@ -75,7 +75,6 @@
     "@sweetalert2/ngx-sweetalert2": "^11.0.0",
     "@swimlane/ngx-datatable": "^20.1.0",
     "angular-file-uploader": "^7.1.1",
-    "angular-in-memory-web-api": "0.11.0",
     "angular-shepherd": "11.0.0",
     "animate.css": "4.1.1",
     "apexcharts": "^3.35.3",

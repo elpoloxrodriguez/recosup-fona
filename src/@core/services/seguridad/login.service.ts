@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from 'environments/environment';
 import Swal from 'sweetalert2';
+import { Auditoria, InterfaceService } from '../auditoria/auditoria.service';
+import { UtilService } from '../util/util.service';
 
 
 export interface IUsuario{
@@ -33,7 +35,18 @@ export interface UClave{
 
 
 
+
 export class LoginService {
+
+  public xAuditoria: Auditoria = {
+    id: '',
+    usuario: '',
+    ip: '',
+    mac: '',
+    metodo: '',
+    fecha: '',
+  }
+
  
   public URL : string =  environment.API
   
@@ -47,7 +60,12 @@ export class LoginService {
 
   public Aplicacion : any
 
-  constructor(private router: Router, private http : HttpClient) {
+  constructor(
+    private router: Router, 
+    private http : HttpClient,
+    private utilservice: UtilService,
+    private auditoria: InterfaceService
+    ) {
     this.Id = environment.ID
     if (sessionStorage.getItem("token") != undefined ) this.SToken = sessionStorage.getItem("token");
   }
@@ -94,11 +112,22 @@ export class LoginService {
     }).then((result) => {
       if (result.isConfirmed) {
         
-        Swal.fire(
-          'Hasta la próxima!',
-          'Te esperamos',
-          'success'
-        )
+        // Swal.fire(
+        //   'Hasta la próxima!',
+        //   'Te esperamos',
+        //   'success'
+        // )
+
+                // INICIO AGREGAR AUDITORIA //
+                this.xAuditoria.id = this.utilservice.GenerarUnicId()
+                this.xAuditoria.ip = ''
+                this.xAuditoria.mac = ''
+                this.xAuditoria.usuario = sessionStorage.getItem('token')
+                this.xAuditoria.metodo = 'Salio del Sistema'
+                this.xAuditoria.fecha = Date()
+                this.auditoria.InsertarInformacionAuditoria(this.xAuditoria)
+                // FIN AGREGAR AUDITORIA //
+
         this.router.navigate(['login']);
         sessionStorage.clear();
         localStorage.clear();
