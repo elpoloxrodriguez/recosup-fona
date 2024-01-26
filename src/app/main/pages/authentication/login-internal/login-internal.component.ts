@@ -11,7 +11,8 @@ import { ApiService, IAPICore } from '@core/services/apicore/api.service';
 import { CoreMenuService } from '@core/components/core-menu/core-menu.service';
 import { UtilService } from '@core/services/util/util.service';
 import jwt_decode from "jwt-decode";
-import {Md5} from 'ts-md5/dist/md5';
+import { Md5 } from 'ts-md5/dist/md5';
+import { Auditoria, InterfaceService } from '@core/services/auditoria/auditoria.service';
 
 @Component({
   selector: 'app-login-internal',
@@ -21,11 +22,21 @@ import {Md5} from 'ts-md5/dist/md5';
 })
 export class LoginInternalComponent implements OnInit {
 
-  public xAPI : IAPICore = {
+  public xAPI: IAPICore = {
     funcion: '',
     parametros: '',
-    valores : {},
+    valores: {},
   };
+
+  public xAuditoria: Auditoria = {
+    id: '',
+    usuario: '',
+    ip: '',
+    mac: '',
+    funcion: '',
+    metodo: '',
+    fecha: '',
+  }
 
   //  Public
   public coreConfig: any;
@@ -54,13 +65,15 @@ export class LoginInternalComponent implements OnInit {
    */
   constructor(
     private _coreMenuService: CoreMenuService,
-    private apiService : ApiService,
+    private apiService: ApiService,
     private _coreConfigService: CoreConfigService,
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
     private loginService: LoginService,
     private _router: Router,
-    private utilservice: UtilService
+    private utilservice: UtilService,
+    private auditoria: InterfaceService
+
   ) {
     this._unsubscribeAll = new Subject();
 
@@ -103,7 +116,7 @@ export class LoginInternalComponent implements OnInit {
       return;
     }
     if (sessionStorage.getItem("token") != undefined) {
-      this._router.navigate(['/home']).then(() => {window.location.reload()});
+      this._router.navigate(['/home']).then(() => { window.location.reload() });
     }
 
     // Login
@@ -111,7 +124,7 @@ export class LoginInternalComponent implements OnInit {
 
     // redirect to home page
     setTimeout(() => {
-      this._router.navigate(['/']).then(() => {window.location.reload()});
+      this._router.navigate(['/']).then(() => { window.location.reload() });
     }, 200);
   }
 
@@ -123,18 +136,18 @@ export class LoginInternalComponent implements OnInit {
    */
   ngOnInit(): void {
     let urlQR = this._router.url
-    if (urlQR  == undefined) {
+    if (urlQR == undefined) {
       this.Qr = ''
     } else {
-      this.Qr = urlQR.substring(7, urlQR.length  +1)
+      this.Qr = urlQR.substring(7, urlQR.length + 1)
       // this.EmpresaRIF()
       this.Qr = ''
     }
 
     if (sessionStorage.getItem("token") != undefined) {
-      this._router.navigate(['/home']).then(() => {window.location.reload()});
+      this._router.navigate(['/home']).then(() => { window.location.reload() });
       return
-   }
+    }
     this.loginForm = this._formBuilder.group({
       email: ['', [Validators.required]],
       password: ['', Validators.required]
@@ -153,7 +166,7 @@ export class LoginInternalComponent implements OnInit {
     this.submitted = true;
     this.loading = true;
     const md5 = new Md5();
-    const password =  md5.appendStr(this.clave).end()
+    const password = md5.appendStr(this.clave).end()
     var Xapi = {
       "funcion": 'RECOSUP_R_Login_ADMIN',
       "parametros": this.usuario + ',' + password
@@ -163,38 +176,49 @@ export class LoginInternalComponent implements OnInit {
         this.itk = data;
         sessionStorage.setItem("token", this.itk.token);
         this.infoUsuario = jwt_decode(sessionStorage.getItem('token'));
+        // INICIO AGREGAR AUDITORIA //
+        this.xAuditoria.id = this.utilservice.GenerarUnicId()
+        this.xAuditoria.ip = ''
+        this.xAuditoria.mac = ''
+        this.xAuditoria.usuario = this.infoUsuario
+        this.xAuditoria.funcion = this.xAPI.funcion,
+          this.xAuditoria.parametro = this.xAPI.parametros,
+          this.xAuditoria.metodo = 'Entrando al Sistema',
+          this.xAuditoria.fecha = Date()
+        this.auditoria.InsertarInformacionAuditoria(this.xAuditoria)
+        // FIN AGREGAR AUDITORIA //
         switch (this.infoUsuario.Usuario[0].Estatus) {
           case '0':
-            localStorage.clear();  
+            localStorage.clear();
             sessionStorage.clear();
             this.loading = false;
             this._router.navigate(['login']);
-            this.utilservice.alertConfirmMini('error','El usuario se encuentra inscrito Inactivo, porfavor contactar a RECAUDACIÓN FONA')
+            this.utilservice.alertConfirmMini('error', 'El usuario se encuentra inscrito Inactivo, porfavor contactar a RECAUDACIÓN FONA')
             break;
           case '1':
             this.utilservice.alertConfirmMini('success', `Bienvenido al FONA ${this.infoUsuario.Usuario[0].Nombres} ${this.infoUsuario.Usuario[0].Apellidos}`);
-            this._router.navigate(['home']).then(() => {window.location.reload()});
+            this._router.navigate(['home']).then(() => { window.location.reload() });
             break;
-            case '2':
-              sessionStorage.clear();
-              localStorage.clear();  
-              this.loading = false;
-              this._router.navigate(['login']);
-              this.utilservice.alertConfirmMini('error','El usuario se encuentra Rechazado, porfavor contactar a RECAUDACIÓN FONA')
-              break;
-              case '3':
-                sessionStorage.clear();
-                localStorage.clear();  
-                this.loading = false;
-                this._router.navigate(['login']);
-                this.utilservice.alertConfirmMini('error','El usuario se encuentra Bloqueado, porfavor contactar a TECNOLOGIA FONA')
-                break;
-          default:
+          case '2':
             sessionStorage.clear();
-            localStorage.clear();  
+            localStorage.clear();
             this.loading = false;
             this._router.navigate(['login']);
-            this.utilservice.alertConfirmMini('error','El usuario se encuentra Inactivo, porfavor contactar a FONA')
+            this.utilservice.alertConfirmMini('error', 'El usuario se encuentra Rechazado, porfavor contactar a RECAUDACIÓN FONA')
+            break;
+          case '3':
+            sessionStorage.clear();
+            localStorage.clear();
+            this.loading = false;
+            this._router.navigate(['login']);
+            this.utilservice.alertConfirmMini('error', 'El usuario se encuentra Bloqueado, porfavor contactar a TECNOLOGIA FONA')
+            break;
+          default:
+            sessionStorage.clear();
+            localStorage.clear();
+            this.loading = false;
+            this._router.navigate(['login']);
+            this.utilservice.alertConfirmMini('error', 'El usuario se encuentra Inactivo, porfavor contactar a FONA')
             break;
         }
       },
@@ -202,17 +226,17 @@ export class LoginInternalComponent implements OnInit {
         this.loading = false;
         // this._router.navigate(['login'])
         sessionStorage.clear();
-        localStorage.clear();  
-        this.utilservice.alertConfirmMini('error','Verifique los datos, e intente nuevamente')
+        localStorage.clear();
+        this.utilservice.alertConfirmMini('error', 'Verifique los datos, e intente nuevamente')
       }
     );
   }
 
 
-  async Certificado(id: string){
+  async Certificado(id: string) {
     this.xAPI.funcion = "RECOSUP_R_Certificados";
     this.xAPI.parametros = id
-     await this.apiService.EjecutarDev(this.xAPI).subscribe(
+    await this.apiService.EjecutarDev(this.xAPI).subscribe(
       (data) => {
         if (data.Cuerpo.length != 0) {
           this.Qr = ''
@@ -263,7 +287,7 @@ export class LoginInternalComponent implements OnInit {
             confirmButtonText: 'Cerrar',
             confirmButtonColor: '#3085d6',
           })
-         } else {
+        } else {
           this.Qr = ''
           Swal.fire({
             title: 'Certificado NO Valido!',
@@ -273,12 +297,12 @@ export class LoginInternalComponent implements OnInit {
             imageHeight: 200,
             imageAlt: 'Custom image',
           })
-         } 
+        }
       },
       (error) => {
         console.log(error)
       }
-     )
+    )
   }
 
   /**

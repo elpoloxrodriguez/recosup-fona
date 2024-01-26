@@ -200,7 +200,6 @@ export class AuthLoginV2Component implements OnInit {
           this.xAuditoria.metodo = 'Entrando al Sistema',
           this.xAuditoria.fecha = Date()
         this.auditoria.InsertarInformacionAuditoria(this.xAuditoria)
-        console.log(this.auditoria)
         // FIN AGREGAR AUDITORIA //
         switch (this.infoUsuario.Usuario[0].Estatus) {
           case '0':
