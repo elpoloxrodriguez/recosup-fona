@@ -36,7 +36,7 @@ export class InterfaceService {
     async InsertarInformacionAuditoria(info: any) {
       let token = sessionStorage.getItem('token')
         var obj = {
-          "coleccion": "auditoria-fona",
+          "coleccion": "auditoria-recosup",
           "objeto": info,
           "donde": `{\"id\":\"${info.id}\"}`,
           "driver": "MGDBA",

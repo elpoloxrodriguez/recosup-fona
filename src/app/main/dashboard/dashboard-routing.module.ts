@@ -27,7 +27,7 @@ import { SupportRoutingModule } from './support/support-routing.module'
 import { LegalRoutingModule } from './legal/legal-routing.module'
 import { InspectionRoutingModule } from './inspection/inspection-routing.module'
 import { UserRoutingModule } from './user/user-routing.module'
-import { EmailsModule } from './email/emails.module'
+import { EmailsModule } from '../email/emails.module'
 import { AuditModule } from './audit/audit.module'
 import { AsistenteVirtualModule } from '../asistente-virtual/asistente-virtual.module'
 
@@ -64,7 +64,7 @@ const routes: Routes = [
     UserRoutingModule,
     EmailsModule,
     AuditModule,
-    AsistenteVirtualModule
+    AsistenteVirtualModule,
   ],
   exports: [RouterModule]
 })
