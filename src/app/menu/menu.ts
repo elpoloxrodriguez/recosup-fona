@@ -123,7 +123,15 @@ export const menu: CoreMenu[] = [
     ]
   },
 
-  
+    // Auditoria
+    {
+      id: 'audit',
+      nombre: 'Auditoria',
+      role: ['9'], 
+      icono: 'database',
+      type: 'item',
+      url: 'audit/audit',
+    },
   // Usuarios Estatus Recaudacion
   {
     id: 'support/users-status',
@@ -263,34 +271,34 @@ export const menu: CoreMenu[] = [
     role: ['9'],
     icono: 'alert-triangle',
     children: [
-      {
-        id: 'gestion-Alertas',
-        nombre: 'Gestión Alertas',
-        type: 'item',
-        icono: 'circle',
-        url: 'reports-alerts/alert-management'
-      },
-      {
-        id: 'definicion-alertas',
-        nombre: 'Definición Alertas',
-        type: 'item',
-        icono: 'circle',
-        url: 'reports-alerts/definition-alerts'
-      },
-      {
-        id: 'configuracion-usuarios-alertados',
-        nombre: 'Configuración Usuarios Alertados',
-        type: 'item',
-        icono: 'circle',
-        url: 'reports-alerts/alerted-users-configuration'
-      },
-      {
-        id: 'reportes-dinamicos',
-        nombre: 'Reportes Dinamicos',
-        type: 'item',
-        icono: 'circle',
-        url: 'reports-alerts/dinamic-reports'
-      },
+      // {
+      //   id: 'gestion-Alertas',
+      //   nombre: 'Gestión Alertas',
+      //   type: 'item',
+      //   icono: 'circle',
+      //   url: 'reports-alerts/alert-management'
+      // },
+      // {
+      //   id: 'definicion-alertas',
+      //   nombre: 'Definición Alertas',
+      //   type: 'item',
+      //   icono: 'circle',
+      //   url: 'reports-alerts/definition-alerts'
+      // },
+      // {
+      //   id: 'configuracion-usuarios-alertados',
+      //   nombre: 'Configuración Usuarios Alertados',
+      //   type: 'item',
+      //   icono: 'circle',
+      //   url: 'reports-alerts/alerted-users-configuration'
+      // },
+      // {
+      //   id: 'reportes-dinamicos',
+      //   nombre: 'Reportes Dinamicos',
+      //   type: 'item',
+      //   icono: 'circle',
+      //   url: 'reports-alerts/dinamic-reports'
+      // },
       {
         id: 'reportes-estaticos',
         nombre: 'Reportes Estaticos',
@@ -317,27 +325,27 @@ export const menu: CoreMenu[] = [
       //   icono: 'circle',
       //   url: 'support/menu-module',
       // },
-      {
-        id: 'rolesusuarios',
-        nombre: 'Roles de Usuarios',
-        type: 'item',
-        icono: 'circle',
-        url: 'support/role-user'
-      },
-      {
-        id: 'permisosusuarios',
-        nombre: 'Permisos de Usuarios',
-        type: 'item',
-        icono: 'circle',
-        url: 'support/permissions-user'
-      },
-      {
-        id: 'gestiontablas',
-        nombre: 'Gestion Tablas',
-        type: 'item',
-        icono: 'circle',
-        url: 'support/table-management'
-      },
+      // {
+      //   id: 'rolesusuarios',
+      //   nombre: 'Roles de Usuarios',
+      //   type: 'item',
+      //   icono: 'circle',
+      //   url: 'support/role-user'
+      // },
+      // {
+      //   id: 'permisosusuarios',
+      //   nombre: 'Permisos de Usuarios',
+      //   type: 'item',
+      //   icono: 'circle',
+      //   url: 'support/permissions-user'
+      // },
+      // {
+      //   id: 'gestiontablas',
+      //   nombre: 'Gestion Tablas',
+      //   type: 'item',
+      //   icono: 'circle',
+      //   url: 'support/table-management'
+      // },
       {
         id: 'usuariosContribuyentes',
         nombre: 'Usuarios Contribuyentes ',

@@ -27,9 +27,9 @@ import { SupportRoutingModule } from './support/support-routing.module'
 import { LegalRoutingModule } from './legal/legal-routing.module'
 import { InspectionRoutingModule } from './inspection/inspection-routing.module'
 import { UserRoutingModule } from './user/user-routing.module'
-import { PanelAsistenteVirtualComponent } from '../asistente-virtual/panel-asistente-virtual/panel-asistente-virtual.component'
 import { EmailsModule } from './email/emails.module'
 import { AuditModule } from './audit/audit.module'
+import { AsistenteVirtualModule } from '../asistente-virtual/asistente-virtual.module'
 
 const routes: Routes = [
   {
@@ -38,13 +38,7 @@ const routes: Routes = [
     // canActivate:[AuthGuardGuard],
     canActivate: [AuthGuard,AuthGuardGuard],
     data: { roles: ['0','1','2','3','4','5','6','7','8','9'] },
-  },
-  {
-    path: 'virtual-assistant',
-    component: PanelAsistenteVirtualComponent,
-    canActivate: [AuthGuard,AuthGuardGuard],
-    data: { roles: ['9'] },
-  },
+  }
 ]
 
 // FullCalendarModule.registerPlugins([dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]);
@@ -69,7 +63,8 @@ const routes: Routes = [
     TranslateModule,
     UserRoutingModule,
     EmailsModule,
-    AuditModule
+    AuditModule,
+    AsistenteVirtualModule
   ],
   exports: [RouterModule]
 })

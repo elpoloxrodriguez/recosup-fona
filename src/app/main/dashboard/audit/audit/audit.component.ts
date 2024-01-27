@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ApiService, IAPICore } from '@core/services/apicore/api.service';
 import { UtilService } from '@core/services/util/util.service';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 
 @Component({
@@ -16,6 +17,10 @@ import { UtilService } from '@core/services/util/util.service';
   providers: [NgbModalConfig, NgbModal]
 })
 export class AuditComponent implements OnInit {
+
+  @BlockUI() blockUI: NgBlockUI;
+  @BlockUI('section-block') sectionBlockUI: NgBlockUI;
+
 
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -119,6 +124,7 @@ export class AuditComponent implements OnInit {
   
 
   async LstAuditoria() {
+    this.sectionBlockUI.start('Sin Inicializar !!!');
     this.loadingIndicator = true;
     this.LstAuditorias = []
     this.xAPI.funcion = "RECOSUP_R_Auditoria";
@@ -134,6 +140,7 @@ export class AuditComponent implements OnInit {
           this.rowData = this.LstAuditorias;
           this.tempData = this.rowData;
           this.loadingIndicator = false;
+          // this.sectionBlockUI.stop();
         } else {
           this.loadingIndicator = false;
         }  

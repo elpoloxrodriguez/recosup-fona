@@ -33,7 +33,8 @@ const routes = [
     path: 'audit/audit',
     component: AuditComponent,
     canActivate: [AuthGuard,AuthGuardGuard],
-    // data: { roles: ['auditoria'] },  
+    data: { roles: ['9']  },
+ 
   },
 ]
 

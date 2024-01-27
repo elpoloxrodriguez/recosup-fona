@@ -8,6 +8,8 @@ import { UtilService } from '@core/services/util/util.service';
 import Swal from 'sweetalert2';
 import jwt_decode from "jwt-decode";
 import { PdfService } from '@core/services/pdf/pdf.service';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+
 
 @Component({
   selector: 'app-panel-asistente-virtual',
@@ -18,6 +20,10 @@ import { PdfService } from '@core/services/pdf/pdf.service';
 
 })
 export class PanelAsistenteVirtualComponent implements OnInit {
+
+  @BlockUI() blockUI: NgBlockUI;
+  @BlockUI('section-block') sectionBlockUI: NgBlockUI;
+
 
   public xAPI: IAPICore = {
     funcion: '',
@@ -82,6 +88,7 @@ export class PanelAsistenteVirtualComponent implements OnInit {
   }
 
   async ListaAsistenteVirtual() {
+    this.sectionBlockUI.start('Sin Inicializar !!!');
     this.xAPI.funcion = "RECOSUP_R_Lista_ChatBot";
     this.xAPI.parametros = ''
     await this.apiService.Ejecutar(this.xAPI).subscribe(
@@ -93,6 +100,7 @@ export class PanelAsistenteVirtualComponent implements OnInit {
         // console.log(this.DataListaAsistenteVirtual)
         this.rowsAsistenteVirtual = this.DataListaAsistenteVirtual
         this.tempDataAsistenteVirtual = this.rowsAsistenteVirtual;
+        // this.sectionBlockUI.stop();
       },
       (error) => {
         console.log(error)

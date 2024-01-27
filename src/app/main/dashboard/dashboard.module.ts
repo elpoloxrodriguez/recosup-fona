@@ -63,7 +63,6 @@ import { MovementEvaluationComponent } from './projects/movement-evaluation/move
       GenerateFinesComponent,
       ContributingCompaniesComponent,
       TaxpayersComponent,
-      PanelAsistenteVirtualComponent,
       AdminEvaluationProjectComponent,
       MovementEvaluationComponent
     ],
