@@ -59,6 +59,25 @@ export class UtilService {
   GenerarUnicId () : string {
     return Math.random().toString(36).substr(2, 18);
   }
+
+  AlertMini(position:any,icon:any,title:any,timer:number){
+    const Toast = Swal.mixin({
+      toast: true,
+      position: position,
+      showConfirmButton: false,
+      timer: timer,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+    
+    Toast.fire({
+      icon: icon,
+      title: title
+    })
+  }
   
 
   TokenAleatorio(length) {

@@ -92,6 +92,18 @@ export class ApiService {
     var url = "/v1/api/mcoleccion" + this.hash;
     return this.http.post<any>(url, xObjeto, this.httpOptions);
   }
+
+
+  ExecColeccionAuditoria(xObjeto, token): Observable<any> {
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      })
+    };
+    var url = "/v1/api/mcoleccion" + this.hash;
+    return this.http.post<any>(url, xObjeto, httpOptions);
+  }
   
 
   Listar(): Observable<any> {

@@ -29,6 +29,7 @@ import { InspectionRoutingModule } from './inspection/inspection-routing.module'
 import { UserRoutingModule } from './user/user-routing.module'
 import { PanelAsistenteVirtualComponent } from '../asistente-virtual/panel-asistente-virtual/panel-asistente-virtual.component'
 import { EmailsModule } from './email/emails.module'
+import { AuditModule } from './audit/audit.module'
 
 const routes: Routes = [
   {
@@ -67,7 +68,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     TranslateModule,
     UserRoutingModule,
-    EmailsModule
+    EmailsModule,
+    AuditModule
   ],
   exports: [RouterModule]
 })

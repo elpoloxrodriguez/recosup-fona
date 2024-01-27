@@ -7,6 +7,7 @@ import jwt_decode from "jwt-decode";
 import { NgbModal, NgbActiveModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { Auditoria, InterfaceService } from 'app/main/dashboard/audit/auditoria.service';
 
 
 
@@ -24,6 +25,15 @@ export class DashboardComponent implements OnInit {
     parametros: '',
     valores: {},
   };
+
+
+  public xAuditoria: Auditoria = {
+    id: '',
+    usuario: '',
+    funcion: '',
+    metodo: '',
+    fecha: '',
+  }
 
   public CrearCert: ICrearCertificados = {
     usuario: 0,
@@ -43,12 +53,15 @@ export class DashboardComponent implements OnInit {
 
   public UsuarioId
 
+  public tokenA
+
   constructor(
     private apiService: ApiService,
     private utilService: UtilService,
     private modalService: NgbModal,
     private _router : Router,
     private pdf: PdfService,
+    private auditoria: InterfaceService
   ) { }
 
   // Lifecycle Hooks
@@ -62,6 +75,7 @@ export class DashboardComponent implements OnInit {
     // console.log(this.token.Usuario[0])
     // console.log(this.FechaModificoUsuario);
     // console.log(this.utilService.FechaActual)
+
 
     this.IdEmpresa = this.token.Usuario[0].EmpresaId
     this.UsuarioId = this.token.Usuario[0].UsuarioId

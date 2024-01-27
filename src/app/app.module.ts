@@ -73,6 +73,11 @@ import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
 //  Recaptcha V2
 import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
 
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
+
+registerLocaleData(localeEs);
 
 const appRoutes: Routes = [
   {
@@ -142,15 +147,9 @@ const appRoutes: Routes = [
     // PagesModule
   ],
   providers: [
-    {
-      provide: [ LocationStrategy, AuthGuardGuard,  JsonPipe],
-      useClass: HashLocationStrategy
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptorService,
-      multi: true
-    },
+    { provide: LOCALE_ID, useValue: 'es' },
+    { provide: [ LocationStrategy, AuthGuardGuard,  JsonPipe], useClass: HashLocationStrategy },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         //  Recaptcha V3

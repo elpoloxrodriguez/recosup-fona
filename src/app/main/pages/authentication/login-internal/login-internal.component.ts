@@ -12,7 +12,7 @@ import { CoreMenuService } from '@core/components/core-menu/core-menu.service';
 import { UtilService } from '@core/services/util/util.service';
 import jwt_decode from "jwt-decode";
 import { Md5 } from 'ts-md5/dist/md5';
-import { Auditoria, InterfaceService } from '@core/services/auditoria/auditoria.service';
+import { Auditoria, InterfaceService } from 'app/main/dashboard/audit/auditoria.service';
 
 @Component({
   selector: 'app-login-internal',
@@ -31,8 +31,6 @@ export class LoginInternalComponent implements OnInit {
   public xAuditoria: Auditoria = {
     id: '',
     usuario: '',
-    ip: '',
-    mac: '',
     funcion: '',
     metodo: '',
     fecha: '',
@@ -51,6 +49,8 @@ export class LoginInternalComponent implements OnInit {
 
   //  QR certifucado
   public Qr
+
+  public tokenA
 
   public infoUsuario
   public iToken: IToken = { token: '', };
@@ -162,31 +162,30 @@ export class LoginInternalComponent implements OnInit {
     });
   }
 
-  async login() {
+  login() {
     this.submitted = true;
     this.loading = true;
     const md5 = new Md5();
     const password = md5.appendStr(this.clave).end()
-    var Xapi = {
-      "funcion": 'RECOSUP_R_Login_ADMIN',
-      "parametros": this.usuario + ',' + password
-    }
-    this.loginService.getLoginExternas(Xapi).subscribe(
+
+    this.xAPI.funcion = 'RECOSUP_R_Login_ADMIN'
+    this.xAPI.parametros = this.usuario + ',' + password
+    this.xAPI.valores = ''
+    this.loginService.getLoginExternas(this.xAPI).subscribe(
       (data) => {
         this.itk = data;
         sessionStorage.setItem("token", this.itk.token);
-        this.infoUsuario = jwt_decode(sessionStorage.getItem('token'));
-        // INICIO AGREGAR AUDITORIA //
+        // AUDITORIA //
+        this.tokenA = jwt_decode(sessionStorage.getItem('token'))
         this.xAuditoria.id = this.utilservice.GenerarUnicId()
-        this.xAuditoria.ip = ''
-        this.xAuditoria.mac = ''
-        this.xAuditoria.usuario = this.infoUsuario
-        this.xAuditoria.funcion = this.xAPI.funcion,
-          this.xAuditoria.parametro = this.xAPI.parametros,
-          this.xAuditoria.metodo = 'Entrando al Sistema',
-          this.xAuditoria.fecha = Date()
-        this.auditoria.InsertarInformacionAuditoria(this.xAuditoria)
-        // FIN AGREGAR AUDITORIA //
+        this.xAuditoria.usuario = this.tokenA.Usuario[0]
+        this.xAuditoria.funcion = this.xAPI.funcion
+        this.xAuditoria.parametro = this.xAPI.parametros
+        this.xAuditoria.metodo = 'Entrando al Sistema'
+        this.xAuditoria.fecha = Date()
+        // AUDITORIA //
+
+        this.infoUsuario = jwt_decode(sessionStorage.getItem('token'));
         switch (this.infoUsuario.Usuario[0].Estatus) {
           case '0':
             localStorage.clear();
@@ -197,7 +196,11 @@ export class LoginInternalComponent implements OnInit {
             break;
           case '1':
             this.utilservice.alertConfirmMini('success', `Bienvenido al FONA ${this.infoUsuario.Usuario[0].Nombres} ${this.infoUsuario.Usuario[0].Apellidos}`);
+            // AUDITORIA
+            this.auditoria.InsertarInformacionAuditoria(this.xAuditoria)
+            // AUDITORIA
             this._router.navigate(['home']).then(() => { window.location.reload() });
+
             break;
           case '2':
             sessionStorage.clear();
@@ -224,7 +227,7 @@ export class LoginInternalComponent implements OnInit {
       },
       (error) => {
         this.loading = false;
-        // this._router.navigate(['login'])
+        this._router.navigate(['login'])
         sessionStorage.clear();
         localStorage.clear();
         this.utilservice.alertConfirmMini('error', 'Verifique los datos, e intente nuevamente')
