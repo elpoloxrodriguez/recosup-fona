@@ -27,6 +27,9 @@
                 <p class="card-text mb-25"><strong>Fecha Aprobación:</strong> {{ DataEmpresaCompleta.FechaAprobacion }} </p>
                 <p class="card-text mb-25"><strong>Empleados:</strong> {{ DataEmpresaCompleta.CantidadEmpleados }} </p>
                 <p class="card-text mb-25" ><strong>Dirección:</strong> {{ DataEmpresaCompleta.Direccion }}</p>
+                <p class="card-text mb-25" ><strong>Posee Sucursal:</strong> {{ DataEmpresaCompleta.sucursal }}</p>
+                <p class="card-text mb-25" ><strong>Pertenece a algun Grupo Economico:</strong> {{ DataEmpresaCompleta.grupo_economico }}</p>
+                <p class="card-text mb-25" ><strong>Campo Sujeto:</strong> {{ DataEmpresaCompleta.campo_sujeto }}</p>
               </div>
 
               <div class="mt-md-0 mt-2">
@@ -1141,6 +1144,72 @@
                         placeholder="Ingrese Numero de Folio" />
                     </div>
                   </div>
+
+                  <div class="row">
+                    <div class="form-group col-md-4">
+                      <label class="form-label" for="city1">Posee Sucursales?</label>
+                      <ng-select
+                      [items]="selectBasic"
+                      placeholder="Seleccione"
+                      bindLabel="name"
+                      bindValue="id"
+                      [(ngModel)]="Empresa.sucursal"
+                      #PoseeSucursal="ngModel"
+                      [ngModelOptions]="{standalone: true}"
+                      required
+                      [class.error]="!PoseeSucursal.valid && personalInfoForm.submitted"                        
+                      >
+                    </ng-select>
+                    <span *ngIf="personalInfoForm.submitted && PoseeSucursal.invalid" class="invalid-form">
+                      <small class="form-text text-danger" *ngIf="PoseeSucursal.errors.required"
+                        >Posee Sucursales es requerido!</small
+                      >
+                    </span>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                      <label class="form-label" for="city1">Pertenece a algun grupo economico?</label>
+                      <ng-select
+                        [items]="selectBasic"
+                        placeholder="Seleccione"
+                        bindLabel="name"
+                        bindValue="id"
+                        [(ngModel)]="Empresa.grupo_economico"
+                        #GrupoEconomico="ngModel"
+                        [ngModelOptions]="{standalone: true}"
+                        required
+                        [class.error]="!GrupoEconomico.valid && personalInfoForm.submitted"                        
+                        >
+                      </ng-select>
+                      <span *ngIf="personalInfoForm.submitted && GrupoEconomico.invalid" class="invalid-form">
+                        <small class="form-text text-danger" *ngIf="GrupoEconomico.errors.required"
+                          >Pertenece a algun grupo economico es requerido!</small
+                        >
+                      </span>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                      <label class="form-label" for="city1">Campo no sujeto</label>
+                      <ng-select
+                      [items]="selectBasic"
+                      placeholder="Seleccione"
+                      bindLabel="name"
+                      bindValue="id"
+                      [(ngModel)]="Empresa.campo_sujeto"
+                      #CampoSujeto="ngModel"
+                      [ngModelOptions]="{standalone: true}"
+                      required
+                      [class.error]="!CampoSujeto.valid && personalInfoForm.submitted"                        
+                      >
+                    </ng-select>
+                    <span *ngIf="personalInfoForm.submitted && CampoSujeto.invalid" class="invalid-form">
+                      <small class="form-text text-danger" *ngIf="CampoSujeto.errors.required"
+                        >Campo no sujeto es requerido!</small
+                      >
+                    </span>
+                    </div>
+                  </div>
+
                   <div class="row">
                     <div class="form-group col-md-6">
                       <label class="form-label" for="city1">Numero de Protocolo</label>

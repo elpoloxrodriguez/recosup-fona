@@ -461,6 +461,48 @@ export class ContributingCompaniesComponent implements OnInit {
         data.Cuerpo.length
         data.Cuerpo.map(e => {
           // console.log(e)
+          switch (e.sucursal) {
+            case '0':
+              e.Xsucursal = 'NO'
+              break;
+            case '1':
+              e.Xsucursal = 'SI'
+              break;
+            case '2':
+              e.Xsucursal = 'NO APLICA'
+              break;
+            default:
+              break;
+          }
+          switch (e.grupo_economico) {
+            case '0':
+              e.Xgrupo_economico = 'NO'
+              break;
+            case '1':
+              e.Xgrupo_economico = 'SI'
+              break;
+            case '2':
+              e.Xgrupo_economico = 'NO APLICA'
+              break;
+            default:
+              break;
+          }
+          switch (e.campo_sujeto) {
+            case '0':
+               e.Xcampo_sujeto = 'NO'
+              break;
+            case '1':
+               e.Xcampo_sujeto = 'SI'
+              break;
+            case '2':
+               e.Xcampo_sujeto = 'NO APLICA'
+              break;
+            default:
+              break;
+          }
+          this.DataEmpresaCompleta.sucursal = e.Xsucursal
+          this.DataEmpresaCompleta.grupo_economico = e.Xgrupo_economico
+          this.DataEmpresaCompleta.campo_sujeto = e.Xcampo_sujeto
           this.IdUsuarioEmpresa = e.EmpresaId
           this.UpdateEmpresa.UsuarioId = e.UsuarioId
           this.DataEmpresaCompleta.RazonSocial = e.RazonSocial

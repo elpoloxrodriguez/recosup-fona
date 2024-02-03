@@ -46,6 +46,9 @@ export interface IEmpresa {
 	CorreoElectronico?: string
 	PaginaWeb?: string
 	Ciudad?: string
+	sucursal : number
+	grupo_economico : number
+	campo_sujeto : number
 	ParroquiaId?: number
 	ActividadEconomicaId?: number
 	DocumentoFecha?: any
@@ -184,6 +187,9 @@ export interface IDataEmpresaCompleta {
 	SitioWeb: string;
 	Telefonos: string;
 	FaxEmpresa: string;
+	sucursal ?: number
+	grupo_economico ?: number
+	campo_sujeto ?: number
 	ActividadEconomica: string;
 	estado: string;
 	ciudad: string;

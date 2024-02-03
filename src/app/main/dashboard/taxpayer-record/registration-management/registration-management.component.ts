@@ -57,11 +57,14 @@ export class RegistrationManagementComponent implements OnInit {
     CantidadEmpleados: undefined,
     EstatusEmpresa: '1',
     UsuarioAprobo: 0,
-    FechaAprobo:  this.datePipe.transform(this.fechaActual, "yyyy-MM-dd HH:mm:ss"),
+    FechaAprobo: this.datePipe.transform(this.fechaActual, "yyyy-MM-dd HH:mm:ss"),
     UsuarioCreo: 0,
     FechaCreo: this.datePipe.transform(this.fechaActual, "yyyy-MM-dd HH:mm:ss"),
     UsuarioModifico: 0,
-    FechaModifico: this.datePipe.transform(this.fechaActual, "yyyy-MM-dd HH:mm:ss")
+    FechaModifico: this.datePipe.transform(this.fechaActual, "yyyy-MM-dd HH:mm:ss"),
+    sucursal: undefined,
+    grupo_economico: undefined,
+    campo_sujeto: undefined
   }
 
   public ContactoEmpresa: IEmpresaContactos = {
@@ -278,6 +281,12 @@ export class RegistrationManagementComponent implements OnInit {
   public uri
   public url
 
+  public selectBasic = [
+    { id: 1, name: 'SI' },
+    { id: 0, name: 'NO' },
+    { id: 2, name: 'NO APLICA' }
+  ]
+
   public searchValue = '';
 
   public selectActividadEconomica
@@ -289,7 +298,7 @@ export class RegistrationManagementComponent implements OnInit {
   public SelectBancosMIF
 
   public tipoDocumento
-  public RIFEMPRESA 
+  public RIFEMPRESA
   public CEDULAREPRESENTANTE
 
   // Registrar Empresa
@@ -388,7 +397,7 @@ export class RegistrationManagementComponent implements OnInit {
 
   async ngOnInit() {
     this.uri = this.rutaActiva.snapshot.url
-    this.url = this.uri[0]+this.uri[1]
+    this.url = this.uri[0] + this.uri[1]
     this.sectionBlockUI.start('Subiendo Documento, Porfavor Espere!!!');
     this.token = jwt_decode(sessionStorage.getItem('token'));
     this.RIFEMPRESA = this.token.Usuario[0].Codigo.slice(1, -1)
@@ -479,9 +488,9 @@ export class RegistrationManagementComponent implements OnInit {
     this.CrearCert.created_user = this.token.Usuario[0].UsuarioId
     this.CrearCert.usuario = this.token.Usuario[0].UsuarioId
     this.CrearCert.type = 2, // 2 QR DECLARACION
-    this.CrearCert.token = this.utilService.TokenAleatorio(10),
-    this.xAPI.funcion = "RECOSUP_R_CertificadoDeclaracion";
-    this.xAPI.parametros = EmpresaID + ',' + Fechax+ ',' + data.EmpresaGananciaId
+      this.CrearCert.token = this.utilService.TokenAleatorio(10),
+      this.xAPI.funcion = "RECOSUP_R_CertificadoDeclaracion";
+    this.xAPI.parametros = EmpresaID + ',' + Fechax + ',' + data.EmpresaGananciaId
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (dataCertificados) => {
         // console.log(dataCertificados)
@@ -608,8 +617,51 @@ export class RegistrationManagementComponent implements OnInit {
       (data) => {
         data.Cuerpo.length
         data.Cuerpo.map(e => {
+          // console.log(e)
+          switch (e.sucursal) {
+            case '0':
+              e.Xsucursal = 'NO'
+              break;
+            case '1':
+              e.Xsucursal = 'SI'
+              break;
+            case '2':
+              e.Xsucursal = 'NO APLICA'
+              break;
+            default:
+              break;
+          }
+          switch (e.grupo_economico) {
+            case '0':
+              e.Xgrupo_economico = 'NO'
+              break;
+            case '1':
+              e.Xgrupo_economico = 'SI'
+              break;
+            case '2':
+              e.Xgrupo_economico = 'NO APLICA'
+              break;
+            default:
+              break;
+          }
+          switch (e.campo_sujeto) {
+            case '0':
+               e.Xcampo_sujeto = 'NO'
+              break;
+            case '1':
+               e.Xcampo_sujeto = 'SI'
+              break;
+            case '2':
+               e.Xcampo_sujeto = 'NO APLICA'
+              break;
+            default:
+              break;
+          }
           this.DataEmpresaCompleta.RazonSocial = e.RazonSocial
           this.DataEmpresaCompleta.Rif = e.Rif
+          this.DataEmpresaCompleta.sucursal = e.Xsucursal
+          this.DataEmpresaCompleta.grupo_economico = e.Xgrupo_economico
+          this.DataEmpresaCompleta.campo_sujeto = e.Xcampo_sujeto
           this.DataEmpresaCompleta.Email = e.CorreoEmpresa
           this.DataEmpresaCompleta.SitioWeb = e.PaginaWeb
           this.DataEmpresaCompleta.Telefonos = e.TelefonoEmpresa + ' | ' + e.TelefonoLocal
@@ -878,9 +930,9 @@ export class RegistrationManagementComponent implements OnInit {
       (data) => {
         data.Cuerpo.map(e => {
           // if (e.status_mif == '0' && this.Rif == e.Rif) {
-            e.Nomenclatura_mif = e.Nomenclatura_mif.toUpperCase()
-            e.Monto_mif = this.utilService.ConvertirMoneda(e.Monto_mif)
-            this.ListaMultasNuevas.push(e);
+          e.Nomenclatura_mif = e.Nomenclatura_mif.toUpperCase()
+          e.Monto_mif = this.utilService.ConvertirMoneda(e.Monto_mif)
+          this.ListaMultasNuevas.push(e);
           // }
         });
         this.rowsDetalleMultasNuevas = this.ListaMultasNuevas;
@@ -957,7 +1009,7 @@ export class RegistrationManagementComponent implements OnInit {
         this.SelectBancosMIF = data.Cuerpo.map(e => {
           if (e.id_bancos_MIF === d.TipoMultaId) {
             e.id = e.id_bancos_MIF
-            e.name = e.nombre_bancos_MIF + ' ( ' + e.nombre_banco_bancos_MIF +'  -  '+ e.cuenta_bancos_MIF + ' ) '
+            e.name = e.nombre_bancos_MIF + ' ( ' + e.nombre_banco_bancos_MIF + '  -  ' + e.cuenta_bancos_MIF + ' ) '
             // console.log(e)
             // this.SelectBancosMIF.push(e)
           }
@@ -988,7 +1040,7 @@ export class RegistrationManagementComponent implements OnInit {
   }
 
 
-  async PagarMultasNuevas(modal: any, data: any){
+  async PagarMultasNuevas(modal: any, data: any) {
     // await this.ListaBancosMIF(data)
     this.modalService.open(modal, {
       centered: true,
@@ -999,12 +1051,12 @@ export class RegistrationManagementComponent implements OnInit {
     });
   }
 
-   ListaParroquias(id: string) {
+  ListaParroquias(id: string) {
     // console.log(id)
     this.xAPI.funcion = "RECOSUP_R_Parroquias_ID";
     this.xAPI.parametros = id;
     this.selectParroquias = []
-     this.apiService.Ejecutar(this.xAPI).subscribe(
+    this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         // console.log(data.Cuerpo)
         this.selectParroquias = data.Cuerpo.map(e => {
@@ -1021,7 +1073,7 @@ export class RegistrationManagementComponent implements OnInit {
   }
 
   async ListaNotarias(id: any) {
-    console.log(id)
+    // console.log(id)
     this.xAPI.funcion = "RECOSUP_R_Notarias";
     this.xAPI.parametros = id
     this.selectNotarias = []
@@ -1066,9 +1118,9 @@ export class RegistrationManagementComponent implements OnInit {
   async CreateEmpresa() {
     // Datos Registrar Empresa
     this.Empresa.UsuarioId = this.token.Usuario[0].UsuarioId,
-    this.Empresa.Rif = this.tipoRif + this.Empresa.Rif,
-    //  this.Empresa.FechaAprobo = '0001-01-01',
-    this.Empresa.DocumentoFecha = this.Empresa.DocumentoFecha.year + '-' + this.Empresa.DocumentoFecha.month + '-' + this.Empresa.DocumentoFecha.day
+      this.Empresa.Rif = this.tipoRif + this.Empresa.Rif,
+      //  this.Empresa.FechaAprobo = '0001-01-01',
+      this.Empresa.DocumentoFecha = this.Empresa.DocumentoFecha.year + '-' + this.Empresa.DocumentoFecha.month + '-' + this.Empresa.DocumentoFecha.day
     this.Empresa.UsuarioCreo = this.token.Usuario[0].UsuarioId,
       this.Empresa.UsuarioModifico = this.token.Usuario[0].UsuarioId,
       this.Empresa.FechaInicioFiscal = this.Empresa.FechaInicioFiscal.year + '-' + this.Empresa.FechaInicioFiscal.month + '-' + this.Empresa.FechaInicioFiscal.day

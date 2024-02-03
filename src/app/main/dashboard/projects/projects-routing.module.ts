@@ -14,6 +14,7 @@ import { CompanyProjectsRecosupComponent } from './company-projects-recosup/comp
 import { ReportsProjectsComponent } from './reports/reports-projects/reports-projects.component'
 import { AdminEvaluationProjectComponent } from './admin-evaluation-project/admin-evaluation-project.component'
 import { MovementEvaluationComponent } from './movement-evaluation/movement-evaluation.component'
+import { ContributingCompaniesComponent } from '../financial-collection/contributing-companies/contributing-companies.component'
 
 
 const routes: Routes = [
@@ -22,6 +23,12 @@ const routes: Routes = [
     component: CompanyProjectsComponent,
     canActivate: [AuthGuard,AuthGuardGuard],
     data: { roles: ['9','4','0'] },
+  },
+  {
+    path: 'projects/contributing-companies',
+    component: ContributingCompaniesComponent,
+    canActivate: [AuthGuard,AuthGuardGuard],
+    data: { roles: ['4','9'] },
   },
   {
     path: 'projects/company-projects-recosup',

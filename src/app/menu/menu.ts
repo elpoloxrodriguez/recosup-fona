@@ -160,7 +160,7 @@ export const menu: CoreMenu[] = [
     children: [
       {
         id: 'contribuyentes',
-        nombre: 'Información de Contribuyentes',
+        nombre: 'Contribuyentes',
         type: 'item',
         icono: 'circle',
         url: 'inspection/contributing-companies'
@@ -207,6 +207,15 @@ export const menu: CoreMenu[] = [
     ]
   },
     // Proyectos
+      // Dashboard
+  {
+    id: 'projects-contributing',
+    nombre: 'Contribuyentes',
+    role: ['4','9'], 
+    icono: 'users',
+    type: 'item',
+    url: 'projects/contributing-companies'
+  },
     {
       id: 'Proyectos',
       nombre: 'Proyectos',
@@ -249,7 +258,7 @@ export const menu: CoreMenu[] = [
       id: 'Proyectos',
       nombre: 'Proyectos',
       title: 'Proyectos',
-      role: [ '0'],
+      role: ['0'],
       type: 'collapsible',
       icono: 'folder',
       children: [
@@ -259,7 +268,7 @@ export const menu: CoreMenu[] = [
           type: 'item',
           icono: 'circle',
           url: 'projects/company-projects'
-        },
+        }
       ]
     },
   // Reportes y Alertas
