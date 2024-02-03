@@ -39,7 +39,7 @@
       [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
       [scrollbarH]="true">
 
-        <ngx-datatable-column name="RIF" prop="Rif" [width]="5">
+        <ngx-datatable-column name="RIF" prop="Rif" [width]="50">
           <ng-template let-Rif="value" ngx-datatable-cell-template>
             <div>
               <span class="font-weight-bold">{{ Rif }} </span>
@@ -47,17 +47,17 @@
           </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column name="Razon Social" prop="RazonSocial" [width]="90">
+        <ngx-datatable-column name="Razon Social" prop="RazonSocial" [width]="300">
           <ng-template let-RazonSocial="value" ngx-datatable-cell-template>
             <div>
-              <span class="font-weight-bold"> {{ RazonSocial.slice(0,57) }} </span>
+              <span class="font-weight-bold"> {{ RazonSocial.slice(0,57) | uppercase }} </span>
             </div>
           </ng-template>
         </ngx-datatable-column>
 
 
 
-        <ngx-datatable-column name="Ultimo Aporte" prop="UltimoAporte" [width]="5">
+        <ngx-datatable-column name="Ultimo Aporte" prop="UltimoAporte" [width]="100">
           <ng-template let-UltimoAporte="value" ngx-datatable-cell-template>
             <div>
               <span class="font-weight-bold"> {{ UltimoAporte }} </span>
@@ -65,7 +65,7 @@
           </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column name="Cantidad Aportes" prop="CantidadAportes" [width]="5">
+        <ngx-datatable-column name="Cantidad Aportes" prop="CantidadAportes" [width]="100">
           <ng-template let-CantidadAportes="value" ngx-datatable-cell-template>
             <div>
               <span class="font-weight-bold"> {{ CantidadAportes }} </span>
@@ -74,7 +74,7 @@
         </ngx-datatable-column>
 
 
-        <ngx-datatable-column name="Fiscalización" [width]="5">
+        <ngx-datatable-column name="Fiscalización" [width]="50">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <div>
               <div
@@ -94,7 +94,7 @@
         </ngx-datatable-column>
 
             
-        <ngx-datatable-column name="Accion" [width]="5" [sortable]="false">
+        <ngx-datatable-column name="Accion" [width]="20" [sortable]="false">
           <ng-template  ngx-datatable-cell-template let-row="row">
             <div ngbDropdown container="body">
               <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>

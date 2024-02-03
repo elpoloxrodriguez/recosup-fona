@@ -419,6 +419,10 @@ export class RegistrationManagementComponent implements OnInit {
     }
   }
 
+  onInputChange(event: any) {
+    this.Empresa.RazonSocial = event.target.value.toUpperCase();
+  }
+
 
   fileSelected(e) {
     this.archivos.push(e.target.files[0])

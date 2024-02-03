@@ -108,9 +108,13 @@
                 </button>
                 <div ngbDropdownMenu>
                   <div>
-                    <a  (click)="ActivarUsuario(row)" ngbDropdownItem><span
-                      [data-feather]="'check'" [size]="16" [class]="'mr-50'"></span> Aprobar</a>
+                    <a  (click)="CambiarContrasena(ModalCambiarClave,row)" ngbDropdownItem><span
+                      [data-feather]="'key'" [size]="16" [class]="'mr-50'"></span> Cambiar Contraseña</a>
                 </div>
+                <div>
+                  <a  (click)="ActivarUsuario(row)" ngbDropdownItem><span
+                    [data-feather]="'check'" [size]="16" [class]="'mr-50'"></span> Aprobar</a>
+              </div>
                 <div>
                   <a  (click)="RechazarUsuarioDelete(row)" ngbDropdownItem><span
                     [data-feather]="'x'" [size]="16" [class]="'mr-50'"></span> Rechazar</a>
@@ -136,3 +140,104 @@
   
     </div>
     </div>
+
+
+    <ng-template #ModalCambiarClave let-modal>
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel160"><strong>Cambiar Contraseña de Usuario</strong></h5>
+        <!-- <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+      </div>
+      <div class="modal-body" tabindex="0" ngbAutofocus>
+        <div class="col-xl-12 col-md-12 col-12 printRef">
+          <!-- Header Starts -->
+          
+          <form class="auth-reset-password-form mt-2" [formGroup]="resetPasswordForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <div class="d-flex justify-content-between">
+                <label for="reset-password-new">Nueva contraseña</label>
+              </div>
+              <div class="input-group input-group-merge form-password-toggle">
+                <input
+                  [type]="passwordTextType ? 'text' : 'password'"
+                  formControlName="newPassword"
+                  class="form-control form-control-merge"
+                  placeholder="Nueva contraseña"
+                  aria-describedby="reset-password-new"
+                  tabindex="1"
+                  autofocus
+                  [ngClass]="{ 'is-invalid error': submitted && f.newPassword.errors }"
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text cursor-pointer"
+                    ><i
+                      class="feather font-small-4"
+                      [ngClass]="{
+                        'icon-eye-off': passwordTextType,
+                        'icon-eye': !passwordTextType
+                      }"
+                      (click)="togglePasswordTextType()"
+                    ></i
+                  ></span>
+                </div>
+              </div>
+              <div
+                *ngIf="submitted && f.newPassword.errors"
+                class="invalid-feedback"
+                [ngClass]="{ 'd-block': submitted && f.newPassword.errors }"
+              >
+                <div *ngIf="f.newPassword.errors.required">Confirmar contraseña</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="d-flex justify-content-between">
+                <label for="reset-password-confirm">Confirmar contraseña</label>
+              </div>
+              <div class="input-group input-group-merge form-password-toggle">
+                <input
+                  [type]="confPasswordTextType ? 'text' : 'password'"
+                  formControlName="confirmPassword"
+                  class="form-control form-control-merge"
+                  placeholder="Confirmar contraseña"
+                  aria-describedby="reset-password-confirm"
+                  tabindex="2"
+                  [ngClass]="{ 'is-invalid error': submitted && f.confirmPassword.errors }"
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text cursor-pointer"
+                    ><i
+                      class="feather font-small-4"
+                      [ngClass]="{
+                        'icon-eye-off': confPasswordTextType,
+                        'icon-eye': !confPasswordTextType
+                      }"
+                      (click)="toggleConfPasswordTextType()"
+                    ></i
+                  ></span>
+                </div>
+              </div>
+              <div
+                *ngIf="submitted && f.confirmPassword.errors"
+                class="invalid-feedback"
+                [ngClass]="{ 'd-block': submitted && f.confirmPassword.errors }"
+              >
+                <div *ngIf="f.confirmPassword.errors.required">Password is required</div>
+              </div>
+            </div>
+            <!-- <button class="btn btn-primary btn-block" tabindex="3" rippleEffect>Establecer nueva contraseña</button> -->
+          </form>
+  
+          <!-- Header Ends -->
+        </div>
+        </div>
+        <!--/ Invoice -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+          Cerrar
+        </button>
+        <button type="button" class="btn btn-success" (click)="ChangePassword()"  rippleEffect>
+          Cambiar Contraseña
+        </button>
+      </div>
+    </ng-template>

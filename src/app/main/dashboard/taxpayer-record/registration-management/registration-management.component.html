@@ -803,6 +803,7 @@
                       name="razon_social"
                       class="form-control"
                       placeholder="Ingrese Razon Social"
+                      (input)="onInputChange($event)"
                     />
                     <span *ngIf="accountDetailsForm.submitted && RazonSocial.invalid" class="invalid-form">
                       <small class="form-text text-danger" *ngIf="RazonSocial.errors.required"

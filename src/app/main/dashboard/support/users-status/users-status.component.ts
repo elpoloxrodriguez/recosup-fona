@@ -83,7 +83,8 @@ export class UsersStatusComponent implements OnInit {
     private modalService: NgbModal,
     private _formBuilder: FormBuilder,
     private utilService: UtilService,
-    private _router: Router 
+    private _router: Router,
+    private utilservice : UtilService
   ) {
     this._unsubscribeAll = new Subject();
   }
@@ -119,6 +120,90 @@ export class UsersStatusComponent implements OnInit {
       }
     )
   }
+
+  CambiarContrasena(modal, data) {
+    this.dataUser = data.UsuarioId
+    this.modalService.open(modal, {
+      centered: true,
+      size: 'lg',
+      backdrop: false,
+      keyboard: false,
+      windowClass: 'fondo-modal',
+    });
+  }
+
+  ChangePassword(){
+    let clave = this.resetPasswordForm.value.newPassword
+    let usuario = this.dataUser
+    this.ChangePasswordUsers(usuario,clave)
+  }
+
+    
+    /**
+     * Toggle password
+     */
+    togglePasswordTextType() {
+      this.passwordTextType = !this.passwordTextType;
+    }
+  
+    /**
+     * Toggle confirm password
+     */
+    toggleConfPasswordTextType() {
+      this.confPasswordTextType = !this.confPasswordTextType;
+    }
+
+
+  async ChangePasswordUsers(usuario: any, clave: any){
+  
+    let datos = {
+      usuario: usuario,
+      clave:  this.utilservice.md5(clave)
+    }
+    this.xAPI.funcion = 'RECOSUP_U_PasswordUsers'
+    this.xAPI.parametros = ''
+    this.xAPI.valores = JSON.stringify(datos)
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        // console.info(data)
+        this.modalService.dismissAll('Close')
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+        
+        Toast.fire({
+          icon: 'success',
+          title: 'Contraseña actualizada exitosamente'
+        })
+      },
+      (error) => {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+        
+        Toast.fire({
+          icon: 'error',
+          title: error
+        })
+      }
+    )
+    }
 
 
   filterUpdate(event) {

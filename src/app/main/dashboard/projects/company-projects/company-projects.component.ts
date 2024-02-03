@@ -139,6 +139,9 @@ public fechaActual = new Date();
     public selectParroquias
 
 
+    public titleModal
+    public showBtn : boolean = true
+
   constructor(
     private utilService : UtilService,
     private _router: Router,
@@ -161,7 +164,6 @@ public fechaActual = new Date();
    async ngOnInit()  {
     this.token =  jwt_decode(sessionStorage.getItem('token'))
     this.IdEmpresa = this.token.Usuario[0].EmpresaId
-
     if (this.IdEmpresa != null) {
       this.ButtonShow = true
       await this.MisProyectos(this.IdEmpresa)
@@ -325,6 +327,29 @@ public fechaActual = new Date();
     )
   }
 
+  ModificarProyecto(modal:any, row:any){
+    // console.log(row)
+    this.CrearProyecto.nombre_proyecto = row.nombre_proyecto,
+    this.CrearProyecto.fecha_proyecto = row.fecha_proyecto,
+    this.CrearProyecto.monto_inversion = row.monto_inversionX,
+    this.CrearProyecto.direccion = row.direccion,
+    this.CrearProyecto.ambito_proyecto = row.ambito_proyecto
+    this.CrearProyecto.area_proyecto = row.area_proyecto
+    this.CrearProyecto.estado = row.estado
+    this.CrearProyecto.municipio = row.municipio
+    this.CrearProyecto.parroquia = row.parroquia
+
+    this.titleModal = 'Actualización de Proyectos'
+    this.showBtn = false
+    this.modalService.open(modal,{
+      centered: true,
+      size: 'lg',
+      backdrop: false,
+      keyboard: false,
+      windowClass: 'fondo-modal',
+    });
+  }
+
   DownloadFichaResumen(data: any){
     // console.log(data)
     this.pdf.GenerarFichaResumenProyectoLaboral(data, '')
@@ -432,6 +457,8 @@ public fechaActual = new Date();
   
   
     AddRegister(modal) {
+      this.titleModal = 'Registro de Proyectos'
+      this.showBtn = true
       this.modalService.open(modal,{
         centered: true,
         size: 'lg',
