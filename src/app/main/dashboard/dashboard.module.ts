@@ -30,13 +30,11 @@ import { PermissionsUserComponent } from './support/permissions-user/permissions
 import { ChangePasswordComponent } from './support/change-password/change-password.component';
 import { BackupsComponent } from './support/backups/backups.component';
 import { CompanyProjectsRecosupComponent } from './projects/company-projects-recosup/company-projects-recosup.component';
-import { GoalManagementComponent } from './financial-collection/goal-management/goal-management.component';
 import { GenerateNonRegisteredFinesComponent } from './financial-collection/generate-non-registered-fines/generate-non-registered-fines.component';
 import { GenerateFinesComponent } from './financial-collection/generate-fines/generate-fines.component';
 import { ContributingCompaniesComponent } from './financial-collection/contributing-companies/contributing-companies.component';
 
 import { TaxpayersComponent } from './digital-documentation/taxpayers/taxpayers.component';
-import { PanelAsistenteVirtualComponent } from '../asistente-virtual/panel-asistente-virtual/panel-asistente-virtual.component';
 import { AdminEvaluationProjectComponent } from './projects/admin-evaluation-project/admin-evaluation-project.component';
 import { MovementEvaluationComponent } from './projects/movement-evaluation/movement-evaluation.component';
 
