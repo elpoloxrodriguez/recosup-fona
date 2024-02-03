@@ -148,9 +148,8 @@ export class TaxpayerPaymentsComponent implements OnInit {
 
 
   async ConciliarReporte(){
-    this.statusPago
-    this.observacionPago
-    this.xRECOSUP_U_PagarAportesConciliar.EmpresaGananciaId = this.IdPago
+    if (this.statusPago != null && this.observacionPago != null) {
+      this.xRECOSUP_U_PagarAportesConciliar.EmpresaGananciaId = this.IdPago
     this.xRECOSUP_U_PagarAportesConciliar.EstatusGeneralId = this.statusPago
     this.xRECOSUP_U_PagarAportesConciliar.Observacion = this.observacionPago
     this.xAPI.funcion = 'RECOSUP_U_PagarAportesConciliar'
@@ -186,6 +185,12 @@ export class TaxpayerPaymentsComponent implements OnInit {
         console.log(error)
       }
     )
+    } else {
+      // console.log('ESTA VACIO')
+      this.utilservice.alertConfirmMini('warning', 'Lo sentimos! El campo estatus tiene que estar seleccionado')
+    }
+    // this.statusPago
+    // this.observacionPago
   }
 
 
@@ -227,7 +232,7 @@ export class TaxpayerPaymentsComponent implements OnInit {
 
 
     RegistrarPagarAporte(modal, data) {
-      console.log(data)
+      // console.log(data)
       this.IdPago = data.EmpresaGananciaId
       this.titleModal = data.RazonSocial
       this.aporte.fecha = data.FechaDocumento

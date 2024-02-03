@@ -230,6 +230,10 @@ export class DeclarationPaymentsComponent implements OnInit {
   private tempDataDetalleAporte = []
   public rowsDataDetalleAporte = []
 
+  public showInput : boolean = false
+
+  public showReadonly : boolean = false
+
   constructor(
     private utilService: UtilService,
     private _router: Router,
@@ -508,11 +512,6 @@ export class DeclarationPaymentsComponent implements OnInit {
   }
 
 
-
-
-
-
-
   async DetalleAportes(id: any) {
     this.MontoDeclarado = id.Monto
     this.xAPI.funcion = "RECOSUP_R_ListarDetalleDeclararPagos";
@@ -626,6 +625,13 @@ export class DeclarationPaymentsComponent implements OnInit {
 
   CapturarItemSelecTiposPagos(info: any) {
     // console.log(info)
+    if (info.TipoPagoId == '3') {
+      this.showInput = true
+      this.showReadonly = true
+    } else {
+      this.showInput = false
+      this.showReadonly = false
+    }
     if (info.name == 'Reportar Pago en Cero (0,00)') {
       let ref = this.utilService.TokenAleatorio(10)
       this.pReferenciaBancaria = ref
@@ -854,6 +860,13 @@ export class DeclarationPaymentsComponent implements OnInit {
 
   ModaldetailsCambioPago(modal, data) {
     // console.log(data)
+    if (data.TipoPagoId == '3') {
+      this.showInput = true
+      this.showReadonly = true
+    } else {
+      this.showInput = false
+      this.showReadonly = false
+    }
     this.MontoConvert = data.Monto
     this.modalService.dismissAll('Close')
     this.SelecBanco(data.Articulo)

@@ -154,7 +154,7 @@
             <div class="form-group">
               <label for="basicSelect">Seleccione Tipo de Pago</label>
               <ng-select [items]="SelectTipoPagox" placeholder="Seleccione Tipo de Pago" bindLabel="name"
-                autocomplete="off" [(ngModel)]="Dutilidad.TipoAporte" [ngModelOptions]="{standalone: true}" required
+                autocomplete="off"  [(ngModel)]="Dutilidad.TipoAporte" [ngModelOptions]="{standalone: true}" required
                 autocomplete="off">
               </ng-select>
             </div>
@@ -282,7 +282,7 @@
           </div>
         </div>
 
-        <div class="col-md-12 col-12 mb-1">
+        <div class="col-md-12 col-12 mb-1" *ngIf="!showInput">
           <div class="form-group">
             <label for="basicSelect">Seleccione Banco</label>
             <ng-select [items]="SelectBancos" placeholder="Seleccione Banco" bindLabel="name" bindValue="id"
@@ -296,7 +296,7 @@
         <div class="col-md-6 col-12 mb-1">
           <div class="form-group">
             <label for="basicSelect">Numero de Referencia</label>
-            <input type="text" class="form-control" placeholder="Ingrese Numero de Referencia" autocomplete="off"
+            <input type="text" [readOnly]="showReadonly" class="form-control" placeholder="Ingrese Numero de Referencia" autocomplete="off"
               [(ngModel)]="pReferenciaBancaria" [ngModelOptions]="{standalone: true}">
           </div>
         </div>
@@ -305,11 +305,11 @@
 
         <div class="col-xl-6 col-md-6 col-12">
           <div class="form-group">
-            <label for="helperText">Fecha de Pago Banco</label>
-            {{DatepickerYearMin}} {{DatepickerMonthMin}}
+            <label for="helperText">Fecha de Pago</label>
+            <!-- {{DatepickerYearMin}} {{DatepickerMonthMin}} -->
             <div class="form-group">
               <div class="input-group">
-                <input class="form-control" readonly placeholder="Seleccione la Fecha del Pago a Banco"
+                <input class="form-control" readonly placeholder="Seleccione la Fecha"
                   autocomplete="off" [(ngModel)]="FechaBancoPago" [ngModelOptions]="{standalone: true}" ngbDatepicker
                   #basicFPB="ngbDatepicker" #i18nDP="ngbDatepicker" [minDate]="{year: DatepickerYear, month: 1, day: 1}"
                   [maxDate]="{year: DatepickerYear, month: 12, day: 31}">
@@ -522,13 +522,13 @@
           <div class="form-group">
             <label for="basicSelect">Seleccione Tipo de Pago</label>
             <ng-select [items]="SelectTipoPago" placeholder="Seleccione Tipo de Pago" bindLabel="name" bindValue="id"
-              autocomplete="off" name="pTipoPagoId" [(ngModel)]="IUpdateEmpresasAportes.TipoPagoId"
+              autocomplete="off" [disabled]="showReadonly" name="pTipoPagoId" [(ngModel)]="IUpdateEmpresasAportes.TipoPagoId"
               [ngModelOptions]="{standalone: true}" required autocomplete="off">
             </ng-select>
           </div>
         </div>
 
-        <div class="col-md-12 col-12 mb-1">
+        <div class="col-md-12 col-12 mb-1" *ngIf="!showInput">
           <div class="form-group">
             <label for="basicSelect">Seleccione Banco</label>
             <ng-select [items]="SelectBancos" placeholder="Seleccione Banco" bindLabel="name" bindValue="id"
@@ -542,7 +542,7 @@
         <div class="col-md-6 col-12 mb-1">
           <div class="form-group">
             <label for="basicSelect">Numero de Referencia</label>
-            <input type="text" class="form-control" placeholder="Ingrese Numero de Referencia" autocomplete="off"
+            <input type="text" [readOnly]="showReadonly" class="form-control" placeholder="Ingrese Numero de Referencia" autocomplete="off"
               [(ngModel)]="IUpdateEmpresasAportes.ReferenciaBancaria" [ngModelOptions]="{standalone: true}">
           </div>
         </div>
@@ -551,8 +551,8 @@
 
         <div class="col-xl-6 col-md-6 col-12">
           <div class="form-group">
-            <label for="helperText">Fecha de Pago Banco {{FechaBancoPago | json }} </label>
-            {{DatepickerYearMin}} {{DatepickerMonthMin}}
+            <label for="helperText">Fecha de Pago</label>
+            <!-- {{DatepickerYearMin}} {{DatepickerMonthMin}} -->
             <div class="form-group">
               <div class="input-group">
                 <!-- <input class="form-control" readonly placeholder="Seleccione la Fecha del Pago a Banco" autocomplete="off"
