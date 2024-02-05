@@ -1,87 +1,80 @@
 <div class="card content-wrapper container-xxl p-0">
   <div class="card-body">
-  
-      <!-- Invoice List -->
-      <section class="users-list-wrapper">
-  
-        <div class="card">
-          <div class="row">
-            <div class="col-md-6 col-12">
-              <div class="d-flex justify-content-between align-items-center m-1">
-                <label class="d-flex align-items-center">Mostrar
-                  <select class="form-control mx-25" [(ngModel)]="selectedOption">
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                  </select>
-                  Registros</label>
-              </div>
-            </div>
-            <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
-              <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
-                <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
-                    name="searchValue" type="search" class="form-control ml-25" placeholder="N~ Referencia"
-                    (keyup)="filterUpdate($event)"
-                    (search)="filterUpdate($event)" /></label>
-              </div>
+
+    <!-- Invoice List -->
+    <section class="users-list-wrapper">
+
+      <div class="card">
+        <div class="row">
+          <div class="col-md-6 col-12">
+            <div class="d-flex justify-content-between align-items-center m-1">
+              <label class="d-flex align-items-center">Mostrar
+                <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+                Registros</label>
             </div>
           </div>
-          <ngx-datatable [rows]="rowsUtilidadCierreFiscal" [rowHeight]="50" class="bootstrap core-bootstrap"
-            [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
-            [scrollbarH]="true">
-  
-            <ngx-datatable-column name="RIF" prop="Rif" [width]="20">
-              <ng-template let-Rif="value" ngx-datatable-cell-template>
-                <div>
-                  <span class="font-weight-bold">{{ Rif  }} </span>
-                </div>
-              </ng-template>
-            </ngx-datatable-column>
-  
-            <ngx-datatable-column name="Contribuyente" prop="RazonSocial" [width]="20">
-              <ng-template let-RazonSocial="value" ngx-datatable-cell-template>
-                <div>
-                  <span class="font-weight-bold"> {{ RazonSocial.slice(0,57) }} </span>
-                </div>
-              </ng-template>
-            </ngx-datatable-column>
-  
-            <ngx-datatable-column name="" [width]="20">
-            </ngx-datatable-column>
-            <ngx-datatable-column name="" [width]="20">
-            </ngx-datatable-column>
-  
-            <ngx-datatable-column name="Monto" prop="Monto" [width]="20">
-              <ng-template let-Monto="value" ngx-datatable-cell-template>
-                <div>
-                  <span class="font-weight-bold"> {{ Monto }} </span>
-                </div>
-              </ng-template>
-            </ngx-datatable-column>
-  
-            <ngx-datatable-column name="#Referencia" prop="ReferenciaBancaria" [width]="20">
-              <ng-template let-ReferenciaBancaria="value" ngx-datatable-cell-template>
-                <div>
-                  <span class="font-weight-bold"> {{ ReferenciaBancaria }} </span>
-                </div>
-              </ng-template>
-            </ngx-datatable-column>
-  
-            <ngx-datatable-column name="Status"  [width]="20">
-              <ng-template let-Monto="value" ngx-datatable-cell-template>
-                <!-- <div>
+          <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+            <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+              <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
+                  name="searchValue" type="search" class="form-control ml-25" placeholder="N~ Referencia"
+                  (keyup)="filterUpdate($event)" (search)="filterUpdate($event)" /></label>
+            </div>
+          </div>
+        </div>
+        <ngx-datatable [rows]="rowsUtilidadCierreFiscal" [rowHeight]="50" class="bootstrap core-bootstrap"
+          [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
+          [scrollbarH]="true">
+
+          <ngx-datatable-column name="RIF" prop="Rif" [width]="20">
+            <ng-template let-Rif="value" ngx-datatable-cell-template>
+              <div>
+                <span class="font-weight-bold">{{ Rif }} </span>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Contribuyente" prop="RazonSocial" [width]="300">
+            <ng-template let-RazonSocial="value" ngx-datatable-cell-template>
+              <div>
+                <span class="font-weight-bold"> {{ RazonSocial.slice(0,57) }} </span>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+
+          <ngx-datatable-column name="Monto" prop="Monto" [width]="20">
+            <ng-template let-Monto="value" ngx-datatable-cell-template>
+              <div>
+                <span class="font-weight-bold"> {{ Monto }} </span>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="#Referencia" prop="ReferenciaBancaria" [width]="20">
+            <ng-template let-ReferenciaBancaria="value" ngx-datatable-cell-template>
+              <div>
+                <span class="font-weight-bold"> {{ ReferenciaBancaria }} </span>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Status" [width]="20">
+            <ng-template let-Monto="value" ngx-datatable-cell-template>
+              <!-- <div>
                   <span class="font-weight-bold">Pendiente por pago </span>
                 </div> -->
-                <div
-                class="badge badge-pill"
-                ngClass="badge-light-warning">
+              <div class="badge badge-pill" ngClass="badge-light-warning">
                 Revisión
               </div>
-              </ng-template>
-            </ngx-datatable-column>
-  
-            <!-- <ngx-datatable-column name="Acción" [width]="5" [sortable]="false">
+            </ng-template>
+          </ngx-datatable-column>
+
+          <!-- <ngx-datatable-column name="Acción" [width]="5" [sortable]="false">
               <ng-template ngx-datatable-cell-template let-row="row">
                 <button type="button" class="btn btn-sm btn-success" (click)="RegistrarPagarAporte(ModalAddRegisterAporte, row)"
                   rippleEffect>
@@ -89,171 +82,180 @@
               </ng-template>
             </ngx-datatable-column> -->
 
-            <ngx-datatable-column name="Accion" [width]="20" [sortable]="false">
-              <ng-template  ngx-datatable-cell-template let-row="row">
-                <div ngbDropdown container="body">
-                  <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
-                    <span [data-feather]="'settings'" [class]="'cursor-pointer'"></span>
-                  </button>
-                  <div ngbDropdownMenu>
-                    <div>
-                      <a [href]="dwUrl(row.Rif,row.Bauche)" *ngIf="row.Bauche != null" ngbDropdownItem >
-                        <!-- <a  ngbDropdownItem > -->
-                        <span
-                        [data-feather]="'download'"  [size]="16" [class]="'mr-50'"></span> Descargar Bauche</a>
-                
-                      <a (click)="RegistrarPagarAporte(ModalAddRegisterAporte, row)" ngbDropdownItem ><span
-                        [data-feather]="'book-open'"  [size]="16" [class]="'mr-50'"></span> Conciliar Pago</a>
+          <ngx-datatable-column name="Accion" [width]="20" [sortable]="false">
+            <ng-template ngx-datatable-cell-template let-row="row">
+              <div ngbDropdown container="body">
+                <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
+                  <span [data-feather]="'settings'" [class]="'cursor-pointer'"></span>
+                </button>
+                <div ngbDropdownMenu>
+                  <div>
+                    <a [href]="dwUrl(row.Rif,row.Bauche)" *ngIf="row.Bauche != null" ngbDropdownItem>
+                      <!-- <a  ngbDropdownItem > -->
+                      <span [data-feather]="'download'" [size]="16" [class]="'mr-50'"></span> Descargar Bauche</a>
+
+                    <a (click)="RegistrarPagarAporte(ModalAddRegisterAporte, row)" ngbDropdownItem><span
+                        [data-feather]="'book-open'" [size]="16" [class]="'mr-50'"></span> Conciliar Pago</a>
                   </div>
                 </div>
-                </div>  
-                  </ng-template>
-                </ngx-datatable-column>
-  
-  
-          </ngx-datatable>
-        </div>
-      </section>
-      <!--/ Invoice List -->
-  
-    </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+
+        </ngx-datatable>
+      </div>
+    </section>
+    <!--/ Invoice List -->
+
   </div>
-  
-  
-  
-    
-  <ng-template #ModalAddRegisterAporte let-modal>
-    <div class="modal-header">
-      <h5 class="modal-title" id="myModalLabel160">{{ titleModal }}</h5>
-      <!-- <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+</div>
+
+
+
+
+<ng-template #ModalAddRegisterAporte let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="myModalLabel160">{{ titleModal }}</h5>
+    <!-- <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button> -->
-    </div>
-    <div class="modal-body" tabindex="0" ngbAutofocus>
-      <!-- Invoice -->
-      <div class="col-xl-12 col-md-12 col-12 printRef">
-        <!-- Header Starts -->
-  
-        <div class="row">
-          <div class="col-md-3 col-12 mb-1">
-            <div class="form-group">
-              <label for="basicSelect">Fecha de Documento</label>
-              <input type="text" readonly class="form-control" [value]="fechaDocumento">
-            </div>
-          </div>
-          <div class="col-md-3 col-12 mb-1">
-            <div class="form-group">
-              <label for="basicSelect">Fecha de Pago del Aporte</label>
-              <input type="text" readonly class="form-control" [value]="aporte.fecha">
-            </div>
-          </div>
-          <div class="col-md-6 col-12 mb-1">
-            <div class="form-group">
-              <label for="basicSelect">Numero de Referencia</label>
-              <input type="text" readonly class="form-control" [value]="aporte.referencia">
-            </div>
-          </div>
-          <div class="col-md-6 col-12 mb-1">
-            <div class="form-group">
-              <label for="basicSelect">Banco de Referencia</label>
-              <input type="text" readonly class="form-control" [value]="aporte.banco">
-            </div>
-          </div>
-          <div class="col-md-6 col-12 mb-1">
-            <div class="form-group">
-              <label for="basicSelect"><font color="red">Tipo de Articulo</font></label>
-              <input type="text" readonly class="form-control" [value]="aporte.Codigo">
-            </div>
-          </div>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <!-- Invoice -->
+    <div class="col-xl-12 col-md-12 col-12 printRef">
+      <!-- Header Starts -->
 
-          <div class="col-md-6 col-12 mb-1">
-            <div class="form-group">
-              <label for="basicSelect"><font color="red">Fecha Aporte</font></label>
-              <input type="text" readonly class="form-control" [value]="aporte.FechaAporte">
-            </div>
+      <div class="row">
+        <div class="col-md-3 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicSelect">Fecha de Documento</label>
+            <input type="text" readonly class="form-control" [value]="fechaDocumento">
           </div>
+        </div>
+        <div class="col-md-3 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicSelect">Fecha de Pago del Aporte</label>
+            <input type="text" readonly class="form-control" [value]="aporte.fecha">
+          </div>
+        </div>
+        <div class="col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicSelect">Numero de Referencia</label>
+            <input type="text" readonly class="form-control" [value]="aporte.referencia">
+          </div>
+        </div>
+        <div class="col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicSelect">Banco de Referencia</label>
+            <input type="text" readonly class="form-control" [value]="aporte.banco ? aporte.banco : 'Sin Banco'">
+          </div>
+        </div>
+        <div class="col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicSelect">
+              <font color="red">Tipo de Articulo</font>
+            </label>
+            <input type="text" readonly class="form-control" [value]="aporte.Codigo">
+          </div>
+        </div>
 
-          <div class="col-md-6 col-12 mb-1">
-            <div class="form-group">
-              <label for="basicSelect"><font color="red">Tipo Pago</font></label>
-              <input type="text" readonly class="form-control" [value]="aporte.TipoAporte">
-            </div>
+        <div class="col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicSelect">
+              <font color="red">Fecha Aporte</font>
+            </label>
+            <input type="text" readonly class="form-control" [value]="aporte.FechaAporte">
           </div>
+        </div>
 
-          <div class="col-md-6 col-12 mb-1">
-            <div class="form-group">
-              <label for="basicSelect"><font color="red">Inicio Fiscal</font></label>
-              <input type="text" readonly class="form-control" [value]="aporte.FechaInicioFiscal">
-            </div>
+        <div class="col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicSelect">
+              <font color="red">Tipo Pago</font>
+            </label>
+            <input type="text" readonly class="form-control" [value]="aporte.TipoAporte">
           </div>
+        </div>
 
-          <div class="col-md-6 col-12 mb-1">
-            <div class="form-group">
-              <label for="basicSelect"><font color="red">Cierre Fiscal</font></label>
-              <input type="text" readonly class="form-control" [value]="aporte.FechaCierreFiscal">
-            </div>
+        <div class="col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicSelect">
+              <font color="red">Inicio Fiscal</font>
+            </label>
+            <input type="text" readonly class="form-control" [value]="aporte.FechaInicioFiscal">
           </div>
+        </div>
 
-          <div class="col-md-6 col-12 mb-1">
-            <div class="form-group">
-              <label for="basicSelect"><font color="red">Monto Total de la Declaraciòn</font></label>
-              <input type="text" readonly class="form-control" [value]="aporte.MontoTotalDeclarado">
-            </div>
+        <div class="col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicSelect">
+              <font color="red">Cierre Fiscal</font>
+            </label>
+            <input type="text" readonly class="form-control" [value]="aporte.FechaCierreFiscal">
           </div>
+        </div>
 
-          <div class="col-md-6 col-12 mb-1">
-            <div class="form-group">
-              <label for="basicSelect"><font color="red">Monto Convertido con Articulo</font></label>
-              <input type="text" readonly class="form-control" [value]="aporte.MontoPagar">
-            </div>
+        <div class="col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicSelect">
+              <font color="red">Monto Total de la Declaraciòn</font>
+            </label>
+            <input type="text" readonly class="form-control" [value]="aporte.MontoTotalDeclarado">
           </div>
+        </div>
 
-          <div class="col-md-6 col-12 mb-1">
-            <div class="form-group">
-              <label for="basicSelect"><font color="red">Monto Pagado a Banco</font></label>
-              <input type="text" readonly class="form-control" [value]="aporte.monto">
-            </div>
+        <div class="col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicSelect">
+              <font color="red">Monto Convertido con Articulo</font>
+            </label>
+            <input type="text" readonly class="form-control" [value]="aporte.MontoPagar">
           </div>
-          
-          <div class="col-md-6 col-12 mb-1">
-            <div class="form-group">
-              <label for="basicInput">Estatus del Pago</label>
-              <ng-select
-              [items]="ListaStastus"
-              [(ngModel)]="statusPago"
-              [ngModelOptions]="{standalone: true}"
-              placeholder="Seleccione Estatus"
-              bindLabel="name"
-              bindValue="id"
-              required
-              >
+        </div>
+
+        <div class="col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicSelect">
+              <font color="red">Monto Pagado a Banco</font>
+            </label>
+            <input type="text" readonly class="form-control" [value]="aporte.monto">
+          </div>
+        </div>
+
+        <div class="col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicInput">Estatus del Pago</label>
+            <ng-select [items]="ListaStastus" [(ngModel)]="statusPago" [ngModelOptions]="{standalone: true}"
+              placeholder="Seleccione Estatus" bindLabel="name" bindValue="id" required>
             </ng-select>
-            </div>
           </div>
+        </div>
 
-          <div class="col-12">
-            <div class="form-group">
-              <label for="basicInput">Observaciones del Pago</label>
-              <textarea class="form-control" [(ngModel)]="observacionPago" [ngModelOptions]="{standalone: true}" rows="3" placeholder="Observaciones del pago"></textarea>
-            </div>
+        <div class="col-12">
+          <div class="form-group">
+            <label for="basicInput">Observaciones del Pago</label>
+            <textarea class="form-control" [(ngModel)]="observacionPago" [ngModelOptions]="{standalone: true}" rows="3"
+              placeholder="Observaciones del pago"></textarea>
           </div>
-  
-  
-          <!-- <div class="col-12">
+        </div>
+
+
+        <!-- <div class="col-12">
           <hr class="invoice-spacing" />
          <font color="red" ><small><strong>Nota: </strong>Por favor ingrese la información requerida, debe tomar en cuenta la reconversión monetaria ya que <strong> Usted esta declarando ganancias.</strong></small></font>
         </div> -->
-  
-  
-        </div>
-  
+
+
       </div>
+
     </div>
-  
-    <div class="modal-footer">
-      <button type="button" class="btn btn-success" (click)="ConciliarReporte()" rippleEffect>Conciliar Aporte</button>
-      <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
-        Cerrar
-      </button>
-    </div>
-  </ng-template>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success" (click)="ConciliarReporte()" rippleEffect>Conciliar Aporte</button>
+    <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+      Cerrar
+    </button>
+  </div>
+</ng-template>

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {DatePipe} from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { CoreCommonModule } from '@core/common.module';
 import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
@@ -37,33 +37,35 @@ import { ContributingCompaniesComponent } from './financial-collection/contribut
 import { TaxpayersComponent } from './digital-documentation/taxpayers/taxpayers.component';
 import { AdminEvaluationProjectComponent } from './projects/admin-evaluation-project/admin-evaluation-project.component';
 import { MovementEvaluationComponent } from './projects/movement-evaluation/movement-evaluation.component';
+import { UsersStatusGlobalComponent } from './support/users-status-global/users-status-global.component';
 
 
 
 @NgModule({
-    declarations: [
-      DashboardComponent,
-      RegistrationManagementComponent,
-      TaxpayerPaymentsComponent,
-      ListCurrentFinesComponent,
-      CompanyProjectsComponent,
-      UsersComponent,
-      UsersStatusComponent,
-      ProfileComponent,
-      DeclarationPaymentsComponent,
-      TableManagementComponent,
-      RoleUserComponent,
-      PermissionsUserComponent,
-      ChangePasswordComponent,
-      BackupsComponent,
-      CompanyProjectsRecosupComponent,
-      GenerateNonRegisteredFinesComponent,
-      GenerateFinesComponent,
-      ContributingCompaniesComponent,
-      TaxpayersComponent,
-      AdminEvaluationProjectComponent,
-      MovementEvaluationComponent
-    ],
+  declarations: [
+    DashboardComponent,
+    RegistrationManagementComponent,
+    TaxpayerPaymentsComponent,
+    ListCurrentFinesComponent,
+    CompanyProjectsComponent,
+    UsersComponent,
+    UsersStatusComponent,
+    UsersStatusGlobalComponent,
+    ProfileComponent,
+    DeclarationPaymentsComponent,
+    TableManagementComponent,
+    RoleUserComponent,
+    PermissionsUserComponent,
+    ChangePasswordComponent,
+    BackupsComponent,
+    CompanyProjectsRecosupComponent,
+    GenerateNonRegisteredFinesComponent,
+    GenerateFinesComponent,
+    ContributingCompaniesComponent,
+    TaxpayersComponent,
+    AdminEvaluationProjectComponent,
+    MovementEvaluationComponent
+  ],
   imports: [
     CommonModule,
     NgxDatatableModule,
@@ -83,12 +85,12 @@ import { MovementEvaluationComponent } from './projects/movement-evaluation/move
 
 })
 export class DashboardModule {
- 
 
 
 
 
- 
+
+
 
 
 }

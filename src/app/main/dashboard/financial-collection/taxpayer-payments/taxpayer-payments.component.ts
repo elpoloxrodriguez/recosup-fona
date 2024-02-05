@@ -12,26 +12,26 @@ import { RECOSUP_U_AprobarGanancias, RECOSUP_U_PagarAportesConciliar } from '@co
   selector: 'app-taxpayer-payments',
   templateUrl: './taxpayer-payments.component.html',
   styleUrls: ['./taxpayer-payments.component.scss'],
-  encapsulation : ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None,
   providers: [NgbModalConfig, NgbModal],
 })
 export class TaxpayerPaymentsComponent implements OnInit {
 
 
-  public xAPI : IAPICore = {
+  public xAPI: IAPICore = {
     funcion: '',
     parametros: '',
-    valores : {},
+    valores: {},
   };
-  
 
-  public xRECOSUP_U_PagarAportesConciliar : RECOSUP_U_PagarAportesConciliar = {
+
+  public xRECOSUP_U_PagarAportesConciliar: RECOSUP_U_PagarAportesConciliar = {
     EstatusGeneralId: 0,
     Observacion: '',
     EmpresaGananciaId: 0
   }
 
-  public xRECOSUP_U_AprobarGanancias : RECOSUP_U_AprobarGanancias = {
+  public xRECOSUP_U_AprobarGanancias: RECOSUP_U_AprobarGanancias = {
     EstatusGeneralId: 0,
     EmpresaGananciaId: 0
   }
@@ -48,18 +48,18 @@ export class TaxpayerPaymentsComponent implements OnInit {
     referencia: '',
     banco: '',
     monto: '',
-    MontoPagar : undefined,
+    MontoPagar: undefined,
     MontoTotalDeclarado: undefined,
-    FechaAporte : undefined,
+    FechaAporte: undefined,
     TipoAporte: undefined,
-    FechaInicioFiscal : undefined,
-    FechaCierreFiscal : undefined,
+    FechaInicioFiscal: undefined,
+    FechaCierreFiscal: undefined,
   }
   public rowsUtilidadCierreFiscal
   public Utilidad = [];
   public ListaStastus = [
     { id: '7', name: 'Aprobado' },
-    { id: '18', name: 'Rechazado'  }
+    { id: '18', name: 'Rechazado' }
 
   ];
   public rowsDetalleAporte;
@@ -67,47 +67,47 @@ export class TaxpayerPaymentsComponent implements OnInit {
 
   public IdPago
 
-    // public
-    public data: any;
-    public selectedOption = 10;
-    public ColumnMode = ColumnMode;
-  
-    public searchValue = '';
-    
-  
-    // decorator
-    @ViewChild(DatatableComponent) table: DatatableComponent;
-  
-    // private
-    private tempData = [];
-    private _unsubscribeAll: Subject<any>;
-    public rows;
-    public tempFilterData;
-    public previousStatusFilter = '';
+  // public
+  public data: any;
+  public selectedOption = 10;
+  public ColumnMode = ColumnMode;
 
-    private tempDataCierreFiscal = [];
-    private tempDataUtilidadAportes = []
-  
+  public searchValue = '';
+
+
+  // decorator
+  @ViewChild(DatatableComponent) table: DatatableComponent;
+
+  // private
+  private tempData = [];
+  private _unsubscribeAll: Subject<any>;
+  public rows;
+  public tempFilterData;
+  public previousStatusFilter = '';
+
+  private tempDataCierreFiscal = [];
+  private tempDataUtilidadAportes = []
+
 
   constructor(
-    private apiService : ApiService,
+    private apiService: ApiService,
     private modalService: NgbModal,
     private pdf: PdfService,
-    private utilservice : UtilService,
+    private utilservice: UtilService,
   ) {
   }
 
 
-    // Lifecycle Hooks
+  // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
   /**
    * On init
    */
-   async ngOnInit()  {
-    this.token =  jwt_decode(sessionStorage.getItem('token'))
-  await this.UtilidadCierreFiscal(this.token.Usuario[0].EmpresaId)
-  // await this.ListStatusSystem()
-   }
+  async ngOnInit() {
+    this.token = jwt_decode(sessionStorage.getItem('token'))
+    await this.UtilidadCierreFiscal(this.token.Usuario[0].EmpresaId)
+    // await this.ListStatusSystem()
+  }
   // Public Methods
   // -----------------------------------------------------------------------------------------------------
 
@@ -115,25 +115,25 @@ export class TaxpayerPaymentsComponent implements OnInit {
     this.xAPI.funcion = "RECOSUP_R_Listar_Pagos_Contribuyentes";
     this.xAPI.parametros = '17'
     // this.xAPI.valores = ''
-     await this.apiService.Ejecutar(this.xAPI).subscribe(
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         // console.log(data)
-         data.Cuerpo.map(e => {
+        data.Cuerpo.map(e => {
           if (e.Codigo == 32) {
             e.MontoTotalDeclarado = this.utilservice.ConvertirMoneda(e.MontoPagar)
-            var Monto1  = e.MontoPagar * 1 / 100
+            var Monto1 = e.MontoPagar * 1 / 100
             e.MontoPagar = this.utilservice.ConvertirMoneda(Monto1)
           } else {
             e.MontoTotalDeclarado = this.utilservice.ConvertirMoneda(e.MontoPagar)
-            var Monto1  = e.MontoPagar * 2 / 100
-            e.MontoPagar = this.utilservice.ConvertirMoneda(Monto1)            
+            var Monto1 = e.MontoPagar * 2 / 100
+            e.MontoPagar = this.utilservice.ConvertirMoneda(Monto1)
           }
           e.Monto = this.utilservice.ConvertirMoneda(e.Monto)
           this.Utilidad.push(e)
         });
         // console.log(this.Utilidad)
-          this.rowsUtilidadCierreFiscal = this.Utilidad;
-          this.tempDataCierreFiscal = this.rowsUtilidadCierreFiscal;
+        this.rowsUtilidadCierreFiscal = this.Utilidad;
+        this.tempDataCierreFiscal = this.rowsUtilidadCierreFiscal;
       },
       (error) => {
         console.log(error)
@@ -147,44 +147,44 @@ export class TaxpayerPaymentsComponent implements OnInit {
   }
 
 
-  async ConciliarReporte(){
+  async ConciliarReporte() {
     if (this.statusPago != null && this.observacionPago != null) {
       this.xRECOSUP_U_PagarAportesConciliar.EmpresaGananciaId = this.IdPago
-    this.xRECOSUP_U_PagarAportesConciliar.EstatusGeneralId = this.statusPago
-    this.xRECOSUP_U_PagarAportesConciliar.Observacion = this.observacionPago
-    this.xAPI.funcion = 'RECOSUP_U_PagarAportesConciliar'
-    this.xAPI.parametros = ''
-    this.xAPI.valores = JSON.stringify(this.xRECOSUP_U_PagarAportesConciliar)
-    await this.apiService.Ejecutar(this.xAPI).subscribe(
-      (data) => {
-        this.rowsUtilidadCierreFiscal = []
-        if (data.tipo === 1) {
-          this.modalService.dismissAll('Close')
-          this.utilservice.alertConfirmMini('success', 'Conciliación Exitosa!')
-          this.UtilidadCierreFiscal(this.token.Usuario[0].EmpresaId)
-          if ( this.statusPago == '7') {
-            this.xRECOSUP_U_AprobarGanancias.EmpresaGananciaId = this.IdPago
-            this.xRECOSUP_U_AprobarGanancias.EstatusGeneralId = 7
-            this.xAPI.funcion = 'RECOSUP_U_AprobarGanancias'
-            this.xAPI.parametros = ''
-            this.xAPI.valores = JSON.stringify(this.xRECOSUP_U_AprobarGanancias)
-            this.apiService.Ejecutar(this.xAPI).subscribe(
-              (data) => {
-                this.utilservice.alertConfirmMini('success', 'Conciliación Exitosa!')
-              },
-              (err) => {
-                console.log(err)
-              }
-            )
+      this.xRECOSUP_U_PagarAportesConciliar.EstatusGeneralId = this.statusPago
+      this.xRECOSUP_U_PagarAportesConciliar.Observacion = this.observacionPago
+      this.xAPI.funcion = 'RECOSUP_U_PagarAportesConciliar'
+      this.xAPI.parametros = ''
+      this.xAPI.valores = JSON.stringify(this.xRECOSUP_U_PagarAportesConciliar)
+      await this.apiService.Ejecutar(this.xAPI).subscribe(
+        (data) => {
+          this.rowsUtilidadCierreFiscal = []
+          if (data.tipo === 1) {
+            this.modalService.dismissAll('Close')
+            this.utilservice.alertConfirmMini('success', 'Conciliación Exitosa!')
+            this.UtilidadCierreFiscal(this.token.Usuario[0].EmpresaId)
+            if (this.statusPago == '7') {
+              this.xRECOSUP_U_AprobarGanancias.EmpresaGananciaId = this.IdPago
+              this.xRECOSUP_U_AprobarGanancias.EstatusGeneralId = 7
+              this.xAPI.funcion = 'RECOSUP_U_AprobarGanancias'
+              this.xAPI.parametros = ''
+              this.xAPI.valores = JSON.stringify(this.xRECOSUP_U_AprobarGanancias)
+              this.apiService.Ejecutar(this.xAPI).subscribe(
+                (data) => {
+                  this.utilservice.alertConfirmMini('success', 'Conciliación Exitosa!')
+                },
+                (err) => {
+                  console.log(err)
+                }
+              )
+            }
+          } else {
+            this.utilservice.alertConfirmMini('error', 'Lo sentimos algo salio mal, intente de nuevo')
           }
-        } else {
-          this.utilservice.alertConfirmMini('error', 'Lo sentimos algo salio mal, intente de nuevo')
+        },
+        (error) => {
+          console.log(error)
         }
-      },
-      (error) => {
-        console.log(error)
-      }
-    )
+      )
     } else {
       // console.log('ESTA VACIO')
       this.utilservice.alertConfirmMini('warning', 'Lo sentimos! El campo estatus tiene que estar seleccionado')
@@ -199,8 +199,8 @@ export class TaxpayerPaymentsComponent implements OnInit {
     this.ListaStastus = []
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-        this.ListaStastus = data.Cuerpo.map( e => {
-          e.name =  e.Tipo
+        this.ListaStastus = data.Cuerpo.map(e => {
+          e.name = e.Tipo
           e.id = e.EstatusId
           return e
         });
@@ -211,53 +211,53 @@ export class TaxpayerPaymentsComponent implements OnInit {
     )
   }
 
-    /**
-   * filterUpdate
-   *
-   * @param event
-   */
-    filterUpdate(event) {
-      // Reset ng-select on search
-      const val = event.target.value.toLowerCase();
-      // Filter Our Data
-      const temp = this.tempDataCierreFiscal.filter(function (d) {
-        return d.ReferenciaBancaria.toLowerCase().indexOf(val) !== -1 || !val;
-      });
-      // Update The Rows
-      this.rowsUtilidadCierreFiscal = temp;
-      // Whenever The Filter Changes, Always Go Back To The First Page
-      this.table.offset = 0;
-    }
+  /**
+ * filterUpdate
+ *
+ * @param event
+ */
+  filterUpdate(event) {
+    // Reset ng-select on search
+    const val = event.target.value.toLowerCase();
+    // Filter Our Data
+    const temp = this.tempDataCierreFiscal.filter(function (d) {
+      return d.ReferenciaBancaria.toLowerCase().indexOf(val) !== -1 || !val;
+    });
+    // Update The Rows
+    this.rowsUtilidadCierreFiscal = temp;
+    // Whenever The Filter Changes, Always Go Back To The First Page
+    this.table.offset = 0;
+  }
 
 
 
-    RegistrarPagarAporte(modal, data) {
-      // console.log(data)
-      this.IdPago = data.EmpresaGananciaId
-      this.titleModal = data.RazonSocial
-      this.aporte.fecha = data.FechaDocumento
-      this.fechaDocumento = this.utilservice.FechaMomentL(data.FechaDocumento),
+  RegistrarPagarAporte(modal, data) {
+    console.log(data)
+    this.IdPago = data.EmpresaGananciaId
+    this.titleModal = data.RazonSocial
+    this.aporte.fecha = data.FechaDocumento
+    this.fechaDocumento = this.utilservice.FechaMomentL(data.FechaDocumento),
       this.aporte = {
-        fecha:  this.utilservice.FechaMomentL(data.FechaBancoPago),
+        fecha: this.utilservice.FechaMomentL(data.FechaBancoPago),
         referencia: data.ReferenciaBancaria,
         banco: data.Nombre,
         monto: data.Monto,
-        MontoPagar : data.MontoPagar,
-        Codigo : data.Codigo,
+        MontoPagar: data.MontoPagar,
+        Codigo: data.Codigo,
         FechaAporte: data.FechaAporte,
         MontoTotalDeclarado: data.MontoTotalDeclarado,
-        TipoAporte : data.TipoAporte,
-        FechaInicioFiscal : data.FechaDesde,
-        FechaCierreFiscal : data.FechaHasta
+        TipoAporte: data.TipoAporte,
+        FechaInicioFiscal: data.FechaDesde,
+        FechaCierreFiscal: data.FechaHasta
       }
-      this.modalService.open(modal,{
-        centered: true,
-        size: 'lg',
-        backdrop: false,
-        keyboard: false,
-        windowClass: 'fondo-modal',
-      });
-    }
+    this.modalService.open(modal, {
+      centered: true,
+      size: 'lg',
+      backdrop: false,
+      keyboard: false,
+      windowClass: 'fondo-modal',
+    });
+  }
 
 
 }

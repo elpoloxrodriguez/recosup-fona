@@ -63,8 +63,8 @@ export class DeclarationPaymentsComponent implements OnInit {
 
   public hashcontrol = ''
   public numControl: string = ''
-    // Subir Archivos
-    public archivos = []
+  // Subir Archivos
+  public archivos = []
 
 
   public DocAdjunto: DocumentoAdjunto = {
@@ -83,7 +83,7 @@ export class DeclarationPaymentsComponent implements OnInit {
     created_user: 0
   }
 
-  public FechaSelect : {
+  public FechaSelect: {
     id: undefined,
     name: undefined
   }
@@ -230,9 +230,9 @@ export class DeclarationPaymentsComponent implements OnInit {
   private tempDataDetalleAporte = []
   public rowsDataDetalleAporte = []
 
-  public showInput : boolean = false
+  public showInput: boolean = false
 
-  public showReadonly : boolean = false
+  public showReadonly: boolean = false
 
   constructor(
     private utilService: UtilService,
@@ -256,7 +256,7 @@ export class DeclarationPaymentsComponent implements OnInit {
     this.ActividadEconomicaEmpresa = this.token.Usuario[0].ActividadEconomicaId
     // console.log(this.ActividadEconomicaEmpresa)
     this.IdEmpresa = this.token.Usuario[0].EmpresaId
-    
+
     if (this.token.Usuario[0].ActividadEconomicaId == '11' || this.token.Usuario[0].ActividadEconomicaId == '60') {
       this.FuncSelectAnioAporte(this.token.Usuario[0].EmpresaId)
     } else {
@@ -437,60 +437,60 @@ export class DeclarationPaymentsComponent implements OnInit {
     )
   }
 
-  cargarAnios(){
+  cargarAnios() {
     this.SelectAnioAporte = []
     var anioActual = new Date()
     var anio = anioActual.getFullYear()
     for (let index = 2010; index <= anio - 1; index++) {
       this.SelectAnioAporte.push(index)
-     }
+    }
   }
 
-  async BuscarElemento(){
+  async BuscarElemento() {
     await this.cargarAnios()
     this.lstPagos.map(e => {
       if (this.Dutilidad.Articulo == e.Articulo) {
         let pos = 0
-        for (let i = 0; i <  this.SelectAnioAporte.length; i++) {
-          const element =  this.SelectAnioAporte[i];
+        for (let i = 0; i < this.SelectAnioAporte.length; i++) {
+          const element = this.SelectAnioAporte[i];
           if (element == e.Fecha) {
             pos = i
           }
         }
-        this.SelectAnioAporte.splice(pos,1)
+        this.SelectAnioAporte.splice(pos, 1)
       }
     })
   }
 
-   FuncSelectAnioAporte(id:any) {
+  FuncSelectAnioAporte(id: any) {
     this.xAPI.funcion = "RECOSUP_R_utilidad_cierre_fiscal_Contribuyente_SelectDeclaracionAnio";
-    this.xAPI.parametros = id 
+    this.xAPI.parametros = id
     this.xAPI.valores = ''
-     this.apiService.Ejecutar(this.xAPI).subscribe(
-      (data) => {
-       this.lstPagos = data.Cuerpo
-      },
-      (error) => {
-        console.log(error);
-      }
-      )
-  }
-
-
-  FuncSelectAnioDobleAportante(id:any){
-    var anioActual = new Date()
-    var anio = anioActual.getFullYear()
-    this.xAPI.funcion = "RECOSUP_R_utilidad_cierre_fiscal_Contribuyente_SelectDeclaracionAnio";
-    this.xAPI.parametros = id 
-    this.xAPI.valores = ''
-     this.apiService.Ejecutar(this.xAPI).subscribe(
+    this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         this.lstPagos = data.Cuerpo
       },
       (error) => {
         console.log(error);
       }
-      )
+    )
+  }
+
+
+  FuncSelectAnioDobleAportante(id: any) {
+    var anioActual = new Date()
+    var anio = anioActual.getFullYear()
+    this.xAPI.funcion = "RECOSUP_R_utilidad_cierre_fiscal_Contribuyente_SelectDeclaracionAnio";
+    this.xAPI.parametros = id
+    this.xAPI.valores = ''
+    this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        this.lstPagos = data.Cuerpo
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
   }
 
 
@@ -498,7 +498,7 @@ export class DeclarationPaymentsComponent implements OnInit {
     return cadena.toLowerCase().replace(/á/g, "a").replace(/ê/g, "i").replace(/í/g, "i").replace(/ó/g, "o").replace(/ú/g, "u")
   }
 
-  getPosition(id: string, nature : any) : number {
+  getPosition(id: string, nature: any): number {
     let pos = -1
     let i = 0
     nature.forEach(e => {
@@ -766,6 +766,7 @@ export class DeclarationPaymentsComponent implements OnInit {
       UsuarioModifico: this.token.Usuario[0].UsuarioId,
       FechaModifico: this.datePipe.transform(this.fechaActual, "yyyy-MM-dd HH:mm:ss"),
     }
+    // console.log(this.AddPagoAporte)
     this.xAPI.funcion = "RECOSUP_C_Reportar_Pago_Aportes_Contribuyentes";
     this.xAPI.parametros = ''
     this.xAPI.valores = JSON.stringify(this.AddPagoAporte)
@@ -829,6 +830,7 @@ export class DeclarationPaymentsComponent implements OnInit {
   }
 
   RegistrarPagarAporte(modal, data) {
+    // console.log(data)
     this.token = jwt_decode(sessionStorage.getItem('token'));
     this.numControl = this.token.Usuario[0].Rif
     this.hashcontrol = btoa("D" + this.numControl) //Cifrar documentos

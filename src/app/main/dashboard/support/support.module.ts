@@ -24,14 +24,6 @@ import { CoreSidebarModule } from '@core/components';
 import { AngularFileUploaderModule } from "angular-file-uploader";
 
 import { SupportRoutingModule } from './support-routing.module';
-import { MenuModuleComponent } from './menu-module/menu-module.component';
-import { RoleUserComponent } from './role-user/role-user.component';
-import { PermissionsUserComponent } from './permissions-user/permissions-user.component';
-import { TableManagementComponent } from './table-management/table-management.component';
-import { ChangePasswordComponent } from './change-password/change-password.component';
-import { BackupsComponent } from './backups/backups.component';
-import { UsersComponent } from './users/users.component';
-import { UsersStatusComponent } from './users-status/users-status.component';
 
 
 @NgModule({

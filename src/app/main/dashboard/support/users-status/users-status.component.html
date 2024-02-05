@@ -1,70 +1,54 @@
 <div class="card content-wrapper container-xxl p-0">
-    <div class="card-body">
-  
-  
-  <section class="users-list-wrapper">
-  
+  <div class="card-body">
+
+
+    <section class="users-list-wrapper">
+
       <div class="card">
         <div class="row">
           <div class="col-md-6 col-12">
             <div class="d-flex justify-content-between align-items-center m-1">
-              <label class="d-flex align-items-center"
-                >Mostrar
+              <label class="d-flex align-items-center">Mostrar
                 <select class="form-control mx-25" [(ngModel)]="selectedOption">
                   <option value="10">10</option>
                   <option value="25">25</option>
                   <option value="50">50</option>
                   <option value="100">100</option>
                 </select>
-                Registros</label
-              >
+                Registros</label>
             </div>
           </div>
           <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
             <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
-              <label class="d-flex align-items-center ml-1 ml-md-0"
-                >Buscar:<input
-                  [(ngModel)]="searchValue"
-                  name="searchValue"
-                  type="search"
-                  class="form-control ml-25"
-                  placeholder="Ingrese Usuario"
-                  (keyup)="filterUpdate($event)"
-                  (search)="filterUpdate($event)"
-              /></label>
+              <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
+                  name="searchValue" type="search" class="form-control ml-25" placeholder="Ingrese Usuario"
+                  (keyup)="filterUpdate($event)" (search)="filterUpdate($event)" /></label>
             </div>
           </div>
         </div>
-        <ngx-datatable
-          [rows]="rowsUsuariosInactivos"
-          rowHeight="auto"
-          class="bootstrap core-bootstrap"
-          [limit]="selectedOption"
-          [columnMode]="ColumnMode.force"
-          [headerHeight]="50"
-          [footerHeight]="50"
-          [scrollbarH]="true"
-        >
-
-  
-        <ngx-datatable-column name="Nombres"   [width]="50">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div>
-              {{row.Nombres}}   {{row.Apellidos}}
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="Cedula"   [width]="50">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div>
-              {{row.Cedula}} 
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
+        <ngx-datatable [rows]="rowsUsuariosInactivos" rowHeight="auto" class="bootstrap core-bootstrap"
+          [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
+          [scrollbarH]="true">
 
 
-        <ngx-datatable-column name="Usuario" prop="Codigo"  [width]="50">
+          <ngx-datatable-column name="Nombres" [width]="300">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <div>
+                {{row.Nombres}} {{row.Apellidos}}
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Cedula" [width]="50">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <div>
+                {{row.Cedula}}
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+
+          <ngx-datatable-column name="Usuario" prop="Codigo" [width]="50">
             <ng-template let-Codigo="value" ngx-datatable-cell-template>
               <div>
                 <span class="font-weight-bold"> {{ Codigo }} </span>
@@ -72,7 +56,7 @@
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="Telefonos" prop="Telefonos"   [width]="50">
+          <ngx-datatable-column name="Telefonos" prop="Telefonos" [width]="50">
             <ng-template let-Telefonos="value" ngx-datatable-cell-template>
               <div>
                 <span class="font-weight-bold"> {{ Telefonos }} </span>
@@ -80,15 +64,15 @@
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="Correo Electronico" prop="CorreoPrincipal"  [width]="20">
+          <ngx-datatable-column name="Correo Electronico" prop="CorreoPrincipal" [width]="100">
             <ng-template let-CorreoPrincipal="value" ngx-datatable-cell-template>
               <div>
-                <span class="font-weight-bold"> {{ CorreoPrincipal }} </span>
+                <span class="font-weight-bold"> {{ CorreoPrincipal.slice(0,30) }}... </span>
               </div>
             </ng-template>
           </ngx-datatable-column>
-            
-  
+
+
           <!-- <ngx-datatable-column name="Acción" [width]="10" [sortable]="false">
             <ng-template ngx-datatable-cell-template let-row="row">
               <button type="button" class="btn btn-sm btn-primary"  (click)="ActivarUsuario(row)" rippleEffect>
@@ -101,143 +85,116 @@
           </ngx-datatable-column> -->
 
           <ngx-datatable-column name="Accion" [width]="5" [sortable]="false">
-            <ng-template  ngx-datatable-cell-template let-row="row">
+            <ng-template ngx-datatable-cell-template let-row="row">
               <div ngbDropdown container="body">
                 <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
                   <span [data-feather]="'settings'" [class]="'cursor-pointer'"></span>
                 </button>
                 <div ngbDropdownMenu>
                   <div>
-                    <a  (click)="CambiarContrasena(ModalCambiarClave,row)" ngbDropdownItem><span
-                      [data-feather]="'key'" [size]="16" [class]="'mr-50'"></span> Cambiar Contraseña</a>
+                    <a (click)="CambiarContrasena(ModalCambiarClave,row)" ngbDropdownItem><span [data-feather]="'key'"
+                        [size]="16" [class]="'mr-50'"></span> Cambiar Contraseña</a>
+                  </div>
+                  <div>
+                    <a (click)="ActivarUsuario(row)" ngbDropdownItem><span [data-feather]="'check'" [size]="16"
+                        [class]="'mr-50'"></span> Aprobar</a>
+                  </div>
+                  <div>
+                    <a (click)="RechazarUsuarioDelete(row)" ngbDropdownItem><span [data-feather]="'x'" [size]="16"
+                        [class]="'mr-50'"></span> Rechazar</a>
+                  </div>
+                  <div>
+                    <a href="http://www.cne.gob.ve/web/registro_electoral/ce.php?nacionalidad={{row.Cedula.substr(0,1)}}&cedula={{row.Cedula.substr(1)}}"
+                      target="_blank" ngbDropdownItem><span [data-feather]="'monitor'" [size]="16"
+                        [class]="'mr-50'"></span> CNE</a>
+                  </div>
+                  <div>
+                    <a href="http://contribuyente.seniat.gob.ve/BuscaRif/BuscaRif.jsp" routerLinkActive="active"
+                      target="_blank" ngbDropdownItem><span [data-feather]="'monitor'" [size]="16"
+                        [class]="'mr-50'"></span> SENIAT</a>
+                  </div>
                 </div>
-                <div>
-                  <a  (click)="ActivarUsuario(row)" ngbDropdownItem><span
-                    [data-feather]="'check'" [size]="16" [class]="'mr-50'"></span> Aprobar</a>
               </div>
-                <div>
-                  <a  (click)="RechazarUsuarioDelete(row)" ngbDropdownItem><span
-                    [data-feather]="'x'" [size]="16" [class]="'mr-50'"></span> Rechazar</a>
-              </div>
-                <div >
-                  <a  href="http://www.cne.gob.ve/web/registro_electoral/ce.php?nacionalidad={{row.Cedula.substr(0,1)}}&cedula={{row.Cedula.substr(1)}}" target="_blank" ngbDropdownItem><span
-                    [data-feather]="'monitor'" [size]="16" [class]="'mr-50'"></span> CNE</a>
-            </div>
-            <div >
-              <a  href="http://contribuyente.seniat.gob.ve/BuscaRif/BuscaRif.jsp" routerLinkActive="active" target="_blank" ngbDropdownItem><span
-                [data-feather]="'monitor'" [size]="16" [class]="'mr-50'"></span> SENIAT</a>
-          </div>
-              </div>
-              </div>
-                </ng-template>
-              </ngx-datatable-column>
-    
-  
+            </ng-template>
+          </ngx-datatable-column>
+
+
         </ngx-datatable>
       </div>
     </section>
-  
-  
-    </div>
-    </div>
 
 
-    <ng-template #ModalCambiarClave let-modal>
-      <div class="modal-header">
-        <h5 class="modal-title" id="myModalLabel160"><strong>Cambiar Contraseña de Usuario</strong></h5>
-        <!-- <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+  </div>
+</div>
+
+
+<ng-template #ModalCambiarClave let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="myModalLabel160"><strong>Cambiar Contraseña de Usuario</strong></h5>
+    <!-- <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button> -->
-      </div>
-      <div class="modal-body" tabindex="0" ngbAutofocus>
-        <div class="col-xl-12 col-md-12 col-12 printRef">
-          <!-- Header Starts -->
-          
-          <form class="auth-reset-password-form mt-2" [formGroup]="resetPasswordForm" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-              <div class="d-flex justify-content-between">
-                <label for="reset-password-new">Nueva contraseña</label>
-              </div>
-              <div class="input-group input-group-merge form-password-toggle">
-                <input
-                  [type]="passwordTextType ? 'text' : 'password'"
-                  formControlName="newPassword"
-                  class="form-control form-control-merge"
-                  placeholder="Nueva contraseña"
-                  aria-describedby="reset-password-new"
-                  tabindex="1"
-                  autofocus
-                  [ngClass]="{ 'is-invalid error': submitted && f.newPassword.errors }"
-                />
-                <div class="input-group-append">
-                  <span class="input-group-text cursor-pointer"
-                    ><i
-                      class="feather font-small-4"
-                      [ngClass]="{
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <div class="col-xl-12 col-md-12 col-12 printRef">
+      <!-- Header Starts -->
+
+      <form class="auth-reset-password-form mt-2" [formGroup]="resetPasswordForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <div class="d-flex justify-content-between">
+            <label for="reset-password-new">Nueva contraseña</label>
+          </div>
+          <div class="input-group input-group-merge form-password-toggle">
+            <input [type]="passwordTextType ? 'text' : 'password'" formControlName="newPassword"
+              class="form-control form-control-merge" placeholder="Nueva contraseña"
+              aria-describedby="reset-password-new" tabindex="1" autofocus
+              [ngClass]="{ 'is-invalid error': submitted && f.newPassword.errors }" />
+            <div class="input-group-append">
+              <span class="input-group-text cursor-pointer"><i class="feather font-small-4" [ngClass]="{
                         'icon-eye-off': passwordTextType,
                         'icon-eye': !passwordTextType
-                      }"
-                      (click)="togglePasswordTextType()"
-                    ></i
-                  ></span>
-                </div>
-              </div>
-              <div
-                *ngIf="submitted && f.newPassword.errors"
-                class="invalid-feedback"
-                [ngClass]="{ 'd-block': submitted && f.newPassword.errors }"
-              >
-                <div *ngIf="f.newPassword.errors.required">Confirmar contraseña</div>
-              </div>
+                      }" (click)="togglePasswordTextType()"></i></span>
             </div>
-            <div class="form-group">
-              <div class="d-flex justify-content-between">
-                <label for="reset-password-confirm">Confirmar contraseña</label>
-              </div>
-              <div class="input-group input-group-merge form-password-toggle">
-                <input
-                  [type]="confPasswordTextType ? 'text' : 'password'"
-                  formControlName="confirmPassword"
-                  class="form-control form-control-merge"
-                  placeholder="Confirmar contraseña"
-                  aria-describedby="reset-password-confirm"
-                  tabindex="2"
-                  [ngClass]="{ 'is-invalid error': submitted && f.confirmPassword.errors }"
-                />
-                <div class="input-group-append">
-                  <span class="input-group-text cursor-pointer"
-                    ><i
-                      class="feather font-small-4"
-                      [ngClass]="{
+          </div>
+          <div *ngIf="submitted && f.newPassword.errors" class="invalid-feedback"
+            [ngClass]="{ 'd-block': submitted && f.newPassword.errors }">
+            <div *ngIf="f.newPassword.errors.required">Confirmar contraseña</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="d-flex justify-content-between">
+            <label for="reset-password-confirm">Confirmar contraseña</label>
+          </div>
+          <div class="input-group input-group-merge form-password-toggle">
+            <input [type]="confPasswordTextType ? 'text' : 'password'" formControlName="confirmPassword"
+              class="form-control form-control-merge" placeholder="Confirmar contraseña"
+              aria-describedby="reset-password-confirm" tabindex="2"
+              [ngClass]="{ 'is-invalid error': submitted && f.confirmPassword.errors }" />
+            <div class="input-group-append">
+              <span class="input-group-text cursor-pointer"><i class="feather font-small-4" [ngClass]="{
                         'icon-eye-off': confPasswordTextType,
                         'icon-eye': !confPasswordTextType
-                      }"
-                      (click)="toggleConfPasswordTextType()"
-                    ></i
-                  ></span>
-                </div>
-              </div>
-              <div
-                *ngIf="submitted && f.confirmPassword.errors"
-                class="invalid-feedback"
-                [ngClass]="{ 'd-block': submitted && f.confirmPassword.errors }"
-              >
-                <div *ngIf="f.confirmPassword.errors.required">Password is required</div>
-              </div>
+                      }" (click)="toggleConfPasswordTextType()"></i></span>
             </div>
-            <!-- <button class="btn btn-primary btn-block" tabindex="3" rippleEffect>Establecer nueva contraseña</button> -->
-          </form>
-  
-          <!-- Header Ends -->
+          </div>
+          <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback"
+            [ngClass]="{ 'd-block': submitted && f.confirmPassword.errors }">
+            <div *ngIf="f.confirmPassword.errors.required">Password is required</div>
+          </div>
         </div>
-        </div>
-        <!--/ Invoice -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
-          Cerrar
-        </button>
-        <button type="button" class="btn btn-success" (click)="ChangePassword()"  rippleEffect>
-          Cambiar Contraseña
-        </button>
-      </div>
-    </ng-template>
+        <!-- <button class="btn btn-primary btn-block" tabindex="3" rippleEffect>Establecer nueva contraseña</button> -->
+      </form>
+
+      <!-- Header Ends -->
+    </div>
+  </div>
+  <!--/ Invoice -->
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+      Cerrar
+    </button>
+    <button type="button" class="btn btn-success" (click)="ChangePassword()" rippleEffect>
+      Cambiar Contraseña
+    </button>
+  </div>
+</ng-template>

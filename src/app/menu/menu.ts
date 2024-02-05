@@ -49,7 +49,7 @@ export const menu: CoreMenu[] = [
     id: 'DocumentacionDigital',
     nombre: 'Documentacion Digital',
     title: 'Documentacion Digital',
-    role: ['9','1','2','3','4'],
+    role: ['9', '1', '2', '3', '4'],
     type: 'collapsible',
     icono: 'folder-plus',
     children: [
@@ -75,7 +75,7 @@ export const menu: CoreMenu[] = [
     nombre: 'Recaudacion',
     title: 'Recaudacion',
     type: 'collapsible',
-    role: ['9','1'],
+    role: ['9', '1'],
     icono: 'check-circle',
     children: [
       {
@@ -123,28 +123,52 @@ export const menu: CoreMenu[] = [
     ]
   },
 
-    // Auditoria
-    {
-      id: 'audit',
-      nombre: 'Auditoria',
-      role: ['9'], 
-      icono: 'database',
-      type: 'item',
-      url: 'audit/audit',
-    },
-  // Usuarios Estatus Recaudacion
+  // Auditoria
   {
-    id: 'support/users-status',
-    nombre: 'Usuarios',
-    role: ['1'], 
-    icono: 'user',
+    id: 'audit',
+    nombre: 'Auditoria',
+    role: ['9'],
+    icono: 'database',
     type: 'item',
-    url: 'support/users-status',
+    url: 'audit/audit',
+  },
+  // Usuarios Estatus Recaudacion
+  // {
+  //   id: 'support/users-status',
+  //   nombre: 'Usuarios',
+  //   role: ['1'],
+  //   icono: 'user',
+  //   type: 'item',
+  //   url: 'support/users-status',
+  // },
+  {
+    id: 'supports',
+    nombre: 'Usuarios',
+    title: 'Usuarios',
+    role: ['1'],
+    type: 'collapsible',
+    icono: 'users',
+    children: [
+      {
+        id: 'support/users-status',
+        nombre: 'Usuarios Preinscritos',
+        type: 'item',
+        icono: 'circle',
+        url: 'support/users-status'
+      },
+      {
+        id: 'support/users-status-global',
+        nombre: 'Usuarios Inscritos',
+        type: 'item',
+        icono: 'circle',
+        url: 'support/users-status-global'
+      }
+    ]
   },
   {
     id: 'support-change-password',
     nombre: 'Contribuyentes',
-    role: ['1'], 
+    role: ['1'],
     icono: 'user',
     type: 'item',
     url: 'support/change-password',
@@ -154,7 +178,7 @@ export const menu: CoreMenu[] = [
     id: 'Fiscalizacion',
     nombre: 'Fiscalización',
     title: 'Fiscalización',
-    role: ['9','3'],
+    role: ['9', '3'],
     type: 'collapsible',
     icono: 'folder',
     children: [
@@ -179,7 +203,7 @@ export const menu: CoreMenu[] = [
     id: 'Juridicos',
     nombre: 'Juridico',
     title: 'Juridico',
-    role: ['9','2'],
+    role: ['9', '2'],
     type: 'collapsible',
     icono: 'folder',
     children: [
@@ -206,71 +230,71 @@ export const menu: CoreMenu[] = [
       },
     ]
   },
-    // Proyectos
-      // Dashboard
+  // Proyectos
+  // Dashboard
   {
     id: 'projects-contributing',
     nombre: 'Contribuyentes',
-    role: ['4','9'], 
+    role: ['4', '9'],
     icono: 'users',
     type: 'item',
     url: 'projects/contributing-companies'
   },
-    {
-      id: 'Proyectos',
-      nombre: 'Proyectos',
-      title: 'Proyectos',
-      role: ['9','4'],
-      type: 'collapsible',
-      icono: 'folder',
-      children: [
-        {
-          id: 'proyectos',
-          nombre: 'Proyectos',
-          type: 'item',
-          icono: 'circle',
-          url: 'projects/company-projects-recosup'
-        },
-        {
-          id: 'projects/project-evaluation',
-          nombre: 'Evaluación',
-          type: 'item',
-          icono: 'circle',
-          url: 'projects/project-evaluation'
-        },
-        {
-          id: 'projects/movement-evaluation',
-          nombre: 'Movimientos',
-          type: 'item',
-          icono: 'circle',
-          url: 'projects/movement-evaluation'
-        },
-        {
-          id: 'reportes',
-          nombre: 'Reportes',
-          type: 'item',
-          icono: 'circle',
-          url: 'projects/reports'
-        },
-      ]
-    },
-    {
-      id: 'Proyectos',
-      nombre: 'Proyectos',
-      title: 'Proyectos',
-      role: ['0'],
-      type: 'collapsible',
-      icono: 'folder',
-      children: [
-        {
-          id: 'proyectos',
-          nombre: 'Carga de Proyectos',
-          type: 'item',
-          icono: 'circle',
-          url: 'projects/company-projects'
-        }
-      ]
-    },
+  {
+    id: 'Proyectos',
+    nombre: 'Proyectos',
+    title: 'Proyectos',
+    role: ['9', '4'],
+    type: 'collapsible',
+    icono: 'folder',
+    children: [
+      {
+        id: 'proyectos',
+        nombre: 'Proyectos',
+        type: 'item',
+        icono: 'circle',
+        url: 'projects/company-projects-recosup'
+      },
+      {
+        id: 'projects/project-evaluation',
+        nombre: 'Evaluación',
+        type: 'item',
+        icono: 'circle',
+        url: 'projects/project-evaluation'
+      },
+      {
+        id: 'projects/movement-evaluation',
+        nombre: 'Movimientos',
+        type: 'item',
+        icono: 'circle',
+        url: 'projects/movement-evaluation'
+      },
+      {
+        id: 'reportes',
+        nombre: 'Reportes',
+        type: 'item',
+        icono: 'circle',
+        url: 'projects/reports'
+      },
+    ]
+  },
+  {
+    id: 'Proyectos',
+    nombre: 'Proyectos',
+    title: 'Proyectos',
+    role: ['0'],
+    type: 'collapsible',
+    icono: 'folder',
+    children: [
+      {
+        id: 'proyectos',
+        nombre: 'Carga de Proyectos',
+        type: 'item',
+        icono: 'circle',
+        url: 'projects/company-projects'
+      }
+    ]
+  },
   // Reportes y Alertas
   {
     id: 'reportes-alertas',
@@ -382,7 +406,7 @@ export const menu: CoreMenu[] = [
   {
     id: 'asistente-virtual',
     nombre: 'Asistente Virtual',
-    role: ['9'], 
+    role: ['9'],
     icono: 'cpu',
     type: 'item',
     url: 'virtual-assistant',

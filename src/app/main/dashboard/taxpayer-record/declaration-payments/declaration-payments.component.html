@@ -154,7 +154,7 @@
             <div class="form-group">
               <label for="basicSelect">Seleccione Tipo de Pago</label>
               <ng-select [items]="SelectTipoPagox" placeholder="Seleccione Tipo de Pago" bindLabel="name"
-                autocomplete="off"  [(ngModel)]="Dutilidad.TipoAporte" [ngModelOptions]="{standalone: true}" required
+                autocomplete="off" [(ngModel)]="Dutilidad.TipoAporte" [ngModelOptions]="{standalone: true}" required
                 autocomplete="off">
               </ng-select>
             </div>
@@ -165,7 +165,7 @@
               <label for="basicSelect">Seleccione Articulo</label>
               <ng-select [items]="SelectArticulo" placeholder="Seleccione Articulo" bindLabel="name" bindValue="id"
                 autocomplete="off" name="articulo" [(ngModel)]="Dutilidad.Articulo"
-                [ngModelOptions]="{standalone: true}"  (ngModelChange)="SelecBanco($event);BuscarElemento()" required
+                [ngModelOptions]="{standalone: true}" (ngModelChange)="SelecBanco($event);BuscarElemento()" required
                 (ngModelChange)="CambiarMonto($event)" autocomplete="off">
               </ng-select>
             </div>
@@ -184,8 +184,7 @@
             <div class="form-group">
               <label for="basicSelect">Seleccione el Año</label>
               <ng-select [items]="SelectAnioAporte" placeholder="Seleccione Año" bindLabel="name" name="anio"
-                autocomplete="off" [(ngModel)]="Dutilidad.Fecha" [ngModelOptions]="{standalone: true}" required
-                >
+                autocomplete="off" [(ngModel)]="Dutilidad.Fecha" [ngModelOptions]="{standalone: true}" required>
               </ng-select>
             </div>
           </div>
@@ -253,115 +252,118 @@
     <!-- Invoice -->
     <div class="col-xl-12 col-md-12 col-12 printRef">
       <!-- Header Starts -->
-      
+
       <form method="post" enctype="multipart/form-data" id="forma" name="forma">
         <input type="hidden" name="identificador" value="{{hashcontrol}}" readonly="readonly">
-      <div class="row">
-            
-        <div class="col-md-6 col-12 mb-1">
-          <div class="form-group">
-            <label for="basicSelect">Seleccione Articulo</label>
-            <!-- <ng-select [items]="SelectArticulo" placeholder="Seleccione Articulo" bindLabel="name" bindValue="id"
+        <div class="row">
+
+          <div class="col-md-6 col-12 mb-1">
+            <div class="form-group">
+              <label for="basicSelect">Seleccione Articulo</label>
+              <!-- <ng-select [items]="SelectArticulo" placeholder="Seleccione Articulo" bindLabel="name" bindValue="id"
               autocomplete="off" name="articulo" [(ngModel)]="articulo" [ngModelOptions]="{standalone: true}"
               (ngModelChange)="SelecBanco($event)" required (ngModelChange)="CambiarMonto($event)"
               autocomplete="off">
             </ng-select> -->
-            <input type="text" class="form-control" readonly placeholder="Articulo" autocomplete="off"
-              [(ngModel)]="articulo" [ngModelOptions]="{standalone: true}">
+              <input type="text" class="form-control" readonly placeholder="Articulo" autocomplete="off"
+                [(ngModel)]="articulo" [ngModelOptions]="{standalone: true}">
+            </div>
           </div>
-        </div>
 
-        <div class="col-md-6 col-12 mb-1">
-          <div class="form-group">
-            <label for="basicSelect">Seleccione Tipo de Pago</label>
-            <ng-select [items]="SelectTipoPago" placeholder="Seleccione Tipo de Pago" bindLabel="name"
-              autocomplete="off" name="pTipoPagoId" [(ngModel)]="pTipoPagoId"
-              (ngModelChange)="CapturarItemSelecTiposPagos($event)" [ngModelOptions]="{standalone: true}" required
-              autocomplete="off">
-            </ng-select>
-          </div>
-        </div>
-
-        <div class="col-md-12 col-12 mb-1" *ngIf="!showInput">
-          <div class="form-group">
-            <label for="basicSelect">Seleccione Banco</label>
-            <ng-select [items]="SelectBancos" placeholder="Seleccione Banco" bindLabel="name" bindValue="id"
-              autocomplete="off" name="bancos" [(ngModel)]="pTipoAporteCuentaId" [ngModelOptions]="{standalone: true}"
-              required autocomplete="off">
-            </ng-select>
-          </div>
-        </div>
-
-
-        <div class="col-md-6 col-12 mb-1">
-          <div class="form-group">
-            <label for="basicSelect">Numero de Referencia</label>
-            <input type="text" [readOnly]="showReadonly" class="form-control" placeholder="Ingrese Numero de Referencia" autocomplete="off"
-              [(ngModel)]="pReferenciaBancaria" [ngModelOptions]="{standalone: true}">
-          </div>
-        </div>
-
-
-
-        <div class="col-xl-6 col-md-6 col-12">
-          <div class="form-group">
-            <label for="helperText">Fecha de Pago</label>
-            <!-- {{DatepickerYearMin}} {{DatepickerMonthMin}} -->
+          <div class="col-md-6 col-12 mb-1">
             <div class="form-group">
-              <div class="input-group">
-                <input class="form-control" readonly placeholder="Seleccione la Fecha"
-                  autocomplete="off" [(ngModel)]="FechaBancoPago" [ngModelOptions]="{standalone: true}" ngbDatepicker
-                  #basicFPB="ngbDatepicker" #i18nDP="ngbDatepicker" [minDate]="{year: DatepickerYear, month: 1, day: 1}"
-                  [maxDate]="{year: DatepickerYear, month: 12, day: 31}">
-                <div class="input-group-append">
-                  <button class="btn btn-outline-secondary feather icon-calendar" (click)="basicFPB.toggle()"
-                    type="button" rippleEffect></button>
+              <label for="basicSelect">Seleccione Tipo de Pago</label>
+              <ng-select [items]="SelectTipoPago" placeholder="Seleccione Tipo de Pago" bindLabel="name"
+                autocomplete="off" name="pTipoPagoId" [(ngModel)]="pTipoPagoId"
+                (ngModelChange)="CapturarItemSelecTiposPagos($event)" [ngModelOptions]="{standalone: true}" required
+                autocomplete="off">
+              </ng-select>
+            </div>
+          </div>
+
+          <div class="col-md-12 col-12 mb-1" *ngIf="!showInput">
+            <div class="form-group">
+              <label for="basicSelect">Seleccione Banco</label>
+              <ng-select [items]="SelectBancos" placeholder="Seleccione Banco" bindLabel="name" bindValue="id"
+                autocomplete="off" name="bancos" [(ngModel)]="pTipoAporteCuentaId" [ngModelOptions]="{standalone: true}"
+                required autocomplete="off">
+              </ng-select>
+            </div>
+          </div>
+
+
+          <div class="col-md-6 col-12 mb-1">
+            <div class="form-group">
+              <label for="basicSelect">Numero de Referencia</label>
+              <input type="text" [readOnly]="showReadonly" class="form-control"
+                placeholder="Ingrese Numero de Referencia" autocomplete="off" [(ngModel)]="pReferenciaBancaria"
+                [ngModelOptions]="{standalone: true}">
+            </div>
+          </div>
+
+
+
+          <div class="col-xl-6 col-md-6 col-12">
+            <div class="form-group">
+              <label for="helperText">Fecha de Pago</label>
+              <!-- {{DatepickerYearMin}} {{DatepickerMonthMin}} -->
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" readonly placeholder="Seleccione la Fecha" autocomplete="off"
+                    [(ngModel)]="FechaBancoPago" [ngModelOptions]="{standalone: true}" ngbDatepicker
+                    #basicFPB="ngbDatepicker" #i18nDP="ngbDatepicker"
+                    [minDate]="{year: DatepickerYear, month: 1, day: 1}"
+                    [maxDate]="{year: DatepickerYear, month: 12, day: 31}">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary feather icon-calendar" (click)="basicFPB.toggle()"
+                      type="button" rippleEffect></button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
 
 
 
-        <div class="col-md-6 col-12 mb-1">
-          <div class="form-group">
-            <label for="basicSelect"><strong>Monto Total del Aporte</strong></label>
-            <input type="text" class="form-control" [value]="MontoTotalGanancia" readonly autocomplete="off"
-              [(ngModel)]="MontoConvert" [ngModelOptions]="{standalone: true}">
-          </div>
-        </div>
-
-        <div class="col-md-6 col-12 mb-1">
-          <div class="form-group">
-            <label for="basicSelect">Monto Pagado a Banco</label>
-            <input type="text" class="form-control" placeholder="Ingrese Monto del Pago en Banco" autocomplete="off"
-              [(ngModel)]="pMonto" [ngModelOptions]="{standalone: true}" required>
-          </div>
-        </div>
-
-
-        <div class="col-md-12 col-12 mb-1">
-          <div class="form-group">
-            <label for="basicSelect">Subir Archivo de Pago</label>
-            <div class="">
-              <input (change)="fileSelected($event)" class="form-control" name="archivos" type="file" accept=".pdf">
-              <!-- <label class="custom-file-label" for="customFile">Solo Formato PDF</label> -->
+          <div class="col-md-6 col-12 mb-1">
+            <div class="form-group">
+              <label for="basicSelect"><strong>Monto Total del Aporte</strong></label>
+              <input type="text" class="form-control" [value]="MontoTotalGanancia" readonly autocomplete="off"
+                [(ngModel)]="MontoConvert" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
+
+          <div class="col-md-6 col-12 mb-1">
+            <div class="form-group">
+              <label for="basicSelect">Monto Pagado a Banco</label>
+              <input type="text" class="form-control" placeholder="Ingrese Monto del Pago en Banco" autocomplete="off"
+                [(ngModel)]="pMonto" [ngModelOptions]="{standalone: true}" required>
+            </div>
+          </div>
+
+
+          <div class="col-md-12 col-12 mb-1">
+            <div class="form-group">
+              <label for="basicSelect">Subir Archivo de Pago</label>
+              <div class="">
+                <input (change)="fileSelected($event)" class="form-control" name="archivos" type="file" accept=".pdf">
+                <!-- <label class="custom-file-label" for="customFile">Solo Formato PDF</label> -->
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="col-12">
+            <hr class="invoice-spacing" />
+            <font color="red"><small><strong>Nota: </strong>Debe tomar en cuenta la reconversión monetaria ya que
+                <strong>
+                  Usted esta declarando ganancias.</strong> Ejemplo: 123456.00</small></font>
+          </div>
+
         </div>
-
-
-
-        <div class="col-12">
-          <hr class="invoice-spacing" />
-          <font color="red"><small><strong>Nota: </strong>Debe tomar en cuenta la reconversión monetaria ya que <strong>
-                Usted esta declarando ganancias.</strong> Ejemplo: 123456.00</small></font>
-        </div>
-
-      </div>
-    </form>
+      </form>
 
     </div>
   </div>
@@ -522,8 +524,9 @@
           <div class="form-group">
             <label for="basicSelect">Seleccione Tipo de Pago</label>
             <ng-select [items]="SelectTipoPago" placeholder="Seleccione Tipo de Pago" bindLabel="name" bindValue="id"
-              autocomplete="off" [disabled]="showReadonly" name="pTipoPagoId" [(ngModel)]="IUpdateEmpresasAportes.TipoPagoId"
-              [ngModelOptions]="{standalone: true}" required autocomplete="off">
+              autocomplete="off" [disabled]="showReadonly" name="pTipoPagoId"
+              [(ngModel)]="IUpdateEmpresasAportes.TipoPagoId" [ngModelOptions]="{standalone: true}" required
+              autocomplete="off">
             </ng-select>
           </div>
         </div>
@@ -542,8 +545,9 @@
         <div class="col-md-6 col-12 mb-1">
           <div class="form-group">
             <label for="basicSelect">Numero de Referencia</label>
-            <input type="text" [readOnly]="showReadonly" class="form-control" placeholder="Ingrese Numero de Referencia" autocomplete="off"
-              [(ngModel)]="IUpdateEmpresasAportes.ReferenciaBancaria" [ngModelOptions]="{standalone: true}">
+            <input type="text" [readOnly]="showReadonly" class="form-control" placeholder="Ingrese Numero de Referencia"
+              autocomplete="off" [(ngModel)]="IUpdateEmpresasAportes.ReferenciaBancaria"
+              [ngModelOptions]="{standalone: true}">
           </div>
         </div>
 
