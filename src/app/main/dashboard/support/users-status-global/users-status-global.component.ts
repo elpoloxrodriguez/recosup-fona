@@ -61,6 +61,7 @@ export class UsersStatusGlobalComponent implements OnInit {
   public submitted = false;
 
 
+  public isLoading: number = 0;
 
   public searchValue = '';
 
@@ -101,19 +102,26 @@ export class UsersStatusGlobalComponent implements OnInit {
   }
 
   async ListUsuarios() {
-    this.xAPI.funcion = "RECOSUP_R_UsuariosStatus";
-    this.xAPI.parametros = '1';
+    this.isLoading = 0;
+    this.xAPI.funcion = "RECOSUP_R_UsuariosNoEmpresa";
+    this.xAPI.parametros = '';
+    this.xAPI.valores = {}
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-        data.Cuerpo.map(e => {
-          // console.log('s: ' + e);
-          e.TelefonoLocal = e.TelefonoLocal ? e.TelefonoLocal : 'N/A'
-          e.TelefonoCelular = e.TelefonoCelular ? e.TelefonoCelular : 'N/A'
-          e.Telefonos = e.TelefonoCelular + ' - ' + e.TelefonoLocal
-          this.dataListUsers.push(e)
-        });
-        this.rowsUsuariosInactivos = this.dataListUsers;
-        this.tempDataUsuariosInactivos = this.rowsUsuariosInactivos;
+        if (data.Cuerpo.length > 0) {
+          data.Cuerpo.map(e => {
+            // console.log('s: ' + e);
+            e.TelefonoLocal = e.TelefonoLocal ? e.TelefonoLocal : 'N/A'
+            e.TelefonoCelular = e.TelefonoCelular ? e.TelefonoCelular : 'N/A'
+            e.Telefonos = e.TelefonoCelular + ' - ' + e.TelefonoLocal
+            this.dataListUsers.push(e)
+          });
+          this.rowsUsuariosInactivos = this.dataListUsers;
+          this.tempDataUsuariosInactivos = this.rowsUsuariosInactivos;
+          this.isLoading = 1;
+        } else {
+          this.isLoading = 2;
+        }
       },
       (error) => {
         console.log(error)

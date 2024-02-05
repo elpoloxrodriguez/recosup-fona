@@ -27,6 +27,22 @@
                         </div>
                     </div>
                 </div>
+
+
+                            <ng-container *ngIf="isLoading == 0">
+                                <div class="loading-overlay">
+                                    <div class="spinner-border text-success" role="status"></div>
+                                    <div class="loading-message">Cargando datos, por favor espere...</div>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="isLoading == 2">
+                                <div class="loading-overlay">
+                                    <div class="spinner-border text-danger" role="status"></div>
+                                    <div class="loading-message">No hay registros...</div>
+                                </div>
+                            </ng-container>
+
+                            
                 <ngx-datatable [rows]="rowsUsuariosInactivos" rowHeight="auto" class="bootstrap core-bootstrap"
                     [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
                     [scrollbarH]="true">
@@ -74,16 +90,6 @@
                     </ngx-datatable-column>
 
 
-                    <!-- <ngx-datatable-column name="Acción" [width]="10" [sortable]="false">
-            <ng-template ngx-datatable-cell-template let-row="row">
-              <button type="button" class="btn btn-sm btn-primary"  (click)="ActivarUsuario(row)" rippleEffect>
-                <span [data-feather]="'eye'" [class]="'mr-25'"></span></button>&nbsp;
-                <a href="http://www.cne.gob.ve/web/registro_electoral/ce.php?nacionalidad={{row.Cedula.substr(0,1)}}&cedula={{row.Cedula.substr(1)}}" target="_blank" title="CNE" class="btn btn-sm btn-warning" rippleEffect>
-                 CNE</a>&nbsp;
-                  <a href="http://contribuyente.seniat.gob.ve/BuscaRif/BuscaRif.jsp" target="_blank" class="btn btn-sm btn-warning" title="SENIAT" rippleEffect>
-                   SENIAT</a>
-            </ng-template>
-          </ngx-datatable-column> -->
 
                     <ngx-datatable-column name="Accion" [width]="5" [sortable]="false">
                         <ng-template ngx-datatable-cell-template let-row="row">
@@ -97,14 +103,6 @@
                                         <a (click)="CambiarContrasena(ModalCambiarClave,row)" ngbDropdownItem><span
                                                 [data-feather]="'key'" [size]="16" [class]="'mr-50'"></span> Cambiar
                                             Contraseña</a>
-                                    </div>
-                                    <div>
-                                        <a (click)="ActivarUsuario(row)" ngbDropdownItem><span [data-feather]="'check'"
-                                                [size]="16" [class]="'mr-50'"></span> Aprobar</a>
-                                    </div>
-                                    <div>
-                                        <a (click)="RechazarUsuarioDelete(row)" ngbDropdownItem><span
-                                                [data-feather]="'x'" [size]="16" [class]="'mr-50'"></span> Rechazar</a>
                                     </div>
                                     <div>
                                         <a href="http://www.cne.gob.ve/web/registro_electoral/ce.php?nacionalidad={{row.Cedula.substr(0,1)}}&cedula={{row.Cedula.substr(1)}}"
