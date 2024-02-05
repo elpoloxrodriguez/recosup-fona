@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { VERSION } from '@angular/core';
+import { UtilService } from '@core/services/util/util.service';
+import { environment } from 'environments/environment'
 
 @Component({
   selector: 'app-footer',
@@ -6,11 +9,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit {
-  
 
-  constructor() { }
+
+  public currentDate: Date;
+  public build
+  public fechaX
+
+
+  constructor(
+    private utilservice: UtilService
+  ) { }
+  public Version
 
   ngOnInit(): void {
+    this.currentDate = new Date();
+    this.fechaX = 'Build: ' + this.utilservice.FechaMoment(environment.buildDateTime)
+    this.build = this.utilservice.FechaMomentL(environment.buildDateTime).replace(/\//g, '.')
+    this.Version = VERSION.full
+
   }
 
 }

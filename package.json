@@ -29,7 +29,7 @@
     "start-hmr-sourcemaps": "ng serve --configuration hmr --source-map=true --hmr-warning=false",
     "build": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build",
     "build-stats": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --stats-json",
-    "build:prod": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --configuration production && npm run clean",
+    "build:prod": "node build.js && node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --configuration production && npm run clean",
     "build:prod-stats": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --configuration production --stats-json",
     "bundle-analyzer": "webpack-bundle-analyzer dist/vuexy/stats.json",
     "android": "npx cap add android",
