@@ -14,18 +14,18 @@ import { Router } from '@angular/router';
   selector: 'app-contributing-companies',
   templateUrl: './contributing-companies.component.html',
   styleUrls: ['./contributing-companies.component.scss'],
-  encapsulation : ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None,
   providers: [NgbModalConfig, NgbModal],
 })
 export class ContributingCompaniesComponent implements OnInit {
 
-  public xAPI : IAPICore = {
+  public xAPI: IAPICore = {
     funcion: '',
     parametros: '',
-    valores : {},
+    valores: {},
   };
 
-  public IUpdateUsuario : RECOSUP_U_Usuarios = {
+  public IUpdateUsuario: RECOSUP_U_Usuarios = {
     Codigo: '',
     Nombres: '',
     Apellidos: '',
@@ -40,7 +40,7 @@ export class ContributingCompaniesComponent implements OnInit {
   }
 
 
-  public IFizcalizacionBloqueo : RECOSUP_U_FizcalizarEmpresa = {
+  public IFizcalizacionBloqueo: RECOSUP_U_FizcalizarEmpresa = {
     status_bloqueo: 0,
     EmpresaId: 0
   }
@@ -111,7 +111,7 @@ export class ContributingCompaniesComponent implements OnInit {
     Cargo: ''
   }
 
-  public U_RepresentanteLegal : RECOSUP_U_RepresentanteLegal = {
+  public U_RepresentanteLegal: RECOSUP_U_RepresentanteLegal = {
     TipoContactoId: 0,
     EmpresaId: 0,
     Cedula: '',
@@ -128,13 +128,13 @@ export class ContributingCompaniesComponent implements OnInit {
   }
 
   public Status = [
-    {id: '0', name: 'Inactivo'},
-    {id: "1", name: 'Activo'}
+    { id: '0', name: 'Inactivo' },
+    { id: "1", name: 'Activo' }
   ]
 
   public TipoContacto = [
-    {id: '1', name: 'Representante Legal'},
-    {id: '2', name: 'Contacto'}
+    { id: '1', name: 'Representante Legal' },
+    { id: '2', name: 'Contacto' }
   ]
 
   public ListaStatusEmpresa
@@ -199,19 +199,20 @@ export class ContributingCompaniesComponent implements OnInit {
   public ListaMultasNuevas = []
   public rowsDetalleMultasNuevas
   public tempDataDetalleMultasNuevas
-  
+
   // Decorator
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
+  public isLoading: number = 0;
 
   // Private
   private tempDataEmpresasAportes = [];
   private tempDataUtilidadAportes = []
   private _unsubscribeAll: Subject<any>;
 
-  
+
   constructor(
-    private apiService : ApiService,
+    private apiService: ApiService,
     private modalService: NgbModal,
     private utilService: UtilService,
     private pdf: PdfService,
@@ -226,7 +227,7 @@ export class ContributingCompaniesComponent implements OnInit {
     if (this.token.Usuario[0].role == 9) {
       this.showUpdateEmpresa = true;
       this.showUpdateEmpresaRecaudacion = true
-    } 
+    }
     if (this.token.Usuario[0].role == 3) {
       this.ShowFiscalizar = true
     }
@@ -234,10 +235,10 @@ export class ContributingCompaniesComponent implements OnInit {
       // this.showUpdateEmpresa = true;
       this.showUpdateEmpresaRecaudacion = true
     }
-   await  this.EmpresasAportes()
-  //  await this.ListaParroquias()
-   await this.ListaEstados()
-   await this.ListaActividadEconomica()
+    await this.EmpresasAportes()
+    //  await this.ListaParroquias()
+    await this.ListaEstados()
+    await this.ListaActividadEconomica()
 
   }
 
@@ -299,7 +300,7 @@ export class ContributingCompaniesComponent implements OnInit {
     this.xAPI.funcion = "RECOSUP_R_Parroquias_ID";
     this.xAPI.parametros = id;
     this.selectParroquias = []
-     this.apiService.Ejecutar(this.xAPI).subscribe(
+    this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         // console.log(data.Cuerpo)
         this.selectParroquias = data.Cuerpo.map(e => {
@@ -319,17 +320,21 @@ export class ContributingCompaniesComponent implements OnInit {
     this.xAPI.funcion = "RECOSUP_R_Empresas_Aportes";
     this.xAPI.parametros = ''
     this.dataEmpresasAportes = [];
-     await this.apiService.Ejecutar(this.xAPI).subscribe(
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-        data.Cuerpo.map(e => {
-          e.EmpresaFiscalizada = e.status_bloqueo
-        //  if (e.status_bloqueo == 1) {
-          this.ListaEmpresasAportes.push(e);
-        //  }
-        })
-            this.rowsEmpresasAportes = this.ListaEmpresasAportes
-            this.tempDataEmpresasAportes = this.rowsEmpresasAportes;
-            // console.log(this.ListaEmpresasAportes)
+        if (data.Cuerpo.length > 0) {
+          data.Cuerpo.map(e => {
+            e.EmpresaFiscalizada = e.status_bloqueo
+            //  if (e.status_bloqueo == 1) {
+            this.ListaEmpresasAportes.push(e);
+            //  }
+          })
+          this.rowsEmpresasAportes = this.ListaEmpresasAportes
+          this.tempDataEmpresasAportes = this.rowsEmpresasAportes;
+          this.isLoading = 1;
+        } else {
+          this.isLoading = 2;
+        }
       },
       (error) => {
         console.log(error)
@@ -342,15 +347,15 @@ export class ContributingCompaniesComponent implements OnInit {
     this.xAPI.funcion = "RECOSUP_R_ListaRepresentantesContactos";
     this.xAPI.parametros = id
     this.RepresentantesContactosLista = []
-     await this.apiService.Ejecutar(this.xAPI).subscribe(
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(e => {
-          e.Nombres = e.Nombre +' '+ e.Apellido
+          e.Nombres = e.Nombre + ' ' + e.Apellido
           this.RepresentantesContactosLista.push(e);
         })
-            this.rowsRepresentantesContactos = this.RepresentantesContactosLista
-            this.tempDataRepresentantesContactos = this.rowsRepresentantesContactos;
-            // console.log(this.RepresentantesContactosLista)
+        this.rowsRepresentantesContactos = this.RepresentantesContactosLista
+        this.tempDataRepresentantesContactos = this.rowsRepresentantesContactos;
+        // console.log(this.RepresentantesContactosLista)
       },
       (error) => {
         console.log(error)
@@ -358,7 +363,7 @@ export class ContributingCompaniesComponent implements OnInit {
     )
   }
 
-  FiscalizarEmpresaBloqueo(row : any){
+  FiscalizarEmpresaBloqueo(row: any) {
     // console.log(row)
     this.IFizcalizacionBloqueo.EmpresaId = row.EmpresaId
     this.IFizcalizacionBloqueo.status_bloqueo = 0
@@ -395,7 +400,7 @@ export class ContributingCompaniesComponent implements OnInit {
     })
   }
 
-  FiscalizarEmpresaDesbloqueo(row : any){
+  FiscalizarEmpresaDesbloqueo(row: any) {
     // console.log(row)
     this.IFizcalizacionBloqueo.EmpresaId = row.EmpresaId
     this.IFizcalizacionBloqueo.status_bloqueo = 1
@@ -489,13 +494,13 @@ export class ContributingCompaniesComponent implements OnInit {
           }
           switch (e.campo_sujeto) {
             case '0':
-               e.Xcampo_sujeto = 'NO'
+              e.Xcampo_sujeto = 'NO'
               break;
             case '1':
-               e.Xcampo_sujeto = 'SI'
+              e.Xcampo_sujeto = 'SI'
               break;
             case '2':
-               e.Xcampo_sujeto = 'NO APLICA'
+              e.Xcampo_sujeto = 'NO APLICA'
               break;
             default:
               break;
@@ -513,7 +518,7 @@ export class ContributingCompaniesComponent implements OnInit {
           this.DataEmpresaCompleta.Telefonos = e.TelefonoEmpresa + ' | ' + e.TelefonoLocal
           this.DataEmpresaCompleta.FaxEmpresa = e.FaxEmpresa
           this.DataEmpresaCompleta.ActividadEconomica = e.ActividadEconomica
-          this.IdActividadEconomica  = e.ActividadEconomicaId
+          this.IdActividadEconomica = e.ActividadEconomicaId
           this.IdParroquiaEmpresa = e.ParroquiaId
           this.DataEmpresaCompleta.estado = e.Estado
           this.DataEmpresaCompleta.ciudad = e.Ciudad
@@ -604,9 +609,9 @@ export class ContributingCompaniesComponent implements OnInit {
     this.CrearCert.created_user = this.token.Usuario[0].UsuarioId
     this.CrearCert.usuario = this.idUsuarioCert
     this.CrearCert.type = 2, // 2 QR DECLARACION
-    this.CrearCert.token = this.utilService.TokenAleatorio(10),
-    this.xAPI.funcion = "RECOSUP_R_CertificadoDeclaracion";
-    this.xAPI.parametros = EmpresaID + ',' + Fecha+ ',' + data.EmpresaGananciaId
+      this.CrearCert.token = this.utilService.TokenAleatorio(10),
+      this.xAPI.funcion = "RECOSUP_R_CertificadoDeclaracion";
+    this.xAPI.parametros = EmpresaID + ',' + Fecha + ',' + data.EmpresaGananciaId
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (dataCertificados) => {
         // var id = 'RIfEmpresa'
@@ -712,7 +717,7 @@ export class ContributingCompaniesComponent implements OnInit {
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(e => {
-          if (e.EstatusGeneralId == 7 || e.EstatusGeneralId == 0 || e.EstatusGeneralId == 1 || e.EstatusGeneralId == 14) {            
+          if (e.EstatusGeneralId == 7 || e.EstatusGeneralId == 0 || e.EstatusGeneralId == 1 || e.EstatusGeneralId == 14) {
             e.ejercicioFiscal = e.FechaDesde + ' | ' + e.FechaHasta
             // console.log(e)
             this.EmpresaDetalleAportes.push(e);
@@ -753,9 +758,9 @@ export class ContributingCompaniesComponent implements OnInit {
       (data) => {
         data.Cuerpo.map(e => {
           // if (e.status_mif == '0' && this.Rif == e.Rif) {
-            e.Nomenclatura_mif = e.Nomenclatura_mif.toUpperCase()
-            e.Monto_mif = this.utilService.ConvertirMoneda(e.Monto_mif)
-            this.ListaMultasNuevas.push(e);
+          e.Nomenclatura_mif = e.Nomenclatura_mif.toUpperCase()
+          e.Monto_mif = this.utilService.ConvertirMoneda(e.Monto_mif)
+          this.ListaMultasNuevas.push(e);
           // }
         });
         // console.log( this.ListaMultasNuevas)
@@ -791,8 +796,8 @@ export class ContributingCompaniesComponent implements OnInit {
     )
   }
 
-  async ModalEditarEmpresaX(){
-    const sel =[ {
+  async ModalEditarEmpresaX() {
+    const sel = [{
       apples: 'Apples',
       bananas: 'Bananas',
       grapes: 'Grapes',
@@ -801,7 +806,7 @@ export class ContributingCompaniesComponent implements OnInit {
     this.xAPI.funcion = "RECOSUP_R_Listar_Estatus_Empresa";
     this.xAPI.parametros = ''
     this.ListaStatusEmpresa = [];
-     await this.apiService.Ejecutar(this.xAPI).subscribe(
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         this.ListaStatusEmpresa = [data.Cuerpo]
       },
@@ -827,7 +832,7 @@ export class ContributingCompaniesComponent implements OnInit {
     })
   }
 
-  ModalEditarEmpresa(modal,row) {
+  ModalEditarEmpresa(modal, row) {
     // console.log(row)
     this.UpdateEmpresa.RazonSocial = row.RazonSocial
     this.UpdateEmpresa.CorreoElectronico = row.CorreoEmpresa
@@ -847,10 +852,10 @@ export class ContributingCompaniesComponent implements OnInit {
       backdrop: false,
       keyboard: false,
       windowClass: 'fondo-modal',
-    });   
+    });
   }
 
-  ModalEditarRepresentanteLegal(modal, data){
+  ModalEditarRepresentanteLegal(modal, data) {
     this.modalService.dismissAll('Cerrar')
     // console.log(data);
     this.ListaRepresentantesContactos(this.IdUsuarioEmpresa)
@@ -861,10 +866,10 @@ export class ContributingCompaniesComponent implements OnInit {
       backdrop: false,
       keyboard: false,
       windowClass: 'fondo-modal',
-    });   
+    });
   }
 
-  ModalEditarUsuario(modal, data){
+  ModalEditarUsuario(modal, data) {
     this.modalService.dismissAll('Cerrar')
     this.titleModal = data.RazonSocial
     this.xAPI.funcion = "RECOSUP_R_UsuarioID";
@@ -872,7 +877,7 @@ export class ContributingCompaniesComponent implements OnInit {
     this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(e => {
-          this.IUpdateUsuario.UsuarioId =  this.DataEmpresaCompleta.UsuarioId
+          this.IUpdateUsuario.UsuarioId = this.DataEmpresaCompleta.UsuarioId
           this.IUpdateUsuario.Codigo = e.Codigo
           this.IUpdateUsuario.Nombres = e.Nombres
           this.IUpdateUsuario.Apellidos = e.Apellidos
@@ -894,10 +899,10 @@ export class ContributingCompaniesComponent implements OnInit {
       backdrop: false,
       keyboard: false,
       windowClass: 'fondo-modal',
-    });   
+    });
   }
 
-  EditarRepresentanteLegalModal(modal, data){
+  EditarRepresentanteLegalModal(modal, data) {
     this.modalService.dismissAll('Cerrar')
     // console.log(data);
     this.U_RepresentanteLegal.ContactoId = data.ContactoId
@@ -919,10 +924,10 @@ export class ContributingCompaniesComponent implements OnInit {
       backdrop: false,
       keyboard: false,
       windowClass: 'fondo-modal',
-    });   
+    });
   }
 
-  async UpdateRepresentanteLegal(){
+  async UpdateRepresentanteLegal() {
     this.xAPI.funcion = 'RECOSUP_U_RepresentanteLegal'
     this.xAPI.parametros = ''
     this.xAPI.valores = JSON.stringify(this.U_RepresentanteLegal)
@@ -943,7 +948,7 @@ export class ContributingCompaniesComponent implements OnInit {
     )
   }
 
-  async UpdateUsuarios(){
+  async UpdateUsuarios() {
     this.xAPI.funcion = 'RECOSUP_U_Usuarios'
     this.xAPI.parametros = ''
     this.xAPI.valores = JSON.stringify(this.IUpdateUsuario)
@@ -964,7 +969,7 @@ export class ContributingCompaniesComponent implements OnInit {
     )
   }
 
-  
+
 
   filterUpdateUtilidadAportes(event) {
     // Reset ng-select on search
@@ -1018,7 +1023,7 @@ export class ContributingCompaniesComponent implements OnInit {
     await this.UtilidadCierreFiscal(data.EmpresaId)
     await this.DetalleAportes(data.EmpresaId)
     await this.DetalleMultas(data.EmpresaId)
-     await this.DocumentosAdjuntosEmpresa(data.UsuarioId,data.EmpresaId)
+    await this.DocumentosAdjuntosEmpresa(data.UsuarioId, data.EmpresaId)
     this.titleModal = data.RazonSocial
     this.modalService.open(modal, {
       centered: true,
@@ -1030,7 +1035,7 @@ export class ContributingCompaniesComponent implements OnInit {
   }
 
 
-  async GenerarConstancia(datay: any){
+  async GenerarConstancia(datay: any) {
     // console.log(datay)
     // this.pdf.CertificadoPagoMIF(data)
     this.CrearCert.usuario = datay.UsuarioId
@@ -1114,7 +1119,7 @@ export class ContributingCompaniesComponent implements OnInit {
   /**
    * On destroy
    */
-   ngOnDestroy(): void {
+  ngOnDestroy(): void {
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();

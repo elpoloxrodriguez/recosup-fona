@@ -14,7 +14,7 @@ import jwt_decode from "jwt-decode";
 import { AuthenticationService } from 'app/auth/service/authentication.service';
 import { Md5 } from 'ts-md5/dist/md5';
 import { VERSION } from '@angular/core';
-import { Auditoria, InterfaceService } from 'app/main/dashboard/audit/auditoria.service';
+import { Auditoria, InterfaceService } from 'app/main/audit/auditoria.service';
 
 
 

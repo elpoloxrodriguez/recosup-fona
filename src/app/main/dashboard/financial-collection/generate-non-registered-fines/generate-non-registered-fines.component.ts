@@ -25,7 +25,7 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
     valores: {},
   };
 
-  public xPagarMultas : RECOSUP_U_PagarMultasEmpresasNoInscritas = {
+  public xPagarMultas: RECOSUP_U_PagarMultasEmpresasNoInscritas = {
     banco: 0,
     referencia: '',
     status_mif: undefined,
@@ -73,10 +73,10 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
 
   public SelectAnioAporte = []
   public SelectArticulo = []
-  public  ActividadEconomicaEmpresa
-  public  ListaStatusConciliacionMultas = [
-    { id: '1', name: 'Aprobado'},
-    { id: '3', name: 'Rechazado'}
+  public ActividadEconomicaEmpresa
+  public ListaStatusConciliacionMultas = [
+    { id: '1', name: 'Aprobado' },
+    { id: '3', name: 'Rechazado' }
   ]
 
   public rowsDetalleMultasNuevas
@@ -107,6 +107,8 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
   public inicio_fiscal
   public cierre_fiscal
   public notificacion
+
+  public isLoading: number = 0;
 
   // decorator
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -211,23 +213,29 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
     )
   }
 
-   DetalleMultasNuevas() {
+  DetalleMultasNuevas() {
+    this.isLoading = 0;
     this.ListaMultasNuevas = []
     this.xAPI.funcion = "RECOSUP_R_ListarMultasNuevasMIF_NOINSCRITAS";
     this.xAPI.parametros = ""
-     this.apiService.Ejecutar(this.xAPI).subscribe(
+    this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-        data.Cuerpo.map(e => {
-          if (e.status_mif != '1') {
-            e.Nomenclatura_mif = e.Nomenclatura_mif.toUpperCase()
-            e.Monto = e.Monto_mif
-            e.Monto_mif = this.utilservice.ConvertirMoneda(e.Monto_mif)
-            this.ListaMultasNuevas.push(e);
-          }
-        });
-        // console.log( this.ListaMultasNuevas)
-        this.rowsDetalleMultasNuevas = this.ListaMultasNuevas;
-        this.tempDataDetalleMultasNuevas = this.rowsDetalleMultasNuevas
+        if (data.Cuerpo.length > 0) {
+          data.Cuerpo.map(e => {
+            if (e.status_mif != '1') {
+              e.Nomenclatura_mif = e.Nomenclatura_mif.toUpperCase()
+              e.Monto = e.Monto_mif
+              e.Monto_mif = this.utilservice.ConvertirMoneda(e.Monto_mif)
+              this.ListaMultasNuevas.push(e);
+            }
+          });
+          // console.log( this.ListaMultasNuevas)
+          this.rowsDetalleMultasNuevas = this.ListaMultasNuevas;
+          this.tempDataDetalleMultasNuevas = this.rowsDetalleMultasNuevas
+          this.isLoading = 1;
+        } else {
+          this.isLoading = 2;
+        }
       },
       (error) => {
         console.log(error)
@@ -235,11 +243,11 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
     )
   }
 
-  async GenerarConstancia(datay: any){
+  async GenerarConstancia(datay: any) {
     // console.log(datay)
     this.CrearCert.usuario = datay.UsuarioId
     this.CrearCert.token = this.utilService.TokenAleatorio(10),
-    this.CrearCert.type = 6, // Certifacion de pago a empresas no inscritas
+      this.CrearCert.type = 6, // Certifacion de pago a empresas no inscritas
       this.CrearCert.created_user = this.token.Usuario[0].UsuarioId
     this.xAPI.funcion = "RECOSUP_C_Certificados";
     this.xAPI.parametros = ''
@@ -275,23 +283,29 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
       }
     )
   }
-  
-  async mifAprobadas(){
+
+  async mifAprobadas() {
+    this.isLoading = 0;
     this.ListaMultasNuevas = []
     this.xAPI.funcion = "RECOSUP_R_ListarMultasNuevasMIF_NOINSCRITAS";
     this.xAPI.parametros = ""
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-        data.Cuerpo.map(e => {
-          if (e.status_mif == '1') {
-            e.Nomenclatura_mif = e.Nomenclatura_mif.toUpperCase()
-            e.Monto_mif = this.utilservice.ConvertirMoneda(e.Monto_mif)
-            this.ListaMultasNuevas.push(e);
-          }
-        });
-        // console.log(this.ListaMultasNuevas)
-        this.rowsDetalleMultasNuevas = this.ListaMultasNuevas;
-        this.tempDataDetalleMultasNuevas = this.rowsDetalleMultasNuevas
+        if (data.Cuerpo.length > 0) {
+          data.Cuerpo.map(e => {
+            if (e.status_mif == '1') {
+              e.Nomenclatura_mif = e.Nomenclatura_mif.toUpperCase()
+              e.Monto_mif = this.utilservice.ConvertirMoneda(e.Monto_mif)
+              this.ListaMultasNuevas.push(e);
+            }
+          });
+          // console.log(this.ListaMultasNuevas)
+          this.rowsDetalleMultasNuevas = this.ListaMultasNuevas;
+          this.tempDataDetalleMultasNuevas = this.rowsDetalleMultasNuevas
+          this.isLoading = 1;
+        } else {
+          this.isLoading = 2;
+        }
       },
       (error) => {
         console.log(error)
@@ -299,10 +313,10 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
     )
   }
 
-  async GenerarPlanillaMIF(dataY: any){
+  async GenerarPlanillaMIF(dataY: any) {
     this.CrearCert.usuario = dataY.id_mif_no_inscri
     this.CrearCert.token = this.utilService.TokenAleatorio(10),
-    this.CrearCert.type = 5, // 5 NOTIFICACION DE MIF NO INSCRITAS
+      this.CrearCert.type = 5, // 5 NOTIFICACION DE MIF NO INSCRITAS
       this.CrearCert.created_user = this.token.Usuario[0].UsuarioId
     this.xAPI.funcion = "RECOSUP_C_Certificados";
     this.xAPI.parametros = ''
@@ -374,13 +388,13 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
     this.xAPI.funcion = "RECOSUP_R_Empresas_Simple";
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-       data.Cuerpo.map(e => {
+        data.Cuerpo.map(e => {
           e.name = '(' + e.Rif + ') - ' + e.RazonSocial
           e.id = e.EmpresaId
           // return e
           this.ListaEmpresas.push(e)
         });
-        sessionStorage.setItem('Empresas',  JSON.stringify(this.ListaEmpresas));
+        sessionStorage.setItem('Empresas', JSON.stringify(this.ListaEmpresas));
       },
       (error) => {
         console.log(error)
@@ -394,10 +408,10 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(e => {
-          if (e.id_bancos_MIF <=3) {
+          if (e.id_bancos_MIF <= 3) {
             e.name = e.nombre_bancos_MIF
-          e.id = e.id_bancos_MIF
-          this.ListaPlanilla.push(e)
+            e.id = e.id_bancos_MIF
+            this.ListaPlanilla.push(e)
           }
         });
       },
@@ -442,7 +456,7 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
       windowClass: 'fondo-modal',
     });
   }
-  
+
   async DeleteMultasMIF(data: any) {
     await Swal.fire({
       title: 'Esta Seguro?',
@@ -480,7 +494,7 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
 
   DetalleModal(modal, data) {
     // console.log(data)
-    this.bancoPagoMultas = data.nombre_banco_bancos_MIF +' -  ('+ data.cuenta_bancos_MIF +') - ' + data.nombre_bancos_MIF
+    this.bancoPagoMultas = data.nombre_banco_bancos_MIF + ' -  (' + data.cuenta_bancos_MIF + ') - ' + data.nombre_bancos_MIF
     this.MontoModal = data.Monto_mif
     this.xPagarMultas.id_mif_no_inscri = data.id_mif_no_inscri
     this.xPagarMultas.UsuarioModifico = this.UserId
@@ -504,25 +518,25 @@ export class GenerateNonRegisteredFinesComponent implements OnInit {
     });
   }
 
-  async MultaConciliacion(){
-  this.xAPI.funcion = 'RECOSUP_U_PagarMultasEmpresasNoInscritas'
-   this.xAPI.parametros = ''
-   this.xAPI.valores = JSON.stringify(this.xPagarMultas)
-   await this.apiService.Ejecutar(this.xAPI).subscribe(
-     (data) => {
-       this.rowsDetalleMultasNuevas = []
-       if (data.tipo === 1) {
-         this.router.navigate(['/financial-collection/generate-non-registered-fines']).then(() => {window.location.reload()});
-         this.modalService.dismissAll('Close')
-         this.utilService.alertConfirmMini('success', 'Conciliacion Exitosamente')
-       } else {
-         this.utilService.alertConfirmMini('error', 'Oops! Algo Salio Mal, Intente de Nuevo!')
-       }
-     },
-     (error) => {
-       console.error(error)
-     }
-   )    
+  async MultaConciliacion() {
+    this.xAPI.funcion = 'RECOSUP_U_PagarMultasEmpresasNoInscritas'
+    this.xAPI.parametros = ''
+    this.xAPI.valores = JSON.stringify(this.xPagarMultas)
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        this.rowsDetalleMultasNuevas = []
+        if (data.tipo === 1) {
+          this.router.navigate(['/financial-collection/generate-non-registered-fines']).then(() => { window.location.reload() });
+          this.modalService.dismissAll('Close')
+          this.utilService.alertConfirmMini('success', 'Conciliacion Exitosamente')
+        } else {
+          this.utilService.alertConfirmMini('error', 'Oops! Algo Salio Mal, Intente de Nuevo!')
+        }
+      },
+      (error) => {
+        console.error(error)
+      }
+    )
   }
 
 }

@@ -9,19 +9,19 @@ import jwt_decode from "jwt-decode";
   selector: 'app-taxpayers',
   templateUrl: './taxpayers.component.html',
   styleUrls: ['./taxpayers.component.scss'],
-  encapsulation : ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None,
   providers: [NgbModalConfig, NgbModal],
 
 })
 export class TaxpayersComponent implements OnInit {
 
-  public xAPI : IAPICore = {
+  public xAPI: IAPICore = {
     funcion: '',
     parametros: '',
-    valores : {},
+    valores: {},
   };
 
-  public token : any
+  public token: any
 
   public ModalTitle
   public dataEmpresasAportes = [];
@@ -43,6 +43,7 @@ export class TaxpayersComponent implements OnInit {
   // Decorator
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
+  public isLoading: number = 0;
 
   // Private
   private tempDataEmpresasAportes = [];
@@ -51,34 +52,35 @@ export class TaxpayersComponent implements OnInit {
   private _unsubscribeAll: Subject<any>;
 
   constructor(
-    private apiService : ApiService,
+    private apiService: ApiService,
     private modalService: NgbModal,
-  ) { 
+  ) {
     this._unsubscribeAll = new Subject();
   }
 
   async ngOnInit() {
-    this.token =  jwt_decode(sessionStorage.getItem('token'));
+    this.token = jwt_decode(sessionStorage.getItem('token'));
     // console.log(this.token);
     await this.DocumentosAdjuntosEmpresa()
-    
+
   }
 
   async DocumentosAdjuntosEmpresa() {
     this.xAPI.funcion = "RECOSUP_R_ListaDocumentosAdjuntos";
     this.xAPI.parametros = '';
     this.dataEmpresasAportes = []
-     await this.apiService.Ejecutar(this.xAPI).subscribe(
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-        data.Cuerpo.map(e => {
-          this.dataEmpresasAportes.push(e);
-          setTimeout(() => {
-            //  dataEmpresasAportes Cierre Fiscal
-            this.rowsEmpresasAportes = this.dataEmpresasAportes;
-            this.tempDataEmpresasAportes = this.rowsEmpresasAportes;
-        }, 450);
-        });
-        // console.log(this.dataEmpresasAportes)
+        if (data.Cuerpo.length > 0) {
+          data.Cuerpo.map(e => {
+            this.dataEmpresasAportes.push(e);
+          });
+          this.rowsEmpresasAportes = this.dataEmpresasAportes;
+          this.tempDataEmpresasAportes = this.rowsEmpresasAportes;
+          this.isLoading = 1;
+        } else {
+          this.isLoading = 2;
+        }
       },
       (error) => {
         console.log(error)
@@ -91,7 +93,7 @@ export class TaxpayersComponent implements OnInit {
   }
 
   ModalDetails(modal, data) {
-    this.ModalTitle =  data.RazonSocial
+    this.ModalTitle = data.RazonSocial
     this.modalService.open(modal, {
       centered: true,
       size: 'xl',
@@ -99,32 +101,35 @@ export class TaxpayersComponent implements OnInit {
       keyboard: false,
       windowClass: 'fondo-modal',
     });
-  }  
+  }
 
   async listaDocumentosAdjuntosEmpresa(data: any) {
+    this.isLoading = 0;
     var empresa = data.IdEmpresa
     var usuario = data.IdUsuario
     this.xAPI.funcion = "RECOSUP_R_DocumentosAdjuntos_Empresas";
-    this.xAPI.parametros = empresa+','+usuario;
-    console.log(this.xAPI.parametros);
+    this.xAPI.parametros = empresa + ',' + usuario;
+    // console.log(this.xAPI.parametros);
     this.dataEmpresaDocumentosAdjuntos = []
-     await this.apiService.Ejecutar(this.xAPI).subscribe(
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-         data.Cuerpo.map(e => {
-          this.dataEmpresaDocumentosAdjuntos.push(e);
-          setTimeout(() => {
-            this.rows = this.dataEmpresaDocumentosAdjuntos;
-            this.tempData = this.rows;  
-          }, 350);  
-        });
-        // console.log(this.dataEmpresaDocumentosAdjuntos)
+        if (data.Cuerpo.length > 0) {
+          data.Cuerpo.map(e => {
+            this.dataEmpresaDocumentosAdjuntos.push(e);
+          });
+          this.rows = this.dataEmpresaDocumentosAdjuntos;
+          this.tempData = this.rows;
+          this.isLoading = 1;
+        } else {
+          this.isLoading = 2;
+        }
       },
       (error) => {
         console.log(error)
       }
     )
   }
-  
+
 
   filterUpdate(event) {
     // Reset ng-select on search
@@ -155,7 +160,7 @@ export class TaxpayersComponent implements OnInit {
   /**
    * On destroy
    */
-   ngOnDestroy(): void {
+  ngOnDestroy(): void {
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();

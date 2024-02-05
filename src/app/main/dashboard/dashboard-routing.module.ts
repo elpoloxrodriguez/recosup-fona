@@ -20,15 +20,15 @@ import { SupportRoutingModule } from './support/support-routing.module'
 import { LegalRoutingModule } from './legal/legal-routing.module'
 import { InspectionRoutingModule } from './inspection/inspection-routing.module'
 import { UserRoutingModule } from './user/user-routing.module'
-import { AuditModule } from './audit/audit.module'
+import { AuditModule } from '../audit/audit.module'
 import { AsistenteVirtualModule } from '../asistente-virtual/asistente-virtual.module'
 
 const routes: Routes = [
   {
     path: 'home',
     component: DashboardComponent,
-    canActivate: [AuthGuard,AuthGuardGuard],
-    data: { roles: ['0','1','2','3','4','5','6','7','8','9'] },
+    canActivate: [AuthGuard, AuthGuardGuard],
+    data: { roles: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] },
   },
   {
     path: 'email',
@@ -61,7 +61,7 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class DashboardRoutingModule { 
-  
+export class DashboardRoutingModule {
+
 
 }

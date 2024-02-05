@@ -7,7 +7,7 @@ import jwt_decode from "jwt-decode";
 import { NgbModal, NgbActiveModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { Auditoria, InterfaceService } from 'app/main/dashboard/audit/auditoria.service';
+import { Auditoria, InterfaceService } from 'app/main/audit/auditoria.service';
 
 
 
@@ -15,7 +15,7 @@ import { Auditoria, InterfaceService } from 'app/main/dashboard/audit/auditoria.
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  encapsulation : ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None,
   providers: [NgbModalConfig, NgbModal],
 })
 export class DashboardComponent implements OnInit {
@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit {
     type: 0,
     created_user: 0
   }
-  
+
   public FechaModificoUsuario
   public IdEmpresa
   public DataEmpresa
@@ -49,7 +49,7 @@ export class DashboardComponent implements OnInit {
   public empresa = false
   public usuario = false
 
-  public ListaEmpresas : any = []
+  public ListaEmpresas: any = []
 
   public UsuarioId
 
@@ -59,7 +59,7 @@ export class DashboardComponent implements OnInit {
     private apiService: ApiService,
     private utilService: UtilService,
     private modalService: NgbModal,
-    private _router : Router,
+    private _router: Router,
     private pdf: PdfService,
     private auditoria: InterfaceService
   ) { }
@@ -70,7 +70,7 @@ export class DashboardComponent implements OnInit {
    * On init
    */
   async ngOnInit() {
-    this.token =  jwt_decode(sessionStorage.getItem('token'));
+    this.token = jwt_decode(sessionStorage.getItem('token'));
     this.FechaModificoUsuario = this.token.Usuario[0].FechaModifico
     // console.log(this.token.Usuario[0])
     // console.log(this.FechaModificoUsuario);
@@ -100,10 +100,10 @@ export class DashboardComponent implements OnInit {
         this.usuario = true
         this.empresa = false
         break;
-        // case '9':
-        //   this.usuario = false
-        //   this.empresa = true
-        //   break;
+      // case '9':
+      //   this.usuario = false
+      //   this.empresa = true
+      //   break;
       default:
         this.usuario = false
         this.empresa = true
@@ -117,7 +117,7 @@ export class DashboardComponent implements OnInit {
     this.DataEmpresa = []
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-          this.DataEmpresa.push(data.Cuerpo);
+        this.DataEmpresa.push(data.Cuerpo);
       },
       (error) => {
         console.log(error)
@@ -168,66 +168,66 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  async CambiarContraseñaEmpresa(){
-  this.xAPI.funcion = "RECOSUP_R_UsuarioId";
-  this.xAPI.parametros = this.UsuarioId
-  this.xAPI.valores = ''
-  await this.apiService.Ejecutar(this.xAPI).subscribe(
-    (data) => {
-      data.Cuerpo.forEach(e => {        
-        let FechaToken = e.FechaModifico
-        const ConvertirFechaToken = new Date(FechaToken).getFullYear()
-       setTimeout(() => {
-        if (ConvertirFechaToken < 2023) {
-          this._router.navigate(['user/profile']).then(() => {window.location.reload()});
-          Swal.fire({
-            position: 'top-end',
-            icon: 'warning',
-            html: 'Estimado Usuario <br>  Recomendamos Cambiar la Contraseña de Acceso al Sistema',
-            showConfirmButton: false,
-            timer: 3000
-          })
-        }
-       }, 2000);
-      });
-    },
-    (error) => {
-      console.log(error)
-    }
-  )
-
-  }
-
-
-  async CambiarContraseñaUsuarioInterno(){
-    this.xAPI.funcion = "RECOSUP_R_UsuarioIdUsuarioInterno";
+  async CambiarContraseñaEmpresa() {
+    this.xAPI.funcion = "RECOSUP_R_UsuarioId";
     this.xAPI.parametros = this.UsuarioId
     this.xAPI.valores = ''
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-        data.Cuerpo.forEach(e => {        
+        data.Cuerpo.forEach(e => {
           let FechaToken = e.FechaModifico
           const ConvertirFechaToken = new Date(FechaToken).getFullYear()
-         setTimeout(() => {
-          if (ConvertirFechaToken < 2023) {
-            this._router.navigate(['user/profile']).then(() => {window.location.reload()});
-            Swal.fire({
-              position: 'top-end',
-              icon: 'warning',
-              html: 'Estimado Usuario <br>  Recomendamos Cambiar la Contraseña de Acceso al Sistema',
-              showConfirmButton: false,
-              timer: 3000
-            })
-          }
-         }, 2000);
+          setTimeout(() => {
+            if (ConvertirFechaToken < 2023) {
+              this._router.navigate(['user/profile']).then(() => { window.location.reload() });
+              Swal.fire({
+                position: 'top-end',
+                icon: 'warning',
+                html: 'Estimado Usuario <br>  Recomendamos Cambiar la Contraseña de Acceso al Sistema',
+                showConfirmButton: false,
+                timer: 3000
+              })
+            }
+          }, 2000);
         });
       },
       (error) => {
         console.log(error)
       }
     )
-  
-    }
+
+  }
+
+
+  async CambiarContraseñaUsuarioInterno() {
+    this.xAPI.funcion = "RECOSUP_R_UsuarioIdUsuarioInterno";
+    this.xAPI.parametros = this.UsuarioId
+    this.xAPI.valores = ''
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        data.Cuerpo.forEach(e => {
+          let FechaToken = e.FechaModifico
+          const ConvertirFechaToken = new Date(FechaToken).getFullYear()
+          setTimeout(() => {
+            if (ConvertirFechaToken < 2023) {
+              this._router.navigate(['user/profile']).then(() => { window.location.reload() });
+              Swal.fire({
+                position: 'top-end',
+                icon: 'warning',
+                html: 'Estimado Usuario <br>  Recomendamos Cambiar la Contraseña de Acceso al Sistema',
+                showConfirmButton: false,
+                timer: 3000
+              })
+            }
+          }, 2000);
+        });
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+
+  }
 
 
   async ListaEmpresasSimple() {
@@ -240,7 +240,7 @@ export class DashboardComponent implements OnInit {
           this.ListaEmpresas.push(e)
           return e
         });
-        sessionStorage.setItem('Empresas',  JSON.stringify(this.ListaEmpresas));
+        sessionStorage.setItem('Empresas', JSON.stringify(this.ListaEmpresas));
       },
       (error) => {
         console.log(error)

@@ -88,6 +88,7 @@ export class TaxpayerPaymentsComponent implements OnInit {
   private tempDataCierreFiscal = [];
   private tempDataUtilidadAportes = []
 
+  public isLoading: number = 0;
 
   constructor(
     private apiService: ApiService,
@@ -118,22 +119,27 @@ export class TaxpayerPaymentsComponent implements OnInit {
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         // console.log(data)
-        data.Cuerpo.map(e => {
-          if (e.Codigo == 32) {
-            e.MontoTotalDeclarado = this.utilservice.ConvertirMoneda(e.MontoPagar)
-            var Monto1 = e.MontoPagar * 1 / 100
-            e.MontoPagar = this.utilservice.ConvertirMoneda(Monto1)
-          } else {
-            e.MontoTotalDeclarado = this.utilservice.ConvertirMoneda(e.MontoPagar)
-            var Monto1 = e.MontoPagar * 2 / 100
-            e.MontoPagar = this.utilservice.ConvertirMoneda(Monto1)
-          }
-          e.Monto = this.utilservice.ConvertirMoneda(e.Monto)
-          this.Utilidad.push(e)
-        });
-        // console.log(this.Utilidad)
-        this.rowsUtilidadCierreFiscal = this.Utilidad;
-        this.tempDataCierreFiscal = this.rowsUtilidadCierreFiscal;
+        if (data.Cuerpo.length > 0) {
+          data.Cuerpo.map(e => {
+            if (e.Codigo == 32) {
+              e.MontoTotalDeclarado = this.utilservice.ConvertirMoneda(e.MontoPagar)
+              var Monto1 = e.MontoPagar * 1 / 100
+              e.MontoPagar = this.utilservice.ConvertirMoneda(Monto1)
+            } else {
+              e.MontoTotalDeclarado = this.utilservice.ConvertirMoneda(e.MontoPagar)
+              var Monto1 = e.MontoPagar * 2 / 100
+              e.MontoPagar = this.utilservice.ConvertirMoneda(Monto1)
+            }
+            e.Monto = this.utilservice.ConvertirMoneda(e.Monto)
+            this.Utilidad.push(e)
+          });
+          // console.log(this.Utilidad)
+          this.rowsUtilidadCierreFiscal = this.Utilidad;
+          this.tempDataCierreFiscal = this.rowsUtilidadCierreFiscal;
+          this.isLoading = 1;
+        } else {
+          this.isLoading = 2;
+        }
       },
       (error) => {
         console.log(error)

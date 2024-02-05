@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from 'environments/environment';
 import Swal from 'sweetalert2';
-import { Auditoria, InterfaceService } from '../../../app/main/dashboard/audit/auditoria.service';
+import { Auditoria, InterfaceService } from '../../../app/main/audit/auditoria.service';
 import { UtilService } from '../util/util.service';
 import jwt_decode from "jwt-decode";
 

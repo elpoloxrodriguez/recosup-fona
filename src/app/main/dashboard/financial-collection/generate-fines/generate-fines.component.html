@@ -2,8 +2,10 @@
   <div class="card-body">
 
     <div class="card-header  justify-content-center">
-      <strong><font color="red">Multas, Intereses y Fiscalizaciones a Empresas Inscritas en el FONA</font></strong>
-     </div>
+      <strong>
+        <font color="red">Multas, Intereses y Fiscalizaciones a Empresas Inscritas en el FONA</font>
+      </strong>
+    </div>
 
     <ul ngbNav #navCenter="ngbNav" class="nav-tabs justify-content-center">
       <li ngbNavItem (click)="DetalleMultasNuevas()">
@@ -41,10 +43,24 @@
                   </div>
                 </div>
               </div>
+
+              <ng-container *ngIf="isLoading == 0">
+                <div class="loading-overlay">
+                  <div class="spinner-border text-success" role="status"></div>
+                  <div class="loading-message">Cargando datos, por favor espere...</div>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="isLoading == 2">
+                <div class="loading-overlay">
+                  <div class="spinner-border text-danger" role="status"></div>
+                  <div class="loading-message">No hay registros...</div>
+                </div>
+              </ng-container>
+
               <ngx-datatable [rows]="rowsDetalleMultasNuevas" rowHeight="auto" class="bootstrap core-bootstrap"
                 [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
                 [scrollbarH]="true">
-            
+
                 <ngx-datatable-column name="Empresa" prop="row" width="auto">
                   <ng-template let-row="row" ngx-datatable-cell-template>
                     <div>
@@ -57,35 +73,23 @@
                   <ng-template let-TipoMultaId="value" ngx-datatable-cell-template>
                     <div>
                       <!-- <span class="font-weight-bold">{{ TipoMultaId }} </span> -->
-                      <div
-                      *ngIf="TipoMultaId == '1'"
-                        class="badge badge-pill"
-                        ngClass="badge-light-danger">
+                      <div *ngIf="TipoMultaId == '1'" class="badge badge-pill" ngClass="badge-light-danger">
                         Multas
                       </div>
-                      <div
-                      *ngIf="TipoMultaId == 2"
-                        class="badge badge-pill"
-                        ngClass="badge-light-warning">
+                      <div *ngIf="TipoMultaId == 2" class="badge badge-pill" ngClass="badge-light-warning">
                         Intereses
                       </div>
-                      <div
-                      *ngIf="TipoMultaId == 3"
-                        class="badge badge-pill"
-                        ngClass="badge-light-primary">
+                      <div *ngIf="TipoMultaId == 3" class="badge badge-pill" ngClass="badge-light-primary">
                         Fiscalización
                       </div>
-                      <div
-                      *ngIf="TipoMultaId == 4"
-                        class="badge badge-pill"
-                        ngClass="badge-light-primary">
+                      <div *ngIf="TipoMultaId == 4" class="badge badge-pill" ngClass="badge-light-primary">
                         Pago Complementario
                       </div>
                     </div>
                   </ng-template>
                 </ngx-datatable-column>
-                
-      
+
+
                 <ngx-datatable-column name="Nomenclatura" prop="Nomenclatura_mif" [width]="10">
                   <ng-template let-Nomenclatura_mif="value" ngx-datatable-cell-template>
                     <div>
@@ -93,7 +97,7 @@
                     </div>
                   </ng-template>
                 </ngx-datatable-column>
-      
+
                 <!-- <ngx-datatable-column name="Fecha" prop="FechaCreo" [width]="10">
                   <ng-template let-FechaCreo="value" ngx-datatable-cell-template>
                     <div>
@@ -101,7 +105,7 @@
                     </div>
                   </ng-template>
                 </ngx-datatable-column> -->
-      
+
                 <ngx-datatable-column name="Monto" prop="Monto_mif" [width]="10">
                   <ng-template let-Monto_mif="value" ngx-datatable-cell-template>
                     <div>
@@ -109,47 +113,32 @@
                     </div>
                   </ng-template>
                 </ngx-datatable-column>
-      
+
                 <ngx-datatable-column name="Status" prop="status_mif" [width]="10">
                   <ng-template let-status_mif="value" ngx-datatable-cell-template>
                     <div>
                       <!-- <span class="font-weight-bold"> {{ status_mif }} </span> -->
-                      <div
-                      *ngIf="status_mif == 0"
-                        class="badge badge-pill"
-                        ngClass="badge-light-warning">
+                      <div *ngIf="status_mif == 0" class="badge badge-pill" ngClass="badge-light-warning">
                         Pendiente por Pago
                       </div>
-                      <div
-                      *ngIf="status_mif == 1"
-                        class="badge badge-pill"
-                        ngClass="badge-light-success">
+                      <div *ngIf="status_mif == 1" class="badge badge-pill" ngClass="badge-light-success">
                         Pagado
                       </div>
-                      <div
-                      *ngIf="status_mif == 2"
-                        class="badge badge-pill"
-                        ngClass="badge-light-info">
+                      <div *ngIf="status_mif == 2" class="badge badge-pill" ngClass="badge-light-info">
                         En Revisión
                       </div>
-                      <div
-                      *ngIf="status_mif == 3"
-                        class="badge badge-pill"
-                        ngClass="badge-light-danger">
+                      <div *ngIf="status_mif == 3" class="badge badge-pill" ngClass="badge-light-danger">
                         Rechazado
                       </div>
-                      <div
-                      *ngIf="TipoMultaId == 4"
-                        class="badge badge-pill"
-                        ngClass="badge-light-primary">
+                      <div *ngIf="TipoMultaId == 4" class="badge badge-pill" ngClass="badge-light-primary">
                         Pago Complementario
                       </div>
                     </div>
                   </ng-template>
                 </ngx-datatable-column>
-      
+
                 <ngx-datatable-column name="Accion" [width]="20" [sortable]="false">
-                  <ng-template  ngx-datatable-cell-template let-row="row">
+                  <ng-template ngx-datatable-cell-template let-row="row">
                     <div ngbDropdown container="body">
                       <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
                         <span [data-feather]="'settings'" [class]="'cursor-pointer'"></span>
@@ -157,18 +146,18 @@
                       <div ngbDropdownMenu>
                         <div>
                           <a [href]="dwUrl(row.Rif,row.Bauche)" ngbDropdownItem *ngIf="row.Bauche != null"><span
-                            [data-feather]="'download'"  [size]="16" [class]="'mr-50'"></span> Descargar Bauche</a>
+                              [data-feather]="'download'" [size]="16" [class]="'mr-50'"></span> Descargar Bauche</a>
                           <a (click)="DetalleModal(ModalDetails,row)" ngbDropdownItem *ngIf="row.status_mif == 2"><span
-                            [data-feather]="'book-open'"  [size]="16" [class]="'mr-50'"></span> Conciliar Pago</a>
-                            <a (click)="DeleteMultasMIF(row)" ngbDropdownItem><span
-                              [data-feather]="'trash'" [size]="16" [class]="'mr-50'"></span> Eliminar</a>
+                              [data-feather]="'book-open'" [size]="16" [class]="'mr-50'"></span> Conciliar Pago</a>
+                          <a (click)="DeleteMultasMIF(row)" ngbDropdownItem><span [data-feather]="'trash'" [size]="16"
+                              [class]="'mr-50'"></span> Eliminar</a>
+                        </div>
                       </div>
                     </div>
-                    </div>  
-                      </ng-template>
-                    </ngx-datatable-column>
-      
-      
+                  </ng-template>
+                </ngx-datatable-column>
+
+
               </ngx-datatable>
             </div>
           </section>
@@ -210,10 +199,24 @@
                   </div>
                 </div>
               </div>
+
+              <ng-container *ngIf="isLoading == 0">
+                <div class="loading-overlay">
+                  <div class="spinner-border text-success" role="status"></div>
+                  <div class="loading-message">Cargando datos, por favor espere...</div>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="isLoading == 2">
+                <div class="loading-overlay">
+                  <div class="spinner-border text-danger" role="status"></div>
+                  <div class="loading-message">No hay registros...</div>
+                </div>
+              </ng-container>
+
               <ngx-datatable [rows]="rowsDetalleMultasNuevas" rowHeight="auto" class="bootstrap core-bootstrap"
                 [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
                 [scrollbarH]="true">
-            
+
                 <ngx-datatable-column name="Empresa" prop="row" width="auto">
                   <ng-template let-row="row" ngx-datatable-cell-template>
                     <div>
@@ -226,35 +229,23 @@
                   <ng-template let-TipoMultaId="value" ngx-datatable-cell-template>
                     <div>
                       <!-- <span class="font-weight-bold">{{ TipoMultaId }} </span> -->
-                      <div
-                      *ngIf="TipoMultaId == '1'"
-                        class="badge badge-pill"
-                        ngClass="badge-light-danger">
+                      <div *ngIf="TipoMultaId == '1'" class="badge badge-pill" ngClass="badge-light-danger">
                         Multas
                       </div>
-                      <div
-                      *ngIf="TipoMultaId == 2"
-                        class="badge badge-pill"
-                        ngClass="badge-light-warning">
+                      <div *ngIf="TipoMultaId == 2" class="badge badge-pill" ngClass="badge-light-warning">
                         Intereses
                       </div>
-                      <div
-                      *ngIf="TipoMultaId == 3"
-                        class="badge badge-pill"
-                        ngClass="badge-light-primary">
+                      <div *ngIf="TipoMultaId == 3" class="badge badge-pill" ngClass="badge-light-primary">
                         Fiscalización
                       </div>
-                      <div
-                      *ngIf="TipoMultaId == 4"
-                        class="badge badge-pill"
-                        ngClass="badge-light-primary">
+                      <div *ngIf="TipoMultaId == 4" class="badge badge-pill" ngClass="badge-light-primary">
                         Pago Complementario
                       </div>
                     </div>
                   </ng-template>
                 </ngx-datatable-column>
-                
-      
+
+
                 <ngx-datatable-column name="Nomenclatura" prop="Nomenclatura_mif" [width]="10">
                   <ng-template let-Nomenclatura_mif="value" ngx-datatable-cell-template>
                     <div>
@@ -270,7 +261,7 @@
                     </div>
                   </ng-template>
                 </ngx-datatable-column>
-      
+
                 <!-- <ngx-datatable-column name="Fecha" prop="FechaCreo" [width]="10">
                   <ng-template let-FechaCreo="value" ngx-datatable-cell-template>
                     <div>
@@ -278,7 +269,7 @@
                     </div>
                   </ng-template>
                 </ngx-datatable-column> -->
-      
+
                 <ngx-datatable-column name="Monto" prop="Monto_mif" [width]="10">
                   <ng-template let-Monto_mif="value" ngx-datatable-cell-template>
                     <div>
@@ -286,56 +277,44 @@
                     </div>
                   </ng-template>
                 </ngx-datatable-column>
-      
+
                 <ngx-datatable-column name="Status" prop="status_mif" [width]="10">
                   <ng-template let-status_mif="value" ngx-datatable-cell-template>
                     <div>
                       <!-- <span class="font-weight-bold"> {{ status_mif }} </span> -->
-                      <div
-                      *ngIf="status_mif == 0"
-                        class="badge badge-pill"
-                        ngClass="badge-light-warning">
+                      <div *ngIf="status_mif == 0" class="badge badge-pill" ngClass="badge-light-warning">
                         Pendiente por Pago
                       </div>
-                      <div
-                      *ngIf="status_mif == 1"
-                        class="badge badge-pill"
-                        ngClass="badge-light-success">
+                      <div *ngIf="status_mif == 1" class="badge badge-pill" ngClass="badge-light-success">
                         Pagado
                       </div>
-                      <div
-                      *ngIf="status_mif == 2"
-                        class="badge badge-pill"
-                        ngClass="badge-light-info">
+                      <div *ngIf="status_mif == 2" class="badge badge-pill" ngClass="badge-light-info">
                         En Revisión
                       </div>
-                      <div
-                      *ngIf="status_mif == 3"
-                        class="badge badge-pill"
-                        ngClass="badge-light-danger">
+                      <div *ngIf="status_mif == 3" class="badge badge-pill" ngClass="badge-light-danger">
                         Rechazado
                       </div>
                     </div>
                   </ng-template>
                 </ngx-datatable-column>
-      
+
                 <ngx-datatable-column name="Accion" [width]="20" [sortable]="false">
-                  <ng-template  ngx-datatable-cell-template let-row="row">
+                  <ng-template ngx-datatable-cell-template let-row="row">
                     <div ngbDropdown container="body">
                       <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
                         <span [data-feather]="'settings'" [class]="'cursor-pointer'"></span>
                       </button>
                       <div ngbDropdownMenu>
                         <div>
-                            <a (click)="GenerarConstancia(row)" ngbDropdownItem><span
-                              [data-feather]="'book-open'" [size]="16" [class]="'mr-50'"></span> Generar Constancia</a>
+                          <a (click)="GenerarConstancia(row)" ngbDropdownItem><span [data-feather]="'book-open'"
+                              [size]="16" [class]="'mr-50'"></span> Generar Constancia</a>
+                        </div>
                       </div>
                     </div>
-                    </div>  
-                      </ng-template>
-                    </ngx-datatable-column>
-      
-      
+                  </ng-template>
+                </ngx-datatable-column>
+
+
               </ngx-datatable>
             </div>
           </section>
@@ -366,14 +345,29 @@
                   <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
                     <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
                         name="searchValue" type="search" class="form-control ml-25" placeholder="Nombre Empresa"
-                        (keyup)="filterUpdateMultasViejas($event)" (search)="filterUpdateMultasViejas($event)" /></label>
+                        (keyup)="filterUpdateMultasViejas($event)"
+                        (search)="filterUpdateMultasViejas($event)" /></label>
                   </div>
                 </div>
               </div>
+
+              <ng-container *ngIf="isLoading == 0">
+                <div class="loading-overlay">
+                  <div class="spinner-border text-success" role="status"></div>
+                  <div class="loading-message">Cargando datos, por favor espere...</div>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="isLoading == 2">
+                <div class="loading-overlay">
+                  <div class="spinner-border text-danger" role="status"></div>
+                  <div class="loading-message">No hay registros...</div>
+                </div>
+              </ng-container>
+
               <ngx-datatable [rows]="rowsDetalleMultas" rowHeight="auto" class="bootstrap core-bootstrap"
                 [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
                 [scrollbarH]="true">
-      
+
                 <ngx-datatable-column name="Empresa" prop="RazonSocial" width="auto">
                   <ng-template let-RazonSocial="value" ngx-datatable-cell-template>
                     <div>
@@ -389,7 +383,7 @@
                     </div>
                   </ng-template>
                 </ngx-datatable-column>
-      
+
                 <ngx-datatable-column name="Art" prop="Articulo" [width]="20">
                   <ng-template let-Articulo="value" ngx-datatable-cell-template>
                     <div>
@@ -402,15 +396,13 @@
                   <ng-template let-NumeroResolucion="value" ngx-datatable-cell-template>
                     <div>
                       <!-- <span class="font-weight-bold">{{ NumeroResolucion }} </span> -->
-                      <div
-                        class="badge badge-pill"
-                        ngClass="badge-light-primary">
-                        {{ NumeroResolucion }} 
+                      <div class="badge badge-pill" ngClass="badge-light-primary">
+                        {{ NumeroResolucion }}
                       </div>
                     </div>
                   </ng-template>
                 </ngx-datatable-column>
-      
+
                 <ngx-datatable-column name="Tipo" prop="Nombre" [width]="20">
                   <ng-template let-Nombre="value" ngx-datatable-cell-template>
                     <div>
@@ -418,7 +410,7 @@
                     </div>
                   </ng-template>
                 </ngx-datatable-column>
-      
+
                 <ngx-datatable-column name="Año" prop="Anio" [width]="20">
                   <ng-template let-Anio="value" ngx-datatable-cell-template>
                     <div>
@@ -426,7 +418,7 @@
                     </div>
                   </ng-template>
                 </ngx-datatable-column>
-      
+
                 <ngx-datatable-column name="Fecha Documento" prop="FechaDocumento" [width]="20">
                   <ng-template let-FechaDocumento="value" ngx-datatable-cell-template>
                     <div>
@@ -434,7 +426,7 @@
                     </div>
                   </ng-template>
                 </ngx-datatable-column>
-      
+
                 <ngx-datatable-column name="N°  Ref" prop="ReferenciaBancaria" [width]="20">
                   <ng-template let-ReferenciaBancaria="value" ngx-datatable-cell-template>
                     <div>
@@ -442,7 +434,7 @@
                     </div>
                   </ng-template>
                 </ngx-datatable-column>
-      
+
                 <ngx-datatable-column name="Monto" prop="Monto" [width]="20">
                   <ng-template let-Monto="value" ngx-datatable-cell-template>
                     <div>
@@ -450,8 +442,8 @@
                     </div>
                   </ng-template>
                 </ngx-datatable-column>
-      
-    
+
+
               </ngx-datatable>
             </div>
           </section>
@@ -481,8 +473,9 @@
         <div class="col-12">
           <div class="form-group">
             <label for="basicInput">Seleccione Empresa</label>
-            <ng-select [items]="ListaEmpresas" [(ngModel)]="ICrearMultasMIF.id_EmpresaId" [ngModelOptions]="{standalone: true}"
-              placeholder="Seleccione Empresa" bindLabel="name" bindValue="id" required>
+            <ng-select [items]="ListaEmpresas" [(ngModel)]="ICrearMultasMIF.id_EmpresaId"
+              [ngModelOptions]="{standalone: true}" placeholder="Seleccione Empresa" bindLabel="name" bindValue="id"
+              required>
             </ng-select>
           </div>
         </div>
@@ -490,14 +483,16 @@
         <div class="col-6">
           <div class="form-group">
             <label for="basicInput">Monto de Multa</label>
-            <input class="form-control" type="number"  [(ngModel)]="ICrearMultasMIF.Monto_mif" [ngModelOptions]="{standalone: true}" placeholder="Monto"/>
+            <input class="form-control" type="number" [(ngModel)]="ICrearMultasMIF.Monto_mif"
+              [ngModelOptions]="{standalone: true}" placeholder="Monto" />
           </div>
         </div>
-        
+
         <div class="col-6">
           <div class="form-group">
             <label for="basicInput">Nomenclatura</label>
-            <input class="form-control" type="text"  [(ngModel)]="ICrearMultasMIF.Nomenclatura_mif" [ngModelOptions]="{standalone: true}" placeholder="Nomenclatura Acta Fiscal y/o Resolucion"/>
+            <input class="form-control" type="text" [(ngModel)]="ICrearMultasMIF.Nomenclatura_mif"
+              [ngModelOptions]="{standalone: true}" placeholder="Nomenclatura Acta Fiscal y/o Resolucion" />
           </div>
         </div>
 
@@ -505,8 +500,9 @@
         <div class="col-12">
           <div class="form-group">
             <label for="basicInput">Seleccione Tipo Planilla</label>
-            <ng-select [items]="ListaPlanilla" [(ngModel)]="ICrearMultasMIF.TipoMultaId" [ngModelOptions]="{standalone: true}"
-              placeholder="Seleccione Tipo Planilla" bindLabel="name" bindValue="id" required>
+            <ng-select [items]="ListaPlanilla" [(ngModel)]="ICrearMultasMIF.TipoMultaId"
+              [ngModelOptions]="{standalone: true}" placeholder="Seleccione Tipo Planilla" bindLabel="name"
+              bindValue="id" required>
             </ng-select>
           </div>
         </div>
@@ -514,8 +510,9 @@
         <div class="col-md-6 col-12 mb-1">
           <div class="form-group">
             <label for="basicInput">Seleccione Articulo</label>
-            <ng-select [items]="SelectArticulo" [(ngModel)]="ICrearMultasMIF.articulo" [ngModelOptions]="{standalone: true}"
-              placeholder="Seleccione Articulo" bindLabel="name" bindValue="id" required>
+            <ng-select [items]="SelectArticulo" [(ngModel)]="ICrearMultasMIF.articulo"
+              [ngModelOptions]="{standalone: true}" placeholder="Seleccione Articulo" bindLabel="name" bindValue="id"
+              required>
             </ng-select>
           </div>
         </div>
@@ -524,7 +521,8 @@
           <div class="form-group">
             <label for="basicSelect">Seleccione el Año</label>
             <ng-select [items]="SelectAnioAporte" placeholder="Seleccione Año" bindLabel="name" name="anio"
-              autocomplete="off" [(ngModel)]="ICrearMultasMIF.anio" [ngModelOptions]="{standalone: true}" required autocomplete="off">
+              autocomplete="off" [(ngModel)]="ICrearMultasMIF.anio" [ngModelOptions]="{standalone: true}" required
+              autocomplete="off">
             </ng-select>
           </div>
         </div>
@@ -532,25 +530,28 @@
         <div class="col-4">
           <div class="form-group">
             <label for="basicInput">Fecha Inicio Fiscal</label>
-            <input class="form-control" type="date"  [(ngModel)]="ICrearMultasMIF.inicio_fiscal" [ngModelOptions]="{standalone: true}" placeholder="Fecha Inicio Fiscal"/>
+            <input class="form-control" type="date" [(ngModel)]="ICrearMultasMIF.inicio_fiscal"
+              [ngModelOptions]="{standalone: true}" placeholder="Fecha Inicio Fiscal" />
           </div>
         </div>
 
         <div class="col-4">
           <div class="form-group">
             <label for="basicInput">Fecha Cierre Fiscal</label>
-            <input class="form-control" type="date"  [(ngModel)]="ICrearMultasMIF.cierre_fiscal" [ngModelOptions]="{standalone: true}" placeholder="Fecha Cierre Fiscal"/>
+            <input class="form-control" type="date" [(ngModel)]="ICrearMultasMIF.cierre_fiscal"
+              [ngModelOptions]="{standalone: true}" placeholder="Fecha Cierre Fiscal" />
           </div>
         </div>
 
         <div class="col-4">
           <div class="form-group">
             <label for="basicInput">Fecha de Notificacion</label>
-            <input class="form-control" type="date"  [(ngModel)]="ICrearMultasMIF.notificacion" [ngModelOptions]="{standalone: true}" placeholder="Fecha de Notificacion"/>
+            <input class="form-control" type="date" [(ngModel)]="ICrearMultasMIF.notificacion"
+              [ngModelOptions]="{standalone: true}" placeholder="Fecha de Notificacion" />
           </div>
         </div>
 
-      
+
 
 
       </div>
@@ -567,7 +568,7 @@
 
 <ng-template #ModalDetails let-modal>
   <div class="modal-header">
-    <h5 class="modal-title" id="myModalLabel160">Conciliar Pago de Multa  <strong>{{ titleModal }}</strong></h5>
+    <h5 class="modal-title" id="myModalLabel160">Conciliar Pago de Multa <strong>{{ titleModal }}</strong></h5>
   </div>
   <div class="modal-body" tabindex="0" ngbAutofocus>
     <!-- Invoice -->
@@ -599,72 +600,78 @@
             <label for="helperText">Fecha de Pago Banco</label>
             <div class="form-group">
               <div class="input-group">
-                  <input type="date"  class="form-control" readonly  placeholder="Seleccione la Fecha del Pago a Banco" autocomplete="off"  [(ngModel)]="xPagarMultas.fechaPago" [ngModelOptions]="{standalone: true}">
+                <input type="date" class="form-control" readonly placeholder="Seleccione la Fecha del Pago a Banco"
+                  autocomplete="off" [(ngModel)]="xPagarMultas.fechaPago" [ngModelOptions]="{standalone: true}">
               </div>
             </div>
           </div>
         </div>
 
-        
+
 
 
         <div class="col-md-6 col-12 mb-1">
           <div class="form-group">
             <label for="basicSelect"><strong>Monto Total del Aporte</strong></label>
-            <input type="text" class="form-control"  readonly autocomplete="off"
-              [(ngModel)]="MontoModal" readonly [ngModelOptions]="{standalone: true}">
+            <input type="text" class="form-control" readonly autocomplete="off" [(ngModel)]="MontoModal" readonly
+              [ngModelOptions]="{standalone: true}">
           </div>
         </div>
 
         <div class="col-md-6 col-12 mb-1">
           <div class="form-group">
             <label for="basicSelect">Monto Pagado a Banco</label>
-            <input type="text" class="form-control" readonly placeholder="Ingrese Monto del Pago en Banco" autocomplete="off"
-              [(ngModel)]="montoPagadox" [ngModelOptions]="{standalone: true}" required >
+            <input type="text" class="form-control" readonly placeholder="Ingrese Monto del Pago en Banco"
+              autocomplete="off" [(ngModel)]="montoPagadox" [ngModelOptions]="{standalone: true}" required>
           </div>
-        </div>  
+        </div>
 
         <div class="col-6">
           <div class="form-group">
             <label for="basicInput">Año</label>
-            <input class="form-control" type="text" readonly  [(ngModel)]="CamposConciliacionViews.anio" [ngModelOptions]="{standalone: true}" placeholder="Articulo"/>
+            <input class="form-control" type="text" readonly [(ngModel)]="CamposConciliacionViews.anio"
+              [ngModelOptions]="{standalone: true}" placeholder="Articulo" />
           </div>
         </div>
 
         <div class="col-6">
           <div class="form-group">
             <label for="basicInput">Articulo</label>
-            <input class="form-control" type="text" readonly  [(ngModel)]="CamposConciliacionViews.articulo" [ngModelOptions]="{standalone: true}" placeholder="Articulo"/>
+            <input class="form-control" type="text" readonly [(ngModel)]="CamposConciliacionViews.articulo"
+              [ngModelOptions]="{standalone: true}" placeholder="Articulo" />
           </div>
         </div>
 
         <div class="col-4">
           <div class="form-group">
             <label for="basicInput">Fecha Inicio Fiscal</label>
-            <input class="form-control" type="text" readonly  [(ngModel)]="CamposConciliacionViews.inicio_fiscal" [ngModelOptions]="{standalone: true}" placeholder="Fecha Inicio Fiscal"/>
+            <input class="form-control" type="text" readonly [(ngModel)]="CamposConciliacionViews.inicio_fiscal"
+              [ngModelOptions]="{standalone: true}" placeholder="Fecha Inicio Fiscal" />
           </div>
         </div>
 
         <div class="col-4">
           <div class="form-group">
             <label for="basicInput">Fecha Cierre Fiscal</label>
-            <input class="form-control" type="text" readonly  [(ngModel)]="CamposConciliacionViews.cierre_fiscal" [ngModelOptions]="{standalone: true}" placeholder="Fecha Cierre Fiscal"/>
+            <input class="form-control" type="text" readonly [(ngModel)]="CamposConciliacionViews.cierre_fiscal"
+              [ngModelOptions]="{standalone: true}" placeholder="Fecha Cierre Fiscal" />
           </div>
         </div>
 
         <div class="col-4">
           <div class="form-group">
             <label for="basicInput">Fecha de Notificacion</label>
-            <input class="form-control" type="text" readonly  [(ngModel)]="CamposConciliacionViews.notificacion" [ngModelOptions]="{standalone: true}" placeholder="Fecha de Notificacion"/>
+            <input class="form-control" type="text" readonly [(ngModel)]="CamposConciliacionViews.notificacion"
+              [ngModelOptions]="{standalone: true}" placeholder="Fecha de Notificacion" />
           </div>
         </div>
 
         <div class="col-md-12 col-12 mb-1">
           <div class="form-group">
             <label for="basicSelect">Seleccione Status</label>
-            <ng-select [items]="ListaStatusConciliacionMultas" placeholder="Seleccione Status de Conciliacion" bindLabel="name" bindValue="id"
-              autocomplete="off" name="bancos" [(ngModel)]="xPagarMultas.status_mif" [ngModelOptions]="{standalone: true}"
-              required autocomplete="off">
+            <ng-select [items]="ListaStatusConciliacionMultas" placeholder="Seleccione Status de Conciliacion"
+              bindLabel="name" bindValue="id" autocomplete="off" name="bancos" [(ngModel)]="xPagarMultas.status_mif"
+              [ngModelOptions]="{standalone: true}" required autocomplete="off">
             </ng-select>
           </div>
         </div>
@@ -673,7 +680,8 @@
           <div class="form-group">
             <label for="basicSelect">Observacion de Pago</label>
             <div class="custom-file">
-              <textarea class="form-control" id="basicTextarea"  [(ngModel)]="xPagarMultas.Observacion" [ngModelOptions]="{standalone: true}"  rows="5" placeholder="Observacion de Pago"></textarea>
+              <textarea class="form-control" id="basicTextarea" [(ngModel)]="xPagarMultas.Observacion"
+                [ngModelOptions]="{standalone: true}" rows="5" placeholder="Observacion de Pago"></textarea>
             </div>
           </div>
         </div>

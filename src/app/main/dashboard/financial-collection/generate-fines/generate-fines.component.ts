@@ -27,7 +27,7 @@ export class GenerateFinesComponent implements OnInit {
     valores: {},
   };
 
-  public xPagarMultas : RECOSUP_U_PagarMultas = {
+  public xPagarMultas: RECOSUP_U_PagarMultas = {
     banco: 0,
     referencia: '',
     montoPagado: '',
@@ -45,7 +45,7 @@ export class GenerateFinesComponent implements OnInit {
     type: 0,
     created_user: 0
   }
-  
+
 
   public ICrearMultasMIF: RECOSUP_C_MultasNuevasMIF = {
     id_EmpresaId: undefined,
@@ -68,10 +68,10 @@ export class GenerateFinesComponent implements OnInit {
 
   public SelectAnioAporte = []
   public SelectArticulo = []
-  public  ActividadEconomicaEmpresa
-  public  ListaStatusConciliacionMultas = [
-    { id: '1', name: 'Aprobado'},
-    { id: '3', name: 'Rechazado'}
+  public ActividadEconomicaEmpresa
+  public ListaStatusConciliacionMultas = [
+    { id: '1', name: 'Aprobado' },
+    { id: '3', name: 'Rechazado' }
   ]
 
   public rowsDetalleMultasNuevas
@@ -97,6 +97,8 @@ export class GenerateFinesComponent implements OnInit {
   public searchValue = '';
 
   public bancoPagoMultas
+
+  public isLoading: number = 0;
 
   // decorator
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -151,7 +153,7 @@ export class GenerateFinesComponent implements OnInit {
     // if (sessionStorage.getItem('Empresas') != undefined) {
     //   this.ListaEmpresas = JSON.parse(sessionStorage.getItem('Empresas'))
     // } else {
-      await this.ListaEmpresasSimple()
+    await this.ListaEmpresasSimple()
     // }
   }
   // Public Methods
@@ -208,21 +210,27 @@ export class GenerateFinesComponent implements OnInit {
   }
 
   async DetalleMultasNuevas() {
+    this.isLoading = 0;
     this.ListaMultasNuevas = []
     this.xAPI.funcion = "RECOSUP_R_ListarMultasNuevasMIF";
     this.xAPI.parametros = ""
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-        data.Cuerpo.map(e => {
-          if (e.status_mif != '1') {
-            e.Nomenclatura_mif = e.Nomenclatura_mif.toUpperCase()
-            e.Monto_mif = this.utilservice.ConvertirMoneda(e.Monto_mif)
-            this.ListaMultasNuevas.push(e);
-          }
-        });
-        // console.log(this.ListaMultasNuevas)
-        this.rowsDetalleMultasNuevas = this.ListaMultasNuevas;
-        this.tempDataDetalleMultasNuevas = this.rowsDetalleMultasNuevas
+        if (data.Cuerpo.length > 0) {
+          data.Cuerpo.map(e => {
+            if (e.status_mif != '1') {
+              e.Nomenclatura_mif = e.Nomenclatura_mif.toUpperCase()
+              e.Monto_mif = this.utilservice.ConvertirMoneda(e.Monto_mif)
+              this.ListaMultasNuevas.push(e);
+            }
+          });
+          // console.log(this.ListaMultasNuevas)
+          this.rowsDetalleMultasNuevas = this.ListaMultasNuevas;
+          this.tempDataDetalleMultasNuevas = this.rowsDetalleMultasNuevas
+          this.isLoading = 1;
+        } else {
+          this.isLoading = 2;
+        }
       },
       (error) => {
         console.log(error)
@@ -230,7 +238,7 @@ export class GenerateFinesComponent implements OnInit {
     )
   }
 
-  async GenerarConstancia(datay: any){
+  async GenerarConstancia(datay: any) {
     // console.log(datay)
     // this.pdf.CertificadoPagoMIF(data)
     this.CrearCert.usuario = datay.UsuarioId
@@ -271,22 +279,28 @@ export class GenerateFinesComponent implements OnInit {
       }
     )
   }
-  
-  async mifAprobadas(){
+
+  async mifAprobadas() {
+    this.isLoading = 0;
     this.ListaMultasNuevas = []
     this.xAPI.funcion = "RECOSUP_R_ListarMultasNuevasMIF";
     this.xAPI.parametros = ""
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-        data.Cuerpo.map(e => {
-          if (e.status_mif == '1') {
-            e.Nomenclatura_mif = e.Nomenclatura_mif.toUpperCase()
-            e.Monto_mif = this.utilservice.ConvertirMoneda(e.Monto_mif)
-            this.ListaMultasNuevas.push(e);
-          }
-        });
-        this.rowsDetalleMultasNuevas = this.ListaMultasNuevas;
-        this.tempDataDetalleMultasNuevas = this.rowsDetalleMultasNuevas
+        if (data.Cuerpo.length > 0) {
+          data.Cuerpo.map(e => {
+            if (e.status_mif == '1') {
+              e.Nomenclatura_mif = e.Nomenclatura_mif.toUpperCase()
+              e.Monto_mif = this.utilservice.ConvertirMoneda(e.Monto_mif)
+              this.ListaMultasNuevas.push(e);
+            }
+          });
+          this.rowsDetalleMultasNuevas = this.ListaMultasNuevas;
+          this.tempDataDetalleMultasNuevas = this.rowsDetalleMultasNuevas
+          this.isLoading = 1;
+        } else {
+          this.isLoading = 2;
+        }
       },
       (error) => {
         console.log(error)
@@ -324,18 +338,18 @@ export class GenerateFinesComponent implements OnInit {
     return this.apiService.Dws(btoa("D" + ncontrol) + '/' + archivo)
     // this.router.navigate([this.url]) .then(() => {window.location.reload()});
   }
-  
+
   async ListaEmpresasSimple() {
     this.xAPI.funcion = "RECOSUP_R_Empresas_Simple";
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-       data.Cuerpo.map(e => {
+        data.Cuerpo.map(e => {
           e.name = '(' + e.Rif + ') - ' + e.RazonSocial
           e.id = e.EmpresaId
           // return e
-         if (e.status_bloqueo ==  1) {
-          this.ListaEmpresas.push(e)
-         }
+          if (e.status_bloqueo == 1) {
+            this.ListaEmpresas.push(e)
+          }
         });
         // sessionStorage.setItem('Empresas',  JSON.stringify(this.ListaEmpresas));
       },
@@ -346,15 +360,21 @@ export class GenerateFinesComponent implements OnInit {
   }
 
   async ListaPlanillas() {
+    this.isLoading = 0;
     this.ListaPlanilla = []
     this.xAPI.funcion = "RECOSUP_R_ListaPlanillas";
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-        data.Cuerpo.map(e => {
-          e.name = e.nombre_bancos_MIF
-          e.id = e.id_bancos_MIF
-          this.ListaPlanilla.push(e)
-        });
+        if (data.Cuerpo.length > 0) {
+          data.Cuerpo.map(e => {
+            e.name = e.nombre_bancos_MIF
+            e.id = e.id_bancos_MIF
+            this.ListaPlanilla.push(e)
+          });
+          this.isLoading = 1;
+        } else {
+          this.isLoading = 2;
+        }
       },
       (error) => {
         console.log(error)
@@ -397,7 +417,7 @@ export class GenerateFinesComponent implements OnInit {
       windowClass: 'fondo-modal',
     });
   }
-  
+
 
   async DeleteMultasMIF(data: any) {
     await Swal.fire({
@@ -437,9 +457,9 @@ export class GenerateFinesComponent implements OnInit {
   DetalleModal(modal, data) {
     // console.log(data)
     if (data.nombre_bancos_MIF === 'Pago Complementario') {
-      this.bancoPagoMultas = data.PG_Banco +' ('+ data.nombre_bancos_MIF +')'
-    } else {      
-      this.bancoPagoMultas = data.nombre_banco_bancos_MIF +' -  ('+ data.cuenta_bancos_MIF +') - ' + data.nombre_bancos_MIF
+      this.bancoPagoMultas = data.PG_Banco + ' (' + data.nombre_bancos_MIF + ')'
+    } else {
+      this.bancoPagoMultas = data.nombre_banco_bancos_MIF + ' -  (' + data.cuenta_bancos_MIF + ') - ' + data.nombre_bancos_MIF
     }
     this.MontoModal = data.Monto_mif
     this.xPagarMultas.id_mif = data.id_mif
@@ -451,7 +471,7 @@ export class GenerateFinesComponent implements OnInit {
     this.xPagarMultas.UsuarioModifico = this.UserId
     this.xPagarMultas.banco = data.id_banco
     this.xPagarMultas.Bauche = data.Bauche
-    this.xPagarMultas.PG_Banco =  this.bancoPagoMultas
+    this.xPagarMultas.PG_Banco = this.bancoPagoMultas
     this.xPagarMultas.referencia = data.referencia
     this.montoPagadox = this.utilService.ConvertirMoneda(data.montoPagado)
     this.xPagarMultas.montoPagado = data.montoPagado
@@ -466,25 +486,25 @@ export class GenerateFinesComponent implements OnInit {
     });
   }
 
-  async MultaConciliacion(){
-  this.xAPI.funcion = 'RECOSUP_U_PagarMultas'
-   this.xAPI.parametros = ''
-   this.xAPI.valores = JSON.stringify(this.xPagarMultas)
-   await this.apiService.Ejecutar(this.xAPI).subscribe(
-     (data) => {
-       // this.rowsDetalleMultasNuevas = []
-       if (data.tipo === 1) {
-         this.router.navigate(['/financial-collection/generate-fines']).then(() => {window.location.reload()});
-         this.modalService.dismissAll('Close')
-         this.utilService.alertConfirmMini('success', 'Conciliacion Exitosamente')
-       } else {
-         this.utilService.alertConfirmMini('error', 'Oops! Algo Salio Mal, Intente de Nuevo!')
-       }
-     },
-     (error) => {
-       console.error(error)
-     }
-   )    
+  async MultaConciliacion() {
+    this.xAPI.funcion = 'RECOSUP_U_PagarMultas'
+    this.xAPI.parametros = ''
+    this.xAPI.valores = JSON.stringify(this.xPagarMultas)
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        // this.rowsDetalleMultasNuevas = []
+        if (data.tipo === 1) {
+          this.router.navigate(['/financial-collection/generate-fines']).then(() => { window.location.reload() });
+          this.modalService.dismissAll('Close')
+          this.utilService.alertConfirmMini('success', 'Conciliacion Exitosamente')
+        } else {
+          this.utilService.alertConfirmMini('error', 'Oops! Algo Salio Mal, Intente de Nuevo!')
+        }
+      },
+      (error) => {
+        console.error(error)
+      }
+    )
   }
 
 }

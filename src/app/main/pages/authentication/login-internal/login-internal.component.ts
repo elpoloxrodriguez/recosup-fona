@@ -12,7 +12,7 @@ import { CoreMenuService } from '@core/components/core-menu/core-menu.service';
 import { UtilService } from '@core/services/util/util.service';
 import jwt_decode from "jwt-decode";
 import { Md5 } from 'ts-md5/dist/md5';
-import { Auditoria, InterfaceService } from 'app/main/dashboard/audit/auditoria.service';
+import { Auditoria, InterfaceService } from 'app/main/audit/auditoria.service';
 
 @Component({
   selector: 'app-login-internal',

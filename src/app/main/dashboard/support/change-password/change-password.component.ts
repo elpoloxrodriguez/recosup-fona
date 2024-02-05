@@ -9,8 +9,8 @@ import Swal from 'sweetalert2';
 import { UtilService } from '@core/services/util/util.service';
 
 export interface RECOSUP_U_PasswordUsers {
-	empresa	 ?:	number
-	clave	 ?:	string
+  empresa?: number
+  clave?: string
 }
 
 
@@ -18,19 +18,19 @@ export interface RECOSUP_U_PasswordUsers {
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.scss'],
-  encapsulation : ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None,
   providers: [NgbModalConfig, NgbModal],
 })
 
 export class ChangePasswordComponent implements OnInit {
 
-  public xAPI : IAPICore = {
+  public xAPI: IAPICore = {
     funcion: '',
     parametros: '',
-    valores : {},
+    valores: {},
   };
 
-  public token : any
+  public token: any
 
   public ModalTitle
   public dataListUsuarios = [];
@@ -55,7 +55,7 @@ export class ChangePasswordComponent implements OnInit {
 
   public searchValue = '';
 
-
+  public isLoading: number = 0;
 
 
   // Decorator
@@ -66,15 +66,15 @@ export class ChangePasswordComponent implements OnInit {
   private tempDataEmpresasAportes = [];
   private _unsubscribeAll: Subject<any>;
 
-//  Public
-public dataUser
+  //  Public
+  public dataUser
 
   constructor(
     private utilservice: UtilService,
-    private apiService : ApiService,
+    private apiService: ApiService,
     private modalService: NgbModal,
     private _formBuilder: FormBuilder
-  ) { 
+  ) {
     this._unsubscribeAll = new Subject();
   }
 
@@ -83,26 +83,25 @@ public dataUser
       newPassword: ['', [Validators.required]],
       confirmPassword: ['', [Validators.required]]
     });
-    this.token =  jwt_decode(sessionStorage.getItem('token'));
+    this.token = jwt_decode(sessionStorage.getItem('token'));
     // console.log(this.token);
     await this.ListUsuarios()
-    
+
   }
 
   async ListUsuarios() {
     this.xAPI.funcion = "RECOSUP_R_ListUsers";
     this.xAPI.parametros = '';
     this.dataListUsuarios = []
-     await this.apiService.Ejecutar(this.xAPI).subscribe(
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-        // data.Cuerpo.map(e => {
-        //   this.dataListUsuarios.push(e);
-        //   setTimeout(() => {
-            this.rowsEmpresasAportes = data.Cuerpo;
-            this.tempDataEmpresasAportes = this.rowsEmpresasAportes;
-        // }, 450);
-        // });
-        // console.log(data.Cuerpo)
+        if (data.Cuerpo.length > 0) {
+          this.rowsEmpresasAportes = data.Cuerpo;
+          this.tempDataEmpresasAportes = this.rowsEmpresasAportes;
+          this.isLoading = 1;
+        } else {
+          this.isLoading = 2;
+        }
       },
       (error) => {
         console.log(error)
@@ -111,10 +110,10 @@ public dataUser
   }
 
 
-  ChangePassword(){
+  ChangePassword() {
     let clave = this.resetPasswordForm.value.newPassword
     let usuario = this.dataUser
-    this.ChangePasswordUsers(usuario,clave)
+    this.ChangePasswordUsers(usuario, clave)
   }
 
 
@@ -129,55 +128,55 @@ public dataUser
     });
   }
 
-  async ChangePasswordUsers(usuario: any, clave: any){
-  
-  let datos = {
-    usuario: usuario,
-    clave:  this.utilservice.md5(clave)
-  }
-  this.xAPI.funcion = 'RECOSUP_U_PasswordUsers'
-  this.xAPI.parametros = ''
-  this.xAPI.valores = JSON.stringify(datos)
-  await this.apiService.Ejecutar(this.xAPI).subscribe(
-    (data) => {
-      // console.info(data)
-      this.modalService.dismissAll('Close')
-      const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-      })
-      
-      Toast.fire({
-        icon: 'success',
-        title: 'Contraseña actualizada exitosamente'
-      })
-    },
-    (error) => {
-      const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-      })
-      
-      Toast.fire({
-        icon: 'error',
-        title: error
-      })
+  async ChangePasswordUsers(usuario: any, clave: any) {
+
+    let datos = {
+      usuario: usuario,
+      clave: this.utilservice.md5(clave)
     }
-  )
+    this.xAPI.funcion = 'RECOSUP_U_PasswordUsers'
+    this.xAPI.parametros = ''
+    this.xAPI.valores = JSON.stringify(datos)
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        // console.info(data)
+        this.modalService.dismissAll('Close')
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'success',
+          title: 'Contraseña actualizada exitosamente'
+        })
+      },
+      (error) => {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'error',
+          title: error
+        })
+      }
+    )
   }
 
 
@@ -194,30 +193,30 @@ public dataUser
     this.table.offset = 0;
   }
 
-    // convenience getter for easy access to form fields
-    get f() {
-      return this.resetPasswordForm.controls;
-    }
-  
-    /**
-     * Toggle password
-     */
-    togglePasswordTextType() {
-      this.passwordTextType = !this.passwordTextType;
-    }
-  
-    /**
-     * Toggle confirm password
-     */
-    toggleConfPasswordTextType() {
-      this.confPasswordTextType = !this.confPasswordTextType;
-    }
-  
+  // convenience getter for easy access to form fields
+  get f() {
+    return this.resetPasswordForm.controls;
+  }
+
+  /**
+   * Toggle password
+   */
+  togglePasswordTextType() {
+    this.passwordTextType = !this.passwordTextType;
+  }
+
+  /**
+   * Toggle confirm password
+   */
+  toggleConfPasswordTextType() {
+    this.confPasswordTextType = !this.confPasswordTextType;
+  }
+
 
   /**
    * On destroy
    */
-   ngOnDestroy(): void {
+  ngOnDestroy(): void {
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();

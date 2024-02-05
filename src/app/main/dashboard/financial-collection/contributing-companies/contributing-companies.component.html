@@ -2,1286 +2,1256 @@
   <div class="card-body">
 
 
-<section class="users-list-wrapper">
+    <section class="users-list-wrapper">
 
-    <div class="card">
-      <div class="row">
-        <div class="col-md-6 col-12">
-          <div class="d-flex justify-content-between align-items-center m-1">
-            <label class="d-flex align-items-center"
-              >Mostrar
-              <select class="form-control mx-25" [(ngModel)]="selectedOption">
-                <option value="10">10</option>
-                <option value="25">25</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-              </select>
-              Registros</label
-            >
+      <div class="card">
+        <div class="row">
+          <div class="col-md-6 col-12">
+            <div class="d-flex justify-content-between align-items-center m-1">
+              <label class="d-flex align-items-center">Mostrar
+                <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+                Registros</label>
+            </div>
+          </div>
+          <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+            <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+              <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
+                  name="searchValue" type="search" class="form-control ml-25" placeholder="Ingrese Nombre"
+                  (keyup)="filterUpdate($event)" (search)="filterUpdate($event)" /></label>
+            </div>
           </div>
         </div>
-        <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
-          <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
-            <label class="d-flex align-items-center ml-1 ml-md-0"
-              >Buscar:<input
-                [(ngModel)]="searchValue"
-                name="searchValue"
-                type="search"
-                class="form-control ml-25"
-                placeholder="Ingrese Nombre"
-                (keyup)="filterUpdate($event)"
-                (search)="filterUpdate($event)"
-            /></label>
+
+        <ng-container *ngIf="isLoading == 0">
+          <div class="loading-overlay">
+            <div class="spinner-border text-success" role="status"></div>
+            <div class="loading-message">Cargando datos, por favor espere...</div>
           </div>
-        </div>
-      </div>
-      <ngx-datatable [rows]="rowsEmpresasAportes" rowHeight="auto" class="bootstrap core-bootstrap"
-      [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
-      [scrollbarH]="true">
-
-        <ngx-datatable-column name="RIF" prop="Rif" [width]="50">
-          <ng-template let-Rif="value" ngx-datatable-cell-template>
-            <div>
-              <span class="font-weight-bold">{{ Rif }} </span>
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="Razon Social" prop="RazonSocial" [width]="300">
-          <ng-template let-RazonSocial="value" ngx-datatable-cell-template>
-            <div>
-              <span class="font-weight-bold"> {{ RazonSocial.slice(0,57) | uppercase }} </span>
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-
-
-
-        <ngx-datatable-column name="Ultimo Aporte" prop="UltimoAporte" [width]="100">
-          <ng-template let-UltimoAporte="value" ngx-datatable-cell-template>
-            <div>
-              <span class="font-weight-bold"> {{ UltimoAporte }} </span>
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="Cantidad Aportes" prop="CantidadAportes" [width]="100">
-          <ng-template let-CantidadAportes="value" ngx-datatable-cell-template>
-            <div>
-              <span class="font-weight-bold"> {{ CantidadAportes }} </span>
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-
-
-        <ngx-datatable-column name="Fiscalización" [width]="50">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <div>
-              <div
-              *ngIf="row.EmpresaFiscalizada == 0"
-                class="badge badge-pill"
-                ngClass="badge-light-danger">
-                Fiscalizando
-              </div>
-              <div
-              *ngIf="row.EmpresaFiscalizada == 1"
-                class="badge badge-pill"
-                ngClass="badge-light-success">
-                Disponible
-              </div>
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-
-            
-        <ngx-datatable-column name="Accion" [width]="20" [sortable]="false">
-          <ng-template  ngx-datatable-cell-template let-row="row">
-            <div ngbDropdown container="body">
-              <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
-                <span [data-feather]="'settings'" [class]="'cursor-pointer'"></span>
-              </button>
-              <div ngbDropdownMenu>
-                <div>
-                  <a  (click)="DetalleEmpresa(ModalDetalleEmpresa,row)" ngbDropdownItem><span
-                    [data-feather]="'archive'" [size]="16" [class]="'mr-50'"></span> Ver Detalles</a>
-              </div>
-              <div *ngIf="ShowFiscalizar != false && row.EmpresaFiscalizada != 0">
-                <a  (click)="FiscalizarEmpresaBloqueo(row)" ngbDropdownItem><span
-                  [data-feather]="'lock'" [size]="16" [class]="'mr-50'"></span> Fiscalizar</a>
+        </ng-container>
+        <ng-container *ngIf="isLoading == 2">
+          <div class="loading-overlay">
+            <div class="spinner-border text-danger" role="status"></div>
+            <div class="loading-message">No hay registros...</div>
           </div>
-          <div *ngIf="ShowFiscalizar != false && row.EmpresaFiscalizada != 1">
-            <a  (click)="FiscalizarEmpresaDesbloqueo(row)" ngbDropdownItem><span
-              [data-feather]="'unlock'" [size]="16" [class]="'mr-50'"></span> Desbloquear</a>
-        </div>
-            </div>
-            </div>
-              </ng-template>
-            </ngx-datatable-column>
-  
+        </ng-container>
 
-      </ngx-datatable>
-    </div>
-  </section>
+        <ngx-datatable [rows]="rowsEmpresasAportes" rowHeight="auto" class="bootstrap core-bootstrap"
+          [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
+          [scrollbarH]="true">
 
-
-  </div>
-  </div>
-
-
-
-        <ng-template #ModalDetalleEmpresa let-modal>
-          <div class="modal-header">
-            <h5 class="modal-title" id="myModalLabel160">{{titleModal}}</h5>
-          </div>
-          <div class="modal-body" tabindex="0" ngbAutofocus>
-            <div class="col-xl-12 col-md-12 col-12 printRef">
-      
+          <ngx-datatable-column name="RIF" prop="Rif" [width]="50">
+            <ng-template let-Rif="value" ngx-datatable-cell-template>
               <div>
-                <ul ngbNav #navCenter="ngbNav" class="nav-tabs justify-content-center">
-                  <li ngbNavItem>
-                    <a ngbNavLink>Datos Empresa</a>
-                    <ng-template ngbNavContent>
-                      <div class="col-xl-12 col-md-12 col-12">
-                        <!-- Header Starts -->
-                        <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0">
-                          <div>
-                            <div class="logo-wrapper">
-                              <h3 class="text-primary invoice-logo"> {{ DataEmpresaCompleta.RazonSocial }}</h3>
-                            </div>
-                            <p class="card-text mb-25"><strong>RIF:</strong> {{ DataEmpresaCompleta.Rif }}</p>
-                            <p class="card-text mb-25"><strong>Email:</strong> {{ DataEmpresaCompleta.Email }}</p>
-                            <p class="card-text mb-0"><strong>Sitio Web:</strong> {{ DataEmpresaCompleta.SitioWeb }}</p>
-                            <p class="card-text mb-0"><strong>Teléfonos:</strong> {{ DataEmpresaCompleta.Telefonos }} </p>
-                            <p class="card-text mb-0"><strong>Fax:</strong> {{ DataEmpresaCompleta.FaxEmpresa }} </p>
-                            <p class="card-text mb-25"><strong>Actividad Económica:</strong> {{ DataEmpresaCompleta.ActividadEconomica }} </p>
-                            <!-- <p class="card-text mb-25"><strong>Estado:</strong> {{ DataEmpresaCompleta.estado }} | <strong>Ciudad:</strong> {{ DataEmpresaCompleta.ciudad }}
+                <span class="font-weight-bold">{{ Rif }} </span>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Razon Social" prop="RazonSocial" [width]="300">
+            <ng-template let-RazonSocial="value" ngx-datatable-cell-template>
+              <div>
+                <span class="font-weight-bold"> {{ RazonSocial.slice(0,57) | uppercase }} </span>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+
+
+          <ngx-datatable-column name="Ultimo Aporte" prop="UltimoAporte" [width]="100">
+            <ng-template let-UltimoAporte="value" ngx-datatable-cell-template>
+              <div>
+                <span class="font-weight-bold"> {{ UltimoAporte }} </span>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Cantidad Aportes" prop="CantidadAportes" [width]="100">
+            <ng-template let-CantidadAportes="value" ngx-datatable-cell-template>
+              <div>
+                <span class="font-weight-bold"> {{ CantidadAportes }} </span>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+
+          <ngx-datatable-column name="Fiscalización" [width]="50">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <div>
+                <div *ngIf="row.EmpresaFiscalizada == 0" class="badge badge-pill" ngClass="badge-light-danger">
+                  Fiscalizando
+                </div>
+                <div *ngIf="row.EmpresaFiscalizada == 1" class="badge badge-pill" ngClass="badge-light-success">
+                  Disponible
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+
+          <ngx-datatable-column name="Accion" [width]="20" [sortable]="false">
+            <ng-template ngx-datatable-cell-template let-row="row">
+              <div ngbDropdown container="body">
+                <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
+                  <span [data-feather]="'settings'" [class]="'cursor-pointer'"></span>
+                </button>
+                <div ngbDropdownMenu>
+                  <div>
+                    <a (click)="DetalleEmpresa(ModalDetalleEmpresa,row)" ngbDropdownItem><span
+                        [data-feather]="'archive'" [size]="16" [class]="'mr-50'"></span> Ver Detalles</a>
+                  </div>
+                  <div *ngIf="ShowFiscalizar != false && row.EmpresaFiscalizada != 0">
+                    <a (click)="FiscalizarEmpresaBloqueo(row)" ngbDropdownItem><span [data-feather]="'lock'" [size]="16"
+                        [class]="'mr-50'"></span> Fiscalizar</a>
+                  </div>
+                  <div *ngIf="ShowFiscalizar != false && row.EmpresaFiscalizada != 1">
+                    <a (click)="FiscalizarEmpresaDesbloqueo(row)" ngbDropdownItem><span [data-feather]="'unlock'"
+                        [size]="16" [class]="'mr-50'"></span> Desbloquear</a>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+
+        </ngx-datatable>
+      </div>
+    </section>
+
+
+  </div>
+</div>
+
+
+
+<ng-template #ModalDetalleEmpresa let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="myModalLabel160">{{titleModal}}</h5>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <div class="col-xl-12 col-md-12 col-12 printRef">
+
+      <div>
+        <ul ngbNav #navCenter="ngbNav" class="nav-tabs justify-content-center">
+          <li ngbNavItem>
+            <a ngbNavLink>Datos Empresa</a>
+            <ng-template ngbNavContent>
+              <div class="col-xl-12 col-md-12 col-12">
+                <!-- Header Starts -->
+                <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0">
+                  <div>
+                    <div class="logo-wrapper">
+                      <h3 class="text-primary invoice-logo"> {{ DataEmpresaCompleta.RazonSocial }}</h3>
+                    </div>
+                    <p class="card-text mb-25"><strong>RIF:</strong> {{ DataEmpresaCompleta.Rif }}</p>
+                    <p class="card-text mb-25"><strong>Email:</strong> {{ DataEmpresaCompleta.Email }}</p>
+                    <p class="card-text mb-0"><strong>Sitio Web:</strong> {{ DataEmpresaCompleta.SitioWeb }}</p>
+                    <p class="card-text mb-0"><strong>Teléfonos:</strong> {{ DataEmpresaCompleta.Telefonos }} </p>
+                    <p class="card-text mb-0"><strong>Fax:</strong> {{ DataEmpresaCompleta.FaxEmpresa }} </p>
+                    <p class="card-text mb-25"><strong>Actividad Económica:</strong> {{
+                      DataEmpresaCompleta.ActividadEconomica }} </p>
+                    <!-- <p class="card-text mb-25"><strong>Estado:</strong> {{ DataEmpresaCompleta.estado }} | <strong>Ciudad:</strong> {{ DataEmpresaCompleta.ciudad }}
                               | <strong>Municipio:</strong> {{ municipio }} | <strong>Parroquia:</strong> {{ DataEmpresaCompleta.parroquia }} </p> -->
-                              <p class="card-text mb-25"><strong>Estado:</strong> {{ DataEmpresaCompleta.estado }} | <strong>Ciudad:</strong> {{ DataEmpresaCompleta.ciudad }}
-                                | <strong>Municipio:</strong> {{ DataEmpresaCompleta.municipio }} | <strong>Parroquia:</strong> {{ DataEmpresaCompleta.parroquia }} </p>
-                            <p class="card-text mb-25"><strong>Fecha Registro FONA:</strong> {{ DataEmpresaCompleta.FechaRegistro }} </p>
-                            <p class="card-text mb-25"><strong>Fecha Aprobación:</strong> {{ DataEmpresaCompleta.FechaAprobacion }} </p>
-                            <p class="card-text mb-25"><strong>Empleados:</strong> {{ DataEmpresaCompleta.CantidadEmpleados }} </p>
-                            <p class="card-text mb-25" ><strong>Dirección:</strong> {{ DataEmpresaCompleta.Direccion }}</p>
-                            <p class="card-text mb-25" ><strong>Posee Sucursal:</strong> {{ DataEmpresaCompleta.sucursal }}</p>
-                            <p class="card-text mb-25" ><strong>Pertenece a algun Grupo Economico:</strong> {{ DataEmpresaCompleta.grupo_economico }}</p>
-                            <p class="card-text mb-25" ><strong>Campo Sujeto:</strong> {{ DataEmpresaCompleta.campo_sujeto }}</p>            
-                          </div>
-            
-                          <div class="mt-md-0 mt-2" *ngIf="showUpdateEmpresa">
-                            <div class="invoice-date-wrapper">
-                              <button type="button" class="btn btn-icon btn-warning" rippleEffect
-                                (click)="ModalEditarEmpresa()">
-                                <span [data-feather]="'edit'"></span>
-                                Cambiar Estatus Empresa
-                              </button>
-                            </div>
-                          </div>
+                    <p class="card-text mb-25"><strong>Estado:</strong> {{ DataEmpresaCompleta.estado }} |
+                      <strong>Ciudad:</strong> {{ DataEmpresaCompleta.ciudad }}
+                      | <strong>Municipio:</strong> {{ DataEmpresaCompleta.municipio }} | <strong>Parroquia:</strong> {{
+                      DataEmpresaCompleta.parroquia }} </p>
+                    <p class="card-text mb-25"><strong>Fecha Registro FONA:</strong> {{
+                      DataEmpresaCompleta.FechaRegistro }} </p>
+                    <p class="card-text mb-25"><strong>Fecha Aprobación:</strong> {{ DataEmpresaCompleta.FechaAprobacion
+                      }} </p>
+                    <p class="card-text mb-25"><strong>Empleados:</strong> {{ DataEmpresaCompleta.CantidadEmpleados }}
+                    </p>
+                    <p class="card-text mb-25"><strong>Dirección:</strong> {{ DataEmpresaCompleta.Direccion }}</p>
+                    <p class="card-text mb-25"><strong>Posee Sucursal:</strong> {{ DataEmpresaCompleta.sucursal }}</p>
+                    <p class="card-text mb-25"><strong>Pertenece a algun Grupo Economico:</strong> {{
+                      DataEmpresaCompleta.grupo_economico }}</p>
+                    <p class="card-text mb-25"><strong>Campo Sujeto:</strong> {{ DataEmpresaCompleta.campo_sujeto }}</p>
+                  </div>
 
-                          <div class="mt-md-0 mt-2" *ngIf="showUpdateEmpresaRecaudacion">
-                            <div class="invoice-date-wrapper">
-                              <button type="button" class="btn btn-icon btn-warning" rippleEffect
-                                (click)="ModalEditarEmpresa(EditarEmpresa,DataEmpresaCompleta)">
-                                <span [data-feather]="'edit'"></span>
-                                Actualizar
-                              </button>
-                            </div>
-                          </div>
-            
-                        </div>
-                        <!-- Header Ends -->
-                      </div>
-                      <hr class="invoice-spacing" />
-                      <div class="card-body invoice-padding pt-0">
-                        <div class="row invoice-spacing">
-                          <div class="col-xl-4 p-0 mt-xl-0 mt-2">
-                            <h6 class="mb-2"><strong>Datos Legales y Financieros</strong></h6>
-                            <table>
-                              <tbody>
-                                <tr>
-                                  <td class="pr-1"><strong>Registro Emp:</strong></td>
-                                  <td> {{ DataEmpresaCompleta.RegistroMercantil }} </td>
-                                </tr>
-                                <tr>
-                                  <td class="pr-1"><strong>Creación Emp:</strong></td>
-                                  <td>{{ DataEmpresaCompleta.DocumentoFecha }}</td>
-                                </tr>
-                                <tr>
-                                  <td class="pr-1"><strong>Núm Folio:</strong></td>
-                                  <td>{{ DataEmpresaCompleta.DocumentoFolio }}</td>
-                                </tr>
-                                <tr>
-                                  <td class="pr-1"><strong>Núm Protocolo:</strong></td>
-                                  <td>{{ DataEmpresaCompleta.DocumentoProtocolo }}</td>
-                                </tr>
-                                <tr>
-                                  <td class="pr-1"><strong>Núm Tomo:</strong></td>
-                                  <td>{{ DataEmpresaCompleta.DocumentoTomo }}</td>
-                                </tr>
-                                <tr>
-                                  <td class="pr-1"><strong>Núm Patronal:</strong></td>
-                                  <td>{{ DataEmpresaCompleta.CodigoIvss }}</td>
-                                </tr>
-                                <tr>
-                                  <td class="pr-1"><strong>Fecha Cierre:</strong></td>
-                                  <td>{{ DataEmpresaCompleta.FechaCierreFiscal }}</td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                          <div class="col-xl-4 p-0 mt-xl-0 mt-2" >
-                            <button type="button" class="btn btn-sm btn-icon btn-warning"
-                            *ngIf="showUpdateEmpresaRecaudacion"
-                                  (click)="ModalEditarRepresentanteLegal(ListaRepresentanteContacto,DataEmpresaCompleta)">
-                                  <span [data-feather]="'edit'"></span>
-                                  Actualizar Representante
-                                </button>
-                            <h6 class="mb-2"><strong>Datos del Representante Legal</strong></h6>
-                            <table>
-                              <tbody>
-                                <tr>
-                                  <td class="pr-1"><strong>Cedula:</strong></td>
-                                  <td>{{ DataEmpresaCompleta.CedulaContacto }} </td>
-                                </tr>
-                                <tr>
-                                  <td class="pr-1"><strong>Nombres:</strong></td>
-                                  <td> {{ DataEmpresaCompleta.nombre }}</td>
-                                </tr>
-                                <tr>
-                                  <td class="pr-1"><strong>Apellidos:</strong></td>
-                                  <td>{{ DataEmpresaCompleta.apellido }}</td>
-                                </tr>
-                                <tr>
-                                  <td class="pr-1"><strong>Teléfono:</strong></td>
-                                  <td>{{ DataEmpresaCompleta.telefonoContacto }}</td>
-                                </tr>
-                                <tr>
-                                  <td class="pr-1"><strong>Celular:</strong></td>
-                                  <td>{{ DataEmpresaCompleta.celularContacto }}</td>
-                                </tr>
-                                <tr>
-                                  <td class="pr-1"><strong>Email:</strong></td>
-                                  <td>{{ DataEmpresaCompleta.CorreoElectronico }}</td>
-                                </tr>
-                                <tr>
-                                  <td class="pr-1"><strong>Persona:</strong></td>
-                                  <td> {{ DataEmpresaCompleta.TipoContacto }} </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                          
-                          <div class="col-xl-4 p-0 mt-xl-0 mt-2">
-                            <button type="button" class="btn btn-sm btn-icon btn-warning"
-                              *ngIf="showUpdateEmpresaRecaudacion"
-                                    (click)="ModalEditarUsuario(EditarUsuario,DataEmpresaCompleta)">
-                                    <span [data-feather]="'edit'"></span>
-                                    Actualizar Usuario
-                                  </button>
-        
-                            <h6 class="mb-2"><strong>Datos del Usuario</strong></h6>
-                            <table>
-                              <tbody>
-                                <tr>
-                                  <td class="pr-1"><strong>Usuario</strong></td>
-                                  <td> {{ DataEmpresaCompleta.Usuario }} </td>
-                                </tr>
-                                <tr>
-                                  <td class="pr-1"><strong>Cedula:</strong></td>
-                                  <td> {{ DataEmpresaCompleta.Cedula }} </td>
-                                </tr>
-                                <tr>
-                                  <td class="pr-1"><strong>Nombres:</strong></td>
-                                  <td> {{ DataEmpresaCompleta.Nombres }}</td>
-                                </tr>
-                                <tr>
-                                  <td class="pr-1"><strong>Apellidos:</strong></td>
-                                  <td> {{ DataEmpresaCompleta.Apellidos }}</td>
-                                </tr>
-                                <tr>
-                                  <td class="pr-1"><strong>Teléfono:</strong></td>
-                                  <td>{{ DataEmpresaCompleta.TelefonoLocal }}</td>
-                                </tr>
-                                <tr>
-                                  <td class="pr-1"><strong>Celular:</strong></td>
-                                  <td>{{ DataEmpresaCompleta.TelefonoCelular }}</td>
-                                </tr>
-                                <tr>
-                                  <td class="pr-1"><strong>Email:</strong></td>
-                                  <td>{{ DataEmpresaCompleta.CorreoPrincipal }}</td>
-                                </tr>
-                                <tr>
-                                  <td class="pr-1"><strong>Email 2:</strong></td>
-                                  <td>{{ DataEmpresaCompleta.CorreoSecundario }}</td>
-                                </tr>
-                                <tr>
-                                  <td class="pr-1"><strong>Cargo:</strong></td>
-                                  <td>{{ DataEmpresaCompleta.Cargo }}</td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </div>
-                    </ng-template>
-                  </li>
-                  <li ngbNavItem>
-                    <a ngbNavLink>Utilidad Cierre Fiscal</a>
-                    <ng-template ngbNavContent>
-            
-                      <section class="users-list-wrapper">
-            
-                        <div class="card">
-                          <div class="row">
-                            <div class="col-md-3 col-12">
-                              <div class="d-flex justify-content-between align-items-center m-1">
-                                <label class="d-flex align-items-center">Mostrar
-                                  <select class="form-control mx-25" [(ngModel)]="selectedOption">
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                  </select>
-                                  Registros</label>
-                              </div>
-                            </div>
-                            <div class="col-md-3 col-12">
-                              <div class="d-flex justify-content-between align-items-center m-1">
-                                <button type="button" class="btn btn-success" (click)="GenerarCertificadoInscripcion()"
-                                  rippleEffect>
-                                  <span [data-feather]="'download-cloud'" [class]="'mr-25'"></span> Certificado Inscripción</button>
-                              </div>
-                            </div>
-                            <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
-                              <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
-                                <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
-                                    name="searchValue" type="search" class="form-control ml-25" placeholder="Año de Utilidad"
-                                    (keyup)="filterUpdateUtilidadCierreFiscal($event)"
-                                    (search)="filterUpdateUtilidadCierreFiscal($event)" /></label>
-                              </div>
-                            </div>
-                          </div>
-                          <ngx-datatable [rows]="rowsUtilidadCierreFiscal" [rowHeight]="50" class="bootstrap core-bootstrap"
-                            [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
-                            [scrollbarH]="true">
-            
-            
-                            <ngx-datatable-column name="Año" prop="Fecha" [width]="20">
-                              <ng-template let-Fecha="value" ngx-datatable-cell-template>
-                                <div>
-                                  <span class="font-weight-bold">{{ Fecha }} </span>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
-            
-                            <ngx-datatable-column name="Ejercicio Fiscal" prop="ejercicioFiscal" [width]="20">
-                              <ng-template let-ejercicioFiscal="value" ngx-datatable-cell-template>
-                                <div>
-                                  <span class="font-weight-bold"> {{ ejercicioFiscal }} </span>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
-            
-                            <ngx-datatable-column name="Fecha Declaración" prop="FechaCreo" [width]="20">
-                              <ng-template let-FechaCreo="value" ngx-datatable-cell-template>
-                                <div>
-                                  <span class="font-weight-bold"> {{ FechaCreo }} </span>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
-            
-                            <ngx-datatable-column name="Diferencias Días" prop="Diferencia" [width]="20">
-                              <ng-template let-Diferencia="value" ngx-datatable-cell-template>
-                                <div>
-                                  <span class="font-weight-bold"> {{ Diferencia }} </span>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
-            
-                            <ngx-datatable-column name="Monto" prop="Monto" [width]="20">
-                              <ng-template let-Monto="value" ngx-datatable-cell-template>
-                                <div>
-                                  <span class="font-weight-bold"> {{ Monto | currency: 'Bs ' }} </span>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
+                  <div class="mt-md-0 mt-2" *ngIf="showUpdateEmpresa">
+                    <div class="invoice-date-wrapper">
+                      <button type="button" class="btn btn-icon btn-warning" rippleEffect
+                        (click)="ModalEditarEmpresa()">
+                        <span [data-feather]="'edit'"></span>
+                        Cambiar Estatus Empresa
+                      </button>
+                    </div>
+                  </div>
 
-                            <ngx-datatable-column name="Acción" [width]="5" [sortable]="false">
-                              <ng-template ngx-datatable-cell-template let-row="row">
-                                <button type="button" class="btn btn-sm btn-success" (click)="GenerarCertificadoDeclaracion(row)"
-                                  rippleEffect>
-                                  <span [data-feather]="'download-cloud'" [class]="'mr-25'"></span></button>
-                              </ng-template>
-                            </ngx-datatable-column>
-          
-                          </ngx-datatable>
-                        </div>
-                      </section>
-            
-                    </ng-template>
-                  </li>
-                  <li ngbNavItem>
-                    <a ngbNavLink>Detalles de Aportes</a>
-                    <ng-template ngbNavContent>
-                      <section class="users-list-wrapper">
-            
-                        <div class="card">
-                          <div class="row">
-                            <div class="col-md-6 col-12">
-                              <div class="d-flex justify-content-between align-items-center m-1">
-                                <label class="d-flex align-items-center">Mostrar
-                                  <select class="form-control mx-25" [(ngModel)]="selectedOption">
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                  </select>
-                                  Registros</label>
-                              </div>
-                            </div>
-                            <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
-                              <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
-                                <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
-                                    name="searchValue" type="search" class="form-control ml-25" placeholder="Año de Aporte"
-                                    (keyup)="filterUpdateUtilidadAportes($event)"
-                                    (search)="filterUpdateUtilidadAportes($event)" /></label>
-                              </div>
-                            </div>
-                          </div>
-                          <ngx-datatable [rows]="rowsDetalleAporte" [rowHeight]="50" class="bootstrap core-bootstrap"
-                            [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
-                            [scrollbarH]="true">
-            
-                            <ngx-datatable-column name="Banco" prop="Banco" [width]="20">
-                              <ng-template let-Banco="value" ngx-datatable-cell-template>
-                                <div>
-                                  <span class="font-weight-bold">{{ Banco }} </span>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
-            
-                            <ngx-datatable-column name="Tipo Pago" prop="CanalPago" [width]="20">
-                              <ng-template let-CanalPago="value" ngx-datatable-cell-template>
-                                <div>
-                                  <span class="font-weight-bold"> {{ CanalPago }} </span>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
-            
-                            <ngx-datatable-column name="Art" prop="Articulo" [width]="20">
-                              <ng-template let-Articulo="value" ngx-datatable-cell-template>
-                                <div>
-                                  <span class="font-weight-bold"> {{ Articulo }} </span>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
+                  <div class="mt-md-0 mt-2" *ngIf="showUpdateEmpresaRecaudacion">
+                    <div class="invoice-date-wrapper">
+                      <button type="button" class="btn btn-icon btn-warning" rippleEffect
+                        (click)="ModalEditarEmpresa(EditarEmpresa,DataEmpresaCompleta)">
+                        <span [data-feather]="'edit'"></span>
+                        Actualizar
+                      </button>
+                    </div>
+                  </div>
 
-                            <ngx-datatable-column name="Status Genetal" prop="EstatusGeneralId" [width]="20">
-                              <ng-template let-EstatusGeneralId="value" ngx-datatable-cell-template>
-                                <div>
-                                  <span class="font-weight-bold"> {{ EstatusGeneralId }} </span>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
-            
-            
-                            <ngx-datatable-column name="Año" prop="FechaAporte" [width]="20">
-                              <ng-template let-FechaAporte="value" ngx-datatable-cell-template>
-                                <div>
-                                  <span class="font-weight-bold"> {{ FechaAporte }} </span>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
-
-                            <ngx-datatable-column name="Referencia" prop="ReferenciaBancaria" [width]="20">
-                              <ng-template let-ReferenciaBancaria="value" ngx-datatable-cell-template>
-                                <div>
-                                  <span class="font-weight-bold"> {{ ReferenciaBancaria }} </span>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
-            
-                            <ngx-datatable-column name="Monto" prop="Monto" [width]="20">
-                              <ng-template let-Monto="value" ngx-datatable-cell-template>
-                                <div>
-                                  <span class="font-weight-bold"> {{ Monto | currency: 'Bs ' }} </span>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
-
-
-                            <ngx-datatable-column name="Acción" [width]="5" [sortable]="false">
-                              <ng-template ngx-datatable-cell-template let-row="row">
-                                  <button type="button" class="btn btn-sm btn-success" (click)="GenerarCertificadoAportes(row)"
-                                  rippleEffect>
-                                  <span [data-feather]="'download-cloud'" [class]="'mr-25'"></span></button>
-                              </ng-template>
-                            </ngx-datatable-column>
-            
-                          </ngx-datatable>
-                        </div>
-                      </section>
-                    </ng-template>
-                  </li>
-                  <li ngbNavItem>
-                    <a ngbNavLink>Multas Vigentes</a>
-                    <ng-template ngbNavContent>
-                      <section class="users-list-wrapper">
-            
-                        <div class="card">
-                          <div class="row">
-                            <div class="col-md-6 col-12">
-                              <div class="d-flex justify-content-between align-items-center m-1">
-                                <label class="d-flex align-items-center">Mostrar
-                                  <select class="form-control mx-25" [(ngModel)]="selectedOption">
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                  </select>
-                                  Registros</label>
-                              </div>
-                            </div>
-                            <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
-                              <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
-                                <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
-                                    name="searchValue" type="search" class="form-control ml-25" placeholder="Nombre Empresa"
-                                    (keyup)="filterUpdateMIF($event)" (search)="filterUpdateMIF($event)" /></label>
-                              </div>
-                            </div>
-                          </div>
-                          <ngx-datatable [rows]="rowsDetalleMultasNuevas" rowHeight="auto" class="bootstrap core-bootstrap"
-                            [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
-                            [scrollbarH]="true">
-                        
-                            <ngx-datatable-column name="Empresa" prop="row" width="auto">
-                              <ng-template let-row="row" ngx-datatable-cell-template>
-                                <div>
-                                  <span class="font-weight-bold">{{ row.RazonSocial }} - {{ row.Rif }} </span>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
-            
-                            <ngx-datatable-column name="Tipo Multa" prop="TipoMultaId" [width]="10">
-                              <ng-template let-TipoMultaId="value" ngx-datatable-cell-template>
-                                <div>
-                                  <div
-                                  *ngIf="TipoMultaId == '1'"
-                                    class="badge badge-pill"
-                                    ngClass="badge-light-danger">
-                                    Multas
-                                  </div>
-                                  <div
-                                  *ngIf="TipoMultaId == 2"
-                                    class="badge badge-pill"
-                                    ngClass="badge-light-warning">
-                                    Intereses
-                                  </div>
-                                  <div
-                                  *ngIf="TipoMultaId == 3"
-                                    class="badge badge-pill"
-                                    ngClass="badge-light-primary">
-                                    Fiscalización
-                                  </div>
-                                  <div
-                                  *ngIf="TipoMultaId == 4"
-                                    class="badge badge-pill"
-                                    ngClass="badge-light-primary">
-                                    Pago Complementario
-                                  </div>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
-                            
-                  
-                            <ngx-datatable-column name="Nomenclatura" prop="Nomenclatura_mif" [width]="10">
-                              <ng-template let-Nomenclatura_mif="value" ngx-datatable-cell-template>
-                                <div>
-                                  <span class="font-weight-bold">{{ Nomenclatura_mif }} </span>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
-                  
-                  
-                            <ngx-datatable-column name="Monto" prop="Monto_mif" [width]="10">
-                              <ng-template let-Monto_mif="value" ngx-datatable-cell-template>
-                                <div>
-                                  <span class="font-weight-bold">{{ Monto_mif }} </span>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
-                  
-                            <ngx-datatable-column name="Status" prop="status_mif" [width]="10">
-                              <ng-template let-status_mif="value" ngx-datatable-cell-template>
-                                <div>
-                                  <!-- <span class="font-weight-bold"> {{ status_mif }} </span> -->
-                                  <div
-                                  *ngIf="status_mif == 0"
-                                    class="badge badge-pill"
-                                    ngClass="badge-light-warning">
-                                    Pendiente por Pago
-                                  </div>
-                                  <div
-                                  *ngIf="status_mif == 1"
-                                    class="badge badge-pill"
-                                    ngClass="badge-light-success">
-                                    Pagado
-                                  </div>
-                                  <div
-                                  *ngIf="status_mif == 2"
-                                    class="badge badge-pill"
-                                    ngClass="badge-light-info">
-                                    En Revisión
-                                  </div>
-                                  <div
-                                  *ngIf="status_mif == 3"
-                                    class="badge badge-pill"
-                                    ngClass="badge-light-danger">
-                                    Rechazado
-                                  </div>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>    
-                            
-                            <ngx-datatable-column  name="Accion" [width]="20" [sortable]="false">
-                              <ng-template  ngx-datatable-cell-template let-row="row">
-                                <div ngbDropdown container="body"  *ngIf="row.status_mif == 1">
-                                  <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
-                                    <span [data-feather]="'settings'" [class]="'cursor-pointer'"></span>
-                                  </button>
-                                  <div ngbDropdownMenu>
-                                    <div>
-                                        <a (click)="GenerarConstancia(row)" ngbDropdownItem><span
-                                          [data-feather]="'book-open'" [size]="16" [class]="'mr-50'"></span> Generar Constancia</a>
-                                  </div>
-                                </div>
-                                </div>  
-                                  </ng-template>
-                                </ngx-datatable-column>
-
-
-                          </ngx-datatable>
-                        </div>
-                      </section>
-                    </ng-template>
-                  </li>
-                  <li ngbNavItem>
-                    <a ngbNavLink>Tipos de Planillas</a>
-                    <ng-template ngbNavContent>
-                      <section class="users-list-wrapper">
-            
-                        <div class="card">
-                          <div class="row">
-                            <div class="col-md-6 col-12">
-                              <div class="d-flex justify-content-between align-items-center m-1">
-                                <label class="d-flex align-items-center">Mostrar
-                                  <select class="form-control mx-25" [(ngModel)]="selectedOption">
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                  </select>
-                                  Registros</label>
-                              </div>
-                            </div>
-                            <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
-                              <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
-                                <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
-                                    name="searchValue" type="search" class="form-control ml-25" placeholder="Año de Utilidad"
-                                    (keyup)="filterUpdateDetalleMultas($event)"
-                                    (search)="filterUpdateDetalleMultas($event)" /></label>
-                              </div>
-                            </div>
-                          </div>
-                          <ngx-datatable [rows]="rowsDetalleMultas" [rowHeight]="50" class="bootstrap core-bootstrap"
-                            [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
-                            [scrollbarH]="true">
-            
-            
-                            <ngx-datatable-column name="Art" prop="banco" [width]="20">
-                              <ng-template let-banco="value" ngx-datatable-cell-template>
-                                <div>
-                                  <span class="font-weight-bold">{{ banco }} </span>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
-            
-                            <ngx-datatable-column name="Art" prop="Articulo" [width]="20">
-                              <ng-template let-Articulo="value" ngx-datatable-cell-template>
-                                <div>
-                                  <span class="font-weight-bold">{{ Articulo }} </span>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
-            
-                            <ngx-datatable-column name="Tipo" prop="Nombre" [width]="20">
-                              <ng-template let-Nombre="value" ngx-datatable-cell-template>
-                                <div>
-                                  <span class="font-weight-bold">{{ Nombre }} </span>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
-            
-                            <ngx-datatable-column name="Año" prop="Anio" [width]="20">
-                              <ng-template let-Anio="value" ngx-datatable-cell-template>
-                                <div>
-                                  <span class="font-weight-bold">{{ Anio }} </span>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
-            
-                            <ngx-datatable-column name="Fecha Documento" prop="FechaDocumento" [width]="20">
-                              <ng-template let-FechaDocumento="value" ngx-datatable-cell-template>
-                                <div>
-                                  <span class="font-weight-bold">{{ FechaDocumento }} </span>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
-            
-                            <ngx-datatable-column name="N°  Ref" prop="ReferenciaBancaria" [width]="20">
-                              <ng-template let-ReferenciaBancaria="value" ngx-datatable-cell-template>
-                                <div>
-                                  <span class="font-weight-bold">{{ ReferenciaBancaria }} </span>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
-            
-                            <ngx-datatable-column name="Monto" prop="Monto" [width]="20">
-                              <ng-template let-Monto="value" ngx-datatable-cell-template>
-                                <div>
-                                  <span class="font-weight-bold"> {{ Monto | currency: 'Bs ' }} </span>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
-            
-            
-                          </ngx-datatable>
-                        </div>
-                      </section>
-                    </ng-template>
-                  </li>
-                  <li ngbNavItem>
-                    <a ngbNavLink>Documentos Empresa</a>
-                    <ng-template ngbNavContent>
-                      <section class="users-list-wrapper">
-            
-                        <div class="card">
-                          <div class="row">
-                            <div class="col-md-6 col-12">
-                              <div class="d-flex justify-content-between align-items-center m-1">
-                                <label class="d-flex align-items-center">Mostrar
-                                  <select class="form-control mx-25" [(ngModel)]="selectedOption">
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                  </select>
-                                  Registros</label>
-                              </div>
-                            </div>
-                            <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
-                              <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
-                                <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
-                                    name="searchValue" type="search" class="form-control ml-25" placeholder="Fecha Documento"
-                                    (keyup)="filterUpdateDocumentoAdjuntoEmpresa($event)"
-                                    (search)="filterUpdateDocumentoAdjuntoEmpresa($event)" /></label>
-                              </div>
-                            </div>
-                          </div>
-                          <ngx-datatable [rows]="rowsDocumentosAdjuntosEmpresa" [rowHeight]="50" class="bootstrap core-bootstrap"
-                            [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
-                            [scrollbarH]="true">
-            
-            
-                            <ngx-datatable-column name="RIF" prop="Rif" [width]="20">
-                              <ng-template let-Rif="value" ngx-datatable-cell-template>
-                                <div>
-                                  <span class="font-weight-bold"> {{ Rif }} </span>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
-            
-            
-                            <ngx-datatable-column name="Documento" prop="nomb" [width]="20">
-                              <ng-template let-nomb="value" ngx-datatable-cell-template>
-                                <div>
-                                  <span class="font-weight-bold"> {{ nomb.substring(20,32) }} </span>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
-            
-                            <ngx-datatable-column name="Tipo Documento" prop="TipoDoc" [width]="10">
-                              <ng-template let-TipoDoc="value" ngx-datatable-cell-template>
-                                <div>
-                                  <span class="font-weight-bold"> {{ TipoDoc }} </span>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
-            
-                            <ngx-datatable-column name="Fecha" prop="fech" [width]="20">
-                              <ng-template let-fech="value" ngx-datatable-cell-template>
-                                <div>
-                                  <span class="font-weight-bold"> {{ fech }} </span>
-                                </div>
-                              </ng-template>
-                            </ngx-datatable-column>
-            
-                            <ngx-datatable-column name="Acción" [width]="5" [sortable]="false">
-                              <ng-template ngx-datatable-cell-template let-row="row">
-                                <a [href]="dwUrl(row.Rif,row.nomb)" class="btn btn-sm bg-gradient-success" rippleEffect>
-                                  <span [data-feather]="'download-cloud'" [class]="'mr-25'"></span></a>
-                              </ng-template>
-                            </ngx-datatable-column>
-            
-            
-                          </ngx-datatable>
-                        </div>
-                      </section>
-                    </ng-template>
-                  </li>
-                </ul>
-                <div [ngbNavOutlet]="navCenter" class="mt-2"></div>
+                </div>
+                <!-- Header Ends -->
               </div>
-        
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
-              Cerrar
-            </button>
-          </div>
-        </ng-template>
+              <hr class="invoice-spacing" />
+              <div class="card-body invoice-padding pt-0">
+                <div class="row invoice-spacing">
+                  <div class="col-xl-4 p-0 mt-xl-0 mt-2">
+                    <h6 class="mb-2"><strong>Datos Legales y Financieros</strong></h6>
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td class="pr-1"><strong>Registro Emp:</strong></td>
+                          <td> {{ DataEmpresaCompleta.RegistroMercantil }} </td>
+                        </tr>
+                        <tr>
+                          <td class="pr-1"><strong>Creación Emp:</strong></td>
+                          <td>{{ DataEmpresaCompleta.DocumentoFecha }}</td>
+                        </tr>
+                        <tr>
+                          <td class="pr-1"><strong>Núm Folio:</strong></td>
+                          <td>{{ DataEmpresaCompleta.DocumentoFolio }}</td>
+                        </tr>
+                        <tr>
+                          <td class="pr-1"><strong>Núm Protocolo:</strong></td>
+                          <td>{{ DataEmpresaCompleta.DocumentoProtocolo }}</td>
+                        </tr>
+                        <tr>
+                          <td class="pr-1"><strong>Núm Tomo:</strong></td>
+                          <td>{{ DataEmpresaCompleta.DocumentoTomo }}</td>
+                        </tr>
+                        <tr>
+                          <td class="pr-1"><strong>Núm Patronal:</strong></td>
+                          <td>{{ DataEmpresaCompleta.CodigoIvss }}</td>
+                        </tr>
+                        <tr>
+                          <td class="pr-1"><strong>Fecha Cierre:</strong></td>
+                          <td>{{ DataEmpresaCompleta.FechaCierreFiscal }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-xl-4 p-0 mt-xl-0 mt-2">
+                    <button type="button" class="btn btn-sm btn-icon btn-warning" *ngIf="showUpdateEmpresaRecaudacion"
+                      (click)="ModalEditarRepresentanteLegal(ListaRepresentanteContacto,DataEmpresaCompleta)">
+                      <span [data-feather]="'edit'"></span>
+                      Actualizar Representante
+                    </button>
+                    <h6 class="mb-2"><strong>Datos del Representante Legal</strong></h6>
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td class="pr-1"><strong>Cedula:</strong></td>
+                          <td>{{ DataEmpresaCompleta.CedulaContacto }} </td>
+                        </tr>
+                        <tr>
+                          <td class="pr-1"><strong>Nombres:</strong></td>
+                          <td> {{ DataEmpresaCompleta.nombre }}</td>
+                        </tr>
+                        <tr>
+                          <td class="pr-1"><strong>Apellidos:</strong></td>
+                          <td>{{ DataEmpresaCompleta.apellido }}</td>
+                        </tr>
+                        <tr>
+                          <td class="pr-1"><strong>Teléfono:</strong></td>
+                          <td>{{ DataEmpresaCompleta.telefonoContacto }}</td>
+                        </tr>
+                        <tr>
+                          <td class="pr-1"><strong>Celular:</strong></td>
+                          <td>{{ DataEmpresaCompleta.celularContacto }}</td>
+                        </tr>
+                        <tr>
+                          <td class="pr-1"><strong>Email:</strong></td>
+                          <td>{{ DataEmpresaCompleta.CorreoElectronico }}</td>
+                        </tr>
+                        <tr>
+                          <td class="pr-1"><strong>Persona:</strong></td>
+                          <td> {{ DataEmpresaCompleta.TipoContacto }} </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
 
+                  <div class="col-xl-4 p-0 mt-xl-0 mt-2">
+                    <button type="button" class="btn btn-sm btn-icon btn-warning" *ngIf="showUpdateEmpresaRecaudacion"
+                      (click)="ModalEditarUsuario(EditarUsuario,DataEmpresaCompleta)">
+                      <span [data-feather]="'edit'"></span>
+                      Actualizar Usuario
+                    </button>
 
-        <ng-template #EditarEmpresa let-modal>
-          <div class="modal-header">
-            <h5 class="modal-title" id="myModalLabel160"><strong>{{ UpdateEmpresa.RazonSocial }} </strong></h5>
-          </div>
-          <div class="modal-body" tabindex="0" ngbAutofocus>
-            <div class="col-xl-12 col-md-12 col-12 printRef">
-              <!-- Header Starts -->
-        
-              <div class="row">
-                <div class="col-xl-12 col-md-12 col-12 mb-1">
-                  <!-- <div class="form-group">
-                    <h6><strong>{{ MiEmpresaRazonSocial }}</strong></h6>
-                  {{ MiEmpresaRif }}
-                  </div> -->
-                </div>
-                <div class="col-xl-4 col-md-6 col-12">
-                  <div class="form-group">
-                    <label for="helperText">Cantidad Empleados</label>
-                    <input type="text" id="helperText" class="form-control" [(ngModel)]="UpdateEmpresa.CantidadEmpleados"
-                      [ngModelOptions]="{standalone: true}" placeholder="Cantidad de Empleados" />
-                    <!-- <p><small class="text-muted">Find helper text here for given.</small></p> -->
+                    <h6 class="mb-2"><strong>Datos del Usuario</strong></h6>
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td class="pr-1"><strong>Usuario</strong></td>
+                          <td> {{ DataEmpresaCompleta.Usuario }} </td>
+                        </tr>
+                        <tr>
+                          <td class="pr-1"><strong>Cedula:</strong></td>
+                          <td> {{ DataEmpresaCompleta.Cedula }} </td>
+                        </tr>
+                        <tr>
+                          <td class="pr-1"><strong>Nombres:</strong></td>
+                          <td> {{ DataEmpresaCompleta.Nombres }}</td>
+                        </tr>
+                        <tr>
+                          <td class="pr-1"><strong>Apellidos:</strong></td>
+                          <td> {{ DataEmpresaCompleta.Apellidos }}</td>
+                        </tr>
+                        <tr>
+                          <td class="pr-1"><strong>Teléfono:</strong></td>
+                          <td>{{ DataEmpresaCompleta.TelefonoLocal }}</td>
+                        </tr>
+                        <tr>
+                          <td class="pr-1"><strong>Celular:</strong></td>
+                          <td>{{ DataEmpresaCompleta.TelefonoCelular }}</td>
+                        </tr>
+                        <tr>
+                          <td class="pr-1"><strong>Email:</strong></td>
+                          <td>{{ DataEmpresaCompleta.CorreoPrincipal }}</td>
+                        </tr>
+                        <tr>
+                          <td class="pr-1"><strong>Email 2:</strong></td>
+                          <td>{{ DataEmpresaCompleta.CorreoSecundario }}</td>
+                        </tr>
+                        <tr>
+                          <td class="pr-1"><strong>Cargo:</strong></td>
+                          <td>{{ DataEmpresaCompleta.Cargo }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
-                <div class="col-xl-8 col-md-6 col-12">
-                  <div class="form-group">
-                    <label for="disabledInput">Actividad Economica</label>
-                    <ng-select [items]="selectActividadEconomica" placeholder="Seleccione Actividad Economica"
-                      autocomplete="off" [(ngModel)]="UpdateEmpresa.ActividadEconomicaId"
-                      [ngModelOptions]="{standalone: true}" name="actividad" bindValue="id"  bindLabel="name" required>
-                    </ng-select>
-                  </div>
-                </div>
-        
-                <div class="col-xl-4 col-md-6 col-12 mb-1">
-                  <div class="form-group">
-                    <label for="basicInput">Telefono</label>
-                    <input type="text" class="form-control" [(ngModel)]="UpdateEmpresa.Telefono"
-                      [ngModelOptions]="{standalone: true}" id="basicInput" placeholder="Telefono" />
-                  </div>
-                </div>
-                <div class="col-xl-4 col-md-6 col-12 mb-1">
-                  <div class="form-group">
-                    <label for="helpInputTop">Fax</label>
-                    <input type="text" class="form-control" [(ngModel)]="UpdateEmpresa.Fax"
-                      [ngModelOptions]="{standalone: true}" id="helpInputTop" placeholder="Fax" />
-                  </div>
-                </div>
-                <div class="col-xl-4 col-md-6 col-12 mb-1">
-                  <div class="form-group">
-                    <label for="disabledInput">Correo Electronico</label>
-                    <input type="text" class="form-control" [(ngModel)]="UpdateEmpresa.CorreoElectronico" [ngModelOptions]="{standalone: true}"
-                      id="disabledInput" placeholder="Correo Electronico" />
-                  </div>
-                </div>
-        
-
-                <div class="col-xl-3 col-md-6 col-12 mb-1">
-                  <div class="form-group">
-                    <label for="basicInput">Estado</label>
-                    <ng-select [items]="selectEstados" placeholder="Seleccione Estados" bindLabel="name" name="estados"
-                      [(ngModel)]="UpdateEmpresa.Estado" [ngModelOptions]="{standalone: true}"
-                      (ngModelChange)="ListaMunicipios($event.EstadoId)" required autocomplete="off">
-                    </ng-select>
-                  </div>
-                </div>
-                <div class="col-xl-3 col-md-6 col-12 mb-1">
-                  <div class="form-group">
-                    <label for="helpInputTop">Ciudad</label>
-                    <input type="text" class="form-control" [(ngModel)]="UpdateEmpresa.Ciudad" [ngModelOptions]="{standalone: true}"
-                      id="helpInputTop" placeholder="Ciudad" />
-                  </div>
-                </div>
-                <div class="col-xl-3 col-md-6 col-12 mb-1">
-                  <div class="form-group">
-                    <label for="disabledInput">Municipio</label>
-                    <ng-select [items]="selectMunicipios" (ngModelChange)="ListaParroquias($event.MunicipioId)" placeholder="Seleccione Municipios" bindLabel="name"
-                      [(ngModel)]="UpdateEmpresa.Municipio" [ngModelOptions]="{standalone: true}" required autocomplete="off">
-                    </ng-select>
-                  </div>
-                </div>
-                <div class="col-xl-3 col-md-6 col-12">
-                  <div class="form-group">
-                    <label for="helperText">Parroquia </label>
-                    <ng-select [items]="selectParroquias"  placeholder="Seleccione Parroquia"
-                      autocomplete="off" [(ngModel)]="UpdateEmpresa.ParroquiaId" [ngModelOptions]="{standalone: true}"
-                      bindValue="id" bindLabel="name" name="parroquia" required>
-                    </ng-select>
-                  </div>
-                </div>
-        
-        
-                <div class="col-xl-12 col-md-12 col-12">
-                  <div class="form-group">
-                    <label for="helperText">Dirección de la Empresa</label>
-                    <textarea class="form-control" id="basicTextarea" [(ngModel)]="UpdateEmpresa.Direccion"
-                      [ngModelOptions]="{standalone: true}" rows="3" placeholder="Dirección"></textarea>
-                  </div>
-                </div>
-        
-                
               </div>
-        
-              <!-- Header Ends -->
-            </div>
-          </div>
-          <!--/ Invoice -->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
-              Cerrar
-            </button>
-            <button class="btn bg-gradient-success text-white " (click)="GuardarActualizacionDatosEmpresas()">
-              <span class="fa fa-check"></span>&nbsp;&nbsp;Actualizar Empresa </button>
-          </div>
-        </ng-template>
+            </ng-template>
+          </li>
+          <li ngbNavItem>
+            <a ngbNavLink>Utilidad Cierre Fiscal</a>
+            <ng-template ngbNavContent>
 
-
-        <ng-template #EditarRepresentanteLegal let-modal>
-          <div class="modal-header">
-            <h5 class="modal-title" id="myModalLabel160"><strong>{{ titleModal }} </strong></h5>
-          </div>
-          <div class="modal-body" tabindex="0" ngbAutofocus>
-            <div class="col-xl-12 col-md-12 col-12 printRef">
-              <!-- Header Starts -->
-        
-              <div class="row">
-                <div class="col-xl-12 col-md-12 col-12 mb-1">
-                  <!-- <div class="form-group">
-                    <h6><strong>{{ MiEmpresaRazonSocial }}</strong></h6>
-                  {{ MiEmpresaRif }}
-                  </div> -->
-                </div>
-                <div class="col-xl-6 col-md-6 col-12">
-                  <div class="form-group">
-                    <label for="helperText">Cedula de Identidad</label>
-                    <input type="text" id="helperText" class="form-control" [(ngModel)]="U_RepresentanteLegal.Cedula"
-                      [ngModelOptions]="{standalone: true}" placeholder="Cedula de Identidad" />
-                    <!-- <p><small class="text-muted">Find helper text here for given.</small></p> -->
-                  </div>
-                </div>
-        
-                <div class="col-xl-6 col-md-6 col-12 mb-1">
-                  <div class="form-group">
-                    <label for="basicInput">Nombres</label>
-                    <input type="text" class="form-control" [(ngModel)]="U_RepresentanteLegal.Nombre"
-                      [ngModelOptions]="{standalone: true}" id="basicInput" placeholder="Nombres" />
-                  </div>
-                </div>
-                <div class="col-xl-6 col-md-6 col-12 mb-1">
-                  <div class="form-group">
-                    <label for="helpInputTop">Apellidos</label>
-                    <input type="text" class="form-control" [(ngModel)]="U_RepresentanteLegal.Apellido"
-                      [ngModelOptions]="{standalone: true}" id="helpInputTop" placeholder="Apellidos">
-                  </div>
-                </div>
-                <div class="col-xl-6 col-md-6 col-12 mb-1">
-                  <div class="form-group">
-                    <label for="basicInput">Telefono</label>
-                    <input type="text" class="form-control" [(ngModel)]="U_RepresentanteLegal.Telefono"
-                      [ngModelOptions]="{standalone: true}" id="basicInput" placeholder="Telefono" />
-                  </div>
-                </div>
-                <div class="col-xl-6 col-md-6 col-12 mb-1">
-                  <div class="form-group">
-                    <label for="helpInputTop">Celular</label>
-                    <input type="text" class="form-control" [(ngModel)]="U_RepresentanteLegal.Celular"
-                      [ngModelOptions]="{standalone: true}" id="helpInputTop" placeholder="Celular" />
-                  </div>
-                </div>
-                <div class="col-xl-6 col-md-6 col-12 mb-1">
-                  <div class="form-group">
-                    <label for="helpInputTop">Fax</label>
-                    <input type="text" class="form-control" [(ngModel)]="U_RepresentanteLegal.Fax"
-                      [ngModelOptions]="{standalone: true}" id="helpInputTop" placeholder="Fax" />
-                  </div>
-                </div>
-                <div class="col-xl-6 col-md-6 col-12 mb-1">
-                  <div class="form-group">
-                    <label for="disabledInput">Correo Electronico</label>
-                    <input type="text" class="form-control" [(ngModel)]="U_RepresentanteLegal.CorreoElectronico" [ngModelOptions]="{standalone: true}"
-                      id="disabledInput" placeholder="Correo Electronico" />
-                  </div>
-                </div>
-                <div class="col-xl-6 col-md-6 col-12 mb-1">
-                  <div class="form-group">
-                    <label for="disabledInput">Tipo Contacto</label>
-                      <ng-select [items]="TipoContacto" placeholder="Seleccione Status"
-                      autocomplete="off" [(ngModel)]="U_RepresentanteLegal.TipoContactoId"
-                      [ngModelOptions]="{standalone: true}" name="TipoContacto" bindValue="id"  bindLabel="name" required>
-                    </ng-select>
-                  </div>
-                </div>
-                <div class="col-xl-6 col-md-6 col-12 mb-1">
-                  <div class="form-group">
-                    <label for="disabledInput">Status</label>
-                      <ng-select [items]="Status" placeholder="Seleccione Status"
-                      autocomplete="off" [(ngModel)]="U_RepresentanteLegal.Estatus"
-                      [ngModelOptions]="{standalone: true}" name="estatus" bindValue="id"  bindLabel="name" required>
-                    </ng-select>
-                  </div>
-                </div>
-        
-                
-              </div>
-        
-              <!-- Header Ends -->
-            </div>
-          </div>
-          <!--/ Invoice -->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
-              Cerrar
-            </button>
-            <button class="btn bg-gradient-success text-white " (click)="UpdateRepresentanteLegal()">
-              <span class="fa fa-check"></span>&nbsp;&nbsp;Actualizar </button>
-          </div>
-        </ng-template>
-
-        <ng-template #ListaRepresentanteContacto let-modal>
-          <div class="modal-header">
-            <h5 class="modal-title" id="myModalLabel160">Representantes Legales y Contactos <strong>{{ titleModal }} </strong></h5>
-          </div>
-          <div class="modal-body" tabindex="0" ngbAutofocus>
-            <div class="col-xl-12 col-md-12 col-12 printRef">
-              <!-- Header Starts -->
-        
               <section class="users-list-wrapper">
 
                 <div class="card">
                   <div class="row">
-                    <div class="col-md-6 col-12">
+                    <div class="col-md-3 col-12">
                       <div class="d-flex justify-content-between align-items-center m-1">
-                        <label class="d-flex align-items-center"
-                          >Mostrar
+                        <label class="d-flex align-items-center">Mostrar
                           <select class="form-control mx-25" [(ngModel)]="selectedOption">
                             <option value="10">10</option>
                             <option value="25">25</option>
                             <option value="50">50</option>
                             <option value="100">100</option>
                           </select>
-                          Registros</label
-                        >
+                          Registros</label>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-12">
+                      <div class="d-flex justify-content-between align-items-center m-1">
+                        <button type="button" class="btn btn-success" (click)="GenerarCertificadoInscripcion()"
+                          rippleEffect>
+                          <span [data-feather]="'download-cloud'" [class]="'mr-25'"></span> Certificado
+                          Inscripción</button>
                       </div>
                     </div>
                     <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
                       <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
-                        <label class="d-flex align-items-center ml-1 ml-md-0"
-                          >Buscar:<input
-                            [(ngModel)]="searchValueRepresentanteLegal"
-                            name="searchValue"
-                            type="search"
-                            class="form-control ml-25"
-                            placeholder="Ingrese Nombre"
-                            (keyup)="filterUpdateRepresentanteLegal($event)"
-                            (search)="filterUpdateRepresentanteLegal($event)"
-                        /></label>
+                        <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
+                            name="searchValue" type="search" class="form-control ml-25" placeholder="Año de Utilidad"
+                            (keyup)="filterUpdateUtilidadCierreFiscal($event)"
+                            (search)="filterUpdateUtilidadCierreFiscal($event)" /></label>
                       </div>
                     </div>
                   </div>
-                  <ngx-datatable [rows]="rowsRepresentantesContactos" rowHeight="auto" class="bootstrap core-bootstrap"
-                  [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
-                  [scrollbarH]="true">
-            
-                    <ngx-datatable-column name="Cedula Identidad" prop="Cedula" [width]="5">
-                      <ng-template let-Cedula="value" ngx-datatable-cell-template>
+                  <ngx-datatable [rows]="rowsUtilidadCierreFiscal" [rowHeight]="50" class="bootstrap core-bootstrap"
+                    [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
+                    [scrollbarH]="true">
+
+
+                    <ngx-datatable-column name="Año" prop="Fecha" [width]="20">
+                      <ng-template let-Fecha="value" ngx-datatable-cell-template>
                         <div>
-                          <span class="font-weight-bold">{{ Cedula }} </span>
+                          <span class="font-weight-bold">{{ Fecha }} </span>
                         </div>
                       </ng-template>
                     </ngx-datatable-column>
-            
-                    <ngx-datatable-column name="Nombres" prop="Nombres" [width]="90">
-                      <ng-template let-Nombres="value" ngx-datatable-cell-template>
+
+                    <ngx-datatable-column name="Ejercicio Fiscal" prop="ejercicioFiscal" [width]="20">
+                      <ng-template let-ejercicioFiscal="value" ngx-datatable-cell-template>
                         <div>
-                          <span class="font-weight-bold"> {{ Nombres }} </span>
+                          <span class="font-weight-bold"> {{ ejercicioFiscal }} </span>
                         </div>
                       </ng-template>
                     </ngx-datatable-column>
-            
-                    
-                    <ngx-datatable-column name="Tipo Contacto" prop="NombreTipoContacto" [width]="5">
-                      <ng-template let-NombreTipoContacto="value" ngx-datatable-cell-template>
+
+                    <ngx-datatable-column name="Fecha Declaración" prop="FechaCreo" [width]="20">
+                      <ng-template let-FechaCreo="value" ngx-datatable-cell-template>
                         <div>
-                          <span class="font-weight-bold"> {{ NombreTipoContacto }} </span>
+                          <span class="font-weight-bold"> {{ FechaCreo }} </span>
                         </div>
                       </ng-template>
                     </ngx-datatable-column>
-            
-            
-                    <ngx-datatable-column name="Status" [width]="5">
+
+                    <ngx-datatable-column name="Diferencias Días" prop="Diferencia" [width]="20">
+                      <ng-template let-Diferencia="value" ngx-datatable-cell-template>
+                        <div>
+                          <span class="font-weight-bold"> {{ Diferencia }} </span>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Monto" prop="Monto" [width]="20">
+                      <ng-template let-Monto="value" ngx-datatable-cell-template>
+                        <div>
+                          <span class="font-weight-bold"> {{ Monto | currency: 'Bs ' }} </span>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Acción" [width]="5" [sortable]="false">
+                      <ng-template ngx-datatable-cell-template let-row="row">
+                        <button type="button" class="btn btn-sm btn-success"
+                          (click)="GenerarCertificadoDeclaracion(row)" rippleEffect>
+                          <span [data-feather]="'download-cloud'" [class]="'mr-25'"></span></button>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                  </ngx-datatable>
+                </div>
+              </section>
+
+            </ng-template>
+          </li>
+          <li ngbNavItem>
+            <a ngbNavLink>Detalles de Aportes</a>
+            <ng-template ngbNavContent>
+              <section class="users-list-wrapper">
+
+                <div class="card">
+                  <div class="row">
+                    <div class="col-md-6 col-12">
+                      <div class="d-flex justify-content-between align-items-center m-1">
+                        <label class="d-flex align-items-center">Mostrar
+                          <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                          </select>
+                          Registros</label>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+                      <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+                        <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
+                            name="searchValue" type="search" class="form-control ml-25" placeholder="Año de Aporte"
+                            (keyup)="filterUpdateUtilidadAportes($event)"
+                            (search)="filterUpdateUtilidadAportes($event)" /></label>
+                      </div>
+                    </div>
+                  </div>
+                  <ngx-datatable [rows]="rowsDetalleAporte" [rowHeight]="50" class="bootstrap core-bootstrap"
+                    [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
+                    [scrollbarH]="true">
+
+                    <ngx-datatable-column name="Banco" prop="Banco" [width]="20">
+                      <ng-template let-Banco="value" ngx-datatable-cell-template>
+                        <div>
+                          <span class="font-weight-bold">{{ Banco }} </span>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Tipo Pago" prop="CanalPago" [width]="20">
+                      <ng-template let-CanalPago="value" ngx-datatable-cell-template>
+                        <div>
+                          <span class="font-weight-bold"> {{ CanalPago }} </span>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Art" prop="Articulo" [width]="20">
+                      <ng-template let-Articulo="value" ngx-datatable-cell-template>
+                        <div>
+                          <span class="font-weight-bold"> {{ Articulo }} </span>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Status Genetal" prop="EstatusGeneralId" [width]="20">
+                      <ng-template let-EstatusGeneralId="value" ngx-datatable-cell-template>
+                        <div>
+                          <span class="font-weight-bold"> {{ EstatusGeneralId }} </span>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+
+                    <ngx-datatable-column name="Año" prop="FechaAporte" [width]="20">
+                      <ng-template let-FechaAporte="value" ngx-datatable-cell-template>
+                        <div>
+                          <span class="font-weight-bold"> {{ FechaAporte }} </span>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Referencia" prop="ReferenciaBancaria" [width]="20">
+                      <ng-template let-ReferenciaBancaria="value" ngx-datatable-cell-template>
+                        <div>
+                          <span class="font-weight-bold"> {{ ReferenciaBancaria }} </span>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Monto" prop="Monto" [width]="20">
+                      <ng-template let-Monto="value" ngx-datatable-cell-template>
+                        <div>
+                          <span class="font-weight-bold"> {{ Monto | currency: 'Bs ' }} </span>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+
+                    <ngx-datatable-column name="Acción" [width]="5" [sortable]="false">
+                      <ng-template ngx-datatable-cell-template let-row="row">
+                        <button type="button" class="btn btn-sm btn-success" (click)="GenerarCertificadoAportes(row)"
+                          rippleEffect>
+                          <span [data-feather]="'download-cloud'" [class]="'mr-25'"></span></button>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                  </ngx-datatable>
+                </div>
+              </section>
+            </ng-template>
+          </li>
+          <li ngbNavItem>
+            <a ngbNavLink>Multas Vigentes</a>
+            <ng-template ngbNavContent>
+              <section class="users-list-wrapper">
+
+                <div class="card">
+                  <div class="row">
+                    <div class="col-md-6 col-12">
+                      <div class="d-flex justify-content-between align-items-center m-1">
+                        <label class="d-flex align-items-center">Mostrar
+                          <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                          </select>
+                          Registros</label>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+                      <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+                        <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
+                            name="searchValue" type="search" class="form-control ml-25" placeholder="Nombre Empresa"
+                            (keyup)="filterUpdateMIF($event)" (search)="filterUpdateMIF($event)" /></label>
+                      </div>
+                    </div>
+                  </div>
+                  <ngx-datatable [rows]="rowsDetalleMultasNuevas" rowHeight="auto" class="bootstrap core-bootstrap"
+                    [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
+                    [scrollbarH]="true">
+
+                    <ngx-datatable-column name="Empresa" prop="row" width="auto">
                       <ng-template let-row="row" ngx-datatable-cell-template>
                         <div>
-                          <div
-                          *ngIf="row.Estatus == 1"
-                            class="badge badge-pill"
-                            ngClass="badge-light-success">
-                            Activo 
+                          <span class="font-weight-bold">{{ row.RazonSocial }} - {{ row.Rif }} </span>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Tipo Multa" prop="TipoMultaId" [width]="10">
+                      <ng-template let-TipoMultaId="value" ngx-datatable-cell-template>
+                        <div>
+                          <div *ngIf="TipoMultaId == '1'" class="badge badge-pill" ngClass="badge-light-danger">
+                            Multas
                           </div>
-                          <div
-                          *ngIf="row.Estatus == 0"
-                            class="badge badge-pill"
-                            ngClass="badge-light-danger">
-                            Inactivo
+                          <div *ngIf="TipoMultaId == 2" class="badge badge-pill" ngClass="badge-light-warning">
+                            Intereses
+                          </div>
+                          <div *ngIf="TipoMultaId == 3" class="badge badge-pill" ngClass="badge-light-primary">
+                            Fiscalización
+                          </div>
+                          <div *ngIf="TipoMultaId == 4" class="badge badge-pill" ngClass="badge-light-primary">
+                            Pago Complementario
                           </div>
                         </div>
                       </ng-template>
                     </ngx-datatable-column>
-            
-                        
-                    <ngx-datatable-column name="Accion" [width]="5" [sortable]="false">
-                      <ng-template  ngx-datatable-cell-template let-row="row">
-                        <div ngbDropdown container="body">
+
+
+                    <ngx-datatable-column name="Nomenclatura" prop="Nomenclatura_mif" [width]="10">
+                      <ng-template let-Nomenclatura_mif="value" ngx-datatable-cell-template>
+                        <div>
+                          <span class="font-weight-bold">{{ Nomenclatura_mif }} </span>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+
+                    <ngx-datatable-column name="Monto" prop="Monto_mif" [width]="10">
+                      <ng-template let-Monto_mif="value" ngx-datatable-cell-template>
+                        <div>
+                          <span class="font-weight-bold">{{ Monto_mif }} </span>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Status" prop="status_mif" [width]="10">
+                      <ng-template let-status_mif="value" ngx-datatable-cell-template>
+                        <div>
+                          <!-- <span class="font-weight-bold"> {{ status_mif }} </span> -->
+                          <div *ngIf="status_mif == 0" class="badge badge-pill" ngClass="badge-light-warning">
+                            Pendiente por Pago
+                          </div>
+                          <div *ngIf="status_mif == 1" class="badge badge-pill" ngClass="badge-light-success">
+                            Pagado
+                          </div>
+                          <div *ngIf="status_mif == 2" class="badge badge-pill" ngClass="badge-light-info">
+                            En Revisión
+                          </div>
+                          <div *ngIf="status_mif == 3" class="badge badge-pill" ngClass="badge-light-danger">
+                            Rechazado
+                          </div>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Accion" [width]="20" [sortable]="false">
+                      <ng-template ngx-datatable-cell-template let-row="row">
+                        <div ngbDropdown container="body" *ngIf="row.status_mif == 1">
                           <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
                             <span [data-feather]="'settings'" [class]="'cursor-pointer'"></span>
                           </button>
                           <div ngbDropdownMenu>
-                            <a  (click)="EditarRepresentanteLegalModal(EditarRepresentanteLegal,row)" ngbDropdownItem><span
-                              [data-feather]="'edit'" [size]="16" [class]="'mr-50'"></span> Actualizar</a>
+                            <div>
+                              <a (click)="GenerarConstancia(row)" ngbDropdownItem><span [data-feather]="'book-open'"
+                                  [size]="16" [class]="'mr-50'"></span> Generar Constancia</a>
+                            </div>
+                          </div>
                         </div>
-                        </div>
-                          </ng-template>
-                        </ngx-datatable-column>
-              
-            
+                      </ng-template>
+                    </ngx-datatable-column>
+
+
                   </ngx-datatable>
                 </div>
               </section>
-        
-              <!-- Header Ends -->
-            </div>
-          </div>
-          <!--/ Invoice -->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
-              Cerrar
-            </button>
-          </div>
-        </ng-template>
+            </ng-template>
+          </li>
+          <li ngbNavItem>
+            <a ngbNavLink>Tipos de Planillas</a>
+            <ng-template ngbNavContent>
+              <section class="users-list-wrapper">
 
-        <ng-template #EditarUsuario let-modal>
-          <div class="modal-header">
-            <h5 class="modal-title" id="myModalLabel160"><strong>{{ titleModal }} </strong></h5>
-          </div>
-          <div class="modal-body" tabindex="0" ngbAutofocus>
-            <div class="col-xl-12 col-md-12 col-12 printRef">
-              <!-- Header Starts -->
-        
-              <div class="row">
-                <div class="col-xl-12 col-md-12 col-12 mb-1">
-                  <!-- <div class="form-group">
+                <div class="card">
+                  <div class="row">
+                    <div class="col-md-6 col-12">
+                      <div class="d-flex justify-content-between align-items-center m-1">
+                        <label class="d-flex align-items-center">Mostrar
+                          <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                          </select>
+                          Registros</label>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+                      <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+                        <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
+                            name="searchValue" type="search" class="form-control ml-25" placeholder="Año de Utilidad"
+                            (keyup)="filterUpdateDetalleMultas($event)"
+                            (search)="filterUpdateDetalleMultas($event)" /></label>
+                      </div>
+                    </div>
+                  </div>
+                  <ngx-datatable [rows]="rowsDetalleMultas" [rowHeight]="50" class="bootstrap core-bootstrap"
+                    [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
+                    [scrollbarH]="true">
+
+
+                    <ngx-datatable-column name="Art" prop="banco" [width]="20">
+                      <ng-template let-banco="value" ngx-datatable-cell-template>
+                        <div>
+                          <span class="font-weight-bold">{{ banco }} </span>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Art" prop="Articulo" [width]="20">
+                      <ng-template let-Articulo="value" ngx-datatable-cell-template>
+                        <div>
+                          <span class="font-weight-bold">{{ Articulo }} </span>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Tipo" prop="Nombre" [width]="20">
+                      <ng-template let-Nombre="value" ngx-datatable-cell-template>
+                        <div>
+                          <span class="font-weight-bold">{{ Nombre }} </span>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Año" prop="Anio" [width]="20">
+                      <ng-template let-Anio="value" ngx-datatable-cell-template>
+                        <div>
+                          <span class="font-weight-bold">{{ Anio }} </span>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Fecha Documento" prop="FechaDocumento" [width]="20">
+                      <ng-template let-FechaDocumento="value" ngx-datatable-cell-template>
+                        <div>
+                          <span class="font-weight-bold">{{ FechaDocumento }} </span>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="N°  Ref" prop="ReferenciaBancaria" [width]="20">
+                      <ng-template let-ReferenciaBancaria="value" ngx-datatable-cell-template>
+                        <div>
+                          <span class="font-weight-bold">{{ ReferenciaBancaria }} </span>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Monto" prop="Monto" [width]="20">
+                      <ng-template let-Monto="value" ngx-datatable-cell-template>
+                        <div>
+                          <span class="font-weight-bold"> {{ Monto | currency: 'Bs ' }} </span>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+
+                  </ngx-datatable>
+                </div>
+              </section>
+            </ng-template>
+          </li>
+          <li ngbNavItem>
+            <a ngbNavLink>Documentos Empresa</a>
+            <ng-template ngbNavContent>
+              <section class="users-list-wrapper">
+
+                <div class="card">
+                  <div class="row">
+                    <div class="col-md-6 col-12">
+                      <div class="d-flex justify-content-between align-items-center m-1">
+                        <label class="d-flex align-items-center">Mostrar
+                          <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                          </select>
+                          Registros</label>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+                      <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+                        <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
+                            name="searchValue" type="search" class="form-control ml-25" placeholder="Fecha Documento"
+                            (keyup)="filterUpdateDocumentoAdjuntoEmpresa($event)"
+                            (search)="filterUpdateDocumentoAdjuntoEmpresa($event)" /></label>
+                      </div>
+                    </div>
+                  </div>
+                  <ngx-datatable [rows]="rowsDocumentosAdjuntosEmpresa" [rowHeight]="50"
+                    class="bootstrap core-bootstrap" [limit]="selectedOption" [columnMode]="ColumnMode.force"
+                    [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true">
+
+
+                    <ngx-datatable-column name="RIF" prop="Rif" [width]="20">
+                      <ng-template let-Rif="value" ngx-datatable-cell-template>
+                        <div>
+                          <span class="font-weight-bold"> {{ Rif }} </span>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+
+                    <ngx-datatable-column name="Documento" prop="nomb" [width]="20">
+                      <ng-template let-nomb="value" ngx-datatable-cell-template>
+                        <div>
+                          <span class="font-weight-bold"> {{ nomb.substring(20,32) }} </span>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Tipo Documento" prop="TipoDoc" [width]="10">
+                      <ng-template let-TipoDoc="value" ngx-datatable-cell-template>
+                        <div>
+                          <span class="font-weight-bold"> {{ TipoDoc }} </span>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Fecha" prop="fech" [width]="20">
+                      <ng-template let-fech="value" ngx-datatable-cell-template>
+                        <div>
+                          <span class="font-weight-bold"> {{ fech }} </span>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Acción" [width]="5" [sortable]="false">
+                      <ng-template ngx-datatable-cell-template let-row="row">
+                        <a [href]="dwUrl(row.Rif,row.nomb)" class="btn btn-sm bg-gradient-success" rippleEffect>
+                          <span [data-feather]="'download-cloud'" [class]="'mr-25'"></span></a>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+
+                  </ngx-datatable>
+                </div>
+              </section>
+            </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="navCenter" class="mt-2"></div>
+      </div>
+
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+      Cerrar
+    </button>
+  </div>
+</ng-template>
+
+
+<ng-template #EditarEmpresa let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="myModalLabel160"><strong>{{ UpdateEmpresa.RazonSocial }} </strong></h5>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <div class="col-xl-12 col-md-12 col-12 printRef">
+      <!-- Header Starts -->
+
+      <div class="row">
+        <div class="col-xl-12 col-md-12 col-12 mb-1">
+          <!-- <div class="form-group">
                     <h6><strong>{{ MiEmpresaRazonSocial }}</strong></h6>
                   {{ MiEmpresaRif }}
                   </div> -->
-                </div>
-                <div class="col-xl-6 col-md-6 col-12">
-                  <div class="form-group">
-                    <label for="helperText">Nombre Usuario</label>
-                    <input type="text" id="helperText" class="form-control" [(ngModel)]="IUpdateUsuario.Codigo"
-                      [ngModelOptions]="{standalone: true}" readonly placeholder="Nombre Usuario" />
-                    <!-- <p><small class="text-muted">Find helper text here for given.</small></p> -->
-                  </div>
-                </div>
-        
-                <div class="col-xl-6 col-md-6 col-12 mb-1">
-                  <div class="form-group">
-                    <label for="basicInput">Nombres</label>
-                    <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.Nombres"
-                      [ngModelOptions]="{standalone: true}" id="basicInput" placeholder="Nombres" />
-                  </div>
-                </div>
-                <div class="col-xl-6 col-md-6 col-12 mb-1">
-                  <div class="form-group">
-                    <label for="helpInputTop">Apellidos</label>
-                    <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.Apellidos"
-                      [ngModelOptions]="{standalone: true}" id="helpInputTop" placeholder="Apellidos">
-                  </div>
-                </div>
-                <div class="col-xl-6 col-md-6 col-12 mb-1">
-                  <div class="form-group">
-                    <label for="basicInput">Cedula</label>
-                    <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.Cedula"
-                      [ngModelOptions]="{standalone: true}" id="basicInput" placeholder="Cedula" />
-                  </div>
-                </div>
-                <div class="col-xl-6 col-md-6 col-12 mb-1">
-                  <div class="form-group">
-                    <label for="basicInput">Telefono Local</label>
-                    <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.TelefonoLocal"
-                      [ngModelOptions]="{standalone: true}" id="basicInput" placeholder="Telefono" />
-                  </div>
-                </div>
-                <div class="col-xl-6 col-md-6 col-12 mb-1">
-                  <div class="form-group">
-                    <label for="helpInputTop">Telefono Celular</label>
-                    <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.TelefonoCelular"
-                      [ngModelOptions]="{standalone: true}" id="helpInputTop" placeholder="Celular" />
-                  </div>
-                </div>
-                <div class="col-xl-6 col-md-6 col-12 mb-1">
-                  <div class="form-group">
-                    <label for="disabledInput">Correo Electronico Principal</label>
-                    <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.CorreoPrincipal" [ngModelOptions]="{standalone: true}"
-                      id="disabledInput" placeholder="Correo Electronico Principal" />
-                  </div>
-                </div>
-                <div class="col-xl-6 col-md-6 col-12 mb-1">
-                  <div class="form-group">
-                    <label for="disabledInput">Correo Electronico Secundario</label>
-                    <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.CorreoSecundario" [ngModelOptions]="{standalone: true}"
-                      id="disabledInput" placeholder="Correo Electronico Secundario" />
-                  </div>
-                </div>
-                <div class="col-xl-6 col-md-6 col-12 mb-1">
-                  <div class="form-group">
-                    <label for="disabledInput">Cargo</label>
-                    <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.Cargo" [ngModelOptions]="{standalone: true}"
-                      id="disabledInput" placeholder="Correo Electronico" />
-                  </div>
-                </div>
-                
+        </div>
+        <div class="col-xl-4 col-md-6 col-12">
+          <div class="form-group">
+            <label for="helperText">Cantidad Empleados</label>
+            <input type="text" id="helperText" class="form-control" [(ngModel)]="UpdateEmpresa.CantidadEmpleados"
+              [ngModelOptions]="{standalone: true}" placeholder="Cantidad de Empleados" />
+            <!-- <p><small class="text-muted">Find helper text here for given.</small></p> -->
+          </div>
+        </div>
+        <div class="col-xl-8 col-md-6 col-12">
+          <div class="form-group">
+            <label for="disabledInput">Actividad Economica</label>
+            <ng-select [items]="selectActividadEconomica" placeholder="Seleccione Actividad Economica"
+              autocomplete="off" [(ngModel)]="UpdateEmpresa.ActividadEconomicaId" [ngModelOptions]="{standalone: true}"
+              name="actividad" bindValue="id" bindLabel="name" required>
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="col-xl-4 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicInput">Telefono</label>
+            <input type="text" class="form-control" [(ngModel)]="UpdateEmpresa.Telefono"
+              [ngModelOptions]="{standalone: true}" id="basicInput" placeholder="Telefono" />
+          </div>
+        </div>
+        <div class="col-xl-4 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="helpInputTop">Fax</label>
+            <input type="text" class="form-control" [(ngModel)]="UpdateEmpresa.Fax"
+              [ngModelOptions]="{standalone: true}" id="helpInputTop" placeholder="Fax" />
+          </div>
+        </div>
+        <div class="col-xl-4 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="disabledInput">Correo Electronico</label>
+            <input type="text" class="form-control" [(ngModel)]="UpdateEmpresa.CorreoElectronico"
+              [ngModelOptions]="{standalone: true}" id="disabledInput" placeholder="Correo Electronico" />
+          </div>
+        </div>
+
+
+        <div class="col-xl-3 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicInput">Estado</label>
+            <ng-select [items]="selectEstados" placeholder="Seleccione Estados" bindLabel="name" name="estados"
+              [(ngModel)]="UpdateEmpresa.Estado" [ngModelOptions]="{standalone: true}"
+              (ngModelChange)="ListaMunicipios($event.EstadoId)" required autocomplete="off">
+            </ng-select>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="helpInputTop">Ciudad</label>
+            <input type="text" class="form-control" [(ngModel)]="UpdateEmpresa.Ciudad"
+              [ngModelOptions]="{standalone: true}" id="helpInputTop" placeholder="Ciudad" />
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="disabledInput">Municipio</label>
+            <ng-select [items]="selectMunicipios" (ngModelChange)="ListaParroquias($event.MunicipioId)"
+              placeholder="Seleccione Municipios" bindLabel="name" [(ngModel)]="UpdateEmpresa.Municipio"
+              [ngModelOptions]="{standalone: true}" required autocomplete="off">
+            </ng-select>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6 col-12">
+          <div class="form-group">
+            <label for="helperText">Parroquia </label>
+            <ng-select [items]="selectParroquias" placeholder="Seleccione Parroquia" autocomplete="off"
+              [(ngModel)]="UpdateEmpresa.ParroquiaId" [ngModelOptions]="{standalone: true}" bindValue="id"
+              bindLabel="name" name="parroquia" required>
+            </ng-select>
+          </div>
+        </div>
+
+
+        <div class="col-xl-12 col-md-12 col-12">
+          <div class="form-group">
+            <label for="helperText">Dirección de la Empresa</label>
+            <textarea class="form-control" id="basicTextarea" [(ngModel)]="UpdateEmpresa.Direccion"
+              [ngModelOptions]="{standalone: true}" rows="3" placeholder="Dirección"></textarea>
+          </div>
+        </div>
+
+
+      </div>
+
+      <!-- Header Ends -->
+    </div>
+  </div>
+  <!--/ Invoice -->
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+      Cerrar
+    </button>
+    <button class="btn bg-gradient-success text-white " (click)="GuardarActualizacionDatosEmpresas()">
+      <span class="fa fa-check"></span>&nbsp;&nbsp;Actualizar Empresa </button>
+  </div>
+</ng-template>
+
+
+<ng-template #EditarRepresentanteLegal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="myModalLabel160"><strong>{{ titleModal }} </strong></h5>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <div class="col-xl-12 col-md-12 col-12 printRef">
+      <!-- Header Starts -->
+
+      <div class="row">
+        <div class="col-xl-12 col-md-12 col-12 mb-1">
+          <!-- <div class="form-group">
+                    <h6><strong>{{ MiEmpresaRazonSocial }}</strong></h6>
+                  {{ MiEmpresaRif }}
+                  </div> -->
+        </div>
+        <div class="col-xl-6 col-md-6 col-12">
+          <div class="form-group">
+            <label for="helperText">Cedula de Identidad</label>
+            <input type="text" id="helperText" class="form-control" [(ngModel)]="U_RepresentanteLegal.Cedula"
+              [ngModelOptions]="{standalone: true}" placeholder="Cedula de Identidad" />
+            <!-- <p><small class="text-muted">Find helper text here for given.</small></p> -->
+          </div>
+        </div>
+
+        <div class="col-xl-6 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicInput">Nombres</label>
+            <input type="text" class="form-control" [(ngModel)]="U_RepresentanteLegal.Nombre"
+              [ngModelOptions]="{standalone: true}" id="basicInput" placeholder="Nombres" />
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="helpInputTop">Apellidos</label>
+            <input type="text" class="form-control" [(ngModel)]="U_RepresentanteLegal.Apellido"
+              [ngModelOptions]="{standalone: true}" id="helpInputTop" placeholder="Apellidos">
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicInput">Telefono</label>
+            <input type="text" class="form-control" [(ngModel)]="U_RepresentanteLegal.Telefono"
+              [ngModelOptions]="{standalone: true}" id="basicInput" placeholder="Telefono" />
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="helpInputTop">Celular</label>
+            <input type="text" class="form-control" [(ngModel)]="U_RepresentanteLegal.Celular"
+              [ngModelOptions]="{standalone: true}" id="helpInputTop" placeholder="Celular" />
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="helpInputTop">Fax</label>
+            <input type="text" class="form-control" [(ngModel)]="U_RepresentanteLegal.Fax"
+              [ngModelOptions]="{standalone: true}" id="helpInputTop" placeholder="Fax" />
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="disabledInput">Correo Electronico</label>
+            <input type="text" class="form-control" [(ngModel)]="U_RepresentanteLegal.CorreoElectronico"
+              [ngModelOptions]="{standalone: true}" id="disabledInput" placeholder="Correo Electronico" />
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="disabledInput">Tipo Contacto</label>
+            <ng-select [items]="TipoContacto" placeholder="Seleccione Status" autocomplete="off"
+              [(ngModel)]="U_RepresentanteLegal.TipoContactoId" [ngModelOptions]="{standalone: true}"
+              name="TipoContacto" bindValue="id" bindLabel="name" required>
+            </ng-select>
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="disabledInput">Status</label>
+            <ng-select [items]="Status" placeholder="Seleccione Status" autocomplete="off"
+              [(ngModel)]="U_RepresentanteLegal.Estatus" [ngModelOptions]="{standalone: true}" name="estatus"
+              bindValue="id" bindLabel="name" required>
+            </ng-select>
+          </div>
+        </div>
+
+
+      </div>
+
+      <!-- Header Ends -->
+    </div>
+  </div>
+  <!--/ Invoice -->
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+      Cerrar
+    </button>
+    <button class="btn bg-gradient-success text-white " (click)="UpdateRepresentanteLegal()">
+      <span class="fa fa-check"></span>&nbsp;&nbsp;Actualizar </button>
+  </div>
+</ng-template>
+
+<ng-template #ListaRepresentanteContacto let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="myModalLabel160">Representantes Legales y Contactos <strong>{{ titleModal }} </strong>
+    </h5>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <div class="col-xl-12 col-md-12 col-12 printRef">
+      <!-- Header Starts -->
+
+      <section class="users-list-wrapper">
+
+        <div class="card">
+          <div class="row">
+            <div class="col-md-6 col-12">
+              <div class="d-flex justify-content-between align-items-center m-1">
+                <label class="d-flex align-items-center">Mostrar
+                  <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                  Registros</label>
               </div>
-        
-              <!-- Header Ends -->
+            </div>
+            <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+              <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+                <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input
+                    [(ngModel)]="searchValueRepresentanteLegal" name="searchValue" type="search"
+                    class="form-control ml-25" placeholder="Ingrese Nombre"
+                    (keyup)="filterUpdateRepresentanteLegal($event)"
+                    (search)="filterUpdateRepresentanteLegal($event)" /></label>
+              </div>
             </div>
           </div>
-          <!--/ Invoice -->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
-              Cerrar
-            </button>
-            <button class="btn bg-gradient-success text-white " (click)="UpdateUsuarios()">
-              <span class="fa fa-check"></span>&nbsp;&nbsp;Actualizar </button>
+          <ngx-datatable [rows]="rowsRepresentantesContactos" rowHeight="auto" class="bootstrap core-bootstrap"
+            [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
+            [scrollbarH]="true">
+
+            <ngx-datatable-column name="Cedula Identidad" prop="Cedula" [width]="5">
+              <ng-template let-Cedula="value" ngx-datatable-cell-template>
+                <div>
+                  <span class="font-weight-bold">{{ Cedula }} </span>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Nombres" prop="Nombres" [width]="90">
+              <ng-template let-Nombres="value" ngx-datatable-cell-template>
+                <div>
+                  <span class="font-weight-bold"> {{ Nombres }} </span>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+
+
+            <ngx-datatable-column name="Tipo Contacto" prop="NombreTipoContacto" [width]="5">
+              <ng-template let-NombreTipoContacto="value" ngx-datatable-cell-template>
+                <div>
+                  <span class="font-weight-bold"> {{ NombreTipoContacto }} </span>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+
+
+            <ngx-datatable-column name="Status" [width]="5">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <div>
+                  <div *ngIf="row.Estatus == 1" class="badge badge-pill" ngClass="badge-light-success">
+                    Activo
+                  </div>
+                  <div *ngIf="row.Estatus == 0" class="badge badge-pill" ngClass="badge-light-danger">
+                    Inactivo
+                  </div>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+
+
+            <ngx-datatable-column name="Accion" [width]="5" [sortable]="false">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                <div ngbDropdown container="body">
+                  <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
+                    <span [data-feather]="'settings'" [class]="'cursor-pointer'"></span>
+                  </button>
+                  <div ngbDropdownMenu>
+                    <a (click)="EditarRepresentanteLegalModal(EditarRepresentanteLegal,row)" ngbDropdownItem><span
+                        [data-feather]="'edit'" [size]="16" [class]="'mr-50'"></span> Actualizar</a>
+                  </div>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+
+
+          </ngx-datatable>
+        </div>
+      </section>
+
+      <!-- Header Ends -->
+    </div>
+  </div>
+  <!--/ Invoice -->
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+      Cerrar
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #EditarUsuario let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="myModalLabel160"><strong>{{ titleModal }} </strong></h5>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <div class="col-xl-12 col-md-12 col-12 printRef">
+      <!-- Header Starts -->
+
+      <div class="row">
+        <div class="col-xl-12 col-md-12 col-12 mb-1">
+          <!-- <div class="form-group">
+                    <h6><strong>{{ MiEmpresaRazonSocial }}</strong></h6>
+                  {{ MiEmpresaRif }}
+                  </div> -->
+        </div>
+        <div class="col-xl-6 col-md-6 col-12">
+          <div class="form-group">
+            <label for="helperText">Nombre Usuario</label>
+            <input type="text" id="helperText" class="form-control" [(ngModel)]="IUpdateUsuario.Codigo"
+              [ngModelOptions]="{standalone: true}" readonly placeholder="Nombre Usuario" />
+            <!-- <p><small class="text-muted">Find helper text here for given.</small></p> -->
           </div>
-        </ng-template>
+        </div>
+
+        <div class="col-xl-6 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicInput">Nombres</label>
+            <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.Nombres"
+              [ngModelOptions]="{standalone: true}" id="basicInput" placeholder="Nombres" />
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="helpInputTop">Apellidos</label>
+            <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.Apellidos"
+              [ngModelOptions]="{standalone: true}" id="helpInputTop" placeholder="Apellidos">
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicInput">Cedula</label>
+            <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.Cedula"
+              [ngModelOptions]="{standalone: true}" id="basicInput" placeholder="Cedula" />
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicInput">Telefono Local</label>
+            <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.TelefonoLocal"
+              [ngModelOptions]="{standalone: true}" id="basicInput" placeholder="Telefono" />
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="helpInputTop">Telefono Celular</label>
+            <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.TelefonoCelular"
+              [ngModelOptions]="{standalone: true}" id="helpInputTop" placeholder="Celular" />
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="disabledInput">Correo Electronico Principal</label>
+            <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.CorreoPrincipal"
+              [ngModelOptions]="{standalone: true}" id="disabledInput" placeholder="Correo Electronico Principal" />
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="disabledInput">Correo Electronico Secundario</label>
+            <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.CorreoSecundario"
+              [ngModelOptions]="{standalone: true}" id="disabledInput" placeholder="Correo Electronico Secundario" />
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="disabledInput">Cargo</label>
+            <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.Cargo"
+              [ngModelOptions]="{standalone: true}" id="disabledInput" placeholder="Correo Electronico" />
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Header Ends -->
+    </div>
+  </div>
+  <!--/ Invoice -->
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+      Cerrar
+    </button>
+    <button class="btn bg-gradient-success text-white " (click)="UpdateUsuarios()">
+      <span class="fa fa-check"></span>&nbsp;&nbsp;Actualizar </button>
+  </div>
+</ng-template>

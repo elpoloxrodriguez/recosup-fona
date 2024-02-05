@@ -41,7 +41,7 @@ export class PanelAsistenteVirtualComponent implements OnInit {
     id: 0
   }
 
-  public I_U_chatboot : RECOSUP_U_AsistenteVirtual = {
+  public I_U_chatboot: RECOSUP_U_AsistenteVirtual = {
     idio: '',
     tipo: '',
     clas: '',
@@ -88,7 +88,7 @@ export class PanelAsistenteVirtualComponent implements OnInit {
   }
 
   async ListaAsistenteVirtual() {
-    this.sectionBlockUI.start('Sin Inicializar !!!');
+    // this.sectionBlockUI.start('Cargando !!!');
     this.xAPI.funcion = "RECOSUP_R_Lista_ChatBot";
     this.xAPI.parametros = ''
     await this.apiService.Ejecutar(this.xAPI).subscribe(
@@ -97,7 +97,6 @@ export class PanelAsistenteVirtualComponent implements OnInit {
         data.Cuerpo.map(e => {
           this.DataListaAsistenteVirtual.push(e);
         })
-        // console.log(this.DataListaAsistenteVirtual)
         this.rowsAsistenteVirtual = this.DataListaAsistenteVirtual
         this.tempDataAsistenteVirtual = this.rowsAsistenteVirtual;
         // this.sectionBlockUI.stop();
@@ -192,7 +191,7 @@ export class PanelAsistenteVirtualComponent implements OnInit {
           this.ListaAsistenteVirtual()
           this.utilService.alertConfirmMini('success', 'Enseñanza Registrada Exitosamente')
           this.modalService.dismissAll('Close')
-          window.location.reload() 
+          window.location.reload()
         } else {
           this.utilService.alertConfirmMini('error', 'Lo sentimos algo salio mal, intente de nuevo')
         }
@@ -221,7 +220,7 @@ export class PanelAsistenteVirtualComponent implements OnInit {
           this.ListaAsistenteVirtual()
           this.utilService.alertConfirmMini('success', 'Enseñanza Actualizada Exitosamente')
           this.modalService.dismissAll('Close')
-          window.location.reload() 
+          window.location.reload()
         } else {
           this.utilService.alertConfirmMini('error', 'Lo sentimos algo salio mal, intente de nuevo')
         }
