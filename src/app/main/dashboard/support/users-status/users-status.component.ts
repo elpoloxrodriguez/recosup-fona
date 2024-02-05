@@ -78,13 +78,15 @@ export class UsersStatusComponent implements OnInit {
   //  Public
   public dataUser
 
+  public isLoading: number = 0;
+
   constructor(
     private apiService: ApiService,
     private modalService: NgbModal,
     private _formBuilder: FormBuilder,
     private utilService: UtilService,
     private _router: Router,
-    private utilservice : UtilService
+    private utilservice: UtilService
   ) {
     this._unsubscribeAll = new Subject();
   }
@@ -105,15 +107,20 @@ export class UsersStatusComponent implements OnInit {
     this.xAPI.parametros = '0';
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-        data.Cuerpo.map(e => {
-          // console.log(e);
-          e.TelefonoLocal = e.TelefonoLocal ? e.TelefonoLocal : 'N/A'
-          e.TelefonoCelular = e.TelefonoCelular ? e.TelefonoCelular : 'N/A'
-          e.Telefonos = e.TelefonoCelular  +' - '+ e.TelefonoLocal 
-          this.dataListUsers.push(e)
-        });
-        this.rowsUsuariosInactivos = this.dataListUsers;
-        this.tempDataUsuariosInactivos = this.rowsUsuariosInactivos;
+        if (data.Cuerpo.length > 0) {
+          data.Cuerpo.map(e => {
+            // console.log(e);
+            e.TelefonoLocal = e.TelefonoLocal ? e.TelefonoLocal : 'N/A'
+            e.TelefonoCelular = e.TelefonoCelular ? e.TelefonoCelular : 'N/A'
+            e.Telefonos = e.TelefonoCelular + ' - ' + e.TelefonoLocal
+            this.dataListUsers.push(e)
+          });
+          this.rowsUsuariosInactivos = this.dataListUsers;
+          this.tempDataUsuariosInactivos = this.rowsUsuariosInactivos;
+          this.isLoading = 1;
+        } else {
+          this.isLoading = 2;
+        }
       },
       (error) => {
         console.log(error)
@@ -132,33 +139,33 @@ export class UsersStatusComponent implements OnInit {
     });
   }
 
-  ChangePassword(){
+  ChangePassword() {
     let clave = this.resetPasswordForm.value.newPassword
     let usuario = this.dataUser
-    this.ChangePasswordUsers(usuario,clave)
+    this.ChangePasswordUsers(usuario, clave)
   }
 
-    
-    /**
-     * Toggle password
-     */
-    togglePasswordTextType() {
-      this.passwordTextType = !this.passwordTextType;
-    }
-  
-    /**
-     * Toggle confirm password
-     */
-    toggleConfPasswordTextType() {
-      this.confPasswordTextType = !this.confPasswordTextType;
-    }
+
+  /**
+   * Toggle password
+   */
+  togglePasswordTextType() {
+    this.passwordTextType = !this.passwordTextType;
+  }
+
+  /**
+   * Toggle confirm password
+   */
+  toggleConfPasswordTextType() {
+    this.confPasswordTextType = !this.confPasswordTextType;
+  }
 
 
-  async ChangePasswordUsers(usuario: any, clave: any){
-  
+  async ChangePasswordUsers(usuario: any, clave: any) {
+
     let datos = {
       usuario: usuario,
-      clave:  this.utilservice.md5(clave)
+      clave: this.utilservice.md5(clave)
     }
     this.xAPI.funcion = 'RECOSUP_U_PasswordUsers'
     this.xAPI.parametros = ''
@@ -178,7 +185,7 @@ export class UsersStatusComponent implements OnInit {
             toast.addEventListener('mouseleave', Swal.resumeTimer)
           }
         })
-        
+
         Toast.fire({
           icon: 'success',
           title: 'Contraseña actualizada exitosamente'
@@ -196,14 +203,14 @@ export class UsersStatusComponent implements OnInit {
             toast.addEventListener('mouseleave', Swal.resumeTimer)
           }
         })
-        
+
         Toast.fire({
           icon: 'error',
           title: error
         })
       }
     )
-    }
+  }
 
 
   filterUpdate(event) {
@@ -255,7 +262,7 @@ export class UsersStatusComponent implements OnInit {
             if (data.tipo === 1) {
               // this.dataListUsers = []
               // this.ListUsuarios()
-              this._router.navigate(['/support/users-status']).then(() => {window.location.reload()});
+              this._router.navigate(['/support/users-status']).then(() => { window.location.reload() });
               const Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',
@@ -318,7 +325,7 @@ export class UsersStatusComponent implements OnInit {
             if (data.tipo === 1) {
               // this.dataListUsers = []
               // this.ListUsuarios()
-              this._router.navigate(['/support/users-status']).then(() => {window.location.reload()});
+              this._router.navigate(['/support/users-status']).then(() => { window.location.reload() });
               const Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',

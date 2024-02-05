@@ -102,7 +102,6 @@ export class UsersStatusGlobalComponent implements OnInit {
   }
 
   async ListUsuarios() {
-    this.isLoading = 0;
     this.xAPI.funcion = "RECOSUP_R_UsuariosNoEmpresa";
     this.xAPI.parametros = '';
     this.xAPI.valores = {}
