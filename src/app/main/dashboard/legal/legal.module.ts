@@ -26,7 +26,9 @@ import { LegalRoutingModule } from './legal-routing.module';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+
+  ],
   imports: [
     CommonModule,
     LegalRoutingModule,

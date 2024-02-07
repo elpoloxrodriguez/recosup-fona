@@ -1,5 +1,5 @@
 <!--button-->
-<div id="chat-circle"  *ngIf="status">
+<div id="chat-circle" *ngIf="status">
     <!-- <div id="chat-overlay"></div> -->
     <!-- <img class="btn-whatsapp" (click)="chat_box()" src="assets/images/logos/logo-fonad.png" width="80%" height="80%" title="CHATBOT"> -->
     <a (click)="chat_box()" class="btn-whatsapp fondo-negro">
@@ -39,21 +39,23 @@
             <div class="chat-box-overlay">
             </div>
 
-            <div class="chat-logs" style="overflow: scroll; background-image: url('https://cdn.wallpapersafari.com/28/83/ls0Ajp.jpg'); height: 400px;">
+            <div class="chat-logs"
+                style="overflow: scroll; background-image: url('https://cdn.wallpapersafari.com/28/83/ls0Ajp.jpg'); height: 400px;">
                 <div id="cm-msg-0" style="padding: 1px;" class="chat-msg bot">
                     <span class="msg-avatar">
-                        <img class="chat-box-overlay_robot"  width="60px" src="assets/images/logos/logo-fona.png">
+                        <img class="chat-box-overlay_robot" width="60px" src="assets/images/logos/logo-fona.png">
                     </span>
                     <div class="cm-msg-text">
                         <!-- ¡Hola! Soy <strong>RECOSUP</strong>, ¿en qué puedo ayudarlo? -->
-                        <p class="maquina-escribir">¡Hola! Soy <strong>RECOSUP</strong>, ¿en qué puedo ayudarlo? <span class="cursor">|</span></p>
+                        <p class="">¡Hola! Soy <strong>RECOSUP</strong>, ¿en qué puedo ayudarlo? <span
+                                class="cursor">|</span></p>
                     </div>
                 </div>
 
                 <div class="" *ngFor="let item of client">
-                    <div  class="chat-msg bot">
+                    <div class="chat-msg bot">
                         <span class="msg-avatar-client">
-                            <img class="chat-box-overlay_robot"  width="60px" src="assets/images/avatar.png">
+                            <img class="chat-box-overlay_robot" width="60px" src="assets/images/avatar.png">
                         </span>
                         <div class="cm-msg-text-client">
                             {{ item.preg }}
@@ -63,10 +65,10 @@
                     <div class="chat-msg bot">
                         <br>
                         <span class="msg-avatar">
-                            <img class="chat-box-overlay_robot"  width="60px" src="assets/images/logos/logo-fona.png">
+                            <img class="chat-box-overlay_robot" width="60px" src="assets/images/logos/logo-fona.png">
                         </span>
                         <div class="cm-msg-text">
-                            <p class="maquina-escribir">{{ item.resp }}</p>
+                            <p class="">{{ item.resp }}</p>
                         </div>
                     </div>
                 </div>
@@ -89,11 +91,10 @@
     <div class="chat-input-box">
         <form class="chat-input__form" #formUsersRegister="ngForm">
             <input type="text" (click)="ChatMessages()" autocomplete="off" [(ngModel)]="msj"
-            [ngModelOptions]="{standalone: true}" required  class="chat-input__text"
-                #ChatBoot="ngModel"
-                  [class.error]="!ChatBoot.valid && formUsersRegister.submitted"
-                id="chat-input__text" placeholder="Preguntame..." />
-                <!-- <span *ngIf="formUsersRegister.submitted && ChatBoot.invalid" class="invalid-form">
+                [ngModelOptions]="{standalone: true}" required class="chat-input__text" #ChatBoot="ngModel"
+                [class.error]="!ChatBoot.valid && formUsersRegister.submitted" id="chat-input__text"
+                placeholder="Preguntame..." />
+            <!-- <span *ngIf="formUsersRegister.submitted && ChatBoot.invalid" class="invalid-form">
                     <small class="form-text text-danger" *ngIf="ChatBoot.errors.required"
                       >Mensaje es requerido!</small
                     >
@@ -102,6 +103,7 @@
                 <i class="fa fa-send-o"></i>
             </button>
         </form>
-        <p class="chat-box__sign"><a href="https://code-epic.com" target="_blank">Powered by Code-Epic Technologies</a></p>
+        <p class="chat-box__sign"><a href="https://code-epic.com" target="_blank">Powered by Code-Epic Technologies</a>
+        </p>
     </div>
 </div>

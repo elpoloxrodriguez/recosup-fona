@@ -200,6 +200,23 @@ export const menu: CoreMenu[] = [
   },
   // Juridico
   {
+    id: 'resources',
+    nombre: 'Recursos Jerarquicos',
+    title: 'Recursos Jerarquicos',
+    role: ['9', '2'],
+    type: 'collapsible',
+    icono: 'folder',
+    children: [
+      {
+        id: 'contribuyentes',
+        nombre: 'Recursos Jerarquicos',
+        type: 'item',
+        icono: 'circle',
+        url: 'legal/hierarchical-resources'
+      }
+    ]
+  },
+  {
     id: 'Juridicos',
     nombre: 'Juridico',
     title: 'Juridico',

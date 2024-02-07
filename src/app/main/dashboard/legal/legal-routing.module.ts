@@ -3,13 +3,20 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuardGuard } from '@core/services/seguridad/auth-guard.guard';
 import { AuthGuard } from 'app/auth/helpers';
 import { ContributingCompaniesComponent } from '../financial-collection/contributing-companies/contributing-companies.component';
+import { HierarchicalResourcesComponent } from './hierarchical-resources/hierarchical-resources.component';
 
 const routes: Routes = [
   {
     path: 'legal/contributing-companies',
     component: ContributingCompaniesComponent,
-    canActivate: [AuthGuard,AuthGuardGuard],
-    data: { roles: ['9','2'] },
+    canActivate: [AuthGuard, AuthGuardGuard],
+    data: { roles: ['9', '2'] },
+  },
+  {
+    path: 'legal/hierarchical-resources',
+    component: HierarchicalResourcesComponent,
+    canActivate: [AuthGuard, AuthGuardGuard],
+    data: { roles: ['9', '2'] },
   },
 ];
 
