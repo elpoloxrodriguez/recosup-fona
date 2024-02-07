@@ -154,7 +154,7 @@ export class TaxpayerPaymentsComponent implements OnInit {
 
 
   async ConciliarReporte() {
-    if (this.statusPago != null && this.observacionPago != null) {
+    if (this.statusPago != null) {
       this.xRECOSUP_U_PagarAportesConciliar.EmpresaGananciaId = this.IdPago
       this.xRECOSUP_U_PagarAportesConciliar.EstatusGeneralId = this.statusPago
       this.xRECOSUP_U_PagarAportesConciliar.Observacion = this.observacionPago
