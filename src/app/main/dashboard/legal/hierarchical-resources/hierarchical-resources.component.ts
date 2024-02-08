@@ -36,8 +36,14 @@ export class HierarchicalResourcesComponent implements OnInit {
     observacion: '',
     lapso_aprobatorio_fecha_desde: undefined,
     lapso_aprobatorio_fecha_hasta: undefined,
-    user_created: 0
+    user_created: 0,
+    lapso_aprobatorio: undefined
   }
+
+  public ListaLapsoAprobatorio = [
+    { id: 1, name: 'Aplica' },
+    { id: 0, name: 'No Aplica' }
+  ]
 
   public token: any
 
@@ -71,6 +77,8 @@ export class HierarchicalResourcesComponent implements OnInit {
 
   //  Public
   public dataUser
+
+  public show: boolean = true
 
   public ListaStastus = [
     { id: 1, name: 'Con Lugar' },
@@ -109,7 +117,7 @@ export class HierarchicalResourcesComponent implements OnInit {
           });
           this.rowsRecursosJerarquicos = this.dataListRecursosJerarquicos;
           this.tempDataRecursosJerarquicos = this.rowsRecursosJerarquicos;
-          console.log(this.rowsRecursosJerarquicos)
+          // console.log(this.rowsRecursosJerarquicos)
           this.isLoading = 1;
         } else {
           this.isLoading = 2;
@@ -121,6 +129,13 @@ export class HierarchicalResourcesComponent implements OnInit {
     )
   }
 
+  captureLapso(event: any) {
+    if (event == 1) {
+      this.show = false
+    } else {
+      this.show = true
+    }
+  }
 
   filterUpdate(event) {
     // Reset ng-select on search
@@ -133,6 +148,53 @@ export class HierarchicalResourcesComponent implements OnInit {
     this.rowsRecursosJerarquicos = temp;
     // Whenever The Filter Changes, Always Go Back To The First Page
     this.table.offset = 0;
+  }
+
+  async AgregarRecursosJerarquicos() {
+    this.IRecursoJerarquico.user_created = this.id_user
+    this.xAPI.funcion = "RECOSUP_C_Recurso_Jerarquico";
+    this.xAPI.parametros = '';
+    this.xAPI.valores = JSON.stringify(this.IRecursoJerarquico)
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        if (data.tipo == 1) {
+          this.dataListRecursosJerarquicos = []
+          this.rowsRecursosJerarquicos = []
+          this.ListRecursosJerarquicos()
+          this.Limpiar()
+          this.modalService.dismissAll()
+          this.utilService.alertConfirmMini('success', 'Recurso Jerarquico Registrado!')
+        } else {
+          this.utilService.alertConfirmMini('error', 'Oops algo salio mal!, Porfavor verifique e intente nuevamente.')
+        }
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+
+  async ModificarRecursosJerarquicos() {
+    this.xAPI.funcion = "RECOSUP_U_Recurso_Jerarquico";
+    this.xAPI.parametros = '';
+    this.xAPI.valores = JSON.stringify(this.IRecursoJerarquico)
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        if (data.tipo == 1) {
+          this.dataListRecursosJerarquicos = []
+          this.rowsRecursosJerarquicos = []
+          this.ListRecursosJerarquicos()
+          this.Limpiar()
+          this.modalService.dismissAll()
+          this.utilService.alertConfirmMini('success', 'Recurso Jerarquico Actualizado!')
+        } else {
+          this.utilService.alertConfirmMini('error', 'Oops algo salio mal!, Porfavor verifique e intente nuevamente.')
+        }
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
   }
 
 
@@ -151,7 +213,7 @@ export class HierarchicalResourcesComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.xAPI.funcion = 'RECOSUP_D_EliminarUsuarioRechazado'
+        this.xAPI.funcion = 'RECOSUP_D_RecursoJerarquico'
         this.xAPI.parametros = data.id_rj
         this.xAPI.valores = ''
         this.apiService.Ejecutar(this.xAPI).subscribe(
@@ -174,7 +236,7 @@ export class HierarchicalResourcesComponent implements OnInit {
               })
               Toast.fire({
                 icon: 'success',
-                title: 'Usuario Rechazado Exitosamente'
+                title: 'Recurso Jerarquico Eliminado!'
               })
             } else {
               this.utilService.alertConfirmMini('error', 'Oops algo salio mal!, Porfavor verifique e intente nuevamente.')
@@ -202,14 +264,17 @@ export class HierarchicalResourcesComponent implements OnInit {
   }
 
   ModalUpdateRJ(modal: any, row: any) {
+    this.IRecursoJerarquico.id_rj = row.id_rj
+    this.IRecursoJerarquico.user_created = this.id_user
     this.IRecursoJerarquico.nombre_empresa = row.nombre_empresa
     this.IRecursoJerarquico.rif = row.rif
     this.IRecursoJerarquico.nomenclatura = row.nombre_empresa
     this.IRecursoJerarquico.fecha_interposicion = row.fecha_interposicion
     this.IRecursoJerarquico.fecha_notificacion = row.fecha_notificacion
-    this.IRecursoJerarquico.status = row.status
+    this.IRecursoJerarquico.status = parseInt(row.status)
     this.IRecursoJerarquico.fecha_registro = row.fecha_registro
     this.IRecursoJerarquico.observacion = row.observacion
+    this.IRecursoJerarquico.lapso_aprobatorio = parseInt(row.lapso_aprobatorio)
     this.IRecursoJerarquico.lapso_aprobatorio_fecha_desde = row.lapso_aprobatorio_fecha_desde
     this.IRecursoJerarquico.lapso_aprobatorio_fecha_hasta = row.lapso_aprobatorio_fecha_hasta
     this.IRecursoJerarquico.user_created = this.id_user
@@ -223,6 +288,23 @@ export class HierarchicalResourcesComponent implements OnInit {
       keyboard: false,
       windowClass: 'fondo-modal',
     });
+  }
+
+  Limpiar() {
+    this.IRecursoJerarquico = {
+      nombre_empresa: '',
+      rif: '',
+      nomenclatura: '',
+      fecha_interposicion: undefined,
+      fecha_notificacion: undefined,
+      status: undefined,
+      fecha_registro: undefined,
+      observacion: '',
+      lapso_aprobatorio_fecha_desde: undefined,
+      lapso_aprobatorio_fecha_hasta: undefined,
+      user_created: 0,
+      lapso_aprobatorio: undefined
+    }
   }
 
   /**

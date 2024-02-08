@@ -173,9 +173,10 @@
                 <div class="form-group">
                     <label>Nomenclatura</label>
                     <input [(ngModel)]="IRecursoJerarquico.nomenclatura" [ngModelOptions]="{standalone: true}"
-                        type="text" placeholder="Ingrese Nomenclatura" class="form-control">
+                        type="text" placeholder="Nomenclatura Acta Fiscal y/o Resolución" class="form-control">
                 </div>
             </div>
+
             <div class="col-md-6 col-12 mb-1">
                 <div class="form-group">
                     <label>Fecha de Interposicion</label>
@@ -207,10 +208,29 @@
             <div class="col-md-6 col-12 mb-1">
                 <div class="form-group">
                     <label>
-                        Fecha de Registros
+                        Lapso Aprobatorio
                     </label>
-                    <input [(ngModel)]="IRecursoJerarquico.fecha_interposicion" [ngModelOptions]="{standalone: true}"
-                        type="date" class="form-control">
+                    <ng-select [items]="ListaLapsoAprobatorio" (ngModelChange)="captureLapso($event)"
+                        [(ngModel)]="IRecursoJerarquico.lapso_aprobatorio" [ngModelOptions]="{standalone: true}"
+                        placeholder="Seleccione" bindLabel="name" bindValue="id" required>
+                    </ng-select>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-12 mb-1" *ngIf="!show">
+                <div class="form-group">
+                    <label>Fecha Desde</label>
+                    <input [(ngModel)]="IRecursoJerarquico.lapso_aprobatorio_fecha_desde"
+                        [ngModelOptions]="{standalone: true}" type="date" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-6 col-12 mb-1" *ngIf="!show">
+                <div class="form-group">
+                    <label>
+                        Fecha Hasta
+                    </label>
+                    <input [(ngModel)]="IRecursoJerarquico.lapso_aprobatorio_fecha_hasta"
+                        [ngModelOptions]="{standalone: true}" type="date" class="form-control">
                 </div>
             </div>
 
@@ -224,25 +244,18 @@
                 </div>
             </div>
 
-            <div class="col-md-12 col-12 mb-1">
-                <div class="form-group">
-                    <label>
-                        Lapso Aprobatorio
-                    </label>
-                    <input type="text" class="form-control">
-                </div>
-            </div>
-
 
         </div>
 
     </div>
     <!--/ Invoice -->
     <div class="modal-footer">
-        <button type="button" *ngIf="!ShowBtn" class="btn btn-success" (click)="AgregarRJ()" rippleEffect>
+        <button type="button" *ngIf="!ShowBtn" class="btn btn-success" (click)="AgregarRecursosJerarquicos()"
+            rippleEffect>
             {{TitleBtn}}
         </button>
-        <button type="button" *ngIf="ShowBtn" class="btn btn-warning" (click)="UpdateRJ()" rippleEffect>
+        <button type="button" *ngIf="ShowBtn" class="btn btn-warning" (click)="ModificarRecursosJerarquicos()"
+            rippleEffect>
             {{TitleBtn}}
         </button>
         <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
