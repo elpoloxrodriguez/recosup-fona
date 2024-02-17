@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { RECOSUP_U_UsuariosStatus, RecursosJerarquicos } from '@core/services/empresa/empresa.service';
 import { UtilService } from '@core/services/util/util.service';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-hierarchical-resources',
@@ -59,7 +60,6 @@ export class HierarchicalResourcesComponent implements OnInit {
   public temp = [];
 
 
-
   public isLoading: number = 0;
 
   public searchValue = '';
@@ -89,10 +89,14 @@ export class HierarchicalResourcesComponent implements OnInit {
 
   public id_user
 
+  public formattedDate: string;
+  public fecha = new Date('2024-01-14')
+
   constructor(
     private apiService: ApiService,
     private modalService: NgbModal,
     private utilService: UtilService,
+    private datePipe: DatePipe
   ) {
     this._unsubscribeAll = new Subject();
   }
@@ -152,6 +156,9 @@ export class HierarchicalResourcesComponent implements OnInit {
 
   async AgregarRecursosJerarquicos() {
     this.IRecursoJerarquico.user_created = this.id_user
+    this.IRecursoJerarquico.lapso_aprobatorio_fecha_desde ? this.IRecursoJerarquico.lapso_aprobatorio_fecha_desde : '00-00-0000'
+    this.IRecursoJerarquico.lapso_aprobatorio_fecha_hasta ? this.IRecursoJerarquico.lapso_aprobatorio_fecha_hasta : '00-00-0000'
+
     this.xAPI.funcion = "RECOSUP_C_Recurso_Jerarquico";
     this.xAPI.parametros = '';
     this.xAPI.valores = JSON.stringify(this.IRecursoJerarquico)
@@ -268,7 +275,7 @@ export class HierarchicalResourcesComponent implements OnInit {
     this.IRecursoJerarquico.user_created = this.id_user
     this.IRecursoJerarquico.nombre_empresa = row.nombre_empresa
     this.IRecursoJerarquico.rif = row.rif
-    this.IRecursoJerarquico.nomenclatura = row.nombre_empresa
+    this.IRecursoJerarquico.nomenclatura = row.nomenclatura
     this.IRecursoJerarquico.fecha_interposicion = row.fecha_interposicion
     this.IRecursoJerarquico.fecha_notificacion = row.fecha_notificacion
     this.IRecursoJerarquico.status = parseInt(row.status)

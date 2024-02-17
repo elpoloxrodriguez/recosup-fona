@@ -213,7 +213,14 @@ export const menu: CoreMenu[] = [
         type: 'item',
         icono: 'circle',
         url: 'legal/hierarchical-resources'
-      }
+      },
+      {
+        id: 'Reportes',
+        nombre: 'Reportes',
+        type: 'item',
+        icono: 'circle',
+        url: 'legal/reports'
+      },
     ]
   },
   {

@@ -89,7 +89,7 @@ export class PanelAsistenteVirtualComponent implements OnInit {
 
   async ListaAsistenteVirtual() {
     // this.sectionBlockUI.start('Cargando !!!');
-    this.xAPI.funcion = "RECOSUP_R_Lista_ChatBot";
+    this.xAPI.funcion = "CHATBOOT_R_Lista_ChatBot";
     this.xAPI.parametros = ''
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
@@ -120,7 +120,7 @@ export class PanelAsistenteVirtualComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.xAPI.funcion = "RECOSUP_D_Lista_ChatBot";
+        this.xAPI.funcion = "CHATBOOT_D_Lista_ChatBot";
         this.xAPI.parametros = data.id
         this.xAPI.valores = ''
         this.apiService.Ejecutar(this.xAPI).subscribe(
@@ -179,7 +179,7 @@ export class PanelAsistenteVirtualComponent implements OnInit {
     this.chatboot.obse = ''
     this.chatboot.idio = '1.00'
     this.chatboot.id = 0
-    this.xAPI.funcion = 'RECOSUP_C_AsistenteVirtual'
+    this.xAPI.funcion = 'CHATBOOT_C_AsistenteVirtual'
     this.xAPI.parametros = ''
     this.xAPI.valores = JSON.stringify(this.chatboot)
     await this.apiService.Ejecutar(this.xAPI).subscribe(
@@ -209,7 +209,7 @@ export class PanelAsistenteVirtualComponent implements OnInit {
     this.chatboot.clas = ''
     this.chatboot.obse = ''
     this.chatboot.idio = '1.00'
-    this.xAPI.funcion = 'RECOSUP_U_AsistenteVirtual'
+    this.xAPI.funcion = 'CHATBOOT_U_AsistenteVirtual'
     this.xAPI.parametros = ''
     this.xAPI.valores = JSON.stringify(this.chatboot)
     await this.apiService.Ejecutar(this.xAPI).subscribe(

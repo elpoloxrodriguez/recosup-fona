@@ -14,6 +14,7 @@ export class FooterComponent implements OnInit {
   public currentDate: Date;
   public build
   public fechaX
+  public fechafinal
 
 
   constructor(
@@ -23,6 +24,7 @@ export class FooterComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentDate = new Date();
+    this.fechafinal = environment.buildDateTime
     this.fechaX = 'Build: ' + this.utilservice.FechaMoment(environment.buildDateTime)
     this.build = this.utilservice.FechaMomentL(environment.buildDateTime).replace(/\//g, '.')
     this.Version = VERSION.full

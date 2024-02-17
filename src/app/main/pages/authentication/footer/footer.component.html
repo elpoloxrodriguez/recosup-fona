@@ -22,7 +22,9 @@
         Telf: <a href="Tel:02122329541">0212-2329541 / 2697 / 5522 </a> Ext: 8270-8271
       </small>
       <br>
-      <small [title]="fechaX">Versión {{Version}} </small>
+      <small
+        title="Build: {{ fechafinal | date: 'fullDate':'':'es' }} a las {{ fechafinal | date: 'h:mm a':'':'es' }}">Versión
+        {{Version}} </small>
     </p>
   </div>
 </div>
