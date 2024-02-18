@@ -120,8 +120,9 @@
                                 </button>
                                 <div ngbDropdownMenu>
                                     <div>
-                                        <a ngbDropdownItem><span [data-feather]="'eye'" [size]="16"
-                                                [class]="'mr-50'"></span> Detalles</a>
+                                        <a (click)="ModalDetalle(ModalDetails,row)" ngbDropdownItem><span
+                                                [data-feather]="'eye'" [size]="16" [class]="'mr-50'"></span>
+                                            Detalles</a>
                                         <a (click)="ModalUpdateRJ(RecursoJerarquico,row)" ngbDropdownItem><span
                                                 [data-feather]="'edit'" [size]="16" [class]="'mr-50'"></span>
                                             Modificar</a>
@@ -261,5 +262,80 @@
         <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
             Cerrar
         </button>
+    </div>
+</ng-template>
+
+
+
+
+<ng-template #ModalDetails let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel160">Detalle de Recurso Jerarquico {{ IRecursoJerarquico.nombre_empresa
+            }}</h5>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+        <!-- Invoice -->
+        <div class="col-xl-12 col-md-12 col-12">
+            <!-- Header Starts -->
+            <div class="row">
+
+                <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0">
+                    <div>
+                        <div class="logo-wrapper">
+                            <h3 class="text-primary invoice-logo"> {{ IRecursoJerarquico.nombre_empresa }}</h3>
+                            <h5 class="text-primary invoice-logo"> {{ IRecursoJerarquico.rif }}</h5>
+                        </div>
+
+                        <strong>Status:</strong>
+                        <div *ngIf="IRecursoJerarquico.status == 1" class="badge badge-pill"
+                            ngClass="badge-light-success">
+                            Con Lugar
+                        </div>
+                        <div *ngIf="IRecursoJerarquico.status == 2" class="badge badge-pill"
+                            ngClass="badge-light-danger">
+                            Sin Lugar
+                        </div>
+                        <div *ngIf="IRecursoJerarquico.status == 3" class="badge badge-pill"
+                            ngClass="badge-light-warning">
+                            Parcialmente con Lugar
+                        </div>
+                        <div *ngIf="IRecursoJerarquico.status == 4" class="badge badge-pill"
+                            ngClass="badge-light-primary">
+                            En Evaluación
+                        </div>
+
+                        <p class="card-text mb-25"><strong>Nomenclatura:</strong> {{
+                            IRecursoJerarquico.nomenclatura }}</p>
+                        <p class="card-text mb-25"><strong>Fecha de Registro:</strong> {{
+                            IRecursoJerarquico.fecha_registro }}</p>
+                        <p class="card-text mb-25"><strong>Fecha de Interposicion:</strong> {{
+                            IRecursoJerarquico.fecha_interposicion }}</p>
+                        <p class="card-text mb-25"><strong>Fecha de Notificación:</strong> {{
+                            IRecursoJerarquico.fecha_notificacion }}</p>
+
+                        <div *ngIf="IRecursoJerarquico.lapso_aprobatorio == 1">
+                            <strong>Lapso Aprobatorio:</strong>
+                            <div class="badge badge-pill" ngClass="badge-light-warning">
+                                Aplica
+                            </div>
+
+                            <p class="card-text mb-25"><strong>Fecha Desde:</strong> {{
+                                IRecursoJerarquico.lapso_aprobatorio_fecha_desde }}</p>
+
+                            <p class="card-text mb-25"><strong>Fecha Hasta:</strong> {{
+                                IRecursoJerarquico.lapso_aprobatorio_fecha_hasta }}</p>
+                        </div>
+                        <p class="card-text mb-25"><strong>Observación:</strong> {{
+                            IRecursoJerarquico.observacion }}</p>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>Cerrar</button>
     </div>
 </ng-template>

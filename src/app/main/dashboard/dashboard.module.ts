@@ -66,7 +66,7 @@ import { HierarchicalResourcesComponent } from './legal/hierarchical-resources/h
     TaxpayersComponent,
     AdminEvaluationProjectComponent,
     MovementEvaluationComponent,
-    HierarchicalResourcesComponent
+    HierarchicalResourcesComponent,
   ],
   imports: [
     CommonModule,

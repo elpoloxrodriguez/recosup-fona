@@ -322,8 +322,8 @@ export interface RecursosJerarquicos {
 	fecha_registro: Date
 	observacion: string
 	lapso_aprobatorio: number
-	lapso_aprobatorio_fecha_desde: Date
-	lapso_aprobatorio_fecha_hasta: Date
+	lapso_aprobatorio_fecha_desde: string
+	lapso_aprobatorio_fecha_hasta: string
 	user_created: number
 }
 

@@ -27,7 +27,6 @@ import { LegalRoutingModule } from './legal-routing.module';
 
 @NgModule({
   declarations: [
-
   ],
   imports: [
     CommonModule,
@@ -46,7 +45,6 @@ import { LegalRoutingModule } from './legal-routing.module';
     CoreDirectivesModule,
     CorePipesModule,
     CoreSidebarModule,
-
   ]
 })
 export class LegalModule { }

@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
 
 
-import { NgxMaskModule, IConfig } from 'ngx-mask'
+// import { NgxMaskModule, IConfig } from 'ngx-mask'
 
 
 
@@ -29,14 +29,7 @@ import { CoreSidebarModule } from '@core/components';
 //  USer
 
 
-import { AuthGuardGuard } from '@core/services/seguridad/auth-guard.guard';
-import { ContributingCompaniesComponent } from './contributing-companies/contributing-companies.component';
-import { TaxpayerPaymentsComponent } from './taxpayer-payments/taxpayer-payments.component';
-import { GoalManagementComponent } from './goal-management/goal-management.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { GenerateFinesComponent } from './generate-fines/generate-fines.component';
-import { ReportsComponent } from './reports/reports.component';
-import { GenerateNonRegisteredFinesComponent } from './generate-non-registered-fines/generate-non-registered-fines.component';
 
 
 
@@ -44,7 +37,7 @@ import { GenerateNonRegisteredFinesComponent } from './generate-non-registered-f
   declarations: [
   ],
   imports: [
-    NgxMaskModule.forRoot(),
+    // NgxMaskModule.forRoot(),
     TranslateModule,
     CommonModule,
     RouterModule,

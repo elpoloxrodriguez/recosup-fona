@@ -61,6 +61,7 @@ import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSet
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
+import { LegalReportsComponent } from './main/dashboard/legal/legal-reports/legal-reports.component';
 
 registerLocaleData(localeEs);
 
@@ -84,6 +85,7 @@ const appRoutes: Routes = [
     ReportsComponent,
     ReportsProjectsComponent,
     GoalManagementComponent,
+    LegalReportsComponent
   ],
   imports: [
     BrowserModule,

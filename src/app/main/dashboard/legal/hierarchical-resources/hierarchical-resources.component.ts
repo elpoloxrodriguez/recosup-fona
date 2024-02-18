@@ -35,8 +35,8 @@ export class HierarchicalResourcesComponent implements OnInit {
     status: undefined,
     fecha_registro: undefined,
     observacion: '',
-    lapso_aprobatorio_fecha_desde: undefined,
-    lapso_aprobatorio_fecha_hasta: undefined,
+    lapso_aprobatorio_fecha_desde: '0000-00-00',
+    lapso_aprobatorio_fecha_hasta: '0000-00-00',
     user_created: 0,
     lapso_aprobatorio: undefined
   }
@@ -109,6 +109,31 @@ export class HierarchicalResourcesComponent implements OnInit {
 
   }
 
+
+  ModalDetalle(modal: any, row: any) {
+
+    this.IRecursoJerarquico.nombre_empresa = row.nombre_empresa
+    this.IRecursoJerarquico.rif = row.rif
+    this.IRecursoJerarquico.nomenclatura = row.nomenclatura
+    this.IRecursoJerarquico.fecha_interposicion = row.fecha_interposicion
+    this.IRecursoJerarquico.fecha_notificacion = row.fecha_notificacion
+    this.IRecursoJerarquico.status = row.status
+    this.IRecursoJerarquico.fecha_registro = row.fecha_registro
+    this.IRecursoJerarquico.observacion = row.observacion
+    this.IRecursoJerarquico.lapso_aprobatorio_fecha_desde = row.lapso_aprobatorio_fecha_desde
+    this.IRecursoJerarquico.lapso_aprobatorio_fecha_hasta = row.lapso_aprobatorio_fecha_hasta
+    this.IRecursoJerarquico.user_created = row.user_created
+    this.IRecursoJerarquico.lapso_aprobatorio = row.lapso_aprobatorio
+
+    this.modalService.open(modal, {
+      centered: true,
+      size: 'lg',
+      backdrop: false,
+      keyboard: false,
+      windowClass: 'fondo-modal',
+    });
+  }
+
   async ListRecursosJerarquicos() {
     this.xAPI.funcion = "RECOSUP_R_Recurso_Jerarquico";
     this.xAPI.parametros = '';
@@ -156,9 +181,6 @@ export class HierarchicalResourcesComponent implements OnInit {
 
   async AgregarRecursosJerarquicos() {
     this.IRecursoJerarquico.user_created = this.id_user
-    this.IRecursoJerarquico.lapso_aprobatorio_fecha_desde ? this.IRecursoJerarquico.lapso_aprobatorio_fecha_desde : '00-00-0000'
-    this.IRecursoJerarquico.lapso_aprobatorio_fecha_hasta ? this.IRecursoJerarquico.lapso_aprobatorio_fecha_hasta : '00-00-0000'
-
     this.xAPI.funcion = "RECOSUP_C_Recurso_Jerarquico";
     this.xAPI.parametros = '';
     this.xAPI.valores = JSON.stringify(this.IRecursoJerarquico)
