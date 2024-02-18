@@ -9,5 +9,5 @@ export const environment = {
   ID: 'ID-001',
   apiUrl: 'https://recosup.fona.gob.ve',
   Hash: ':c521f27fb1b3311d686d511b668e5bd4',
-  buildDateTime: 'Thu Feb 08 2024 13:41:03 GMT-0400 (Venezuela Time)',
+  buildDateTime: 'Sun Feb 18 2024 09:42:08 GMT-0400 (Venezuela Time)',
 };
