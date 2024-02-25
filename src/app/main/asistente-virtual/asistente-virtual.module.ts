@@ -31,7 +31,7 @@ const routes = [
   {
     path: 'virtual-assistant',
     component: PanelAsistenteVirtualComponent,
-    canActivate: [AuthGuard,AuthGuardGuard],
+    canActivate: [AuthGuard, AuthGuardGuard],
     data: { roles: ['9'] },
   },
 ]

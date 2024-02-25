@@ -33,83 +33,108 @@ export class ReportsProjectsComponent implements OnInit {
     { id: 3, name: 'Movimientos de Evaluaciones' },
   ]
 
+  public showItem: boolean = false
+
+  public years: number[];
+
+  public itemYears
+
   constructor(
     private excelservice: ExcelService,
     private apiService: ApiService,
     private utilservice: UtilService
-  ) {}
-
-  
-  ngOnInit(): void {
-   
+  ) {
+    const currentYear = new Date().getFullYear();
+    this.years = [];
+    for (let i = 2023; i <= currentYear; i++) {
+      this.years.push(i);
+    }
   }
-  
+
+
+  ngOnInit(): void {
+
+  }
+
 
   async ReportEmpresasAprobadas(id: any) {
-    switch (id) {
-      case 1:
-        this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
-        this.xAPI.funcion = "RECOSUP_R_ReporteProyecto1";
-        this.xAPI.parametros = '1'
-        this.xAPI.valores = ''
-        await this.apiService.Ejecutar(this.xAPI).subscribe(
-          (data) => {
-            data.Cuerpo.map(e => {
-              this.ListProyectosAprobadas.push(e);
-            });
-            this.exportAsXLSX(this.ListProyectosAprobadas, 'Proyectos Aprobadas')
-            this.utilservice.alertConfirmMini('success', 'Archivo Descagado Exitosamente!')
-            this.ListProyectosAprobadas = []
-            this.sectionBlockUI.stop();
-          },
-          (error) => {
-            console.log(error)
-          }
-        )
-        break;
-      case 2:
-        this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
-        this.xAPI.funcion = "RECOSUP_R_ReporteProyecto1";
-        this.xAPI.parametros = '2'
-        this.xAPI.valores = ''
-        await this.apiService.Ejecutar(this.xAPI).subscribe(
-          (data) => {
-            data.Cuerpo.map(e => {
-              this.ListProyectosRechazados.push(e);
-            });
-            this.exportAsXLSX(this.ListProyectosRechazados, 'Proyectos Rechazados')
-            this.utilservice.alertConfirmMini('success', 'Archivo Descagado Exitosamente!')
-            this.ListProyectosRechazados = []
-            this.sectionBlockUI.stop();
-          },
-          (error) => {
-            console.log(error)
-          }
-        )
-        break;
-      case 3:
-        this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
-        this.xAPI.funcion = "RECOSUP_R_ReporteProyecto2";
-        this.xAPI.parametros = '2023'
-        this.xAPI.valores = ''
-        await this.apiService.Ejecutar(this.xAPI).subscribe(
-          (data) => {
-            data.Cuerpo.map(e => {
-              this.ListMovimientosEvaluacion.push(e);
-            });
-            this.exportAsXLSX(this.ListMovimientosEvaluacion, 'Movimientos Evalacion')
-            this.utilservice.alertConfirmMini('success', 'Archivo Descagado Exitosamente!')
-            this.ListMovimientosEvaluacion = []
-            this.sectionBlockUI.stop();
-          },
-          (error) => {
-            console.log(error)
-          }
-        )
-        break;
-      default:
-        this.statusEmpresa = undefined
-        break;
+    if (id != null) {
+      switch (id) {
+        case 1:
+          this.showItem = false
+          this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
+          this.xAPI.funcion = "RECOSUP_R_ReporteProyecto1";
+          this.xAPI.parametros = '1'
+          this.xAPI.valores = ''
+          await this.apiService.Ejecutar(this.xAPI).subscribe(
+            (data) => {
+              data.Cuerpo.map(e => {
+                this.ListProyectosAprobadas.push(e);
+              });
+              this.exportAsXLSX(this.ListProyectosAprobadas, 'Proyectos Aprobadas')
+              this.utilservice.alertConfirmMini('success', 'Archivo Descagado Exitosamente!')
+              this.ListProyectosAprobadas = []
+              this.sectionBlockUI.stop();
+            },
+            (error) => {
+              console.log(error)
+            }
+          )
+          break;
+        case 2:
+          this.showItem = false
+          this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
+          this.xAPI.funcion = "RECOSUP_R_ReporteProyecto1";
+          this.xAPI.parametros = '2'
+          this.xAPI.valores = ''
+          await this.apiService.Ejecutar(this.xAPI).subscribe(
+            (data) => {
+              data.Cuerpo.map(e => {
+                this.ListProyectosRechazados.push(e);
+              });
+              this.exportAsXLSX(this.ListProyectosRechazados, 'Proyectos Rechazados')
+              this.utilservice.alertConfirmMini('success', 'Archivo Descagado Exitosamente!')
+              this.ListProyectosRechazados = []
+              this.sectionBlockUI.stop();
+            },
+            (error) => {
+              console.log(error)
+            }
+          )
+          break;
+        case 3:
+          this.showItem = true
+          break;
+        default:
+          this.statusEmpresa = undefined
+          break;
+      }
+    }
+  }
+
+
+  async reporte3(anio: any) {
+    if (anio != undefined) {
+      this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
+      this.xAPI.funcion = "RECOSUP_R_ReporteProyecto2";
+      this.xAPI.parametros = `${anio}`
+      this.xAPI.valores = ''
+      await this.apiService.Ejecutar(this.xAPI).subscribe(
+        (data) => {
+          data.Cuerpo.map(e => {
+            this.ListMovimientosEvaluacion.push(e);
+          });
+          this.exportAsXLSX(this.ListMovimientosEvaluacion, 'Movimientos Evalacion')
+          this.utilservice.alertConfirmMini('success', 'Archivo Descagado Exitosamente!')
+          this.ListMovimientosEvaluacion = []
+          this.sectionBlockUI.stop();
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+    } else {
+      this.utilservice.alertConfirmMini('warning', 'Debe seleccionar el año!')
     }
   }
 

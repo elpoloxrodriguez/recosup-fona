@@ -1,79 +1,76 @@
+<div class="auth-wrapper auth-v2">
+  <div class="auth-inner row m-0">
 
-  <div class="auth-wrapper auth-v2">
-    <div class="auth-inner row m-0">
-
-      <div 
-      class="misc-inner d-none d-lg-flex col-lg-6 align-items-center p-5"
-      style='width:100%;
+    <div class="misc-inner d-none d-lg-flex col-lg-6 align-items-center p-5" style='width:100%;
       height:100%;
       background-image: url("assets/images/background/background.jpeg");
       background-repeat:no-repeat;
       background-size:cover;
-      background-position:center center;'
-      >
+      background-position:center center;'>
       <app-certificates class="w-100 text-center"></app-certificates>
     </div>
-      <!-- /Left Text-->
-      <!-- Login-->
-      <div class="d-flex col-lg-6 align-items-center auth-bg px-2 p-lg-5">
-        <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
-          <!-- <a class="brand-logo" href="/" align="center"> -->
-            <h1 class="card-title font-weight-bold mb-1 text-primary" align="center">
-              <img src="{{ coreConfig.app.appLogoImage }}" alt="brand-logo" height="28" />
-              <strong>{{ coreConfig.app.appName }}</strong></h1>
-          <!-- </a> -->
-          <p class="card-text mb-2" align="center">Sistema de Registro y Control de Sujetos Pasivos</p>
+    <!-- /Left Text-->
+    <!-- Login-->
+    <div class="d-flex col-lg-6 align-items-center auth-bg px-2 p-lg-5">
+      <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
+        <!-- <a class="brand-logo" href="/" align="center"> -->
+        <h1 class="card-title font-weight-bold mb-1 text-primary" align="center">
+          <img src="{{ coreConfig.app.appLogoImage }}" alt="brand-logo" height="28" />
+          <strong>{{ coreConfig.app.appName }}</strong>
+        </h1>
+        <!-- </a> -->
+        <p class="card-text mb-2" align="center">Sistema de Registro y Control de Sujetos Pasivos</p>
 
-          <ngb-alert [type]="'danger'" [dismissible]="false" *ngIf="error">
-            <div class="alert-body">
-              <p>{{ error }}</p>
-            </div>
-          </ngb-alert>
+        <ngb-alert [type]="'danger'" [dismissible]="false" *ngIf="error">
+          <div class="alert-body">
+            <p>{{ error }}</p>
+          </div>
+        </ngb-alert>
 
-          <form class="auth-login-form mt-2" [formGroup]="loginForm" (ngSubmit)="login()">
-            <!-- <form #form="ngForm"> -->
-            <div class="form-group">
-              <label class="form-label" for="login-email">Usuario</label>
-              <input type="text" [(ngModel)]="usuario" [ngModelOptions]="{standalone: true, required: true}"
-                class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
-                placeholder="Nombre de Usuario" aria-describedby="login-email" autofocus="" tabindex="1"
-                autocomplete="false" />
-              <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                <div *ngIf="f.email.errors.required">Usuario es requerido</div>
-                <!-- <div *ngIf="f.email.errors.email">Email must be a valid email address</div> -->
-              </div>
+        <form class="auth-login-form mt-2" [formGroup]="loginForm" (ngSubmit)="login()">
+          <!-- <form #form="ngForm"> -->
+          <div class="form-group">
+            <label class="form-label" for="login-email">Usuario</label>
+            <input type="text" [(ngModel)]="usuario" [ngModelOptions]="{standalone: true, required: true}"
+              class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+              placeholder="Nombre de Usuario" aria-describedby="login-email" autofocus="" tabindex="1"
+              autocomplete="false" />
+            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+              <div *ngIf="f.email.errors.required">Usuario es requerido</div>
+              <!-- <div *ngIf="f.email.errors.email">Email must be a valid email address</div> -->
             </div>
-            <div class="form-group">
-              <div class="d-flex justify-content-between">
-                <label for="login-password">Contraseña</label><a
-                  routerLink="/forgot-password"><small>Recuperar Contraseña?</small></a>
-              </div>
-              <div class="input-group input-group-merge form-password-toggle">
-                <input [type]="passwordTextType ? 'text' : 'password'" [(ngModel)]="clave"
-                  [ngModelOptions]="{standalone: true, required: true}" class="form-control form-control-merge"
-                  [ngClass]="{ 'is-invalid error': submitted && f.password.errors }" placeholder="············"
-                  aria-describedby="login-password" tabindex="2" autocomplete="false" />
-                <div class="input-group-append">
-                  <span class="input-group-text cursor-pointer"><i class="feather font-small-4" [ngClass]="{
+          </div>
+          <div class="form-group">
+            <div class="d-flex justify-content-between">
+              <label for="login-password">Contraseña</label><a routerLink="/forgot-password"><small>Recuperar
+                  Contraseña?</small></a>
+            </div>
+            <div class="input-group input-group-merge form-password-toggle">
+              <input [type]="passwordTextType ? 'text' : 'password'" [(ngModel)]="clave"
+                [ngModelOptions]="{standalone: true, required: true}" class="form-control form-control-merge"
+                [ngClass]="{ 'is-invalid error': submitted && f.password.errors }" placeholder="············"
+                aria-describedby="login-password" tabindex="2" autocomplete="false" />
+              <div class="input-group-append">
+                <span class="input-group-text cursor-pointer"><i class="feather font-small-4" [ngClass]="{
                       'icon-eye-off': passwordTextType,
                       'icon-eye': !passwordTextType
                     }" (click)="togglePasswordTextType()"></i></span>
-                </div>
-              </div>
-              <div *ngIf="submitted && f.password.errors" class="invalid-feedback"
-                [ngClass]="{ 'd-block': submitted && f.password.errors }">
-                <div *ngIf="f.password.errors.required">Contraseña es requerida</div>
               </div>
             </div>
-
-            <div class="form-group">
-              <div class="custom-control custom-checkbox">
-                <input class="custom-control-input" id="remember-me" type="checkbox" tabindex="3" />
-                <label class="custom-control-label" for="remember-me"> Recuérdame</label>
-              </div>
+            <div *ngIf="submitted && f.password.errors" class="invalid-feedback"
+              [ngClass]="{ 'd-block': submitted && f.password.errors }">
+              <div *ngIf="f.password.errors.required">Contraseña es requerida</div>
             </div>
+          </div>
 
-            <!-- <div class="form-group" align="center">
+          <div class="form-group">
+            <div class="custom-control custom-checkbox">
+              <input class="custom-control-input" id="remember-me" type="checkbox" tabindex="3" />
+              <label class="custom-control-label" for="remember-me"> Recuérdame</label>
+            </div>
+          </div>
+
+          <!-- <div class="form-group" align="center">
                 <div class="row mt-3">
                   <div class="col-sm-12 mb-2">
                     <re-captcha id="recaptcha" name="recaptcha" #recaptcha="ngModel" [(ngModel)]="token" required [class.is-invalid]="recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)"></re-captcha>
@@ -84,24 +81,24 @@
                 </div>
               </div> -->
 
-            <!-- <button [disabled]="loading" class="btn btn-primary btn-block" tabindex="4" rippleEffect>
+          <!-- <button [disabled]="loading" class="btn btn-primary btn-block" tabindex="4" rippleEffect>
               <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>Iniciar Sesión
             </button> -->
-            <button [disabled]="loading"  (click)="login()" class="btn btn-primary btn-block" tabindex="4" rippleEffect>
-              <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>Iniciar Sesión
-            </button>
-            <!-- <button [disabled]="loading" (click)="send(form)" class="btn btn-primary btn-block"
+          <button [disabled]="loading" (click)="login()" class="btn btn-primary btn-block" tabindex="4" rippleEffect>
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>Iniciar Sesión
+          </button>
+          <!-- <button [disabled]="loading" (click)="send(form)" class="btn btn-primary btn-block"
             tabindex="4" rippleEffect>
             <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>Iniciar Sesión
           </button> -->
-          </form>
-          <p class="text-center mt-2">
-        <a class="btn btn-warning btn-block" routerLink="/register-taxpayer"><span>&nbsp;Crear nueva cuenta</span></a>
+        </form>
+        <p class="text-center mt-2">
+          <a class="btn btn-warning btn-block" routerLink="/register-taxpayer"><span>&nbsp;Crear nueva cuenta</span></a>
         </p>
         <app-asistente-virtual></app-asistente-virtual>
         <app-footer></app-footer>
       </div>
     </div>
-      <!-- /Login-->
-    </div>
+    <!-- /Login-->
   </div>
+</div>

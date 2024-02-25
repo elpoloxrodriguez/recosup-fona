@@ -72,16 +72,16 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-                          CertificatesComponent,
-                          AuthLoginV2Component,
-                          AuthRegisterV2Component,
-                          AuthResetPasswordV2Component,
-                          AuthForgotPasswordV2Component,
-                          LoginInternalComponent,
-                          AuthRegisterUsersComponent,
-                          FooterComponent,
-                          AsistenteVirtualComponent
-],
+    CertificatesComponent,
+    AuthLoginV2Component,
+    AuthRegisterV2Component,
+    AuthResetPasswordV2Component,
+    AuthForgotPasswordV2Component,
+    LoginInternalComponent,
+    AuthRegisterUsersComponent,
+    FooterComponent,
+    AsistenteVirtualComponent
+  ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -93,17 +93,18 @@ const routes: Routes = [
     ContentHeaderModule,
     CardSnippetModule,
     // NgxMaskModule.forRoot(),
-            //  Recaptcha V3
-            RecaptchaV3Module,
-            //  Recaptcha V2
-            RecaptchaFormsModule,
-            RecaptchaModule,
+    //  Recaptcha V3
+    RecaptchaV3Module,
+    //  Recaptcha V2
+    RecaptchaFormsModule,
+    RecaptchaModule,
   ],
   providers: [
     //  Recaptcha V3
-    { provide: RECAPTCHA_V3_SITE_KEY, useValue: environment.recaptcha.siteKey},
+    { provide: RECAPTCHA_V3_SITE_KEY, useValue: environment.recaptcha.siteKey },
     // Recaptcha V2
-    { provide: RECAPTCHA_SETTINGS,
+    {
+      provide: RECAPTCHA_SETTINGS,
       useValue: {
         siteKey: environment.recaptcha.siteKey,
       } as RecaptchaSettings,
@@ -111,4 +112,4 @@ const routes: Routes = [
     // Fin de Recaptcha
   ],
 })
-export class AuthenticationModule {}
+export class AuthenticationModule { }

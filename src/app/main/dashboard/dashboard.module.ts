@@ -39,6 +39,7 @@ import { AdminEvaluationProjectComponent } from './projects/admin-evaluation-pro
 import { MovementEvaluationComponent } from './projects/movement-evaluation/movement-evaluation.component';
 import { UsersStatusGlobalComponent } from './support/users-status-global/users-status-global.component';
 import { HierarchicalResourcesComponent } from './legal/hierarchical-resources/hierarchical-resources.component';
+import { AsistenteVirtualComponent } from '../asistente-virtual/asistente-virtual/asistente-virtual.component';
 
 
 

@@ -42,13 +42,13 @@ export class AsistenteVirtualComponent implements OnInit {
   }
 
 
-   ChatBot() {
+  ChatBot() {
     this.msjAux = this.msj
     this.msj = ''
     this.hidden = true
     this.xAPI.funcion = 'ChatBot'
     this.xAPI.parametros = this.msjAux
-     this.apiService.EjecutarDev(this.xAPI).
+    this.apiService.EjecutarDev(this.xAPI).
       subscribe(
         (data: any) => {
           if (data.Cuerpo.length > 0) {
@@ -70,20 +70,20 @@ export class AsistenteVirtualComponent implements OnInit {
   }
 
 
-  chat_box(){
+  chat_box() {
     this.client = []
     this.msj = ''
     this.status = false
-     this.MostrarChat = true
-     this.ChatWelcome = true
+    this.MostrarChat = true
+    this.ChatWelcome = true
   }
 
-  ChatMessages(){
+  ChatMessages() {
     this.ChatWelcome = false
     this.ChatMessage = true
   }
 
-  hideChat(){
+  hideChat() {
     this.client = []
     this.msj = ''
     this.MostrarChat = false

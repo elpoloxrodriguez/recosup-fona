@@ -62,6 +62,7 @@ import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { LegalReportsComponent } from './main/dashboard/legal/legal-reports/legal-reports.component';
+import { AsistenteVirtualModule } from './main/asistente-virtual/asistente-virtual.module';
 
 registerLocaleData(localeEs);
 
@@ -85,7 +86,7 @@ const appRoutes: Routes = [
     ReportsComponent,
     ReportsProjectsComponent,
     GoalManagementComponent,
-    LegalReportsComponent
+    LegalReportsComponent,
   ],
   imports: [
     BrowserModule,

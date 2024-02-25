@@ -1,23 +1,33 @@
 <div class="card content-wrapper container-xxl p-0" *blockUI="'section-block'">
-    <div class="card-body">
+  <div class="card-body">
 
-        <div class="col-12">
-            <div class="form-group">
-              <label for="basicInput">Seleccione Reporte</label>
-              <ng-select
-              [items]="ListReport"
-              placeholder="Seleccione Reporte"
-              bindLabel="name"
-              bindValue="id"
-              [(ngModel)]="itemReports"
-              [ngModelOptions]="{standalone: true}"
-              (ngModelChange)="ReportEmpresasAprobadas($event)"
-              required
-              >
-            </ng-select>
-            </div>
-          </div>
-          
+    <div class="col-md-12 col-12">
+      <div class="form-group">
+        <label for="basicInput">Seleccione Reporte</label>
+        <ng-select [items]="ListReport" placeholder="Seleccione Reporte" bindLabel="name" bindValue="id"
+          [(ngModel)]="itemReports" [ngModelOptions]="{standalone: true}"
+          (ngModelChange)="ReportEmpresasAprobadas($event)" required>
+        </ng-select>
+      </div>
+    </div>
+
+    <div class="col-md-12 col-12" *ngIf="showItem">
+      <div class="form-group">
+        <label for="basicInput">Seleccione Año</label>
+        <ng-select [items]="years" placeholder="Seleccione Año" bindLabel="name" bindValue="id" [(ngModel)]="itemYears"
+          [ngModelOptions]="{standalone: true}" required>
+        </ng-select>
+      </div>
+    </div>
+
+    <div class="col-md-12 col-12" *ngIf="showItem">
+      <div class="form-group">
+        <button type="submit" (click)="reporte3(itemYears)" rippleEffect class="btn btn-success mr-1">Generar
+          Reporte</button>
+      </div>
+    </div>
+
+
 
   </div>
-  </div>
+</div>

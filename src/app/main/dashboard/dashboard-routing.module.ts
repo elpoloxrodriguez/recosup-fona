@@ -22,6 +22,7 @@ import { InspectionRoutingModule } from './inspection/inspection-routing.module'
 import { UserRoutingModule } from './user/user-routing.module'
 import { AuditModule } from '../audit/audit.module'
 import { AsistenteVirtualModule } from '../asistente-virtual/asistente-virtual.module'
+import { AsistenteVirtualComponent } from '../asistente-virtual/asistente-virtual/asistente-virtual.component'
 
 const routes: Routes = [
   {
@@ -38,7 +39,9 @@ const routes: Routes = [
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+
+  ],
   imports: [
     RouterModule.forChild(routes),
     TaxpayerRecordRoutingModule,
@@ -47,6 +50,7 @@ const routes: Routes = [
     ReportsAlertsRoutingModule,
     SupportRoutingModule,
     LegalRoutingModule,
+    AsistenteVirtualModule,
     InspectionRoutingModule,
     CommonModule,
     CoreCommonModule,
@@ -56,8 +60,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     TranslateModule,
     UserRoutingModule,
-    AuditModule,
-    AsistenteVirtualModule
+    AuditModule
   ],
   exports: [RouterModule]
 })
