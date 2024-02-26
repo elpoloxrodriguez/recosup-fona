@@ -24,18 +24,18 @@ import { ConvertNumberService } from '@core/services/util/convert-number.service
   selector: 'app-company-projects-recosup',
   templateUrl: './company-projects-recosup.component.html',
   styleUrls: ['./company-projects-recosup.component.scss'],
-  encapsulation : ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None,
   providers: [I18n, { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n }, NgbModalConfig, NgbModal] // define custom NgbDatepickerI18n provider
 })
 export class CompanyProjectsRecosupComponent implements OnInit {
 
-  public xAPI : IAPICore = {
+  public xAPI: IAPICore = {
     funcion: '',
     parametros: '',
-    valores : {},
+    valores: {},
   };
 
-  public IUpdateProjects : RECOSUP_U_ProyectosUpdate = {
+  public IUpdateProjects: RECOSUP_U_ProyectosUpdate = {
     id_empresa: 0,
     id_analista: 0,
     status_proyecto: 0,
@@ -57,7 +57,7 @@ export class CompanyProjectsRecosupComponent implements OnInit {
     observacion: ''
   }
 
-  public CrearProyecto : IRECOSUP_C_Proyectos = {
+  public CrearProyecto: IRECOSUP_C_Proyectos = {
     id_empresa: 0,
     id_analista: 0,
     status_proyecto: 0,
@@ -72,15 +72,15 @@ export class CompanyProjectsRecosupComponent implements OnInit {
     UsuarioModifico: 0
   }
 
-public añoActual = new Date()
-public DatepickerYear = this.añoActual.getFullYear()
-public DatepickerMonth = this.añoActual.getMonth()
+  public añoActual = new Date()
+  public DatepickerYear = this.añoActual.getFullYear()
+  public DatepickerMonth = this.añoActual.getMonth()
 
-public SelectStatus = [
-  { id:'0', name:'En Revisión'},
-  { id:'1', name:'Aprobado'},
-  { id:'2', name:'Rechazado'},
-]
+  public SelectStatus = [
+    { id: '0', name: 'En Revisión' },
+    { id: '1', name: 'Aprobado' },
+    { id: '2', name: 'Rechazado' },
+  ]
   public rowsProyectos = []
   public MisProjects = [];
 
@@ -90,91 +90,91 @@ public SelectStatus = [
 
   public color
 
-// Fecha Actual
-public fechaActual = new Date();
+  // Fecha Actual
+  public fechaActual = new Date();
 
   public IdEmpresa
-    // public
-    public data: any;
-    public selectedOption = 10;
-    public ColumnMode = ColumnMode;
-  
-    public searchValue = '';
-  
-    public ButtonShow = false;
+  // public
+  public data: any;
+  public selectedOption = 10;
+  public ColumnMode = ColumnMode;
 
-    public Details = {
-      id_empresa: 0,
-      id_analista: 0,
-      status_proyecto: 0,
-      nombre_proyecto: '',
-      ambito_nombre: '',
-      area_proyecto: '',
-      estado: '',
-      municipio: '',
-      parroquia: '',
-      fecha_proyecto: '',
-      monto_inversion: '',
-      beneficiario_directos: '',
-      beneficiario_indirectos: '',
-      direccion: '',
-      tiempo_ejecucion_desde: '',
-      tiempo_ejecucion_hasta: '',
-      UsuarioCreo: 0,
-      UsuarioModifico: 0
-    }
-  
-    // decorator
-    @ViewChild(DatatableComponent) table: DatatableComponent;
-  
-    // private
-    private tempData = [];
-    private _unsubscribeAll: Subject<any>;
-    public rows;
-    public tempFilterData;
-    public previousStatusFilter = '';
+  public searchValue = '';
 
-    private tempDataMisProjects = [];
+  public ButtonShow = false;
 
-    private tempDataDetalleAporte = []
-    public rowsDataDetalleAporte= []
+  public Details = {
+    id_empresa: 0,
+    id_analista: 0,
+    status_proyecto: 0,
+    nombre_proyecto: '',
+    ambito_nombre: '',
+    area_proyecto: '',
+    estado: '',
+    municipio: '',
+    parroquia: '',
+    fecha_proyecto: '',
+    monto_inversion: '',
+    beneficiario_directos: '',
+    beneficiario_indirectos: '',
+    direccion: '',
+    tiempo_ejecucion_desde: '',
+    tiempo_ejecucion_hasta: '',
+    UsuarioCreo: 0,
+    UsuarioModifico: 0
+  }
+
+  // decorator
+  @ViewChild(DatatableComponent) table: DatatableComponent;
+
+  // private
+  private tempData = [];
+  private _unsubscribeAll: Subject<any>;
+  public rows;
+  public tempFilterData;
+  public previousStatusFilter = '';
+
+  private tempDataMisProjects = [];
+
+  private tempDataDetalleAporte = []
+  public rowsDataDetalleAporte = []
 
   public loginForm: FormGroup;
 
 
-    public Estados = []
-    public Municipios = [] 
-    public Parroquias = [] 
-    public Ambito = []
-    public Area = []
+  public Estados = []
+  public Municipios = []
+  public Parroquias = []
+  public Ambito = []
+  public Area = []
 
-    public titleModal
+  public titleModal
 
-    public fecha_proyecto
-    public tiempo_ejecucion_desde
-    public tiempo_ejecucion_hasta
+  public fecha_proyecto
+  public tiempo_ejecucion_desde
+  public tiempo_ejecucion_hasta
 
 
-    public InputFinanciamiento = false
-    public BtnShow = true
-    public BtnHidden = false
+  public InputFinanciamiento = false
+  public BtnShow = true
+  public BtnHidden = false
 
-    public InputProyetoLaboral = false
+  public InputProyetoLaboral = false
 
-    public selectEstados
-    public selectMunicipios
-    public selectParroquias
+  public selectEstados
+  public selectMunicipios
+  public selectParroquias
 
-    public MunicipioSeleccionado
-    public EstadoSeleccionado
+  public MunicipioSeleccionado
+  public EstadoSeleccionado
 
-    public dataEmpresaID = []
+  public dataEmpresaID = []
 
   constructor(
-    private utilService : UtilService,
+    private utilService: UtilService,
     private _router: Router,
     private datePipe: DatePipe,
-    private apiService : ApiService,
+    private apiService: ApiService,
     private modalService: NgbModal,
     private pdf: PdfService,
     private _route: ActivatedRoute,
@@ -185,13 +185,13 @@ public fechaActual = new Date();
   }
 
 
-    // Lifecycle Hooks
+  // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
   /**
    * On init
    */
-   async ngOnInit()  {
-    this.token =  jwt_decode(sessionStorage.getItem('token'))
+  async ngOnInit() {
+    this.token = jwt_decode(sessionStorage.getItem('token'))
     this.IdEmpresa = this.token.Usuario[0].EmpresaId
     this.IdUser = this.token.Usuario[0].UsuarioId
     if (this.IdEmpresa != null) {
@@ -199,16 +199,16 @@ public fechaActual = new Date();
     } else {
       this.ButtonShow = true
     }
-      await this.MisProyectos()
-      await this.SelectAmbito()
-      await this.SelectArea()
-      await this.ListaEstados()
+    await this.MisProyectos()
+    await this.SelectAmbito()
+    await this.SelectArea()
+    await this.ListaEstados()
 
-   }
+  }
   // Public Methods
   // -----------------------------------------------------------------------------------------------------
 
-  SelectAmbitosEvent(event){
+  SelectAmbitosEvent(event) {
     // console.log(event)
     if (event === '2') {
       this.InputProyetoLaboral = true
@@ -222,16 +222,16 @@ public fechaActual = new Date();
     }
   }
 
-  async onSubmit(){
-    this.CrearProyecto.estado =  this.CrearProyecto.estado.Codigo
+  async onSubmit() {
+    this.CrearProyecto.estado = this.CrearProyecto.estado.Codigo
     this.CrearProyecto.municipio = this.CrearProyecto.municipio.Codigo
     this.CrearProyecto.id_empresa = this.IdEmpresa
-    this.CrearProyecto.UsuarioCreo =  this.token.Usuario[0].UsuarioId
-    this.CrearProyecto.fecha_proyecto =  this.fecha_proyecto.year+'-'+this.fecha_proyecto.month+'-'+this.fecha_proyecto.day,
-    this.CrearProyecto.tiempo_ejecucion_desde = this.tiempo_ejecucion_desde.year+'-'+this.tiempo_ejecucion_desde.month+'-'+this.tiempo_ejecucion_desde.day,
-    this.CrearProyecto.tiempo_ejecucion_hasta = this.tiempo_ejecucion_hasta.year+'-'+this.tiempo_ejecucion_hasta.month+'-'+this.tiempo_ejecucion_hasta.day,
-    // console.log(this.CrearProyecto)
-    this.xAPI.funcion = "RECOSUP_C_Proyectos";
+    this.CrearProyecto.UsuarioCreo = this.token.Usuario[0].UsuarioId
+    this.CrearProyecto.fecha_proyecto = this.fecha_proyecto.year + '-' + this.fecha_proyecto.month + '-' + this.fecha_proyecto.day,
+      this.CrearProyecto.tiempo_ejecucion_desde = this.tiempo_ejecucion_desde.year + '-' + this.tiempo_ejecucion_desde.month + '-' + this.tiempo_ejecucion_desde.day,
+      this.CrearProyecto.tiempo_ejecucion_hasta = this.tiempo_ejecucion_hasta.year + '-' + this.tiempo_ejecucion_hasta.month + '-' + this.tiempo_ejecucion_hasta.day,
+      // console.log(this.CrearProyecto)
+      this.xAPI.funcion = "RECOSUP_C_Proyectos";
     this.xAPI.parametros = ''
     this.xAPI.valores = JSON.stringify(this.CrearProyecto)
     await this.apiService.Ejecutar(this.xAPI).subscribe(
@@ -239,11 +239,11 @@ public fechaActual = new Date();
         this.rowsProyectos.push(this.MisProjects)
         if (data.tipo === 1) {
           this.modalService.dismissAll('Close')
-          this.utilService.alertConfirmMini('success','Proyecto Registrado Exitosamente') 
+          this.utilService.alertConfirmMini('success', 'Proyecto Registrado Exitosamente')
           this.MisProjects = []
           this.MisProyectos()
         } else {
-          this.utilService.alertConfirmMini('error','Oops! Ocurrio un Error') 
+          this.utilService.alertConfirmMini('error', 'Oops! Ocurrio un Error')
         }
         // console.log(this.CrearProyecto)
       },
@@ -255,7 +255,7 @@ public fechaActual = new Date();
 
   async MisProyectos() {
     this.xAPI.funcion = "RECOSUP_R_Proyectos";
-    this.xAPI.parametros =""
+    this.xAPI.parametros = ""
     this.xAPI.valores = ""
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
@@ -263,11 +263,11 @@ public fechaActual = new Date();
           e.fecha_proyecto = e.fecha_proyecto
           e.monto_inversionX = e.monto_inversion
           e.monto_inversion = this.utilService.ConvertirMoneda(e.monto_inversion)
-           this.MisProjects.push(e)
-          });
-          // console.log(this.MisProjects)
-          this.rowsProyectos = this.MisProjects;
-          this.tempDataMisProjects = this.rowsProyectos;
+          this.MisProjects.push(e)
+        });
+        // console.log(this.MisProjects)
+        this.rowsProyectos = this.MisProjects;
+        this.tempDataMisProjects = this.rowsProyectos;
       },
       (error) => {
         console.log(error)
@@ -275,7 +275,7 @@ public fechaActual = new Date();
     )
   }
 
-  BtnFinanciamiento(data: any){
+  BtnFinanciamiento(data: any) {
     if (data === true) {
       this.InputFinanciamiento = true
       this.BtnShow = false
@@ -297,9 +297,9 @@ public fechaActual = new Date();
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(e => {
-            e.id = e.TipoProyectoId
-            e.name =  '('+e.Nombre+')'+ ' | ' +e.Descripcion
-            this.Ambito.push(e)            
+          e.id = e.TipoProyectoId
+          e.name = '(' + e.Nombre + ')' + ' | ' + e.Descripcion
+          this.Ambito.push(e)
         });
       },
       (error) => {
@@ -348,7 +348,7 @@ public fechaActual = new Date();
     this.xAPI.funcion = "RECOSUP_R_Parroquias_ID";
     this.xAPI.parametros = id;
     this.selectParroquias = []
-     this.apiService.Ejecutar(this.xAPI).subscribe(
+    this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         // console.log(data.Cuerpo)
         this.selectParroquias = data.Cuerpo.map(e => {
@@ -384,19 +384,19 @@ public fechaActual = new Date();
     )
   }
 
-  async DetailsProject(id: any){
+  async DetailsProject(id: any) {
     this.xAPI.funcion = "RECOSUP_R_Proyectos_ID";
     this.xAPI.parametros = id.id_proyectos
     this.xAPI.valores = ""
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(e => {
-           this.Details.nombre_proyecto = e.nombre_proyecto
-           this.Details.fecha_proyecto = e.fecha_proyecto
-           this.Details.monto_inversion = this.utilService.ConvertirMoneda(e.monto_inversion)
-           this.Details.ambito_nombre = '('+e.ambito_nombre +') |  '+ e.ambito_descripcion
-           this.Details.area_proyecto = e.nombre_area
-           this.Details.estado = e.estado
+          this.Details.nombre_proyecto = e.nombre_proyecto
+          this.Details.fecha_proyecto = e.fecha_proyecto
+          this.Details.monto_inversion = this.utilService.ConvertirMoneda(e.monto_inversion)
+          this.Details.ambito_nombre = '(' + e.ambito_nombre + ') |  ' + e.ambito_descripcion
+          this.Details.area_proyecto = e.nombre_area
+          this.Details.estado = e.estado
           switch (e.status_proyecto) {
             case '0':
               this.color = 'warning'
@@ -404,186 +404,217 @@ public fechaActual = new Date();
               break;
             case '1':
               this.color = 'success'
-               e.status_proyecto = 'Aprobado'
-                break;
+              e.status_proyecto = 'Aprobado'
+              break;
             case '2':
               this.color = 'danger'
-                e.status_proyecto = 'Rechazado'
-                break;
+              e.status_proyecto = 'Rechazado'
+              break;
             default:
               break;
           }
           this.Details.status_proyecto = e.status_proyecto
-           this.Details.municipio = e.municipio
-           this.Details.parroquia = e.parroquia
-           this.Details.beneficiario_directos = e.beneficiario_directos
-           this.Details.beneficiario_indirectos = e.beneficiario_indirectos
-           this.Details.tiempo_ejecucion_desde = e.tiempo_ejecucion_desde
-           this.Details.tiempo_ejecucion_hasta = e.tiempo_ejecucion_hasta
-          });
+          this.Details.municipio = e.municipio
+          this.Details.parroquia = e.parroquia
+          this.Details.beneficiario_directos = e.beneficiario_directos
+          this.Details.beneficiario_indirectos = e.beneficiario_indirectos
+          this.Details.tiempo_ejecucion_desde = e.tiempo_ejecucion_desde
+          this.Details.tiempo_ejecucion_hasta = e.tiempo_ejecucion_hasta
+        });
       },
       (error) => {
         console.log(error)
       }
     )
-    }
+  }
 
-  
-    DescargarPDF(data : any){
-      // console.log(data.id_empresa,data.ambito_nombre) 
 
-      if (data.id_empresa != '0') {
-        if (data.ambito_nombre == 'PL') {
-          this.xAPI.funcion = "RECOSUP_R_Empresa_ID";
-          this.xAPI.parametros = data.id_empresa;
-          this.selectParroquias = []
-           this.apiService.Ejecutar(this.xAPI).subscribe(
-            (data) => {
-              data.Cuerpo.map(e => {
-                e.contactos = JSON.parse(e.contactos)
-                // console.log(e)
-                this.dataEmpresaID.push(e)
-              });
-            },
-            (error) => {
-              console.log(error)
-            }
-            )
-            this.pdf.GenerarFichaResumenProyectoLaboral(data, this.dataEmpresaID)
+  DescargarPDF(data: any) {
+    // console.log(data.id_empresa,data.ambito_nombre) 
+
+    if (data.id_empresa != '0') {
+      if (data.ambito_nombre == 'PL') {
+        this.xAPI.funcion = "RECOSUP_R_Empresa_ID";
+        this.xAPI.parametros = data.id_empresa;
+        this.selectParroquias = []
+        this.apiService.Ejecutar(this.xAPI).subscribe(
+          (data) => {
+            data.Cuerpo.map(e => {
+              e.contactos = JSON.parse(e.contactos)
+              // console.log(e)
+              this.dataEmpresaID.push(e)
+            });
+          },
+          (error) => {
+            console.log(error)
           }
-      } else {
-        this.pdf.GenerarFichaResumenProyecto(data)
+        )
+        this.pdf.GenerarFichaResumenProyectoLaboral(data, this.dataEmpresaID)
       }
+    } else {
+      this.pdf.GenerarFichaResumenProyecto(data)
     }
+  }
 
 
-    async UpdateProyect(){
-      this.xAPI.funcion = "RECOSUP_U_ProyectosUpdate";
-      this.xAPI.parametros = ''
-      this.xAPI.valores = JSON.stringify(this.IUpdateProjects)
-      await this.apiService.Ejecutar(this.xAPI).subscribe(
-        (data) => {
-          this.rowsProyectos.push(this.MisProjects)
-          if (data.tipo === 1) {
-            this.modalService.dismissAll('Close')
-            this.utilService.alertConfirmMini('success','Registro Actualizado Exitosamente') 
-            this.MisProjects = []
-            this.MisProyectos()
-          } else {
-            this.utilService.alertConfirmMini('error','Oops! Ocurrio un Error') 
-          }
-        },
-        (error) => {
-          console.log(error)
+  async UpdateProyect() {
+    this.xAPI.funcion = "RECOSUP_U_ProyectosUpdate";
+    this.xAPI.parametros = ''
+    this.xAPI.valores = JSON.stringify(this.IUpdateProjects)
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        this.rowsProyectos.push(this.MisProjects)
+        if (data.tipo === 1) {
+          this.modalService.dismissAll('Close')
+          this.utilService.alertConfirmMini('success', 'Registro Actualizado Exitosamente')
+          this.MisProjects = []
+          this.MisProyectos()
+        } else {
+          this.utilService.alertConfirmMini('error', 'Oops! Ocurrio un Error')
         }
-      )
-    }
-
-    /**
-   * filterUpdate
-   *
-   * @param event
-   */
-     filterUpdateMisProjects(event) {
-      // Reset ng-select on search
-      const val = event.target.value.toLowerCase();
-      // Filter Our Data
-      const temp = this.tempDataMisProjects.filter(function (d) {
-        return d.nombre_proyecto.toLowerCase().indexOf(val) !== -1 || !val;
-      });
-      // Update The Rows
-      this.rowsProyectos = temp;
-      // Whenever The Filter Changes, Always Go Back To The First Page
-      this.table.offset = 0;
-    }
-
-    async DeleteMisProjects(data: any){
-      await  Swal.fire({
-          title: 'Esta Seguro?',
-          text: "De Eliminar Este Registro!",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Si, Eliminarlo!',
-          cancelButtonText: 'Cancelar'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            this.xAPI.funcion = "RECOSUP_D_Proyectos";
-            this.xAPI.parametros = data.id_proyectos
-            this.xAPI.valores = ''
-             this.apiService.Ejecutar(this.xAPI).subscribe(
-              (data) => {
-                this.rowsProyectos.push(this.MisProjects)
-                // console.log(data)
-                if (data.tipo === 1) {
-                  this.MisProjects = []
-                  this.MisProyectos()
-                  this.utilService.alertConfirmMini('success','Registro Eliminado Exitosamente')
-                } else {
-                  this.utilService.alertConfirmMini('error','Lo sentimos algo salio mal, intente de nuevo')
-                }
-              },
-              (error) => {
-                console.log(error)
-              }
-            )
-          }
-        })
+      },
+      (error) => {
+        console.log(error)
       }
-  
-    AddRegister(modal) {
-      this.modalService.open(modal,{
-        centered: true,
-        size: 'xl',
-        backdrop: false,
-        keyboard: false,
-        windowClass: 'fondo-modal',
-      });
-    }
+    )
+  }
 
-    DetalleModal(modal, data){
-      console.log(data)
-      this.titleModal = data.RazonSocial
-      this.DetailsProject(data)
-      this.modalService.open(modal,{
-        centered: true,
-        size: 'lg',
-        backdrop: false,
-        keyboard: false,
-        windowClass: 'fondo-modal',
-      });
-    }
+  /**
+ * filterUpdate
+ *
+ * @param event
+ */
+  filterUpdateMisProjects(event) {
+    // Reset ng-select on search
+    const val = event.target.value.toLowerCase();
+    // Filter Our Data
+    const temp = this.tempDataMisProjects.filter(function (d) {
+      return d.nombre_proyecto.toLowerCase().indexOf(val) !== -1 || !val;
+    });
+    // Update The Rows
+    this.rowsProyectos = temp;
+    // Whenever The Filter Changes, Always Go Back To The First Page
+    this.table.offset = 0;
+  }
 
-    ModalUpdateProjects(modal, data){
-      // console.log(data)
-      this.IUpdateProjects.status_proyecto = data.status_proyecto
-      this.IUpdateProjects.observacion = data.observacion
-       this.IUpdateProjects.id_empresa = data.id_empresa
-       this.IUpdateProjects.id_analista = data.id_analista
-       this.IUpdateProjects.nombre_proyecto = data.nombre_proyecto
-       this.IUpdateProjects.ambito_proyecto = data.id_ambito
-       this.IUpdateProjects.fecha_proyecto = data.fecha_proyecto
-       this.IUpdateProjects.monto_inversion = data.monto_inversionX
-       this.IUpdateProjects.direccion = data.direccion
-       this.IUpdateProjects.estado = data.estadox
-       this.IUpdateProjects.parroquia = data.parroquiax
-       this.IUpdateProjects.municipio = data.municipiox
-       this.IUpdateProjects.area_proyecto = data.id_area
-       this.IUpdateProjects.beneficiario_directos = data.beneficiario_directos
-       this.IUpdateProjects.beneficiario_indirectos = data.beneficiario_indirectos
-       this.IUpdateProjects.tiempo_ejecucion_desde = data.tiempo_ejecucion_desde
-       this.IUpdateProjects.tiempo_ejecucion_hasta = data.tiempo_ejecucion_hasta
-       this.IUpdateProjects.UsuarioModifico = this.IdUser
-       this.IUpdateProjects.id_proyectos = data.id_proyectos
-      this.modalService.open(modal,{
-        centered: true,
-        size: 'lg',
-        backdrop: false,
-        keyboard: false,
-        windowClass: 'fondo-modal',
-      });
-    }
+  async DeleteMisProjects(data: any) {
+    await Swal.fire({
+      title: 'Esta Seguro?',
+      text: "De Eliminar Este Registro!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Eliminarlo!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.xAPI.funcion = "RECOSUP_D_Proyectos";
+        this.xAPI.parametros = data.id_proyectos
+        this.xAPI.valores = ''
+        this.apiService.Ejecutar(this.xAPI).subscribe(
+          (data) => {
+            this.rowsProyectos.push(this.MisProjects)
+            // console.log(data)
+            if (data.tipo === 1) {
+              this.MisProjects = []
+              this.MisProyectos()
+              this.utilService.alertConfirmMini('success', 'Registro Eliminado Exitosamente')
+            } else {
+              this.utilService.alertConfirmMini('error', 'Lo sentimos algo salio mal, intente de nuevo')
+            }
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+      }
+    })
+  }
+
+  AddRegister(modal) {
+    this.modalService.open(modal, {
+      centered: true,
+      size: 'xl',
+      backdrop: false,
+      keyboard: false,
+      windowClass: 'fondo-modal',
+    });
+  }
+
+  DetalleModal(modal, data) {
+    // console.log(data)
+    this.titleModal = data.RazonSocial
+    this.DetailsProject(data)
+    this.modalService.open(modal, {
+      centered: true,
+      size: 'lg',
+      backdrop: false,
+      keyboard: false,
+      windowClass: 'fondo-modal',
+    });
+  }
+
+
+  ModalEditarProjects(modal, data) {
+    // console.log(data)
+    this.CrearProyecto.status_proyecto = data.status_proyecto
+    this.CrearProyecto.observacion = data.observacion
+    this.CrearProyecto.id_empresa = data.id_empresa
+    this.CrearProyecto.id_analista = data.id_analista
+    this.CrearProyecto.nombre_proyecto = data.nombre_proyecto
+    this.CrearProyecto.ambito_proyecto = data.id_ambito
+    this.CrearProyecto.fecha_proyecto = data.fecha_proyecto
+    this.CrearProyecto.monto_inversion = data.monto_inversionX
+    this.CrearProyecto.direccion = data.direccion
+    this.CrearProyecto.estado = data.estadox
+    this.CrearProyecto.parroquia = data.parroquiax
+    this.CrearProyecto.municipio = data.municipiox
+    this.CrearProyecto.area_proyecto = data.id_area
+    this.CrearProyecto.beneficiario_directos = data.beneficiario_directos
+    this.CrearProyecto.beneficiario_indirectos = data.beneficiario_indirectos
+    this.CrearProyecto.tiempo_ejecucion_desde = data.tiempo_ejecucion_desde
+    this.CrearProyecto.tiempo_ejecucion_hasta = data.tiempo_ejecucion_hasta
+    this.CrearProyecto.UsuarioModifico = this.IdUser
+    // this.CrearProyecto.id_proyectos = data.id_proyectos
+    this.modalService.open(modal, {
+      centered: true,
+      size: 'xl',
+      backdrop: false,
+      keyboard: false,
+      windowClass: 'fondo-modal',
+    });
+  }
+
+  ModalUpdateProjects(modal, data) {
+    // console.log(data)
+    this.IUpdateProjects.status_proyecto = data.status_proyecto
+    this.IUpdateProjects.observacion = data.observacion
+    this.IUpdateProjects.id_empresa = data.id_empresa
+    this.IUpdateProjects.id_analista = data.id_analista
+    this.IUpdateProjects.nombre_proyecto = data.nombre_proyecto
+    this.IUpdateProjects.ambito_proyecto = data.id_ambito
+    this.IUpdateProjects.fecha_proyecto = data.fecha_proyecto
+    this.IUpdateProjects.monto_inversion = data.monto_inversionX
+    this.IUpdateProjects.direccion = data.direccion
+    this.IUpdateProjects.estado = data.estadox
+    this.IUpdateProjects.parroquia = data.parroquiax
+    this.IUpdateProjects.municipio = data.municipiox
+    this.IUpdateProjects.area_proyecto = data.id_area
+    this.IUpdateProjects.beneficiario_directos = data.beneficiario_directos
+    this.IUpdateProjects.beneficiario_indirectos = data.beneficiario_indirectos
+    this.IUpdateProjects.tiempo_ejecucion_desde = data.tiempo_ejecucion_desde
+    this.IUpdateProjects.tiempo_ejecucion_hasta = data.tiempo_ejecucion_hasta
+    this.IUpdateProjects.UsuarioModifico = this.IdUser
+    this.IUpdateProjects.id_proyectos = data.id_proyectos
+    this.modalService.open(modal, {
+      centered: true,
+      size: 'lg',
+      backdrop: false,
+      keyboard: false,
+      windowClass: 'fondo-modal',
+    });
+  }
 
 }
 

@@ -234,7 +234,7 @@ export class AdminEvaluationProjectComponent implements OnInit {
         labels: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'],
         datasets: [{
           label: 'EVALUACIÓN DE PROYECTOS',
-          data: this.dataPie,
+          data: this.dataPie ? this.dataPie : [],
           backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
             'rgba(54, 162, 235, 0.2)',
@@ -285,52 +285,50 @@ export class AdminEvaluationProjectComponent implements OnInit {
 
   CargarMatriz(anio: any) {
 
-    this.dataPie.push(0, 0, 0, 0, 0, 0, 0, 0, 0)
-    this.Barras()
-    // this.chart.data.datasets[0].data = this.dataPie
-
     this.ShowBtn = false
     this.Cabecera = []
     this.Cuerpo = []
+    this.dataPie = []
     this.ReiniciarPie()
     this.xAPI.funcion = "RECOSUP_R_ProyectosEvaluacionMatriz";
     this.xAPI.parametros = `${anio}`
     this.xAPI.valores = ""
     this.apiService.Ejecutar(this.xAPI).subscribe(
-      (data) => {
+      async (data) => {
         if (data.Cabecera.length > 0) {
           this.Cabecera = data.Cabecera
           this.Cuerpo = data.Cuerpo
           this.ReiniciarPie()
           data.Cuerpo.map(e => {
-            this.Pie.a += parseInt(e.a)
-            this.Pie.b += parseInt(e.b)
-            this.Pie.c += parseInt(e.c)
-            this.Pie.d += parseInt(e.d)
-            this.Pie.e += parseInt(e.e)
-            this.Pie.f += parseInt(e.f)
-            this.Pie.g += parseInt(e.g)
-            this.Pie.h += parseInt(e.h)
-            this.Pie.i += parseInt(e.i)
+            this.Pie.a += parseInt(e.a ? e.a : 0)
+            this.Pie.b += parseInt(e.b ? e.b : 0)
+            this.Pie.c += parseInt(e.c ? e.c : 0)
+            this.Pie.d += parseInt(e.d ? e.d : 0)
+            this.Pie.e += parseInt(e.e ? e.e : 0)
+            this.Pie.f += parseInt(e.f ? e.f : 0)
+            this.Pie.g += parseInt(e.g ? e.g : 0)
+            this.Pie.h += parseInt(e.h ? e.h : 0)
+            this.Pie.i += parseInt(e.i ? e.i : 0)
             this.Pie.total += parseInt(e.total)
           })
-          this.dataPie.push(this.Pie.a)
-          this.dataPie.push(this.Pie.b)
-          this.dataPie.push(this.Pie.c)
-          this.dataPie.push(this.Pie.d)
-          this.dataPie.push(this.Pie.e)
-          this.dataPie.push(this.Pie.f)
-          this.dataPie.push(this.Pie.g)
-          this.dataPie.push(this.Pie.h)
-          this.dataPie.push(this.Pie.i)
-          this.Barras()
-          this.chart.data.datasets[0].data = this.dataPie
+          this.dataPie.push(this.Pie.a ? this.Pie.a : 0)
+          this.dataPie.push(this.Pie.b ? this.Pie.b : 0)
+          this.dataPie.push(this.Pie.c ? this.Pie.c : 0)
+          this.dataPie.push(this.Pie.d ? this.Pie.d : 0)
+          this.dataPie.push(this.Pie.e ? this.Pie.e : 0)
+          this.dataPie.push(this.Pie.f ? this.Pie.f : 0)
+          this.dataPie.push(this.Pie.g ? this.Pie.g : 0)
+          this.dataPie.push(this.Pie.h ? this.Pie.h : 0)
+          this.dataPie.push(this.Pie.i ? this.Pie.i : 0)
+          // console.log(this.dataPie)
+          await this.Barras()
+          // this.chart.data.datasets[0].data = this.dataPie
           this.ShowBtn = true
         } else {
           this.ShowBtn = false
-          this.dataPie.push(0, 0, 0, 0, 0, 0, 0, 0, 0)
+          this.dataPie = []
           this.Barras()
-          this.chart.data.datasets[0].data = this.dataPie
+          // this.chart.data.datasets[0].data = this.dataPie
         }
       },
       (error) => {
@@ -383,7 +381,6 @@ export class AdminEvaluationProjectComponent implements OnInit {
     // RECOSUP_I_MatrizMovimientos
     this.xAPI.funcion = "RECOSUP_I_MatrizMovimientos";
     this.xAPI.parametros = ''
-    // console.log(this.UpdateMatriz)
     this.xAPI.valores = JSON.stringify(this.UpdateMatriz)
     this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
@@ -391,13 +388,13 @@ export class AdminEvaluationProjectComponent implements OnInit {
           this.modalService.dismissAll('Close')
           this.utilService.alertConfirmMini('success', 'Ganancias Registradas Exitosamente')
           this.CargarMatriz(this.selectAnio)
-          this.ResetForm()
           this.dataPie.push(0, 0, 0, 0, 0, 0, 0, 0, 0)
           this.Barras()
           this.chart.data.datasets[0].data = this.dataPie
           this.UpdateMatriz.tipoEvaluado = this.UpdateMatriz.tipoEvaluado + 'p'
           this.UpdateMatriz.cantidad = this.UpdateMatriz.personas
           if (status == 0) this.GuardarNueva(1)
+          this.ResetForm()
         } else {
           this.utilService.alertConfirmMini('error', 'Oops! Ocurrio un Error')
         }

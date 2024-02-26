@@ -105,6 +105,8 @@
                         [class]="'mr-50'"></span> Detalles</a>
                     <a (click)="DescargarPDF(row)" *ngIf="row.status_proyecto == 1" ngbDropdownItem><span
                         [data-feather]="'download'" [size]="16" [class]="'mr-50'"></span> Descargar </a>
+                    <a (click)="ModalEditarProjects(ModalAddRegister,row)" ngbDropdownItem><span [data-feather]="'edit'"
+                        [size]="16" [class]="'mr-50'"></span> Modificar</a>
                     <a (click)="ModalUpdateProjects(ModalUdateProjects,row)" ngbDropdownItem><span
                         [data-feather]="'edit'" [size]="16" [class]="'mr-50'"></span> Cambiar Status</a><a
                       (click)="DeleteMisProjects(row)" *ngIf="row.status_proyecto != 1" ngbDropdownItem><span
