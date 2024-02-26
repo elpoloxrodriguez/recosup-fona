@@ -147,7 +147,7 @@ export class AdminEvaluationProjectComponent implements OnInit {
   ) {
     const currentYear = new Date().getFullYear();
     this.years = [];
-    for (let i = 2023; i <= currentYear; i++) {
+    for (let i = 2024; i <= currentYear; i++) {
       this.years.push(i);
     }
   }
