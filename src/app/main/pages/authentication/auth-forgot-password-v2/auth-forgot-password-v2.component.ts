@@ -121,7 +121,7 @@ export class AuthForgotPasswordV2Component implements OnInit {
               let email = {
                 "funcion": "Fnx_EnviarMailCurl",
                 "API_KEY": "re_DXyM5aC2_3HYUw2whmaEqSQPUDanuwRZP",
-                "from": "RECOSUP <recuperacion@resend.dev>",
+                "from": "RECOSUP <recuperacion@code-epic.com>",
                 "to": e.CorreoPrincipal,
                 // "archivo": 'assets/images/logo/fona.jpeg',
                 "subject": "Recuperación de Contraseña 🔐",
