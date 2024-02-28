@@ -128,7 +128,7 @@ export class AuthForgotPasswordV2Component implements OnInit {
                 "html": `<h2>Hola! estimado: <strong>${e.Nombres} ${e.Apellidos}</strong></h2> <p>Alguien solicitó recientemente un restablecimiento de contraseña para su cuenta RECOSUP. Si eres tú, puedes establecer una nueva contraseña</p> <p>Su contraseña temporal es <strong><h3>${claveTemporal}</h3></strong></p> <p>Si no desea cambiar su contraseña o no lo solicitó, simplemente ignore y elimine este mensaje.</p> <p>Para mantener su cuenta segura, no reenvíe este correo electrónico a nadie.</p> <p>Una vez ingrese al sistema, se recomienda inmediatamente cambiar la contraseña, para evitar robo y/o estravio de datos en su cuenta.</p> <p>Gracias,</p> <p>El Equipo de Soporte</p>`
               }
 
-              this.apiservice.ExecFnxDev(email).subscribe(
+              this.apiservice.ExecFnx(email).subscribe(
                 (da) => {
                   console.log(da)
                   // this.utilservice.AlertMini('top-end', 'success', 'Felicidades!, en breve recibira instrucciones via correo electronico.', 3000)
