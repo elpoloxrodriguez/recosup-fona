@@ -130,7 +130,7 @@ export class AuthForgotPasswordV2Component implements OnInit {
 
               this.apiservice.ExecFnxDev(email).subscribe(
                 (da) => {
-                  // console.log(da)
+                  console.log(da)
                   // this.utilservice.AlertMini('top-end', 'success', 'Felicidades!, en breve recibira instrucciones via correo electronico.', 3000)
                   this.forgotPasswordForm = this._formBuilder.group({
                     email: ['']
@@ -143,7 +143,7 @@ export class AuthForgotPasswordV2Component implements OnInit {
                   this.xAPI.valores = JSON.stringify(campos)
                   this.apiservice.EjecutarDev(this.xAPI).subscribe(
                     (datax) => {
-                      // console.log(datax)
+                      console.log(datax)
                       setTimeout(() => {
                         this.utilservice.AlertMini('top-end', 'success', 'Felicidades!, en aproximadamente 5 minutos recibira instrucciones via correo electronico.', 3000)
                       }, 3000);
