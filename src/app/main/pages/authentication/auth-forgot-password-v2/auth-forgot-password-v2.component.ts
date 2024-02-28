@@ -117,7 +117,7 @@ export class AuthForgotPasswordV2Component implements OnInit {
             data.Cuerpo.map(e => {
               const claveTemporal = this.utilservice.GenerarUnicId()
 
-              // console.log(e)
+              console.log(e)
               let email = {
                 "funcion": "Fnx_EnviarMailCurl",
                 "API_KEY": "re_DXyM5aC2_3HYUw2whmaEqSQPUDanuwRZP",
@@ -130,7 +130,7 @@ export class AuthForgotPasswordV2Component implements OnInit {
 
               this.apiservice.ExecFnx(email).subscribe(
                 (da) => {
-                  // console.log(da)
+                  console.log(da)
                   // this.utilservice.AlertMini('top-end', 'success', 'Felicidades!, en breve recibira instrucciones via correo electronico.', 3000)
                   this.forgotPasswordForm = this._formBuilder.group({
                     email: ['']
