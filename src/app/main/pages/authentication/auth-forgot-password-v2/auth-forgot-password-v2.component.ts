@@ -121,16 +121,16 @@ export class AuthForgotPasswordV2Component implements OnInit {
               let email = {
                 "funcion": "Fnx_EnviarMailCurl",
                 "API_KEY": "re_DXyM5aC2_3HYUw2whmaEqSQPUDanuwRZP",
-                "from": "RECOSUP <recuperacion@code-epic.com>",
+                "from": "RECOSUP <forgot-password@code-epic.com>",
                 "to": e.CorreoPrincipal,
                 // "archivo": 'assets/images/logo/fona.jpeg',
                 "subject": "Recuperación de Contraseña 🔐",
                 "html": `<h2>Hola! estimado: <strong>${e.Nombres} ${e.Apellidos}</strong></h2> <p>Alguien solicitó recientemente un restablecimiento de contraseña para su cuenta RECOSUP. Si eres tú, puedes establecer una nueva contraseña</p> <p>Su contraseña temporal es <strong><h3>${claveTemporal}</h3></strong></p> <p>Si no desea cambiar su contraseña o no lo solicitó, simplemente ignore y elimine este mensaje.</p> <p>Para mantener su cuenta segura, no reenvíe este correo electrónico a nadie.</p> <p>Una vez ingrese al sistema, se recomienda inmediatamente cambiar la contraseña, para evitar robo y/o estravio de datos en su cuenta.</p> <p>Gracias,</p> <p>El Equipo de Soporte</p>`
               }
 
-              this.apiservice.ExecFnx(email).subscribe(
+              this.apiservice.ExecFnxDev(email).subscribe(
                 (da) => {
-                  console.log(da)
+                  // console.log(da)
                   // this.utilservice.AlertMini('top-end', 'success', 'Felicidades!, en breve recibira instrucciones via correo electronico.', 3000)
                   this.forgotPasswordForm = this._formBuilder.group({
                     email: ['']
@@ -143,7 +143,7 @@ export class AuthForgotPasswordV2Component implements OnInit {
                   this.xAPI.valores = JSON.stringify(campos)
                   this.apiservice.EjecutarDev(this.xAPI).subscribe(
                     (datax) => {
-                      console.log(datax)
+                      // console.log(datax)
                       setTimeout(() => {
                         this.utilservice.AlertMini('top-end', 'success', 'Felicidades!, en aproximadamente 5 minutos recibira instrucciones via correo electronico.', 3000)
                       }, 3000);

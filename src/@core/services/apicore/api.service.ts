@@ -94,6 +94,13 @@ export class ApiService {
     return this.http.post<any>(url, fnx, this.httpOptions);
   }
 
+  //Ejecutar Api generales
+  ExecFnxDev(fnx: any): Observable<any> {
+    // var url = this.URL + "fnx";
+    var url = "/devel/api/fnx";
+    return this.http.post<any>(url, fnx, this.httpOptions);
+  }
+
   //  Consulta el PID de una funcion
   ExecFnxId(id: string): Observable<any> {
     var url = this.URL + `fnx:${id}`;
