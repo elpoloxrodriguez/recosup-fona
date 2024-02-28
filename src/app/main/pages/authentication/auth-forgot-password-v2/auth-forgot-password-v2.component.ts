@@ -48,7 +48,8 @@ export class AuthForgotPasswordV2Component implements OnInit {
     private apiservice: ApiService,
     private utilservice: UtilService,
     private _formBuilder: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private loginService: LoginService
   ) {
     this._unsubscribeAll = new Subject();
 
@@ -104,6 +105,20 @@ export class AuthForgotPasswordV2Component implements OnInit {
     });
   }
 
+  async CrearTokenTemporal(usuario: any, password: any) {
+    this.xAPI.funcion = 'RECOSUP_R_Login'
+    this.xAPI.parametros = usuario + ',' + password
+    this.xAPI.valores = ''
+    await this.loginService.getLoginExternas(this.xAPI).subscribe(
+      (data) => {
+        sessionStorage.setItem("token", data.token);
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+
   async EvaluarCorreo() {
     // console.log(this.forgotPasswordForm.value.email)
     if (this.forgotPasswordForm.value.email != '') {
@@ -116,8 +131,9 @@ export class AuthForgotPasswordV2Component implements OnInit {
           if (data.Cuerpo.length > 0) {
             data.Cuerpo.map(e => {
               const claveTemporal = this.utilservice.GenerarUnicId()
+              // console.log(e)
+              this.CrearTokenTemporal(e.Codigo, e.Clave)
 
-              console.log(e)
               let email = {
                 "funcion": "Fnx_EnviarMailCurl",
                 "API_KEY": "re_DXyM5aC2_3HYUw2whmaEqSQPUDanuwRZP",
@@ -141,27 +157,38 @@ export class AuthForgotPasswordV2Component implements OnInit {
                   }
                   this.xAPI.funcion = "RECOSUP_U_ResetPassword";
                   this.xAPI.valores = JSON.stringify(campos)
-                  this.apiservice.EjecutarDev(this.xAPI).subscribe(
+                  this.apiservice.Ejecutar(this.xAPI).subscribe(
                     (datax) => {
                       console.log(datax)
                       setTimeout(() => {
                         this.utilservice.AlertMini('top-end', 'success', 'Felicidades!, en aproximadamente 5 minutos recibira instrucciones via correo electronico.', 3000)
                       }, 3000);
+                      sessionStorage.clear();
+                      localStorage.clear();
                     },
                     (error) => {
                       this.utilservice.AlertMini('top-end', 'error', 'Oops lo sentimo!, el correo no se puedo enviar intente de nuevo mas tarde.', 3000)
                       console.log(error)
+                      sessionStorage.clear();
+                      localStorage.clear();
                     }
                   )
                 },
                 (e) => {
+                  this.utilservice.AlertMini('top-end', 'error', 'Oops lo sentimo!, el correo no se puedo enviar intente de nuevo mas tarde.', 3000)
                   console.log(e)
+                  sessionStorage.clear();
+                  localStorage.clear();
                 }
               )
             });
           } else {
             this.utilservice.AlertMini('top-end', 'error', 'Lo Sentimos!, No se encontro el Correo Electronico en el sistema.', 3000)
+            sessionStorage.clear();
+            localStorage.clear();
           }
+          sessionStorage.clear();
+          localStorage.clear();
         },
         (error) => {
           console.log(error)

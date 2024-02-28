@@ -188,7 +188,6 @@ export class AuthLoginV2Component implements OnInit {
     this.xAPI.funcion = 'RECOSUP_R_Login'
     this.xAPI.parametros = this.usuario + ',' + password
     this.xAPI.valores = ''
-
     await this.loginService.getLoginExternas(this.xAPI).subscribe(
       (data) => {
         this.itk = data;
