@@ -143,10 +143,13 @@ export class AuthForgotPasswordV2Component implements OnInit {
                   this.xAPI.valores = JSON.stringify(campos)
                   this.apiservice.EjecutarDev(this.xAPI).subscribe(
                     (datax) => {
-                      // console.log(datax)
-                      this.utilservice.AlertMini('top-end', 'success', 'Felicidades!, en breve recibira instrucciones via correo electronico.', 3000)
+                      console.log(datax)
+                      setTimeout(() => {
+                        this.utilservice.AlertMini('top-end', 'success', 'Felicidades!, en aproximadamente 5 minutos recibira instrucciones via correo electronico.', 3000)
+                      }, 3000);
                     },
                     (error) => {
+                      this.utilservice.AlertMini('top-end', 'error', 'Oops lo sentimo!, el correo no se puedo enviar intente de nuevo mas tarde.', 3000)
                       console.log(error)
                     }
                   )
