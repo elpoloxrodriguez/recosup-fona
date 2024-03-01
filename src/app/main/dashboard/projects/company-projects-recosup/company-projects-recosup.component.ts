@@ -631,6 +631,7 @@ export class CompanyProjectsRecosupComponent implements OnInit {
   }
 
   ModalCambiarStatus(modal, data) {
+    // console.log(data)
     this.tipoModal = 1
     this.CrearProyecto.id_proyectos = data.id_proyectos
     this.CrearProyecto.nombre_empresa = data.nombre_empresa
@@ -644,9 +645,9 @@ export class CompanyProjectsRecosupComponent implements OnInit {
     this.CrearProyecto.fecha_proyecto = data.fecha_proyecto
     this.CrearProyecto.monto_inversion = data.monto_inversionX
     this.CrearProyecto.direccion = data.direccion
-    this.CrearProyecto.estado = data.estado
-    this.CrearProyecto.parroquia = data.parroquia
-    this.CrearProyecto.municipio = data.municipio
+    this.CrearProyecto.estado = data.estadox
+    this.CrearProyecto.parroquia = data.parroquiax
+    this.CrearProyecto.municipio = data.municipiox
     this.CrearProyecto.nombre_representante = data.nombre_representante
     this.CrearProyecto.telefono_representante = data.telefono_representante
     this.CrearProyecto.email_representante = data.email_representante
