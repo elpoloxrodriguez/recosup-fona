@@ -54,7 +54,9 @@ export class CompanyProjectsRecosupComponent implements OnInit {
     tiempo_ejecucion_hasta: '',
     UsuarioModifico: 0,
     id_proyectos: 0,
-    observacion: ''
+    observacion: '',
+    nombre_empresa: '',
+    rif_empresa: ''
   }
 
   public CrearProyecto: IRECOSUP_C_Proyectos = {
@@ -69,7 +71,12 @@ export class CompanyProjectsRecosupComponent implements OnInit {
     tiempo_ejecucion_desde: '',
     tiempo_ejecucion_hasta: '',
     UsuarioCreo: 0,
-    UsuarioModifico: 0
+    UsuarioModifico: 0,
+    nombre_empresa: '',
+    rif_empresa: '',
+    estado: undefined,
+    parroquia: undefined,
+    municipio: undefined
   }
 
   public añoActual = new Date()
@@ -170,6 +177,12 @@ export class CompanyProjectsRecosupComponent implements OnInit {
 
   public dataEmpresaID = []
 
+  public titlemodal = ''
+  public showbtn: boolean = false
+  public titlebtn = ''
+
+  public tipoModal: number = 0
+
   constructor(
     private utilService: UtilService,
     private _router: Router,
@@ -223,15 +236,15 @@ export class CompanyProjectsRecosupComponent implements OnInit {
   }
 
   async onSubmit() {
-    this.CrearProyecto.estado = this.CrearProyecto.estado.Codigo
-    this.CrearProyecto.municipio = this.CrearProyecto.municipio.Codigo
+    this.CrearProyecto.estado = this.CrearProyecto.estado
+    this.CrearProyecto.municipio = this.CrearProyecto.municipio
     this.CrearProyecto.id_empresa = this.IdEmpresa
     this.CrearProyecto.UsuarioCreo = this.token.Usuario[0].UsuarioId
-    this.CrearProyecto.fecha_proyecto = this.fecha_proyecto.year + '-' + this.fecha_proyecto.month + '-' + this.fecha_proyecto.day,
-      this.CrearProyecto.tiempo_ejecucion_desde = this.tiempo_ejecucion_desde.year + '-' + this.tiempo_ejecucion_desde.month + '-' + this.tiempo_ejecucion_desde.day,
-      this.CrearProyecto.tiempo_ejecucion_hasta = this.tiempo_ejecucion_hasta.year + '-' + this.tiempo_ejecucion_hasta.month + '-' + this.tiempo_ejecucion_hasta.day,
-      // console.log(this.CrearProyecto)
-      this.xAPI.funcion = "RECOSUP_C_Proyectos";
+    // this.CrearProyecto.fecha_proyecto = this.fecha_proyecto.year + '-' + this.fecha_proyecto.month + '-' + this.fecha_proyecto.day,
+    //   this.CrearProyecto.tiempo_ejecucion_desde = this.tiempo_ejecucion_desde.year + '-' + this.tiempo_ejecucion_desde.month + '-' + this.tiempo_ejecucion_desde.day,
+    //   this.CrearProyecto.tiempo_ejecucion_hasta = this.tiempo_ejecucion_hasta.year + '-' + this.tiempo_ejecucion_hasta.month + '-' + this.tiempo_ejecucion_hasta.day,
+    // console.log(this.CrearProyecto)
+    this.xAPI.funcion = "RECOSUP_C_Proyectos";
     this.xAPI.parametros = ''
     this.xAPI.valores = JSON.stringify(this.CrearProyecto)
     await this.apiService.Ejecutar(this.xAPI).subscribe(
@@ -326,42 +339,46 @@ export class CompanyProjectsRecosupComponent implements OnInit {
     )
   }
 
-  async ListaMunicipios(id: string) {
-    this.xAPI.funcion = "RECOSUP_R_Municipios";
-    this.xAPI.parametros = id;
-    this.selectMunicipios = []
-    await this.apiService.Ejecutar(this.xAPI).subscribe(
-      (data) => {
-        this.selectMunicipios = data.Cuerpo.map(e => {
-          e.name = e.Nombre
-          e.id = e.MunicipioId
-          return e
-        });
-      },
-      (error) => {
-        console.log(error)
-      }
-    )
+  async ListaMunicipios(row: string) {
+    if (row != null) {
+      this.xAPI.funcion = "RECOSUP_R_Municipios";
+      this.xAPI.parametros = row['EstadoId'];
+      this.selectMunicipios = []
+      await this.apiService.Ejecutar(this.xAPI).subscribe(
+        (data) => {
+          this.selectMunicipios = data.Cuerpo.map(e => {
+            e.name = e.Nombre
+            e.id = e.MunicipioId
+            return e
+          });
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+    }
   }
 
-  ListaParroquias(id: string) {
-    this.xAPI.funcion = "RECOSUP_R_Parroquias_ID";
-    this.xAPI.parametros = id;
-    this.selectParroquias = []
-    this.apiService.Ejecutar(this.xAPI).subscribe(
-      (data) => {
-        // console.log(data.Cuerpo)
-        this.selectParroquias = data.Cuerpo.map(e => {
-          e.name = e.Nombre
-          e.id = e.ParroquiaId
-          return e
-        });
-        // console.log(this.selectParroquias)
-      },
-      (error) => {
-        console.log(error)
-      }
-    )
+  ListaParroquias(row: string) {
+    if (row != null) {
+      this.xAPI.funcion = "RECOSUP_R_Parroquias_ID";
+      this.xAPI.parametros = row['MunicipioId'];
+      this.selectParroquias = []
+      this.apiService.Ejecutar(this.xAPI).subscribe(
+        (data) => {
+          // console.log(data.Cuerpo)
+          this.selectParroquias = data.Cuerpo.map(e => {
+            e.name = e.Nombre
+            e.id = e.ParroquiaId
+            return e
+          });
+          // console.log(this.selectParroquias)
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+    }
   }
 
 
@@ -391,6 +408,7 @@ export class CompanyProjectsRecosupComponent implements OnInit {
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(e => {
+          // console.log(e)
           this.Details.nombre_proyecto = e.nombre_proyecto
           this.Details.fecha_proyecto = e.fecha_proyecto
           this.Details.monto_inversion = this.utilService.ConvertirMoneda(e.monto_inversion)
@@ -458,9 +476,19 @@ export class CompanyProjectsRecosupComponent implements OnInit {
 
 
   async UpdateProyect() {
+    if (this.tipoModal == 1) {
+      this.CrearProyecto.estado = this.CrearProyecto.estado
+      this.CrearProyecto.parroquia = this.CrearProyecto.parroquia
+      this.CrearProyecto.municipio = this.CrearProyecto.municipio
+    } else {
+      this.CrearProyecto.estado = this.CrearProyecto.estado.id
+      this.CrearProyecto.parroquia = this.CrearProyecto.parroquia.id
+      this.CrearProyecto.municipio = this.CrearProyecto.municipio.id
+    }
+    // console.log(this.CrearProyecto)
     this.xAPI.funcion = "RECOSUP_U_ProyectosUpdate";
     this.xAPI.parametros = ''
-    this.xAPI.valores = JSON.stringify(this.IUpdateProjects)
+    this.xAPI.valores = JSON.stringify(this.CrearProyecto)
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         this.rowsProyectos.push(this.MisProjects)
@@ -533,6 +561,9 @@ export class CompanyProjectsRecosupComponent implements OnInit {
   }
 
   AddRegister(modal) {
+    this.titlemodal = 'Registro de Proyecto'
+    this.showbtn = false
+    this.titlebtn = 'Agregar Proyecto'
     this.modalService.open(modal, {
       centered: true,
       size: 'xl',
@@ -544,6 +575,8 @@ export class CompanyProjectsRecosupComponent implements OnInit {
 
   DetalleModal(modal, data) {
     // console.log(data)
+    this.CrearProyecto.nombre_empresa = data.nombre_empresa
+    this.CrearProyecto.rif_empresa = data.rif_empresa
     this.titleModal = data.RazonSocial
     this.DetailsProject(data)
     this.modalService.open(modal, {
@@ -558,6 +591,13 @@ export class CompanyProjectsRecosupComponent implements OnInit {
 
   ModalEditarProjects(modal, data) {
     // console.log(data)
+    this.tipoModal = 0
+    this.titlemodal = 'Actualizar Registro de Proyecto'
+    this.showbtn = true
+    this.titlebtn = 'Actualizar Proyecto'
+    this.CrearProyecto.id_proyectos = data.id_proyectos
+    this.CrearProyecto.nombre_empresa = data.nombre_empresa
+    this.CrearProyecto.rif_empresa = data.rif_empresa
     this.CrearProyecto.status_proyecto = data.status_proyecto
     this.CrearProyecto.observacion = data.observacion
     this.CrearProyecto.id_empresa = data.id_empresa
@@ -567,16 +607,20 @@ export class CompanyProjectsRecosupComponent implements OnInit {
     this.CrearProyecto.fecha_proyecto = data.fecha_proyecto
     this.CrearProyecto.monto_inversion = data.monto_inversionX
     this.CrearProyecto.direccion = data.direccion
-    this.CrearProyecto.estado = data.estadox
-    this.CrearProyecto.parroquia = data.parroquiax
-    this.CrearProyecto.municipio = data.municipiox
+    this.CrearProyecto.estado = data.estado
+    this.CrearProyecto.municipio = data.municipio
+    this.CrearProyecto.parroquia = data.parroquia
+    this.CrearProyecto.nombre_representante = data.nombre_representante
+    this.CrearProyecto.telefono_representante = data.telefono_representante
+    this.CrearProyecto.email_representante = data.email_representante
+    this.CrearProyecto.detalle_financiamiento = data.detalle_financiamiento
+    this.CrearProyecto.monto_financiamiento = data.monto_financiamiento
     this.CrearProyecto.area_proyecto = data.id_area
     this.CrearProyecto.beneficiario_directos = data.beneficiario_directos
     this.CrearProyecto.beneficiario_indirectos = data.beneficiario_indirectos
     this.CrearProyecto.tiempo_ejecucion_desde = data.tiempo_ejecucion_desde
     this.CrearProyecto.tiempo_ejecucion_hasta = data.tiempo_ejecucion_hasta
     this.CrearProyecto.UsuarioModifico = this.IdUser
-    // this.CrearProyecto.id_proyectos = data.id_proyectos
     this.modalService.open(modal, {
       centered: true,
       size: 'xl',
@@ -586,27 +630,34 @@ export class CompanyProjectsRecosupComponent implements OnInit {
     });
   }
 
-  ModalUpdateProjects(modal, data) {
-    // console.log(data)
-    this.IUpdateProjects.status_proyecto = data.status_proyecto
-    this.IUpdateProjects.observacion = data.observacion
-    this.IUpdateProjects.id_empresa = data.id_empresa
-    this.IUpdateProjects.id_analista = data.id_analista
-    this.IUpdateProjects.nombre_proyecto = data.nombre_proyecto
-    this.IUpdateProjects.ambito_proyecto = data.id_ambito
-    this.IUpdateProjects.fecha_proyecto = data.fecha_proyecto
-    this.IUpdateProjects.monto_inversion = data.monto_inversionX
-    this.IUpdateProjects.direccion = data.direccion
-    this.IUpdateProjects.estado = data.estadox
-    this.IUpdateProjects.parroquia = data.parroquiax
-    this.IUpdateProjects.municipio = data.municipiox
-    this.IUpdateProjects.area_proyecto = data.id_area
-    this.IUpdateProjects.beneficiario_directos = data.beneficiario_directos
-    this.IUpdateProjects.beneficiario_indirectos = data.beneficiario_indirectos
-    this.IUpdateProjects.tiempo_ejecucion_desde = data.tiempo_ejecucion_desde
-    this.IUpdateProjects.tiempo_ejecucion_hasta = data.tiempo_ejecucion_hasta
-    this.IUpdateProjects.UsuarioModifico = this.IdUser
-    this.IUpdateProjects.id_proyectos = data.id_proyectos
+  ModalCambiarStatus(modal, data) {
+    this.tipoModal = 1
+    this.CrearProyecto.id_proyectos = data.id_proyectos
+    this.CrearProyecto.nombre_empresa = data.nombre_empresa
+    this.CrearProyecto.rif_empresa = data.rif_empresa
+    this.CrearProyecto.status_proyecto = data.status_proyecto
+    this.CrearProyecto.observacion = data.observacion
+    this.CrearProyecto.id_empresa = data.id_empresa
+    this.CrearProyecto.id_analista = data.id_analista
+    this.CrearProyecto.nombre_proyecto = data.nombre_proyecto
+    this.CrearProyecto.ambito_proyecto = data.id_ambito
+    this.CrearProyecto.fecha_proyecto = data.fecha_proyecto
+    this.CrearProyecto.monto_inversion = data.monto_inversionX
+    this.CrearProyecto.direccion = data.direccion
+    this.CrearProyecto.estado = data.estado
+    this.CrearProyecto.parroquia = data.parroquia
+    this.CrearProyecto.municipio = data.municipio
+    this.CrearProyecto.nombre_representante = data.nombre_representante
+    this.CrearProyecto.telefono_representante = data.telefono_representante
+    this.CrearProyecto.email_representante = data.email_representante
+    this.CrearProyecto.detalle_financiamiento = data.detalle_financiamiento
+    this.CrearProyecto.monto_financiamiento = data.monto_financiamiento
+    this.CrearProyecto.area_proyecto = data.id_area
+    this.CrearProyecto.beneficiario_directos = data.beneficiario_directos
+    this.CrearProyecto.beneficiario_indirectos = data.beneficiario_indirectos
+    this.CrearProyecto.tiempo_ejecucion_desde = data.tiempo_ejecucion_desde
+    this.CrearProyecto.tiempo_ejecucion_hasta = data.tiempo_ejecucion_hasta
+    this.CrearProyecto.UsuarioModifico = this.IdUser
     this.modalService.open(modal, {
       centered: true,
       size: 'lg',

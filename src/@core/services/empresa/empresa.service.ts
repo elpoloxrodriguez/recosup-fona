@@ -225,8 +225,11 @@ export interface IDataEmpresaCompleta {
 }
 
 export interface IRECOSUP_C_Proyectos {
+	id_proyectos?: any
 	id_empresa: number
 	id_analista: number
+	nombre_empresa: string
+	rif_empresa: string
 	observacion?: string
 	status_proyecto: number
 	nombre_proyecto: string
@@ -239,9 +242,9 @@ export interface IRECOSUP_C_Proyectos {
 	fecha_proyecto: string
 	monto_inversion: string
 	direccion: string
-	estado?: any
-	parroquia?: number
-	municipio?: any
+	estado: any
+	parroquia: any
+	municipio: any
 	area_proyecto?: number
 	beneficiario_directos?: string
 	beneficiario_indirectos?: string
@@ -332,6 +335,8 @@ export interface RECOSUP_U_ProyectosUpdate {  // Actualizar datos del proyectos
 	observacion: string;
 	id_empresa: number
 	id_analista: number
+	nombre_empresa: string
+	rif_empresa: string
 	status_proyecto: number
 	nombre_proyecto: string
 	ambito_proyecto: number
