@@ -1,61 +1,43 @@
 <div class="card content-wrapper container-xxl p-0">
-    <div class="card-body">
-  
-  
-  <section class="users-list-wrapper">
-  
+  <div class="card-body">
+
+
+    <section class="users-list-wrapper">
+
       <div class="card">
         <div class="row">
           <div class="col-md-3 col-12">
             <div class="d-flex justify-content-between align-items-center m-1">
-              <label class="d-flex align-items-center"
-                >Mostrar
+              <label class="d-flex align-items-center">Mostrar
                 <select class="form-control mx-25" [(ngModel)]="selectedOption">
                   <option value="10">10</option>
                   <option value="25">25</option>
                   <option value="50">50</option>
                   <option value="100">100</option>
                 </select>
-                Registros</label
-              >
+                Registros</label>
             </div>
           </div>
           <div class="col-md-3 col-12">
             <div class="d-flex justify-content-between align-items-center m-1">
-              <button type="button" (click)="CrearUsuario(CrearUsuarioModal)"  class="btn btn-success"
-                rippleEffect>
-               Crear Nuevo Usuario</button>
+              <button type="button" (click)="CrearUsuario(CrearUsuarioModal)" class="btn btn-success" rippleEffect>
+                Crear Nuevo Usuario</button>
             </div>
           </div>
           <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
             <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
-              <label class="d-flex align-items-center ml-1 ml-md-0"
-                >Buscar:<input
-                  [(ngModel)]="searchValue"
-                  name="searchValue"
-                  type="search"
-                  class="form-control ml-25"
-                  placeholder="Ingrese Nombre"
-                  (keyup)="filterUpdate($event)"
-                  (search)="filterUpdate($event)"
-              /></label>
+              <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
+                  name="searchValue" type="search" class="form-control ml-25" placeholder="Ingrese Nombre"
+                  (keyup)="filterUpdate($event)" (search)="filterUpdate($event)" /></label>
             </div>
           </div>
         </div>
-        <ngx-datatable
-          [rows]="rowsUsuarios"
-          rowHeight="auto"
-          class="bootstrap core-bootstrap"
-          [limit]="selectedOption"
-          [columnMode]="ColumnMode.force"
-          [headerHeight]="50"
-          [footerHeight]="50"
-          [scrollbarH]="true"
-        >
-  
-  
+        <ngx-datatable [rows]="rowsUsuarios" rowHeight="auto" class="bootstrap core-bootstrap" [limit]="selectedOption"
+          [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true">
 
-          <ngx-datatable-column name="Usuario" prop="Codigo"  width="auto">
+
+
+          <ngx-datatable-column name="Usuario" prop="Codigo" [width]="200">
             <ng-template let-Codigo="value" ngx-datatable-cell-template>
               <div>
                 <span class="font-weight-bold"> {{ Codigo }} </span>
@@ -63,7 +45,7 @@
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="Email" prop="CorreoPrincipal"  width="auto">
+          <ngx-datatable-column name="Email" prop="CorreoPrincipal" [width]="200">
             <ng-template let-CorreoPrincipal="value" ngx-datatable-cell-template>
               <div>
                 <span class="font-weight-bold"> {{ CorreoPrincipal }} </span>
@@ -71,7 +53,7 @@
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="Cargo" prop="Cargo"  [width]="60">
+          <ngx-datatable-column name="Cargo" prop="Cargo" [width]="150">
             <ng-template let-Cargo="value" ngx-datatable-cell-template>
               <div>
                 <span class="font-weight-bold"> {{ Cargo }} </span>
@@ -79,61 +61,55 @@
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="Rol" prop="EsAdministrador"  [width]="10">
+          <ngx-datatable-column name="Rol" prop="EsAdministrador" [width]="150">
             <ng-template let-EsAdministrador="value" ngx-datatable-cell-template>
               <div>
-                <div
-                class="badge badge-pill"
-                [ngClass]="{
+                <div class="badge badge-pill" [ngClass]="{
                   'badge-light-primary': EsAdministrador == '1',
                   'badge-light-success': EsAdministrador == '2',
                   'badge-light-danger': EsAdministrador == '3',
                   'badge-light-warning': EsAdministrador == '4',
-                  'badge-light-info': EsAdministrador == '9'
-                }"
-              >
-                {{
+                  'badge-light-info': EsAdministrador == '9',
+                  'badge-light-dark': EsAdministrador == '10'
+                }">
+                  {{
                   EsAdministrador == 1
-                    ? 'Recaudación'
-                    : EsAdministrador == 2
-                    ? 'Juridico'
-                    : EsAdministrador == 3
-                    ? 'Fiscalización'
-                    : EsAdministrador == 4
-                    ? 'Proyectos'
-                    : EsAdministrador == 9
-                    ? 'Administrador'
-                    : 'Administrador'
-                }}
-              </div>
+                  ? 'Recaudación'
+                  : EsAdministrador == 2
+                  ? 'Juridico'
+                  : EsAdministrador == 3
+                  ? 'Fiscalización'
+                  : EsAdministrador == 4
+                  ? 'Proyectos'
+                  : EsAdministrador == 9
+                  ? 'Administrador'
+                  : EsAdministrador == 10
+                  ? 'Panel - Estadisticas - Gráficas'
+                  : 'Administrador'
+                  }}
+                </div>
               </div>
             </ng-template>
           </ngx-datatable-column>
 
 
-          <ngx-datatable-column name="Status" prop="Estatus" [width]="10">
+          <ngx-datatable-column name="Status" prop="Estatus" [width]="50">
             <ng-template let-Estatus="value" ngx-datatable-cell-template>
               <div>
-                <div
-                *ngIf="Estatus == 1"
-                  class="badge badge-pill"
-                  ngClass="badge-light-success">
+                <div *ngIf="Estatus == 1" class="badge badge-pill" ngClass="badge-light-success">
                   Activo
                 </div>
-                <div
-                *ngIf="Estatus == 2"
-                  class="badge badge-pill"
-                  ngClass="badge-light-warning">
+                <div *ngIf="Estatus == 2" class="badge badge-pill" ngClass="badge-light-warning">
                   Inactivo
                 </div>
               </div>
             </ng-template>
           </ngx-datatable-column>
 
-          
-  
-          
-  
+
+
+
+
           <!-- <ngx-datatable-column name="Acción" [width]="5" [sortable]="false">
             <ng-template ngx-datatable-cell-template let-row="row">
               <button type="button" class="btn btn-sm btn-primary"  (click)="ModalDetails(DetailsModal,row)" rippleEffect>
@@ -141,254 +117,228 @@
             </ng-template>
           </ngx-datatable-column> -->
 
-          <ngx-datatable-column name="Accion" [width]="10" [sortable]="false">
-              <ng-template ngx-datatable-cell-template let-row="row">
+          <ngx-datatable-column name="Accion" [width]="50" [sortable]="false">
+            <ng-template ngx-datatable-cell-template let-row="row">
               <div class="d-flex align-items-center">
                 <div ngbDropdown container="body">
-                  <a
-                    ngbDropdownToggle
-                    href="javascript:void(0);"
-                    class="hide-arrow"
-                    id="dropdownBrowserState"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
+                  <a ngbDropdownToggle href="javascript:void(0);" class="hide-arrow" id="dropdownBrowserState"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i data-feather="settings" class="text-primary cursor-pointer mr-50"></i>
                   </a>
                   <div ngbDropdownMenu class="dropdown-menu-right" aria-labelledby="dropdownBrowserState">
-                    <a  (click)="ModalDetails(DetailsModal,row)" ngbDropdownItem class="d-flex align-items-center"
-                      ><i data-feather="key" class="mr-50"></i> Cambiar Contraseña</a
-                    >
-                    <a href="javascript:void(0)" (click)="UpdateUsuario(CrearUsuarioModal,row)" ngbDropdownItem class="d-flex align-items-center"
-                      ><i data-feather="edit" class="mr-50"></i> Actualizar</a
-                    >
-                    <a href="javascript:void(0)" (click)="DeleteUser(row)" ngbDropdownItem class="d-flex align-items-center"
-                      ><i data-feather="trash-2" class="mr-50"></i> Eliminar</a
-                    >
+                    <a (click)="ModalDetails(DetailsModal,row)" ngbDropdownItem class="d-flex align-items-center"><i
+                        data-feather="key" class="mr-50"></i> Cambiar Contraseña</a>
+                    <a href="javascript:void(0)" (click)="UpdateUsuario(CrearUsuarioModal,row)" ngbDropdownItem
+                      class="d-flex align-items-center"><i data-feather="edit" class="mr-50"></i> Actualizar</a>
+                    <a href="javascript:void(0)" (click)="DeleteUser(row)" ngbDropdownItem
+                      class="d-flex align-items-center"><i data-feather="trash-2" class="mr-50"></i> Eliminar</a>
                   </div>
                 </div>
               </div>
             </ng-template>
           </ngx-datatable-column>
-    
-  
+
+
         </ngx-datatable>
       </div>
     </section>
-  
-  
-    </div>
-    </div>
-  
-  
-    <ng-template #CrearUsuarioModal let-modal>
-      <div class="modal-header">
-        <h5 class="modal-title" id="myModalLabel160"><strong>{{titleModal}}</strong></h5>
-        <!-- <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+
+
+  </div>
+</div>
+
+
+<ng-template #CrearUsuarioModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="myModalLabel160"><strong>{{titleModal}}</strong></h5>
+    <!-- <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button> -->
-      </div>
-      <div class="modal-body" tabindex="0" ngbAutofocus>
-        <div class="col-xl-12 col-md-12 col-12 printRef">
-          <!-- Header Starts -->
-          
-          <form class="auth-reset-password-form mt-2">
-            <div class="row">
-            <div class="col-6">
-              <div class="form-group">
-                <label for="basicInput">Nombre de Usuario</label>
-                <input class="form-control" type="text"  [(ngModel)]="ICrearUsuariosAdmin.Codigo" [ngModelOptions]="{standalone: true}" placeholder="Nombre de Usuario"/>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="form-group">
-                <label for="basicInput">Contraseña</label>
-                <input class="form-control" [readonly]="btnUpdate == true" type="password"  [(ngModel)]="ICrearUsuariosAdmin.Clave" [ngModelOptions]="{standalone: true}" placeholder="Ingrese Contraseña"/>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="form-group">
-                <label for="basicInput">Nombres</label>
-                <input class="form-control" type="text"  [(ngModel)]="ICrearUsuariosAdmin.Nombres" [ngModelOptions]="{standalone: true}" placeholder="Ingrese Nombres"/>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="form-group">
-                <label for="basicInput">Apellidos</label>
-                <input class="form-control" type="text"  [(ngModel)]="ICrearUsuariosAdmin.Apellidos" [ngModelOptions]="{standalone: true}" placeholder="Ingrese Apellidos"/>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="form-group">
-                <label for="basicInput">Cedula de Identidad</label>
-                <input class="form-control" type="text"  [(ngModel)]="ICrearUsuariosAdmin.Cedula" [ngModelOptions]="{standalone: true}" placeholder="Ingrese Cedula de Identidad"/>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="form-group">
-                <label for="basicInput">Telefono Local</label>
-                <input class="form-control" type="text"  [(ngModel)]="ICrearUsuariosAdmin.TelefonoLocal" [ngModelOptions]="{standalone: true}" placeholder="Ingrese Telefono Local"/>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="form-group">
-                <label for="basicInput">Telefono Celular</label>
-                <input class="form-control" type="text"  [(ngModel)]="ICrearUsuariosAdmin.TelefonoCelular" [ngModelOptions]="{standalone: true}" placeholder="Ingrese Telefono Celular"/>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="form-group">
-                <label for="basicInput">Correo Principal</label>
-                <input class="form-control" type="text"  [(ngModel)]="ICrearUsuariosAdmin.CorreoPrincipal" [ngModelOptions]="{standalone: true}" placeholder="Ingrese Correo Principal"/>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="form-group">
-                <label for="basicInput">Correo Secundario</label>
-                <input class="form-control" type="text"  [(ngModel)]="ICrearUsuariosAdmin.CorreoSecundario" [ngModelOptions]="{standalone: true}" placeholder="Ingrese Correo Secundario"/>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="form-group">
-                <label for="basicInput">Cargo</label>
-                <input class="form-control" type="text"  [(ngModel)]="ICrearUsuariosAdmin.Cargo" [ngModelOptions]="{standalone: true}" placeholder="Ingrese Cargo"/>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="form-group">
-                <label for="basicInput">Perfil</label>
-                <ng-select [items]="ListaPerfiles" [(ngModel)]="ICrearUsuariosAdmin.EsAdministrador" [ngModelOptions]="{standalone: true}"
-              placeholder="Seleccione Perfil" bindLabel="name" bindValue="id" required>
-            </ng-select>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="form-group">
-                <label for="basicInput">Status</label>
-                <ng-select [items]="ListaStatus" [(ngModel)]="ICrearUsuariosAdmin.Estatus" [ngModelOptions]="{standalone: true}"
-              placeholder="Seleccione Estatus" bindLabel="name" bindValue="id" required>
-            </ng-select>
-              </div>
-            </div>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <div class="col-xl-12 col-md-12 col-12 printRef">
+      <!-- Header Starts -->
 
-            </div>
-          </form>
-  
-          <!-- Header Ends -->
-        </div>
-        </div>
-        <!--/ Invoice -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
-          Cerrar
-        </button>
-        <button type="button" *ngIf="btnUpdate == false" class="btn btn-success" (click)="RegistrarUsuarios()"  rippleEffect>
-          Registrar Nuevo Usuario
-        </button>
-        <button type="button" *ngIf="btnUpdate == true" class="btn btn-warning" (click)="ActualizarUsuarios()"  rippleEffect>
-          Actualizar  Usuario
-        </button>
-      </div>
-    </ng-template>
-
-
-    <ng-template #DetailsModal let-modal>
-      <div class="modal-header">
-        <h5 class="modal-title" id="myModalLabel160"><strong>Cambiar Contraseña de Usuario</strong></h5>
-        <!-- <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button> -->
-      </div>
-      <div class="modal-body" tabindex="0" ngbAutofocus>
-        <div class="col-xl-12 col-md-12 col-12 printRef">
-          <!-- Header Starts -->
-          
-          <form class="auth-reset-password-form mt-2" [formGroup]="resetPasswordForm" (ngSubmit)="onSubmit()">
+      <form class="auth-reset-password-form mt-2">
+        <div class="row">
+          <div class="col-6">
             <div class="form-group">
-              <div class="d-flex justify-content-between">
-                <label for="reset-password-new">Nueva contraseña</label>
-              </div>
-              <div class="input-group input-group-merge form-password-toggle">
-                <input
-                  [type]="passwordTextType ? 'text' : 'password'"
-                  formControlName="newPassword"
-                  class="form-control form-control-merge"
-                  placeholder="Nueva contraseña"
-                  aria-describedby="reset-password-new"
-                  tabindex="1"
-                  autofocus
-                  [ngClass]="{ 'is-invalid error': submitted && f.newPassword.errors }"
-                />
-                <div class="input-group-append">
-                  <span class="input-group-text cursor-pointer"
-                    ><i
-                      class="feather font-small-4"
-                      [ngClass]="{
+              <label for="basicInput">Nombre de Usuario</label>
+              <input class="form-control" type="text" [(ngModel)]="ICrearUsuariosAdmin.Codigo"
+                [ngModelOptions]="{standalone: true}" placeholder="Nombre de Usuario" />
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <label for="basicInput">Contraseña</label>
+              <input class="form-control" [readonly]="btnUpdate == true" type="password"
+                [(ngModel)]="ICrearUsuariosAdmin.Clave" [ngModelOptions]="{standalone: true}"
+                placeholder="Ingrese Contraseña" />
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <label for="basicInput">Nombres</label>
+              <input class="form-control" type="text" [(ngModel)]="ICrearUsuariosAdmin.Nombres"
+                [ngModelOptions]="{standalone: true}" placeholder="Ingrese Nombres" />
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <label for="basicInput">Apellidos</label>
+              <input class="form-control" type="text" [(ngModel)]="ICrearUsuariosAdmin.Apellidos"
+                [ngModelOptions]="{standalone: true}" placeholder="Ingrese Apellidos" />
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <label for="basicInput">Cedula de Identidad</label>
+              <input class="form-control" type="text" [(ngModel)]="ICrearUsuariosAdmin.Cedula"
+                [ngModelOptions]="{standalone: true}" placeholder="Ingrese Cedula de Identidad" />
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <label for="basicInput">Telefono Local</label>
+              <input class="form-control" type="text" [(ngModel)]="ICrearUsuariosAdmin.TelefonoLocal"
+                [ngModelOptions]="{standalone: true}" placeholder="Ingrese Telefono Local" />
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <label for="basicInput">Telefono Celular</label>
+              <input class="form-control" type="text" [(ngModel)]="ICrearUsuariosAdmin.TelefonoCelular"
+                [ngModelOptions]="{standalone: true}" placeholder="Ingrese Telefono Celular" />
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <label for="basicInput">Correo Principal</label>
+              <input class="form-control" type="text" [(ngModel)]="ICrearUsuariosAdmin.CorreoPrincipal"
+                [ngModelOptions]="{standalone: true}" placeholder="Ingrese Correo Principal" />
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <label for="basicInput">Correo Secundario</label>
+              <input class="form-control" type="text" [(ngModel)]="ICrearUsuariosAdmin.CorreoSecundario"
+                [ngModelOptions]="{standalone: true}" placeholder="Ingrese Correo Secundario" />
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <label for="basicInput">Cargo</label>
+              <input class="form-control" type="text" [(ngModel)]="ICrearUsuariosAdmin.Cargo"
+                [ngModelOptions]="{standalone: true}" placeholder="Ingrese Cargo" />
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <label for="basicInput">Perfil</label>
+              <ng-select [items]="ListaPerfiles" [(ngModel)]="ICrearUsuariosAdmin.EsAdministrador"
+                [ngModelOptions]="{standalone: true}" placeholder="Seleccione Perfil" bindLabel="name" bindValue="id"
+                required>
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <label for="basicInput">Status</label>
+              <ng-select [items]="ListaStatus" [(ngModel)]="ICrearUsuariosAdmin.Estatus"
+                [ngModelOptions]="{standalone: true}" placeholder="Seleccione Estatus" bindLabel="name" bindValue="id"
+                required>
+              </ng-select>
+            </div>
+          </div>
+
+        </div>
+      </form>
+
+      <!-- Header Ends -->
+    </div>
+  </div>
+  <!--/ Invoice -->
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+      Cerrar
+    </button>
+    <button type="button" *ngIf="btnUpdate == false" class="btn btn-success" (click)="RegistrarUsuarios()" rippleEffect>
+      Registrar Nuevo Usuario
+    </button>
+    <button type="button" *ngIf="btnUpdate == true" class="btn btn-warning" (click)="ActualizarUsuarios()" rippleEffect>
+      Actualizar Usuario
+    </button>
+  </div>
+</ng-template>
+
+
+<ng-template #DetailsModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="myModalLabel160"><strong>Cambiar Contraseña de Usuario</strong></h5>
+    <!-- <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <div class="col-xl-12 col-md-12 col-12 printRef">
+      <!-- Header Starts -->
+
+      <form class="auth-reset-password-form mt-2" [formGroup]="resetPasswordForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <div class="d-flex justify-content-between">
+            <label for="reset-password-new">Nueva contraseña</label>
+          </div>
+          <div class="input-group input-group-merge form-password-toggle">
+            <input [type]="passwordTextType ? 'text' : 'password'" formControlName="newPassword"
+              class="form-control form-control-merge" placeholder="Nueva contraseña"
+              aria-describedby="reset-password-new" tabindex="1" autofocus
+              [ngClass]="{ 'is-invalid error': submitted && f.newPassword.errors }" />
+            <div class="input-group-append">
+              <span class="input-group-text cursor-pointer"><i class="feather font-small-4" [ngClass]="{
                         'icon-eye-off': passwordTextType,
                         'icon-eye': !passwordTextType
-                      }"
-                      (click)="togglePasswordTextType()"
-                    ></i
-                  ></span>
-                </div>
-              </div>
-              <div
-                *ngIf="submitted && f.newPassword.errors"
-                class="invalid-feedback"
-                [ngClass]="{ 'd-block': submitted && f.newPassword.errors }"
-              >
-                <div *ngIf="f.newPassword.errors.required">Confirmar contraseña</div>
-              </div>
+                      }" (click)="togglePasswordTextType()"></i></span>
             </div>
-            <div class="form-group">
-              <div class="d-flex justify-content-between">
-                <label for="reset-password-confirm">Confirmar contraseña</label>
-              </div>
-              <div class="input-group input-group-merge form-password-toggle">
-                <input
-                  [type]="confPasswordTextType ? 'text' : 'password'"
-                  formControlName="confirmPassword"
-                  class="form-control form-control-merge"
-                  placeholder="Confirmar contraseña"
-                  aria-describedby="reset-password-confirm"
-                  tabindex="2"
-                  [ngClass]="{ 'is-invalid error': submitted && f.confirmPassword.errors }"
-                />
-                <div class="input-group-append">
-                  <span class="input-group-text cursor-pointer"
-                    ><i
-                      class="feather font-small-4"
-                      [ngClass]="{
+          </div>
+          <div *ngIf="submitted && f.newPassword.errors" class="invalid-feedback"
+            [ngClass]="{ 'd-block': submitted && f.newPassword.errors }">
+            <div *ngIf="f.newPassword.errors.required">Confirmar contraseña</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="d-flex justify-content-between">
+            <label for="reset-password-confirm">Confirmar contraseña</label>
+          </div>
+          <div class="input-group input-group-merge form-password-toggle">
+            <input [type]="confPasswordTextType ? 'text' : 'password'" formControlName="confirmPassword"
+              class="form-control form-control-merge" placeholder="Confirmar contraseña"
+              aria-describedby="reset-password-confirm" tabindex="2"
+              [ngClass]="{ 'is-invalid error': submitted && f.confirmPassword.errors }" />
+            <div class="input-group-append">
+              <span class="input-group-text cursor-pointer"><i class="feather font-small-4" [ngClass]="{
                         'icon-eye-off': confPasswordTextType,
                         'icon-eye': !confPasswordTextType
-                      }"
-                      (click)="toggleConfPasswordTextType()"
-                    ></i
-                  ></span>
-                </div>
-              </div>
-              <div
-                *ngIf="submitted && f.confirmPassword.errors"
-                class="invalid-feedback"
-                [ngClass]="{ 'd-block': submitted && f.confirmPassword.errors }"
-              >
-                <div *ngIf="f.confirmPassword.errors.required">Password is required</div>
-              </div>
+                      }" (click)="toggleConfPasswordTextType()"></i></span>
             </div>
-            <!-- <button class="btn btn-primary btn-block" tabindex="3" rippleEffect>Establecer nueva contraseña</button> -->
-          </form>
-  
-          <!-- Header Ends -->
+          </div>
+          <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback"
+            [ngClass]="{ 'd-block': submitted && f.confirmPassword.errors }">
+            <div *ngIf="f.confirmPassword.errors.required">Password is required</div>
+          </div>
         </div>
-        </div>
-        <!--/ Invoice -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
-          Cerrar
-        </button>
-        <button type="button" class="btn btn-success" (click)="ChangePassword()"  rippleEffect>
-          Establecer nueva contraseña
-        </button>
-      </div>
-    </ng-template>
+        <!-- <button class="btn btn-primary btn-block" tabindex="3" rippleEffect>Establecer nueva contraseña</button> -->
+      </form>
+
+      <!-- Header Ends -->
+    </div>
+  </div>
+  <!--/ Invoice -->
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+      Cerrar
+    </button>
+    <button type="button" class="btn btn-success" (click)="ChangePassword()" rippleEffect>
+      Establecer nueva contraseña
+    </button>
+  </div>
+</ng-template>

@@ -71,7 +71,7 @@
           <div class="card-header">
             <h4 class="card-title">Estadisticas</h4>
             <div class="d-flex align-items-center">
-              <p class="card-text font-small-2 mr-25 mb-0">Actualizado: 29-08-2022 04:34 AM</p>
+              <p class="card-text font-small-2 mr-25 mb-0">Actualizado: {{ fecha }}</p>
             </div>
           </div>
           <div class="card-body statistics-body">
@@ -80,12 +80,12 @@
                 <div class="media">
                   <div class="avatar bg-light-primary mr-2">
                     <div class="avatar-content">
-                      <i data-feather="trending-up" class="avatar-icon"></i>
+                      <i data-feather="home" class="avatar-icon"></i>
                     </div>
                   </div>
                   <div class="media-body my-auto">
-                    <h4 class="font-weight-bolder mb-0">234343K</h4>
-                    <p class="card-text font-small-3 mb-0">Aportes</p>
+                    <h4 class="font-weight-bolder mb-0">{{empresas}}</h4>
+                    <p class="card-text font-small-3 mb-0">Total Empresas Inscritas</p>
                   </div>
                 </div>
               </div>
@@ -93,12 +93,12 @@
                 <div class="media">
                   <div class="avatar bg-light-info mr-2">
                     <div class="avatar-content">
-                      <i data-feather="user" class="avatar-icon"></i>
+                      <i data-feather="trending-up" class="avatar-icon"></i>
                     </div>
                   </div>
                   <div class="media-body my-auto">
-                    <h4 class="font-weight-bolder mb-0">6456K</h4>
-                    <p class="card-text font-small-3 mb-0">Usuarios</p>
+                    <h4 class="font-weight-bolder mb-0">{{recursos}}</h4>
+                    <p class="card-text font-small-3 mb-0">Recursos Jerarquicos Atendidos</p>
                   </div>
                 </div>
               </div>
@@ -110,8 +110,8 @@
                     </div>
                   </div>
                   <div class="media-body my-auto">
-                    <h4 class="font-weight-bolder mb-0">5345 K</h4>
-                    <p class="card-text font-small-3 mb-0">Aportes No Procesados</p>
+                    <h4 class="font-weight-bolder mb-0">{{proyectos}}</h4>
+                    <p class="card-text font-small-3 mb-0">Proyectos Aprobados</p>
                   </div>
                 </div>
               </div>
@@ -119,21 +119,99 @@
                 <div class="media">
                   <div class="avatar bg-light-success mr-2">
                     <div class="avatar-content">
-                      <i class="avatar-icon">Bs</i>
+                      <i data-feather="user" class="avatar-icon"></i>
                     </div>
                   </div>
                   <div class="media-body my-auto">
-                    <h4 class="font-weight-bolder mb-0">423 K</h4>
-                    <p class="card-text font-small-3 mb-0">Ingresos</p>
+                    <h4 class="font-weight-bolder mb-0">{{usuarios}}</h4>
+                    <p class="card-text font-small-3 mb-0">Usuarios Externos</p>
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
       </div>
       <!--/ Statistics Card -->
-    </div>
 
+      <div class="col-xl-12 col-md-6 col-12" *ngIf="admin">
+        <div class="card card-statistics">
+          <div class="card-header">
+            <h4 class="card-title">Estadisticas</h4>
+            <div class="d-flex align-items-center">
+              <p class="card-text font-small-2 mr-25 mb-0">Actualizado: {{ fecha }}</p>
+            </div>
+          </div>
+          <div class="card-body statistics-body">
+            <div class="row">
+
+              <!-- TORTAS -->
+
+
+              <div class="col-xl-6 col-12">
+                <div class="card">
+                  <div class="card-header flex-column align-items-start">
+                    <h4 class="card-title mb-75">TOTAL DE EMPRESAS</h4>
+                    <span class="card-subtitle text-muted">Descripción de Empresas</span>
+                  </div>
+                  <div class="card-body">
+                    <canvas class="line-chart-ex chartjs" baseChart height="400" [datasets]="donusChart01.datasets"
+                      [chartType]="donusChart01.chartType" [options]="donusChart01.options"
+                      [labels]="donusChart01.labels" [plugins]="plugins"></canvas>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-6 col-12">
+                <div class="card">
+                  <div class="card-header flex-column align-items-start">
+                    <h4 class="card-title mb-75">TOTAL DE MULTAS</h4>
+                    <span class="card-subtitle text-muted">Descripción Total de Multas</span>
+                  </div>
+                  <div class="card-body">
+                    <canvas class="line-chart-ex chartjs" baseChart height="400" [datasets]="donusChart02.datasets"
+                      [chartType]="donusChart02.chartType" [options]="donusChart02.options"
+                      [labels]="donusChart02.labels" [plugins]="plugins"></canvas>
+                  </div>
+                </div>
+              </div>
+
+              <!-- GRAFICAS -->
+
+              <div class="col-xl-6 col-12">
+                <div class="card">
+                  <div class="card-header flex-column align-items-start">
+                    <h4 class="card-title mb-75">EMPRESAS</h4>
+                    <span class="card-subtitle text-muted">Empresas Doble Aportantes y Empresas aportantes</span>
+                  </div>
+                  <div class="card-body">
+                    <canvas class="line-chart-ex chartjs" baseChart height="400" [datasets]="barChart.datasets"
+                      [chartType]="barChart.chartType" [options]="barChart.options" [labels]="barChart.labels"
+                      [plugins]="plugins"></canvas>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-6 col-12">
+                <div class="card">
+                  <div class="card-header flex-column align-items-start">
+                    <h4 class="card-title mb-75">METAS</h4>
+                    <span class="card-subtitle text-muted">Metas del año pasado VS Metas del año actual</span>
+                  </div>
+                  <div class="card-body">
+                    <canvas class="line-chart-ex chartjs" baseChart height="400" [datasets]="lineChart.datasets"
+                      [chartType]="lineChart.chartType" [options]="lineChart.options" [labels]="lineChart.labels"
+                      [plugins]="plugins"></canvas>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
   </div>
-</div>

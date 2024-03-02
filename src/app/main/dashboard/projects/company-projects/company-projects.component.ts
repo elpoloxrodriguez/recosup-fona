@@ -480,9 +480,9 @@ export class CompanyProjectsComponent implements OnInit {
 
 
   async UpdateProyect() {
-    this.CrearProyecto.estado = this.CrearProyecto.estado.Codigo
-    this.CrearProyecto.municipio = this.CrearProyecto.municipio.Codigo
-    this.CrearProyecto.parroquia = this.CrearProyecto.parroquia.ParroquiaId
+    this.CrearProyecto.estado = this.CrearProyecto.estado.id
+    this.CrearProyecto.municipio = this.CrearProyecto.municipio.id
+    this.CrearProyecto.parroquia = this.CrearProyecto.parroquia.id
 
     this.xAPI.funcion = "RECOSUP_U_ProyectosUpdate";
     this.xAPI.parametros = ''

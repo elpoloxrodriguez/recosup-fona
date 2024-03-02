@@ -41,7 +41,7 @@ import { UsersStatusGlobalComponent } from './support/users-status-global/users-
 import { HierarchicalResourcesComponent } from './legal/hierarchical-resources/hierarchical-resources.component';
 import { AsistenteVirtualComponent } from '../asistente-virtual/asistente-virtual/asistente-virtual.component';
 
-
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -74,6 +74,7 @@ import { AsistenteVirtualComponent } from '../asistente-virtual/asistente-virtua
     NgxDatatableModule,
     DashboardRoutingModule,
     CommonModule,
+    ChartsModule,
     ProjectsRoutingModule,
     ContentHeaderModule,
     CoreCommonModule,

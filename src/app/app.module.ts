@@ -40,7 +40,6 @@ import { StaticReportsComponent } from './main/dashboard/reports-alerts/static-r
 import { MenuModuleComponent } from './main/dashboard/support/menu-module/menu-module.component';
 import { ErrorInterceptor, JwtInterceptor, fakeBackendProvider } from './auth/helpers';
 import { BlockUIModule } from 'ng-block-ui';
-import { ChartsModule } from 'ng2-charts';
 import { ReportsComponent } from './main/dashboard/financial-collection/reports/reports.component'
 import { ReportsProjectsComponent } from './main/dashboard/projects/reports/reports-projects/reports-projects.component';
 import { environment } from '../environments/environment';
@@ -49,7 +48,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 
 
 
-
+import { ChartsModule } from 'ng2-charts';
 
 
 // Recaptcha V3

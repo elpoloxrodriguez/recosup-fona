@@ -14,19 +14,19 @@ import { Router } from '@angular/router';
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
-  encapsulation : ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None,
   providers: [NgbModalConfig, NgbModal],
 
 })
 export class UsersComponent implements OnInit {
 
-  public xAPI : IAPICore = {
+  public xAPI: IAPICore = {
     funcion: '',
     parametros: '',
-    valores : {},
+    valores: {},
   };
 
-  public IUpdateUsuario : RECOSUP_U_UsuarioAdmim = {
+  public IUpdateUsuario: RECOSUP_U_UsuarioAdmim = {
     Codigo: '',
     Clave: '',
     Nombres: '',
@@ -43,7 +43,7 @@ export class UsersComponent implements OnInit {
     UsuarioId: 0
   }
 
-  public ICrearUsuariosAdmin : RECOSUP_C_UsuarioAdmin = {
+  public ICrearUsuariosAdmin: RECOSUP_C_UsuarioAdmin = {
     Codigo: '',
     Clave: '',
     Nombres: '',
@@ -59,10 +59,10 @@ export class UsersComponent implements OnInit {
     UsuarioCreo: 0
   }
 
-  public titleModal : string = ''
+  public titleModal: string = ''
   public btnUpdate = false
 
-  public token : any
+  public token: any
 
   public ModalTitle
   public dataListUsuarios = [];
@@ -81,16 +81,17 @@ export class UsersComponent implements OnInit {
   public UserId
 
   public ListaStatus = [
-    { id: '1', name: 'Activo'},
-    { id: '2', name: 'Inactivo'}
+    { id: '1', name: 'Activo' },
+    { id: '2', name: 'Inactivo' }
   ]
 
   public ListaPerfiles = [
-    { id: '1', name: 'Recaudación'},
-    { id: '2', name: 'Juridico'},
-    { id: '3', name: 'Fiscalización'},
-    { id: '4', name: 'Proyectos'},
-    { id: '9', name: 'Administrador - Tecnologia'}
+    { id: '1', name: 'Recaudación' },
+    { id: '2', name: 'Juridico' },
+    { id: '3', name: 'Fiscalización' },
+    { id: '4', name: 'Proyectos' },
+    { id: '9', name: 'Administrador - Tecnologia' },
+    { id: '10', name: 'Panel - Estadisticas - Gráficas' }
   ]
 
   public passwordTextType: boolean;
@@ -110,19 +111,19 @@ export class UsersComponent implements OnInit {
 
 
   // Private
-  public  tempDataUsuarios = [];
+  public tempDataUsuarios = [];
   private _unsubscribeAll: Subject<any>;
 
-//  Public
-public dataUser
+  //  Public
+  public dataUser
 
   constructor(
     private utilservice: UtilService,
-    private apiService : ApiService,
+    private apiService: ApiService,
     private modalService: NgbModal,
     private _formBuilder: FormBuilder,
-    private router : Router
-  ) { 
+    private router: Router
+  ) {
     this._unsubscribeAll = new Subject();
   }
 
@@ -131,24 +132,24 @@ public dataUser
       newPassword: ['', [Validators.required]],
       confirmPassword: ['', [Validators.required]]
     });
-    this.token =  jwt_decode(sessionStorage.getItem('token'));
+    this.token = jwt_decode(sessionStorage.getItem('token'));
     this.UserId = this.token.Usuario[0].UsuarioId
     // console.log(this.token);
     await this.ListUsuarios()
-    
+
   }
 
   async ListUsuarios() {
     this.xAPI.funcion = "RECOSUP_R_ListUsers_ADMIN";
     this.xAPI.parametros = '';
-     await this.apiService.Ejecutar(this.xAPI).subscribe(
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(element => {
           // element.FechaCreo = ''
           this.ListaUsuarios.push(element);
         });
         // console.log(this.ListaUsuarios)
-        this.rowsUsuarios =  this.ListaUsuarios
+        this.rowsUsuarios = this.ListaUsuarios
         this.tempDataUsuarios = this.rowsUsuarios
       },
       (error) => {
@@ -158,10 +159,10 @@ public dataUser
   }
 
 
-  ChangePassword(){
+  ChangePassword() {
     let clave = this.resetPasswordForm.value.newPassword
     let usuario = this.dataUser
-    this.ChangePasswordUsers(usuario,clave)
+    this.ChangePasswordUsers(usuario, clave)
   }
 
 
@@ -176,55 +177,55 @@ public dataUser
     });
   }
 
-  async ChangePasswordUsers(usuario: any, clave: any){
-  
-  let datos = {
-    usuario: usuario,
-	  clave:  this.utilservice.md5(clave)
-  }
-  this.xAPI.funcion = 'RECOSUP_U_PasswordUsers_ADMIN'
-  this.xAPI.parametros = ''
-  this.xAPI.valores = JSON.stringify(datos)
-  await this.apiService.Ejecutar(this.xAPI).subscribe(
-    (data) => {
-      // console.info(data)
-      this.modalService.dismissAll('Close')
-      const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-      })
-      
-      Toast.fire({
-        icon: 'success',
-        title: 'Contraseña actualizada exitosamente'
-      })
-    },
-    (error) => {
-      const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-      })
-      
-      Toast.fire({
-        icon: 'error',
-        title: error
-      })
+  async ChangePasswordUsers(usuario: any, clave: any) {
+
+    let datos = {
+      usuario: usuario,
+      clave: this.utilservice.md5(clave)
     }
-  )
+    this.xAPI.funcion = 'RECOSUP_U_PasswordUsers_ADMIN'
+    this.xAPI.parametros = ''
+    this.xAPI.valores = JSON.stringify(datos)
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        // console.info(data)
+        this.modalService.dismissAll('Close')
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'success',
+          title: 'Contraseña actualizada exitosamente'
+        })
+      },
+      (error) => {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'error',
+          title: error
+        })
+      }
+    )
   }
 
 
@@ -241,162 +242,162 @@ public dataUser
     this.table.offset = 0;
   }
 
-    // convenience getter for easy access to form fields
-    get f() {
-      return this.resetPasswordForm.controls;
-    }
-  
-    /**
-     * Toggle password
-     */
-    togglePasswordTextType() {
-      this.passwordTextType = !this.passwordTextType;
-    }
-  
-    /**
-     * Toggle confirm password
-     */
-    toggleConfPasswordTextType() {
-      this.confPasswordTextType = !this.confPasswordTextType;
-    }
-  
+  // convenience getter for easy access to form fields
+  get f() {
+    return this.resetPasswordForm.controls;
+  }
 
-    CrearUsuario(modal){
-      this.titleModal = 'Registrar Usuario Administrador'
-      this.modalService.open(modal, {
-        centered: true,
-        size: 'lg',
-        backdrop: false,
-        keyboard: false,
-        windowClass: 'fondo-modal',
-      });
-    }
+  /**
+   * Toggle password
+   */
+  togglePasswordTextType() {
+    this.passwordTextType = !this.passwordTextType;
+  }
 
-    UpdateUsuario(modal, data){
-      this.btnUpdate = true
-      this.titleModal = 'Actualizar Usuario Administrador'
-      // console.log(data);
-      this.IUpdateUsuario.UsuarioId = data.UsuarioId
-      this.ICrearUsuariosAdmin.Codigo = data.Codigo
-      this.ICrearUsuariosAdmin.Clave = data.Clave
-      this.ICrearUsuariosAdmin.Nombres = data.Nombres
-      this.ICrearUsuariosAdmin.Apellidos = data.Apellidos
-      this.ICrearUsuariosAdmin.Cedula = data.Cedula
-      this.ICrearUsuariosAdmin.TelefonoLocal = data.TelefonoLocal
-      this.ICrearUsuariosAdmin.TelefonoCelular = data.TelefonoCelular
-      this.ICrearUsuariosAdmin.CorreoPrincipal = data.CorreoPrincipal
-      this.ICrearUsuariosAdmin.CorreoSecundario = data.CorreoSecundario
-      this.ICrearUsuariosAdmin.Cargo = data.Cargo
-      this.ICrearUsuariosAdmin.EsAdministrador = data.EsAdministrador
-      this.ICrearUsuariosAdmin.Estatus = data.Estatus
-      this.modalService.open(modal, {
-        centered: true,
-        size: 'lg',
-        backdrop: false,
-        keyboard: false,
-        windowClass: 'fondo-modal',
-      });
-    }
+  /**
+   * Toggle confirm password
+   */
+  toggleConfPasswordTextType() {
+    this.confPasswordTextType = !this.confPasswordTextType;
+  }
 
-    async ActualizarUsuarios(){
-      this.IUpdateUsuario.Codigo = this.ICrearUsuariosAdmin.Codigo
-      this.IUpdateUsuario.Clave = this.ICrearUsuariosAdmin.Clave
-      this.IUpdateUsuario.Nombres = this.ICrearUsuariosAdmin.Nombres
-      this.IUpdateUsuario.Apellidos = this.ICrearUsuariosAdmin.Apellidos
-      this.IUpdateUsuario.Cedula = this.ICrearUsuariosAdmin.Cedula
-      this.IUpdateUsuario.TelefonoLocal = this.ICrearUsuariosAdmin.TelefonoLocal
-      this.IUpdateUsuario.TelefonoCelular = this.ICrearUsuariosAdmin.TelefonoCelular
-      this.IUpdateUsuario.CorreoPrincipal = this.ICrearUsuariosAdmin.CorreoPrincipal
-      this.IUpdateUsuario.CorreoSecundario = this.ICrearUsuariosAdmin.CorreoSecundario
-      this.IUpdateUsuario.Cargo = this.ICrearUsuariosAdmin.Cargo
-      this.IUpdateUsuario.EsAdministrador = this.ICrearUsuariosAdmin.EsAdministrador
-      this.IUpdateUsuario.Estatus = this.ICrearUsuariosAdmin.Estatus
-      this.xAPI.funcion = "RECOSUP_U_UsuarioAdmim";
-      this.xAPI.parametros = ''
-      this.xAPI.valores = JSON.stringify(this.IUpdateUsuario)
-       await this.apiService.Ejecutar(this.xAPI).subscribe(
-        (data) => {
-          this.rowsUsuarios.push(this.ListaUsuarios)
-          if (data.tipo === 1) {
-            this.ListaUsuarios = []
-            this.ListUsuarios()
-            this.modalService.dismissAll('Close')
-            this.utilservice.alertConfirmMini('success', 'Usuario Actualizado Exitosamente!')
-            this.router.navigate(['/support/users']).then(() => { window.location.reload() });
-          } else {
-            this.utilservice.alertConfirmMini('warning', 'Oops, Lo sentimos ocurrio un error, intente de nuevo mas tarde')
-          }
-        },
-        (error) => {
-          console.error(error)
+
+  CrearUsuario(modal) {
+    this.titleModal = 'Registrar Usuario Administrador'
+    this.modalService.open(modal, {
+      centered: true,
+      size: 'lg',
+      backdrop: false,
+      keyboard: false,
+      windowClass: 'fondo-modal',
+    });
+  }
+
+  UpdateUsuario(modal, data) {
+    this.btnUpdate = true
+    this.titleModal = 'Actualizar Usuario Administrador'
+    // console.log(data);
+    this.IUpdateUsuario.UsuarioId = data.UsuarioId
+    this.ICrearUsuariosAdmin.Codigo = data.Codigo
+    this.ICrearUsuariosAdmin.Clave = data.Clave
+    this.ICrearUsuariosAdmin.Nombres = data.Nombres
+    this.ICrearUsuariosAdmin.Apellidos = data.Apellidos
+    this.ICrearUsuariosAdmin.Cedula = data.Cedula
+    this.ICrearUsuariosAdmin.TelefonoLocal = data.TelefonoLocal
+    this.ICrearUsuariosAdmin.TelefonoCelular = data.TelefonoCelular
+    this.ICrearUsuariosAdmin.CorreoPrincipal = data.CorreoPrincipal
+    this.ICrearUsuariosAdmin.CorreoSecundario = data.CorreoSecundario
+    this.ICrearUsuariosAdmin.Cargo = data.Cargo
+    this.ICrearUsuariosAdmin.EsAdministrador = data.EsAdministrador
+    this.ICrearUsuariosAdmin.Estatus = data.Estatus
+    this.modalService.open(modal, {
+      centered: true,
+      size: 'lg',
+      backdrop: false,
+      keyboard: false,
+      windowClass: 'fondo-modal',
+    });
+  }
+
+  async ActualizarUsuarios() {
+    this.IUpdateUsuario.Codigo = this.ICrearUsuariosAdmin.Codigo
+    this.IUpdateUsuario.Clave = this.ICrearUsuariosAdmin.Clave
+    this.IUpdateUsuario.Nombres = this.ICrearUsuariosAdmin.Nombres
+    this.IUpdateUsuario.Apellidos = this.ICrearUsuariosAdmin.Apellidos
+    this.IUpdateUsuario.Cedula = this.ICrearUsuariosAdmin.Cedula
+    this.IUpdateUsuario.TelefonoLocal = this.ICrearUsuariosAdmin.TelefonoLocal
+    this.IUpdateUsuario.TelefonoCelular = this.ICrearUsuariosAdmin.TelefonoCelular
+    this.IUpdateUsuario.CorreoPrincipal = this.ICrearUsuariosAdmin.CorreoPrincipal
+    this.IUpdateUsuario.CorreoSecundario = this.ICrearUsuariosAdmin.CorreoSecundario
+    this.IUpdateUsuario.Cargo = this.ICrearUsuariosAdmin.Cargo
+    this.IUpdateUsuario.EsAdministrador = this.ICrearUsuariosAdmin.EsAdministrador
+    this.IUpdateUsuario.Estatus = this.ICrearUsuariosAdmin.Estatus
+    this.xAPI.funcion = "RECOSUP_U_UsuarioAdmim";
+    this.xAPI.parametros = ''
+    this.xAPI.valores = JSON.stringify(this.IUpdateUsuario)
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        this.rowsUsuarios.push(this.ListaUsuarios)
+        if (data.tipo === 1) {
+          this.ListaUsuarios = []
+          this.ListUsuarios()
+          this.modalService.dismissAll('Close')
+          this.utilservice.alertConfirmMini('success', 'Usuario Actualizado Exitosamente!')
+          this.router.navigate(['/support/users']).then(() => { window.location.reload() });
+        } else {
+          this.utilservice.alertConfirmMini('warning', 'Oops, Lo sentimos ocurrio un error, intente de nuevo mas tarde')
         }
-       )
-    }
+      },
+      (error) => {
+        console.error(error)
+      }
+    )
+  }
 
 
-    async RegistrarUsuarios(){
-      this.ICrearUsuariosAdmin.UsuarioCreo = this.UserId
-      this.ICrearUsuariosAdmin.Clave = this.utilservice.md5(this.ICrearUsuariosAdmin.Clave)
-      this.xAPI.funcion = "RECOSUP_C_UsuarioAdmin";
-      this.xAPI.parametros = ''
-      this.xAPI.valores = JSON.stringify(this.ICrearUsuariosAdmin)
-      await this.apiService.Ejecutar(this.xAPI).subscribe(
-        (data) => {
-          this.rowsUsuarios.push(this.ListaUsuarios)
-          if (data.tipo === 1) {
-            this.ListaUsuarios = []
-            this.ListUsuarios()
-            this.modalService.dismissAll('Close')
-            this.utilservice.alertConfirmMini('success', 'Usuario Creado Exitosamente!')
-            this.router.navigate(['/support/users']).then(() => { window.location.reload() });
-          } else {
-            this.utilservice.alertConfirmMini('warning', 'Oops, Lo sentimos ocurrio un error, intente de nuevo mas tarde')
-          }
-        },
-        (error) => {
-          console.error(error)
+  async RegistrarUsuarios() {
+    this.ICrearUsuariosAdmin.UsuarioCreo = this.UserId
+    this.ICrearUsuariosAdmin.Clave = this.utilservice.md5(this.ICrearUsuariosAdmin.Clave)
+    this.xAPI.funcion = "RECOSUP_C_UsuarioAdmin";
+    this.xAPI.parametros = ''
+    this.xAPI.valores = JSON.stringify(this.ICrearUsuariosAdmin)
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        this.rowsUsuarios.push(this.ListaUsuarios)
+        if (data.tipo === 1) {
+          this.ListaUsuarios = []
+          this.ListUsuarios()
+          this.modalService.dismissAll('Close')
+          this.utilservice.alertConfirmMini('success', 'Usuario Creado Exitosamente!')
+          this.router.navigate(['/support/users']).then(() => { window.location.reload() });
+        } else {
+          this.utilservice.alertConfirmMini('warning', 'Oops, Lo sentimos ocurrio un error, intente de nuevo mas tarde')
         }
-       )
-    }
+      },
+      (error) => {
+        console.error(error)
+      }
+    )
+  }
 
-    async DeleteUser(data: any) {
-      await Swal.fire({
-        title: 'Esta Seguro?',
-        text: "De Eliminar Este Registro!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, Eliminarlo!',
-        cancelButtonText: 'Cancelar'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.xAPI.funcion = "RECOSUP_D_UsuarioAdmin";
-          this.xAPI.parametros = data.UsuarioId
-          this.xAPI.valores = ''
-          this.apiService.Ejecutar(this.xAPI).subscribe(
-            (data) => {
-              this.rowsUsuarios = []
-              if (data.tipo === 1) {
-                this.rowsUsuarios.push(this.ListaUsuarios)
-                this.ListaUsuarios = []
-                this.ListUsuarios()
-                this.utilservice.alertConfirmMini('success', 'Registro Eliminado Exitosamente')
-              } else {
-                this.utilservice.alertConfirmMini('error', 'Lo sentimos algo salio mal, intente de nuevo')
-              }
-            },
-            (error) => {
-              console.log(error)
+  async DeleteUser(data: any) {
+    await Swal.fire({
+      title: 'Esta Seguro?',
+      text: "De Eliminar Este Registro!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Eliminarlo!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.xAPI.funcion = "RECOSUP_D_UsuarioAdmin";
+        this.xAPI.parametros = data.UsuarioId
+        this.xAPI.valores = ''
+        this.apiService.Ejecutar(this.xAPI).subscribe(
+          (data) => {
+            this.rowsUsuarios = []
+            if (data.tipo === 1) {
+              this.rowsUsuarios.push(this.ListaUsuarios)
+              this.ListaUsuarios = []
+              this.ListUsuarios()
+              this.utilservice.alertConfirmMini('success', 'Registro Eliminado Exitosamente')
+            } else {
+              this.utilservice.alertConfirmMini('error', 'Lo sentimos algo salio mal, intente de nuevo')
             }
-          )
-        }
-      })
-    }
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+      }
+    })
+  }
   /**
    * On destroy
    */
-   ngOnDestroy(): void {
+  ngOnDestroy(): void {
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();

@@ -36,7 +36,7 @@ export class GoalManagementComponent implements OnInit {
   public añoActual = new Date()
   public año = this.añoActual.getFullYear()
   public añoAc = this.año
-  public añoAn = this.año -1
+  public añoAn = this.año - 1
 
   public FechaDesde = ''
   public FechaHasta = ''
@@ -117,13 +117,13 @@ export class GoalManagementComponent implements OnInit {
     },
 
     // labels: this.recaudacion,
-    labels: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
     datasets: [
       {
         data: this.MontoRecaudacionAnioAnterior,
-        label: `Recaudación Año Desde ${ this.FechaDesde }`,
+        label: `Recaudación Año Desde ${this.FechaDesde}`,
         borderColor: this.lineChartDanger,
-        lineTension: 0.5,
+        lineTension: 0.1,
         pointStyle: 'circle',
         backgroundColor: this.lineChartDanger,
         fill: false,
@@ -143,7 +143,7 @@ export class GoalManagementComponent implements OnInit {
         data: this.MontoRecaudacionAnioActual,
         label: `Recaudación Año Hasta ${this.FechaHasta}`,
         borderColor: this.lineChartPrimary,
-        lineTension: 0.5,
+        lineTension: 0.1,
         pointStyle: 'circle',
         backgroundColor: this.lineChartPrimary,
         fill: false,
@@ -192,7 +192,7 @@ export class GoalManagementComponent implements OnInit {
   async ngOnInit() {
     // content header
     await this.DataRecaudacionAnioAnterior(this.FechaDesde ? this.FechaDesde : this.añoAn)
-    await this.DataRecaudacionAnioActual(this.FechaHasta ? this.FechaHasta :this.añoAc)
+    await this.DataRecaudacionAnioActual(this.FechaHasta ? this.FechaHasta : this.añoAc)
     this.CapacidadGraficos = 30000000
   }
 
@@ -205,7 +205,7 @@ export class GoalManagementComponent implements OnInit {
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(AnioAnterior => {
-           this.MontoRecaudacionAnioAnterior.push(this.utilService.RevertirConvertirMoneda(AnioAnterior.MontoTotal))
+          this.MontoRecaudacionAnioAnterior.push(this.utilService.RevertirConvertirMoneda(AnioAnterior.MontoTotal))
           //  console.log(AnioAnterior.MontoMayor)
         })
       },
