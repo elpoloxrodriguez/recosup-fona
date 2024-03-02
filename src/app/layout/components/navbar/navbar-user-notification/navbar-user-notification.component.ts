@@ -21,12 +21,12 @@ export class NavbarUserNotificationComponent implements OnInit {
 
   public token
 
-  public xAPI : IAPICore = {
+  public xAPI: IAPICore = {
     funcion: '',
     parametros: '',
-    valores : {},
+    valores: {},
   };
-  
+
   public Notificaciones = []
 
   // Public
@@ -38,8 +38,8 @@ export class NavbarUserNotificationComponent implements OnInit {
    */
   constructor(
     private _notificationsService: NotificationsService,
-    private apiService : ApiService,
-    ) {}
+    private apiService: ApiService,
+  ) { }
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
@@ -48,8 +48,8 @@ export class NavbarUserNotificationComponent implements OnInit {
    * On init
    */
   async ngOnInit() {
-    this.token =  jwt_decode(sessionStorage.getItem('token'));
-    if (this.token.Usuario[0].EsAdministrador == '9' || this.token.Usuario[0].EsAdministrador == '1') {
+    this.token = jwt_decode(sessionStorage.getItem('token'));
+    if (this.token.Usuario[0].EsAdministrador == '9' || this.token.Usuario[0].EsAdministrador == '10' || this.token.Usuario[0].EsAdministrador == '1') {
       await this.NotificacionesTotal()
       this._notificationsService.onApiDataChange.subscribe(res => {
         this.notifications = res;
@@ -60,12 +60,12 @@ export class NavbarUserNotificationComponent implements OnInit {
   }
 
 
-  async NotificacionesTotal(){
+  async NotificacionesTotal() {
     this.xAPI.funcion = "RECOSUP_R_UsuariosStatus";
     this.xAPI.parametros = '0'
-     await this.apiService.Ejecutar(this.xAPI).subscribe(
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-         data.Cuerpo.map(e => {
+        data.Cuerpo.map(e => {
           this.Notificaciones.push(e)
         });
         // console.log(this.Notificaciones)
