@@ -37,10 +37,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public prevSkin: string;
 
   public currentUser: User;
-  public token : any
+  public token: any
   public rol
   public nombre = ''
-public cargo = ''
+  public cargo = ''
 
 
   public languageOptions: any;
@@ -98,7 +98,7 @@ public cargo = ''
     this._authenticationService.currentUser.subscribe(x => (this.currentUser = x));
 
     this.languageOptions = {
-      
+
       es: {
         title: 'Spanish',
         flag: 've'
@@ -179,20 +179,25 @@ public cargo = ''
    * On init
    */
   ngOnInit(): void {
-    this.token =  jwt_decode(sessionStorage.getItem('token'));
+    this.token = jwt_decode(sessionStorage.getItem('token'));
     this.cargo = this.token.Usuario[0].Cargo
-    this.nombre = this.token.Usuario[0].Nombres +' '+ this.token.Usuario[0].Apellidos
+    this.nombre = this.token.Usuario[0].Nombres + ' ' + this.token.Usuario[0].Apellidos
     this.rol = this.token.Usuario[0].EsAdministrador
     if (this.rol === '1') {
       this.ShowNotificationsUsers = true
       this.ShowNotificationsContribuyente = true
-    } 
+    }
     if (this.rol === '0') {
       this.ShowNotificationsContribuyente = true
-    } 
+    }
     if (this.rol === '4') {
       this.ShowNotificationsProject = true
-    } 
+    }
+    if (this.rol === '10') {
+      this.ShowNotificationsUsers = true
+      this.ShowNotificationsContribuyente = true
+      this.ShowNotificationsProject = true
+    }
 
     // get the currentUser details from localStorage
     // this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -231,7 +236,7 @@ public cargo = ''
       id: this._translateService.currentLang
     });
   }
-  
+
 
 
   /**
