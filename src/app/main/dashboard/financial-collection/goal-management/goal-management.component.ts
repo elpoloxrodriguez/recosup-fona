@@ -87,7 +87,7 @@ export class GoalManagementComponent implements OnInit {
             ticks: {
               stepSize: 5000000,
               min: 0,
-              max: 150000000,
+              // max: 150000000,
               fontColor: this.labelColor
             },
             gridLines: {
