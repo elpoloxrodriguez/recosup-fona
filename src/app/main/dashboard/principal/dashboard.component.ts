@@ -8,6 +8,7 @@ import { NgbModal, NgbActiveModal, NgbModalConfig } from '@ng-bootstrap/ng-boots
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Auditoria, InterfaceService } from 'app/main/audit/auditoria.service';
+import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 
 import { colors } from 'app/colors.const';
 
@@ -21,6 +22,8 @@ import { colors } from 'app/colors.const';
 
 
 export class DashboardComponent implements OnInit {
+
+  @ViewChild(DatatableComponent) table: DatatableComponent;
 
 
   public usuarios: number = 0
@@ -96,7 +99,7 @@ export class DashboardComponent implements OnInit {
       }
     },
     // labels: this.recaudacion,
-    labels: ['Conciliadas Pagada', 'Pendiente Pago', 'Pendientes Conciliar', 'No Inscritas Pagads', 'No Inscritas Pendiente Pago'],
+    labels: ['Conci Pagada', 'Pend Pago', 'Pend Conc', 'No Insc Pagada', 'No Insc Pend Pago'],
     datasets: [
       {
         data: [30, 45, 78, 45, 60],
@@ -116,33 +119,7 @@ export class DashboardComponent implements OnInit {
       hover: {
         mode: 'label'
       },
-      tooltips: {
-        // Updated default tooltip UI
-        shadowOffsetX: 1,
-        shadowOffsetY: 1,
-        shadowBlur: 1,
-        shadowColor: this.tooltipShadow,
-        backgroundColor: colors.solid.white,
-        titleFontColor: colors.solid.black,
-        bodyFontColor: colors.solid.black
-      },
       scales: {
-        xAxes: [
-          {
-            display: true,
-            scaleLabel: {
-              display: true
-            },
-            gridLines: {
-              display: true,
-              color: this.grid_line_color,
-              zeroLineColor: this.grid_line_color
-            },
-            ticks: {
-              fontColor: this.labelColor
-            }
-          }
-        ],
         yAxes: [
           {
             display: true,
@@ -155,11 +132,6 @@ export class DashboardComponent implements OnInit {
               max: this.ValorAltoAportante[0],
               fontColor: this.labelColor
             },
-            gridLines: {
-              display: true,
-              color: this.grid_line_color,
-              zeroLineColor: this.grid_line_color
-            }
           }
         ]
       },
@@ -187,40 +159,10 @@ export class DashboardComponent implements OnInit {
       {
         data: this.dobleaportante,
         label: `EMPRESAS DOBLE APORTANTES`,
-        borderColor: this.lineChartDanger,
-        lineTension: 0.1,
-        pointStyle: 'circle',
-        backgroundColor: this.lineChartDanger,
-        fill: false,
-        pointRadius: 5,
-        pointHoverRadius: 5,
-        pointHoverBorderWidth: 5,
-        pointBorderColor: 'transparent',
-        pointHoverBorderColor: colors.solid.white,
-        pointHoverBackgroundColor: this.lineChartDanger,
-        pointShadowOffsetX: 1,
-        pointShadowOffsetY: 1,
-        pointShadowBlur: 5,
-        pointShadowColor: this.tooltipShadow
       },
       {
         data: this.aportante,
         label: `EMPRESAS APORTANTES`,
-        borderColor: this.lineChartPrimary,
-        lineTension: 0.1,
-        pointStyle: 'circle',
-        backgroundColor: this.lineChartPrimary,
-        fill: false,
-        pointRadius: 5,
-        pointHoverRadius: 5,
-        pointHoverBorderWidth: 5,
-        pointBorderColor: 'transparent',
-        pointHoverBorderColor: colors.solid.white,
-        pointHoverBackgroundColor: this.lineChartPrimary,
-        pointShadowOffsetX: 1,
-        pointShadowOffsetY: 1,
-        pointShadowBlur: 5,
-        pointShadowColor: this.tooltipShadow
       },
     ]
   };
@@ -234,16 +176,6 @@ export class DashboardComponent implements OnInit {
       backgroundColor: false,
       hover: {
         mode: 'label'
-      },
-      tooltips: {
-        // Updated default tooltip UI
-        shadowOffsetX: 1,
-        shadowOffsetY: 1,
-        shadowBlur: 1,
-        shadowColor: this.tooltipShadow,
-        backgroundColor: colors.solid.white,
-        titleFontColor: colors.solid.black,
-        bodyFontColor: colors.solid.black
       },
       scales: {
         xAxes: [
@@ -305,7 +237,7 @@ export class DashboardComponent implements OnInit {
     datasets: [
       {
         data: [332, 334, 346, 153, 575, 455, 365, 145, 455, 564, 977, 775],
-        label: `Metas Año 2023`,
+        label: `METAS DEL AÑO 2023`,
         borderColor: this.lineChartDanger,
         lineTension: 0.1,
         pointStyle: 'circle',
@@ -323,8 +255,8 @@ export class DashboardComponent implements OnInit {
         pointShadowColor: this.tooltipShadow
       },
       {
-        data: [122, 234, 836, 353, 375, 325, 235, 645, 555, 264, 487, 585],
-        label: `Metas Año 2024`,
+        data: [122, 234, 836, 353, 375, 325],
+        label: `METAS DEL AÑO 2024`,
         borderColor: this.lineChartPrimary,
         lineTension: 0.1,
         pointStyle: 'circle',
@@ -394,10 +326,41 @@ export class DashboardComponent implements OnInit {
 
   public tokenA
 
+  public titleModal
+
+  public selectedOption = 10;
+  public ColumnMode = ColumnMode;
+  public isLoading: number = 0
+  // Inicio Lista de Empresas
+  public ListaEmpresasAportes = []
+  public rowsEmpresasAportes = []
+  public tempDataEmpresasAportes = []
+  // Final Lista de Empresas
+
+  // Inicio Recursos Jerarquicos
+  public dataListRecursosJerarquicos = []
+  public rowsRecursosJerarquicos = []
+  public tempDataRecursosJerarquicos = []
+  // Fin Recursos Jerarquicos
+
+  // Inicio Proyectos
+  public MisProjects = []
+  public rowsProyectos = []
+  public tempDataMisProjects = []
+  // Fin Proyectos
+
+  // Inicio Usuarios
+  public dataListUsuarios = []
+  public rowsEmpresas = []
+  public tempDataEmpresas = []
+  //  Fin Usuarios
+
+
   constructor(
     private apiService: ApiService,
     private utilService: UtilService,
     private _router: Router,
+    private modalService: NgbModal,
     private pdf: PdfService,
   ) { }
 
@@ -417,7 +380,6 @@ export class DashboardComponent implements OnInit {
     await this.Panel02()
 
 
-
     this.IdEmpresa = this.token.Usuario[0].EmpresaId
     this.UsuarioId = this.token.Usuario[0].UsuarioId
 
@@ -427,15 +389,8 @@ export class DashboardComponent implements OnInit {
       await this.CambiarContraseñaEmpresa()
     }
 
-    // await this.ListaEmpresasSimple()
     await this.EmpresaRIF(this.token.Usuario[0].Rif)
-    // if (this.token.Usuario[0].EsAdministrador != "9") {
-    //   this.usuario = true
-    //   this.empresa = false
-    // } else {
-    //   this.usuario = false
-    //   this.empresa = true
-    // }
+
     switch (this.token.Usuario[0].EsAdministrador) {
       case '0':
         this.usuario = true
@@ -524,6 +479,190 @@ export class DashboardComponent implements OnInit {
         console.log(error)
       }
     )
+  }
+
+
+  async lstEmpresas(modal) {
+    this.ListaEmpresasAportes = []
+    this.rowsEmpresasAportes = []
+    this.tempDataEmpresasAportes = []
+    this.xAPI.funcion = "RECOSUP_R_Empresas_Aportes";
+    this.xAPI.parametros = ''
+    this.xAPI.valores = {}
+    this.ListaEmpresasAportes = [];
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        if (data.Cuerpo.length > 0) {
+          data.Cuerpo.map(e => {
+            e.EmpresaFiscalizada = e.status_bloqueo
+            this.ListaEmpresasAportes.push(e);
+          })
+          this.rowsEmpresasAportes = this.ListaEmpresasAportes
+          this.tempDataEmpresasAportes = this.rowsEmpresasAportes;
+          this.isLoading = 1;
+        } else {
+          this.isLoading = 2;
+        }
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+    this.titleModal = 'Lista de Empresas Inscritas'
+    this.modalService.open(modal, {
+      centered: true,
+      size: 'xl',
+      backdrop: false,
+      keyboard: false,
+      windowClass: 'fondo-modal',
+    });
+  }
+  filterUpdateE(event) {
+    // Reset ng-select on search
+    const val = event.target.value.toLowerCase();
+    // Filter Our Data
+    const temp = this.tempDataEmpresasAportes.filter(function (d) {
+      return d.RazonSocial.toLowerCase().indexOf(val) !== -1 || !val;
+    });
+    // Update The Rows
+    this.rowsEmpresasAportes = temp;
+    // Whenever The Filter Changes, Always Go Back To The First Page
+    this.table.offset = 0;
+  }
+
+  async lstRecursosJerarquicos(modal) {
+    this.dataListRecursosJerarquicos = []
+    this.rowsRecursosJerarquicos = []
+    this.tempDataRecursosJerarquicos = []
+    this.xAPI.funcion = "RECOSUP_R_Recurso_Jerarquico";
+    this.xAPI.parametros = '';
+    this.xAPI.valores = {}
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        if (data.Cuerpo.length > 0) {
+          data.Cuerpo.map(e => {
+            this.dataListRecursosJerarquicos.push(e)
+          });
+          this.rowsRecursosJerarquicos = this.dataListRecursosJerarquicos;
+          this.tempDataRecursosJerarquicos = this.rowsRecursosJerarquicos;
+          this.isLoading = 1;
+        } else {
+          this.isLoading = 2;
+        }
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+    this.titleModal = 'Lista de Recursos Jerarquicos'
+    this.modalService.open(modal, {
+      centered: true,
+      size: 'xl',
+      backdrop: false,
+      keyboard: false,
+      windowClass: 'fondo-modal',
+    });
+  }
+  filterUpdateRJ(event) {
+    // Reset ng-select on search
+    const val = event.target.value.toLowerCase();
+    // Filter Our Data
+    const temp = this.tempDataRecursosJerarquicos.filter(function (d) {
+      return d.nombre_empresa.toLowerCase().indexOf(val) !== -1 || !val;
+    });
+    // Update The Rows
+    this.rowsRecursosJerarquicos = temp;
+    // Whenever The Filter Changes, Always Go Back To The First Page
+    this.table.offset = 0;
+  }
+
+  async lstProyectos(modal) {
+    this.MisProjects = []
+    this.rowsProyectos = []
+    this.tempDataMisProjects = []
+    this.xAPI.funcion = "RECOSUP_R_Proyectos";
+    this.xAPI.parametros = ""
+    this.xAPI.valores = {}
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        data.Cuerpo.map(e => {
+          e.fecha_proyecto = e.fecha_proyecto
+          e.monto_inversionX = e.monto_inversion
+          e.monto_inversion = this.utilService.ConvertirMoneda(e.monto_inversion)
+          this.MisProjects.push(e)
+        });
+        this.rowsProyectos = this.MisProjects;
+        this.tempDataMisProjects = this.rowsProyectos;
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+    this.titleModal = 'Lista de Proyectos'
+    this.modalService.open(modal, {
+      centered: true,
+      size: 'xl',
+      backdrop: false,
+      keyboard: false,
+      windowClass: 'fondo-modal',
+    });
+  }
+  filterUpdateMisProjects(event) {
+    // Reset ng-select on search
+    const val = event.target.value.toLowerCase();
+    // Filter Our Data
+    const temp = this.tempDataMisProjects.filter(function (d) {
+      return d.nombre_proyecto.toLowerCase().indexOf(val) !== -1 || !val;
+    });
+    // Update The Rows
+    this.rowsProyectos = temp;
+    // Whenever The Filter Changes, Always Go Back To The First Page
+    this.table.offset = 0;
+  }
+
+  async lstUsuarios(modal) {
+    this.dataListUsuarios = []
+    this.rowsEmpresas = []
+    this.tempDataEmpresas = []
+    this.xAPI.funcion = "RECOSUP_R_ListUsers";
+    this.xAPI.parametros = '';
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        if (data.Cuerpo.length > 0) {
+          data.Cuerpo.map(e => {
+            this.dataListUsuarios.push(e)
+          });
+          this.rowsEmpresas = this.dataListUsuarios
+          this.tempDataEmpresas = this.rowsEmpresas;
+          this.isLoading = 1;
+        } else {
+          this.isLoading = 2;
+        }
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+    this.titleModal = 'Lista de Usuarios Externos'
+    this.modalService.open(modal, {
+      centered: true,
+      size: 'xl',
+      backdrop: false,
+      keyboard: false,
+      windowClass: 'fondo-modal',
+    });
+  }
+  filterUpdateU(event) {
+    // Reset ng-select on search
+    const val = event.target.value.toLowerCase();
+    // Filter Our Data
+    const temp = this.tempDataEmpresas.filter(function (d) {
+      return d.RazonSocial.toLowerCase().indexOf(val) !== -1 || !val;
+    });
+    // Update The Rows
+    this.rowsEmpresas = temp;
+    // Whenever The Filter Changes, Always Go Back To The First Page
+    this.table.offset = 0;
   }
 
 

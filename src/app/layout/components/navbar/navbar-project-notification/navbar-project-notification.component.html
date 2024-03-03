@@ -1,55 +1,47 @@
 <li ngbDropdown class="nav-item dropdown-notification mr-25">
-    <a class="nav-link" ngbDropdownToggle id="navbarNotificationDropdown"
-      ><i class="ficon" data-feather="bell"></i
-      ><span class="badge badge-pill badge-danger badge-up">
-        <!-- {{ notifications.messages?.length + notifications.systemMessages?.length }} -->
-       {{  Notificaciones.length }}
-      </span>
-      </a>
-    <ul
-      ngbDropdownMenu
-      aria-labelledby="navbarNotificationDropdown"
-      class="dropdown-menu dropdown-menu-media dropdown-menu-right"
-    >
-      <!-- Notifications header -->
-      <li class="dropdown-menu-header">
-        <div class="dropdown-header d-flex">
-          <h4 class="notification-title mb-0 mr-auto">Notificaciones Proyectos</h4>
-          <div class="badge badge-pill badge-light-primary">
-            <!-- {{ notifications.messages?.length + notifications.systemMessages?.length }} New -->
-            {{  Notificaciones.length }} Nuevas
+  <a class="nav-link" ngbDropdownToggle id="navbarNotificationDropdown"><i class="ficon" data-feather="bell"></i><span
+      class="badge badge-pill badge-danger badge-up">
+      <!-- {{ notifications.messages?.length + notifications.systemMessages?.length }} -->
+      {{ Notificaciones.length }}
+    </span>
+  </a>
+  <ul ngbDropdownMenu aria-labelledby="navbarNotificationDropdown"
+    class="dropdown-menu dropdown-menu-media dropdown-menu-right">
+    <!-- Notifications header -->
+    <li class="dropdown-menu-header">
+      <div class="dropdown-header d-flex">
+        <h4 class="notification-title mb-0 mr-auto">Notificaciones de Proyectos</h4>
+        <div class="badge badge-pill badge-light-primary">
+          <!-- {{ notifications.messages?.length + notifications.systemMessages?.length }} New -->
+          {{ Notificaciones.length }} Nuevas
+        </div>
+      </div>
+    </li>
+    <!--/ Notifications header -->
+
+    <!-- Notifications content -->
+    <li class="scrollable-container media-list" [perfectScrollbar]>
+      <a class="d-flex" href="javascript:void(0)" *ngFor="let notification of Notificaciones">
+        <div class="media d-flex align-items-start">
+          <div class="media-left">
+            <div class="avatar" ngClass="avatar bg-light-warning">
+              <div class="avatar-content"><i class="avatar-icon" data-feather="alert-circle"></i></div>
+            </div>
+          </div>
+          <div class="media-body">
+            <p class="media-heading" innerHTML="sdcmsdcdsoi">{{ notification.RazonSocial }}
+            </p>
+            <small class="notification-text">{{ notification.Rif }} </small>
           </div>
         </div>
-      </li>
-      <!--/ Notifications header -->
-  
-      <!-- Notifications content -->
-     <li class="scrollable-container media-list" [perfectScrollbar]>
-        <a class="d-flex" href="javascript:void(0)" *ngFor="let notification of Notificaciones">
-          <div class="media d-flex align-items-start">
-            <div class="media-left">
-              <div
-                class="avatar"
-                ngClass="avatar bg-light-warning"
-              >
-                <div class="avatar-content"><i class="avatar-icon" data-feather="alert-circle"></i></div>
-              </div>
-            </div>
-            <div class="media-body">
-              <p class="media-heading" innerHTML="sdcmsdcdsoi">{{ notification.RazonSocial }}
-              </p>
-              <small class="notification-text">{{ notification.Rif }} </small>
-            </div>
-          </div></a
-        >
-      </li>
-      <!--/ Notifications content -->
-  
-      <!-- Notifications footer -->
-      <li class="dropdown-menu-footer">
-        <a class="btn btn-primary btn-block" routerLink="/projects/company-projects-recosup">Todas las Notificaciones</a>
-      </li>
-      <!--/ Notifications footer -->
-    </ul>
-  </li>
-  
+      </a>
+    </li>
+    <!--/ Notifications content -->
+
+    <!-- Notifications footer -->
+    <li class="dropdown-menu-footer">
+      <a class="btn btn-primary btn-block" routerLink="/projects/company-projects-recosup">Todas las Notificaciones</a>
+    </li>
+    <!--/ Notifications footer -->
+  </ul>
+</li>

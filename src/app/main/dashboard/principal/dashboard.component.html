@@ -79,7 +79,7 @@
               <div class="col-sm-6 col-xl-3 mb-2 mb-xl-0">
                 <div class="media">
                   <div class="avatar bg-light-primary mr-2">
-                    <div class="avatar-content">
+                    <div class="avatar-content" (click)="lstEmpresas(ListarEmpresas)">
                       <i data-feather="home" class="avatar-icon"></i>
                     </div>
                   </div>
@@ -92,7 +92,7 @@
               <div class="col-sm-6 col-xl-3 mb-2 mb-xl-0">
                 <div class="media">
                   <div class="avatar bg-light-info mr-2">
-                    <div class="avatar-content">
+                    <div class="avatar-content" (click)="lstRecursosJerarquicos(ListarRecursosJerarquicos)">
                       <i data-feather="trending-up" class="avatar-icon"></i>
                     </div>
                   </div>
@@ -105,7 +105,7 @@
               <div class="col-sm-6 col-xl-3 mb-2 mb-sm-0">
                 <div class="media">
                   <div class="avatar bg-light-danger mr-2">
-                    <div class="avatar-content">
+                    <div class="avatar-content" (click)="lstProyectos(ListarProyectos)">
                       <i data-feather="box" class="avatar-icon"></i>
                     </div>
                   </div>
@@ -115,10 +115,10 @@
                   </div>
                 </div>
               </div>
-              <div class="col-sm-6 col-xl-3">
+              <div class="col-sm-6 col-xl-3 mb-2 mb-sm-0">
                 <div class="media">
                   <div class="avatar bg-light-success mr-2">
-                    <div class="avatar-content">
+                    <div class="avatar-content" (click)="lstUsuarios(ListarUsuarios)">
                       <i data-feather="user" class="avatar-icon"></i>
                     </div>
                   </div>
@@ -138,7 +138,7 @@
       <div class="col-xl-12 col-md-6 col-12" *ngIf="admin">
         <div class="card card-statistics">
           <div class="card-header">
-            <h4 class="card-title">Estadisticas</h4>
+            <h4 class="card-title">Estadisticas Gráficas</h4>
             <div class="d-flex align-items-center">
               <p class="card-text font-small-2 mr-25 mb-0">Actualizado: {{ fecha }}</p>
             </div>
@@ -215,3 +215,452 @@
 
     </div>
   </div>
+
+
+
+
+
+  <ng-template #ListarEmpresas let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="myModalLabel160"><strong>{{ titleModal }} </strong></h5>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <div class="col-xl-12 col-md-12 col-12 printRef">
+        <!-- Header Starts -->
+
+        <section class="users-list-wrapper">
+
+          <div class="card">
+            <div class="row">
+              <div class="col-md-6 col-12">
+                <div class="d-flex justify-content-between align-items-center m-1">
+                  <label class="d-flex align-items-center">Mostrar
+                    <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                      <option value="10">10</option>
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                    </select>
+                    Registros</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+                <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+                  <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
+                      name="searchValue" type="search" class="form-control ml-25" placeholder="Ingrese Nombre"
+                      (keyup)="filterUpdateE($event)" (search)="filterUpdateE($event)" /></label>
+                </div>
+              </div>
+            </div>
+
+            <ng-container *ngIf="isLoading == 0">
+              <div class="loading-overlay">
+                <div class="spinner-border text-success" role="status"></div>
+                <div class="loading-message">Cargando datos, por favor espere...</div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="isLoading == 2">
+              <div class="loading-overlay">
+                <div class="spinner-border text-danger" role="status"></div>
+                <div class="loading-message">No hay registros...</div>
+              </div>
+            </ng-container>
+
+            <ngx-datatable [rows]="rowsEmpresasAportes" rowHeight="auto" class="bootstrap core-bootstrap"
+              [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
+              [scrollbarH]="true">
+
+              <ngx-datatable-column name="RIF" prop="Rif" [width]="50">
+                <ng-template let-Rif="value" ngx-datatable-cell-template>
+                  <div>
+                    <span class="font-weight-bold">{{ Rif }} </span>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Razon Social" prop="RazonSocial" [width]="300">
+                <ng-template let-RazonSocial="value" ngx-datatable-cell-template>
+                  <div>
+                    <span class="font-weight-bold"> {{ RazonSocial.slice(0,57) | uppercase }} </span>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+
+
+              <ngx-datatable-column name="Ultimo Aporte" prop="UltimoAporte" [width]="100">
+                <ng-template let-UltimoAporte="value" ngx-datatable-cell-template>
+                  <div>
+                    <span class="font-weight-bold"> {{ UltimoAporte }} </span>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Cantidad Aportes" prop="CantidadAportes" [width]="100">
+                <ng-template let-CantidadAportes="value" ngx-datatable-cell-template>
+                  <div>
+                    <span class="font-weight-bold"> {{ CantidadAportes }} </span>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+
+              <ngx-datatable-column name="Fiscalización" [width]="50">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <div>
+                    <div *ngIf="row.EmpresaFiscalizada == 0" class="badge badge-pill" ngClass="badge-light-danger">
+                      Fiscalizando
+                    </div>
+                    <div *ngIf="row.EmpresaFiscalizada == 1" class="badge badge-pill" ngClass="badge-light-success">
+                      Disponible
+                    </div>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+
+
+            </ngx-datatable>
+          </div>
+        </section>
+
+        <!-- Header Ends -->
+      </div>
+    </div>
+    <!--/ Invoice -->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+        Cerrar
+      </button>
+    </div>
+  </ng-template>
+
+  <ng-template #ListarRecursosJerarquicos let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="myModalLabel160"><strong>{{ titleModal }} </strong></h5>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <div class="col-xl-12 col-md-12 col-12 printRef">
+        <!-- Header Starts -->
+
+        <section class="users-list-wrapper">
+
+          <div class="card">
+            <div class="row">
+              <div class="col-md-6 col-12">
+                <div class="d-flex justify-content-between align-items-center m-1">
+                  <label class="d-flex align-items-center">Mostrar
+                    <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                      <option value="10">10</option>
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                    </select>
+                    Registros</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+                <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+                  <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
+                      name="searchValue" type="search" class="form-control ml-25" placeholder="Ingrese Nombre"
+                      (keyup)="filterUpdateRJ($event)" (search)="filterUpdateRJ($event)" /></label>
+                </div>
+              </div>
+            </div>
+
+
+
+
+            <ng-container *ngIf="isLoading == 0">
+              <div class="loading-overlay">
+                <div class="spinner-border text-success" role="status"></div>
+                <div class="loading-message">Cargando datos, por favor espere...</div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="isLoading == 2">
+              <div class="loading-overlay">
+                <div class="spinner-border text-danger" role="status"></div>
+                <div class="loading-message">No hay registros...</div>
+              </div>
+            </ng-container>
+
+
+            <ngx-datatable [rows]="rowsRecursosJerarquicos" rowHeight="auto" class="bootstrap core-bootstrap"
+              [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
+              [scrollbarH]="true">
+
+
+              <ngx-datatable-column name="Empresa" [width]="300">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <div>
+                    {{row.nombre_empresa}}
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Rif" [width]="50">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <div>
+                    {{row.rif}}
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Fecha Interposicion" [width]="50">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <div>
+                    {{row.fecha_interposicion}}
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Fecha Notificacion" [width]="50">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <div>
+                    {{row.fecha_notificacion}}
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Estatus" [width]="50">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <div>
+                    <div *ngIf="row.status == 1" class="badge badge-pill" ngClass="badge-light-success">
+                      Con Lugar
+                    </div>
+                    <div *ngIf="row.status == 2" class="badge badge-pill" ngClass="badge-light-danger">
+                      Sin Lugar
+                    </div>
+                    <div *ngIf="row.status == 3" class="badge badge-pill" ngClass="badge-light-warning">
+                      Parcialmente con Lugar
+                    </div>
+                    <div *ngIf="row.status == 4" class="badge badge-pill" ngClass="badge-light-primary">
+                      En Evaluación
+                    </div>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+
+
+
+            </ngx-datatable>
+          </div>
+        </section>
+
+        <!-- Header Ends -->
+      </div>
+    </div>
+    <!--/ Invoice -->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+        Cerrar
+      </button>
+    </div>
+  </ng-template>
+
+  <ng-template #ListarProyectos let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="myModalLabel160"><strong>{{ titleModal }} </strong></h5>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <div class="col-xl-12 col-md-12 col-12 printRef">
+        <!-- Header Starts -->
+
+        <section class="users-list-wrapper">
+          <div class="card">
+            <div class="row">
+              <div class="col-md-6 col-12">
+                <div class="d-flex justify-content-between align-items-center m-1">
+                  <label class="d-flex align-items-center">Mostrar
+                    <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                      <option value="10">10</option>
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                    </select>
+                    Registros</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+                <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+                  <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
+                      name="searchValue" type="search" class="form-control ml-25" placeholder="Nombre Proyecto"
+                      (keyup)="filterUpdateMisProjects($event)" (search)="filterUpdateMisProjects($event)" /></label>
+                </div>
+              </div>
+            </div>
+
+            <ngx-datatable [rows]="rowsProyectos" rowHeight="auto" class="bootstrap core-bootstrap"
+              [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
+              [scrollbarH]="true">
+
+              <ngx-datatable-column name="Nombre Proyecto" prop="nombre_proyecto" [width]="50">
+                <ng-template let-nombre_proyecto="value" ngx-datatable-cell-template>
+                  <div>
+                    <span class="font-weight-bold">{{ nombre_proyecto }} </span>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Fecha Proyecto" prop="fecha_proyecto" [width]="20">
+                <ng-template let-fecha_proyecto="value" ngx-datatable-cell-template>
+                  <div>
+                    <span class="font-weight-bold"> {{ fecha_proyecto }}</span>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Monto" prop="monto_inversion" [width]="20">
+                <ng-template let-monto_inversion="value" ngx-datatable-cell-template>
+                  <div>
+                    <span class="font-weight-bold"> {{ monto_inversion }} </span>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+
+              <ngx-datatable-column name="Ambito" prop="ambito_nombre" [width]="20">
+                <ng-template let-ambito_nombre="value" ngx-datatable-cell-template>
+                  <span>
+                    {{ ambito_nombre }}
+                  </span>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Area" prop="nombre_area" [width]="20">
+                <ng-template let-nombre_area="value" ngx-datatable-cell-template>
+                  <span>
+                    {{ nombre_area }}
+                  </span>
+                </ng-template>
+              </ngx-datatable-column>
+
+
+              <ngx-datatable-column name="Status" prop="status_proyecto" [width]="20">
+                <ng-template let-status_proyecto="value" ngx-datatable-cell-template>
+                  <div *ngIf="status_proyecto == 0" class="badge badge-pill" ngClass="badge-light-warning">
+                    Revisión
+                  </div>
+                  <div *ngIf="status_proyecto == 1" class="badge badge-pill" ngClass="badge-light-success">
+                    Aprobado
+                  </div>
+                  <div *ngIf="status_proyecto == 2" class="badge badge-pill" ngClass="badge-light-danger">
+                    Rechazado
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+
+            </ngx-datatable>
+
+
+            <!--/ Invoice List -->
+          </div>
+        </section>
+        <!-- Header Ends -->
+      </div>
+    </div>
+    <!--/ Invoice -->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+        Cerrar
+      </button>
+    </div>
+  </ng-template>
+
+  <ng-template #ListarUsuarios let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="myModalLabel160"><strong>{{ titleModal }} </strong></h5>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <div class="col-xl-12 col-md-12 col-12 printRef">
+        <!-- Header Starts -->
+
+        <section class="users-list-wrapper">
+
+          <div class="card">
+            <div class="row">
+              <div class="col-md-6 col-12">
+                <div class="d-flex justify-content-between align-items-center m-1">
+                  <label class="d-flex align-items-center">Mostrar
+                    <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                      <option value="10">10</option>
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                    </select>
+                    Registros</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+                <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+                  <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
+                      name="searchValue" type="search" class="form-control ml-25" placeholder="Ingrese Nombre"
+                      (keyup)="filterUpdateU($event)" (search)="filterUpdateU($event)" /></label>
+                </div>
+              </div>
+            </div>
+
+            <ng-container *ngIf="isLoading == 0">
+              <div class="loading-overlay">
+                <div class="spinner-border text-success" role="status"></div>
+                <div class="loading-message">Cargando datos, por favor espere...</div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="isLoading == 2">
+              <div class="loading-overlay">
+                <div class="spinner-border text-danger" role="status"></div>
+                <div class="loading-message">No hay registros...</div>
+              </div>
+            </ng-container>
+
+            <ngx-datatable [rows]="rowsEmpresas" [rowHeight]="50" class="bootstrap core-bootstrap"
+              [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
+              [scrollbarH]="true">
+
+
+              <ngx-datatable-column name="RIF" prop="Rif" [width]="100">
+                <ng-template let-Rif="value" ngx-datatable-cell-template>
+                  <div>
+                    <span class="font-weight-bold">{{ Rif }} </span>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Razon Social" prop="RazonSocial" [width]="400">
+                <ng-template let-RazonSocial="value" ngx-datatable-cell-template>
+                  <div>
+                    <span class="font-weight-bold"> {{ RazonSocial.slice(0,100) }} </span>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+
+
+              <ngx-datatable-column name="Usuario" prop="Codigo" [width]="100">
+                <ng-template let-Codigo="value" ngx-datatable-cell-template>
+                  <div>
+                    <span class="font-weight-bold"> {{ Codigo }} </span>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+
+
+
+
+
+            </ngx-datatable>
+          </div>
+        </section>
+
+        <!-- Header Ends -->
+      </div>
+    </div>
+    <!--/ Invoice -->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+        Cerrar
+      </button>
+    </div>
+  </ng-template>
