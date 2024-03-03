@@ -35,6 +35,11 @@ export class DashboardComponent implements OnInit {
   public ValorAltoAportante = []
   public aportante = []
 
+  //
+  public MontoRecaudacionAnioAnterior = []
+  public MontoRecaudacionAnioActual = []
+  // 
+
 
 
   public CapacidadGraficos = 0
@@ -108,7 +113,6 @@ export class DashboardComponent implements OnInit {
     ]
   };
 
-
   // bar chart
   public barChart = {
     chartType: 'bar',
@@ -129,7 +133,7 @@ export class DashboardComponent implements OnInit {
             ticks: {
               stepSize: 100,
               min: 0,
-              max: this.ValorAltoAportante[0],
+              // max: this.ValorAltoAportante[0],
               fontColor: this.labelColor
             },
           }
@@ -203,7 +207,7 @@ export class DashboardComponent implements OnInit {
             ticks: {
               stepSize: 100,
               min: 0,
-              max: 1000,
+              // max: this.CapacidadGraficos[0],
               fontColor: this.labelColor
             },
             gridLines: {
@@ -236,7 +240,8 @@ export class DashboardComponent implements OnInit {
     labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
     datasets: [
       {
-        data: [332, 334, 346, 153, 575, 455, 365, 145, 455, 564, 977, 775],
+        // data: [332, 334, 346, 153, 575, 455, 365, 145, 455, 564, 977, 775],
+        data: this.MontoRecaudacionAnioAnterior,
         label: `METAS DEL AÑO 2023`,
         borderColor: this.lineChartDanger,
         lineTension: 0.1,
@@ -255,7 +260,8 @@ export class DashboardComponent implements OnInit {
         pointShadowColor: this.tooltipShadow
       },
       {
-        data: [122, 234, 836, 353, 375, 325],
+        // data: [122, 234, 836, 353, 375, 325],
+        data: this.MontoRecaudacionAnioActual,
         label: `METAS DEL AÑO 2024`,
         borderColor: this.lineChartPrimary,
         lineTension: 0.1,
@@ -356,6 +362,8 @@ export class DashboardComponent implements OnInit {
   //  Fin Usuarios
 
 
+
+
   constructor(
     private apiService: ApiService,
     private utilService: UtilService,
@@ -372,12 +380,15 @@ export class DashboardComponent implements OnInit {
    */
   async ngOnInit() {
     this.fecha = this.utilService.FechaMoment(new Date())
-    this.CapacidadGraficos = 5000
     this.token = jwt_decode(sessionStorage.getItem('token'));
     this.FechaModificoUsuario = this.token.Usuario[0].FechaModifico
 
     await this.Panel01()
     await this.Panel02()
+    await this.DataRecaudacionAnioAnterior(2023)
+    await this.DataRecaudacionAnioActual(2024)
+    this.CapacidadGraficos = 90000000
+
 
 
     this.IdEmpresa = this.token.Usuario[0].EmpresaId
@@ -666,6 +677,35 @@ export class DashboardComponent implements OnInit {
   }
 
 
+  async DataRecaudacionAnioAnterior(fecha) {
+    this.xAPI.funcion = "RECOSUP_R_GestionMetasRecaudacion";
+    this.xAPI.parametros = `${fecha}`
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        data.Cuerpo.map(AnioAnterior => {
+          this.MontoRecaudacionAnioAnterior.push(this.utilService.RevertirConvertirMoneda(AnioAnterior.MontoTotal))
+        })
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+
+  async DataRecaudacionAnioActual(fecha) {
+    this.xAPI.funcion = "RECOSUP_R_GestionMetasRecaudacion";
+    this.xAPI.parametros = `${fecha}`
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        data.Cuerpo.map(AnioActual => {
+          this.MontoRecaudacionAnioActual.push(this.utilService.RevertirConvertirMoneda(AnioActual.MontoTotal))
+        })
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
 
   async GenerarCertificadoInscripcion() {
     this.CrearCert.usuario = this.token.Usuario[0].UsuarioId
