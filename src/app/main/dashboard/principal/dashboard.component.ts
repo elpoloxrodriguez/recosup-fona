@@ -355,12 +355,6 @@ export class DashboardComponent implements OnInit {
   public tempDataMisProjects = []
   // Fin Proyectos
 
-  // Inicio Usuarios
-  public dataListUsuarios = []
-  public rowsEmpresas = []
-  public tempDataEmpresas = []
-  //  Fin Usuarios
-
 
 
 
@@ -631,50 +625,6 @@ export class DashboardComponent implements OnInit {
     this.table.offset = 0;
   }
 
-  async lstUsuarios(modal) {
-    this.dataListUsuarios = []
-    this.rowsEmpresas = []
-    this.tempDataEmpresas = []
-    this.xAPI.funcion = "RECOSUP_R_ListUsers";
-    this.xAPI.parametros = '';
-    await this.apiService.Ejecutar(this.xAPI).subscribe(
-      (data) => {
-        if (data.Cuerpo.length > 0) {
-          data.Cuerpo.map(e => {
-            this.dataListUsuarios.push(e)
-          });
-          this.rowsEmpresas = this.dataListUsuarios
-          this.tempDataEmpresas = this.rowsEmpresas;
-          this.isLoading = 1;
-        } else {
-          this.isLoading = 2;
-        }
-      },
-      (error) => {
-        console.log(error)
-      }
-    )
-    this.titleModal = 'Lista de Usuarios Externos'
-    this.modalService.open(modal, {
-      centered: true,
-      size: 'xl',
-      backdrop: false,
-      keyboard: false,
-      windowClass: 'fondo-modal',
-    });
-  }
-  filterUpdateU(event) {
-    // Reset ng-select on search
-    const val = event.target.value.toLowerCase();
-    // Filter Our Data
-    const temp = this.tempDataEmpresas.filter(function (d) {
-      return d.RazonSocial.toLowerCase().indexOf(val) !== -1 || !val;
-    });
-    // Update The Rows
-    this.rowsEmpresas = temp;
-    // Whenever The Filter Changes, Always Go Back To The First Page
-    this.table.offset = 0;
-  }
 
 
   async DataRecaudacionAnioAnterior(fecha) {

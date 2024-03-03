@@ -75,8 +75,8 @@
             </div>
           </div>
           <div class="card-body statistics-body">
-            <div class="row">
-              <div class="col-sm-6 col-xl-3 mb-2 mb-xl-0">
+            <div class="row" *ngIf="admin">
+              <div class="col-sm-6 col-xl-4 mb-2 mb-xl-0">
                 <div class="media">
                   <div class="avatar bg-light-primary mr-2">
                     <div class="avatar-content" (click)="lstEmpresas(ListarEmpresas)">
@@ -89,7 +89,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-sm-6 col-xl-3 mb-2 mb-xl-0">
+              <div class="col-sm-6 col-xl-4 mb-2 mb-xl-0">
                 <div class="media">
                   <div class="avatar bg-light-info mr-2">
                     <div class="avatar-content" (click)="lstRecursosJerarquicos(ListarRecursosJerarquicos)">
@@ -102,7 +102,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-sm-6 col-xl-3 mb-2 mb-sm-0">
+              <div class="col-sm-6 col-xl-4 mb-2 mb-sm-0">
                 <div class="media">
                   <div class="avatar bg-light-danger mr-2">
                     <div class="avatar-content" (click)="lstProyectos(ListarProyectos)">
@@ -115,19 +115,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-sm-6 col-xl-3 mb-2 mb-sm-0">
-                <div class="media">
-                  <div class="avatar bg-light-success mr-2">
-                    <div class="avatar-content" (click)="lstUsuarios(ListarUsuarios)">
-                      <i data-feather="user" class="avatar-icon"></i>
-                    </div>
-                  </div>
-                  <div class="media-body my-auto">
-                    <h4 class="font-weight-bolder mb-0">{{usuarios}}</h4>
-                    <p class="card-text font-small-3 mb-0">Usuarios Externos</p>
-                  </div>
-                </div>
-              </div>
+
 
             </div>
           </div>
@@ -558,102 +546,6 @@
             <!--/ Invoice List -->
           </div>
         </section>
-        <!-- Header Ends -->
-      </div>
-    </div>
-    <!--/ Invoice -->
-    <div class="modal-footer">
-      <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
-        Cerrar
-      </button>
-    </div>
-  </ng-template>
-
-  <ng-template #ListarUsuarios let-modal>
-    <div class="modal-header">
-      <h5 class="modal-title" id="myModalLabel160"><strong>{{ titleModal }} </strong></h5>
-    </div>
-    <div class="modal-body" tabindex="0" ngbAutofocus>
-      <div class="col-xl-12 col-md-12 col-12 printRef">
-        <!-- Header Starts -->
-
-        <section class="users-list-wrapper">
-
-          <div class="card">
-            <div class="row">
-              <div class="col-md-6 col-12">
-                <div class="d-flex justify-content-between align-items-center m-1">
-                  <label class="d-flex align-items-center">Mostrar
-                    <select class="form-control mx-25" [(ngModel)]="selectedOption">
-                      <option value="10">10</option>
-                      <option value="25">25</option>
-                      <option value="50">50</option>
-                      <option value="100">100</option>
-                    </select>
-                    Registros</label>
-                </div>
-              </div>
-              <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
-                <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
-                  <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
-                      name="searchValue" type="search" class="form-control ml-25" placeholder="Ingrese Nombre"
-                      (keyup)="filterUpdateU($event)" (search)="filterUpdateU($event)" /></label>
-                </div>
-              </div>
-            </div>
-
-            <ng-container *ngIf="isLoading == 0">
-              <div class="loading-overlay">
-                <div class="spinner-border text-success" role="status"></div>
-                <div class="loading-message">Cargando datos, por favor espere...</div>
-              </div>
-            </ng-container>
-            <ng-container *ngIf="isLoading == 2">
-              <div class="loading-overlay">
-                <div class="spinner-border text-danger" role="status"></div>
-                <div class="loading-message">No hay registros...</div>
-              </div>
-            </ng-container>
-
-            <ngx-datatable [rows]="rowsEmpresas" [rowHeight]="50" class="bootstrap core-bootstrap"
-              [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
-              [scrollbarH]="true">
-
-
-              <ngx-datatable-column name="RIF" prop="Rif" [width]="100">
-                <ng-template let-Rif="value" ngx-datatable-cell-template>
-                  <div>
-                    <span class="font-weight-bold">{{ Rif }} </span>
-                  </div>
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column name="Razon Social" prop="RazonSocial" [width]="400">
-                <ng-template let-RazonSocial="value" ngx-datatable-cell-template>
-                  <div>
-                    <span class="font-weight-bold"> {{ RazonSocial.slice(0,100) }} </span>
-                  </div>
-                </ng-template>
-              </ngx-datatable-column>
-
-
-
-              <ngx-datatable-column name="Usuario" prop="Codigo" [width]="100">
-                <ng-template let-Codigo="value" ngx-datatable-cell-template>
-                  <div>
-                    <span class="font-weight-bold"> {{ Codigo }} </span>
-                  </div>
-                </ng-template>
-              </ngx-datatable-column>
-
-
-
-
-
-            </ngx-datatable>
-          </div>
-        </section>
-
         <!-- Header Ends -->
       </div>
     </div>
