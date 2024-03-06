@@ -319,10 +319,10 @@
 
           <div class="col-md-6 col-12 mb-1">
             <div class="form-group">
-              <label for="basicSelect">Seleccione Estado</label>
+              <label for="basicSelect">Seleccione Estado </label>
               <ng-select [items]="selectEstados" placeholder="Seleccione Estado" bindLabel="name" binId="id"
-                (ngModelChange)="ListaMunicipios($event)" [(ngModel)]="CrearProyecto.estado"
-                [ngModelOptions]="{standalone: true}" autocomplete="off" required autocomplete="off">
+                (ngModelChange)="ListaMunicipios($event)" [(ngModel)]="xestado" [ngModelOptions]="{standalone: true}"
+                autocomplete="off" required autocomplete="off">
               </ng-select>
             </div>
           </div>
@@ -332,7 +332,7 @@
             <div class="form-group">
               <label for="basicSelect">Seleccione Municipio</label>
               <ng-select [items]="selectMunicipios" placeholder="Seleccione Municipios" bindLabel="name" binId="id"
-                name="municipios" [(ngModel)]="CrearProyecto.municipio" [ngModelOptions]="{standalone: true}" required
+                name="municipios" [(ngModel)]="xmunicipio" [ngModelOptions]="{standalone: true}" required
                 autocomplete="off" (ngModelChange)="ListaParroquias($event)">
               </ng-select>
             </div>
@@ -340,9 +340,9 @@
 
           <div class="col-md-6 col-12 mb-1">
             <div class="form-group">
-              <label for="basicSelect">Seleccione Parroquia</label>
+              <label for="basicSelect">Seleccione Parroquia </label>
               <ng-select [items]="selectParroquias" placeholder="Seleccione Parroquia" bindLabel="name" binId="id"
-                autocomplete="off" [(ngModel)]="CrearProyecto.parroquia" [ngModelOptions]="{standalone: true}" required
+                autocomplete="off" [(ngModel)]="xparroquia" [ngModelOptions]="{standalone: true}" required
                 autocomplete="off">
               </ng-select>
             </div>
@@ -501,7 +501,7 @@
       class="btn btn-success mr-1">{{titlebtn}}</button>
     <button type="submit" *ngIf="showbtn" [disabled]="!formUsersRegister.form.valid" (click)="UpdateProyect()"
       rippleEffect class="btn btn-warning mr-1">{{titlebtn}}</button>
-    <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+    <button type="button" class="btn btn-danger" (click)="cerrarModal()" rippleEffect>
       Cerrar
     </button>
   </div>
@@ -527,7 +527,7 @@
             </div>
 
             <strong>Status de Proyecto:</strong>
-            <div class="badge badge-pill" ngClass="badge-light-{{color}}">{{ Details.status_proyecto }}</div>
+            <div class="badge badge-pill" ngClass="badge-light-{{color}}">{{ nuevoStatus }}</div>
             <p class="card-text mb-25"><strong>Fecha de Proyecto:</strong> {{ Details.fecha_proyecto }}</p>
             <p class="card-text mb-25"><strong>Monto de Proyecto:</strong> {{ Details.monto_inversion }}</p>
             <p class="card-text mb-25"><strong>Ambito de Proyecto:</strong> {{ Details.ambito_nombre }}</p>

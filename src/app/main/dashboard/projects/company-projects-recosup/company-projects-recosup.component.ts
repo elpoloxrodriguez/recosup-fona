@@ -146,6 +146,8 @@ export class CompanyProjectsRecosupComponent implements OnInit {
   private tempDataDetalleAporte = []
   public rowsDataDetalleAporte = []
 
+  public nuevoStatus
+
   public loginForm: FormGroup;
 
 
@@ -160,6 +162,11 @@ export class CompanyProjectsRecosupComponent implements OnInit {
   public fecha_proyecto
   public tiempo_ejecucion_desde
   public tiempo_ejecucion_hasta
+
+  public xestado
+  public xmunicipio
+  public xparroquia
+
 
 
   public InputFinanciamiento = false
@@ -176,6 +183,7 @@ export class CompanyProjectsRecosupComponent implements OnInit {
   public EstadoSeleccionado
 
   public dataEmpresaID = []
+
 
   public titlemodal = ''
   public showbtn: boolean = false
@@ -236,8 +244,10 @@ export class CompanyProjectsRecosupComponent implements OnInit {
   }
 
   async onSubmit() {
-    this.CrearProyecto.estado = this.CrearProyecto.estado
-    this.CrearProyecto.municipio = this.CrearProyecto.municipio
+    this.CrearProyecto.estado = this.xestado.id
+    this.CrearProyecto.municipio = this.xmunicipio.id
+    this.CrearProyecto.parroquia = this.xparroquia.id
+    // console.log(this.CrearProyecto)
     this.CrearProyecto.id_empresa = this.IdEmpresa
     this.CrearProyecto.UsuarioCreo = this.token.Usuario[0].UsuarioId
     // this.CrearProyecto.fecha_proyecto = this.fecha_proyecto.year + '-' + this.fecha_proyecto.month + '-' + this.fecha_proyecto.day,
@@ -341,6 +351,7 @@ export class CompanyProjectsRecosupComponent implements OnInit {
 
   async ListaMunicipios(row: string) {
     if (row != null) {
+      // this.CrearProyecto.estado = row['id']
       this.xAPI.funcion = "RECOSUP_R_Municipios";
       this.xAPI.parametros = row['EstadoId'];
       this.selectMunicipios = []
@@ -359,8 +370,11 @@ export class CompanyProjectsRecosupComponent implements OnInit {
     }
   }
 
+
   ListaParroquias(row: string) {
+    // console.log(row)
     if (row != null) {
+      // this.CrearProyecto.municipio = row['id']
       this.xAPI.funcion = "RECOSUP_R_Parroquias_ID";
       this.xAPI.parametros = row['MunicipioId'];
       this.selectParroquias = []
@@ -381,7 +395,37 @@ export class CompanyProjectsRecosupComponent implements OnInit {
     }
   }
 
+  cerrarModal() {
+    this.modalService.dismissAll('cerrar')
+    this.limpiarform()
+  }
 
+
+  limpiarform() {
+    this.xestado = undefined
+    this.xmunicipio = undefined
+    this.xparroquia = undefined
+    this.CrearProyecto = {
+      id_empresa: 0,
+      id_analista: 0,
+      status_proyecto: 0,
+      nombre_proyecto: '',
+      fecha_proyecto: '',
+      monto_inversion: '',
+      monto_financiamiento: '0',
+      direccion: '',
+      tiempo_ejecucion_desde: '',
+      tiempo_ejecucion_hasta: '',
+      UsuarioCreo: 0,
+      UsuarioModifico: 0,
+      nombre_empresa: '',
+      rif_empresa: '',
+      estado: undefined,
+      parroquia: undefined,
+      municipio: undefined
+
+    }
+  }
 
   async SelectArea() {
     this.xAPI.funcion = "RECOSUP_R_Proyecto_Area";
@@ -476,15 +520,12 @@ export class CompanyProjectsRecosupComponent implements OnInit {
 
 
   async UpdateProyect() {
-    if (this.tipoModal == 1) {
-      this.CrearProyecto.estado = this.CrearProyecto.estado
-      this.CrearProyecto.parroquia = this.CrearProyecto.parroquia
-      this.CrearProyecto.municipio = this.CrearProyecto.municipio
-    } else {
-      this.CrearProyecto.estado = this.CrearProyecto.estado.id
-      this.CrearProyecto.parroquia = this.CrearProyecto.parroquia.id
-      this.CrearProyecto.municipio = this.CrearProyecto.municipio.id
-    }
+    // console.info(this.xestado.id, this.xmunicipio.id, this.xparroquia.id)
+
+    this.CrearProyecto.estado = this.CrearProyecto.estado
+    this.CrearProyecto.municipio = this.CrearProyecto.municipio
+    this.CrearProyecto.parroquia = this.CrearProyecto.parroquia
+
     // console.log(this.CrearProyecto)
     this.xAPI.funcion = "RECOSUP_U_ProyectosUpdate";
     this.xAPI.parametros = ''
@@ -497,6 +538,7 @@ export class CompanyProjectsRecosupComponent implements OnInit {
           this.utilService.alertConfirmMini('success', 'Registro Actualizado Exitosamente')
           this.MisProjects = []
           this.MisProyectos()
+          this.limpiarform()
         } else {
           this.utilService.alertConfirmMini('error', 'Oops! Ocurrio un Error')
         }
@@ -575,10 +617,41 @@ export class CompanyProjectsRecosupComponent implements OnInit {
 
   DetalleModal(modal, data) {
     // console.log(data)
+    this.xestado = data.estado
+    this.xmunicipio = data.municipio
+    this.xparroquia = data.parroquia
     this.CrearProyecto.nombre_empresa = data.nombre_empresa
     this.CrearProyecto.rif_empresa = data.rif_empresa
-    this.titleModal = data.RazonSocial
-    this.DetailsProject(data)
+    this.Details.nombre_proyecto = data.nombre_proyecto
+    switch (data.status_proyecto) {
+      case '0':
+        this.color = 'warning'
+        this.nuevoStatus = 'En Revisión'
+        break;
+      case "1":
+        this.color = 'success'
+        this.nuevoStatus = 'Aprobado'
+        break;
+      case '2':
+        this.color = 'danger'
+        this.nuevoStatus = 'Rechazado'
+        break;
+      default:
+        break;
+    }
+    this.Details.area_proyecto = data.nombre_area
+    this.Details.fecha_proyecto = data.fecha_proyecto
+    this.Details.monto_inversion = data.monto_inversion
+    this.Details.ambito_nombre = `${data.ambito_descripcion} (${data.ambito_nombre})`
+    this.Details.estado = data.estado
+    this.Details.municipio = data.municipio
+    this.Details.parroquia = data.parroquia
+    this.Details.beneficiario_directos = data.beneficiario_directos
+    this.Details.beneficiario_indirectos = data.beneficiario_indirectos
+    this.Details.tiempo_ejecucion_desde = data.tiempo_ejecucion_desde
+    this.Details.tiempo_ejecucion_hasta = data.tiempo_ejecucion_hasta
+    this.titleModal = data.RazonSocial = data.RazonSocial
+    // this.DetailsProject(data)
     this.modalService.open(modal, {
       centered: true,
       size: 'lg',
@@ -591,6 +664,7 @@ export class CompanyProjectsRecosupComponent implements OnInit {
 
   ModalEditarProjects(modal, data) {
     // console.log(data)
+
     this.tipoModal = 0
     this.titlemodal = 'Actualizar Registro de Proyecto'
     this.showbtn = true
@@ -607,9 +681,9 @@ export class CompanyProjectsRecosupComponent implements OnInit {
     this.CrearProyecto.fecha_proyecto = data.fecha_proyecto
     this.CrearProyecto.monto_inversion = data.monto_inversionX
     this.CrearProyecto.direccion = data.direccion
-    this.CrearProyecto.estado = data.estado
-    this.CrearProyecto.municipio = data.municipio
-    this.CrearProyecto.parroquia = data.parroquia
+    this.CrearProyecto.estado = data.estadox
+    this.CrearProyecto.municipio = data.municipiox
+    this.CrearProyecto.parroquia = data.parroquiax
     this.CrearProyecto.nombre_representante = data.nombre_representante
     this.CrearProyecto.telefono_representante = data.telefono_representante
     this.CrearProyecto.email_representante = data.email_representante

@@ -229,8 +229,8 @@
             <div class="form-group">
               <label for="basicSelect">Seleccione Estado</label>
               <ng-select [items]="selectEstados" placeholder="Seleccione Estado" bindLabel="name" binId="id"
-                (ngModelChange)="ListaMunicipios($event)" [(ngModel)]="CrearProyecto.estado"
-                [ngModelOptions]="{standalone: true}" autocomplete="off" required autocomplete="off">
+                (ngModelChange)="ListaMunicipios($event)" [(ngModel)]="xestado" [ngModelOptions]="{standalone: true}"
+                autocomplete="off" required autocomplete="off">
               </ng-select>
             </div>
           </div>
@@ -240,7 +240,7 @@
             <div class="form-group">
               <label for="basicSelect">Seleccione Municipio</label>
               <ng-select [items]="selectMunicipios" placeholder="Seleccione Municipios" bindLabel="name" binId="id"
-                name="municipios" [(ngModel)]="CrearProyecto.municipio" [ngModelOptions]="{standalone: true}" required
+                name="municipios" [(ngModel)]="xmunicipio" [ngModelOptions]="{standalone: true}" required
                 autocomplete="off" (ngModelChange)="ListaParroquias($event)">
               </ng-select>
             </div>
@@ -250,7 +250,7 @@
             <div class="form-group">
               <label for="basicSelect">Seleccione Parroquia</label>
               <ng-select [items]="selectParroquias" placeholder="Seleccione Parroquia" bindLabel="name" binId="id"
-                autocomplete="off" [(ngModel)]="CrearProyecto.parroquia" [ngModelOptions]="{standalone: true}" required
+                autocomplete="off" [(ngModel)]="xparroquia" [ngModelOptions]="{standalone: true}" required
                 autocomplete="off">
               </ng-select>
             </div>
@@ -403,11 +403,13 @@
         <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0">
           <div>
             <div class="logo-wrapper">
-              <h3 class="text-primary invoice-logo"> {{ Details.nombre_proyecto }}</h3>
+              <h3 class="text-primary invoice-logo"> {{ CrearProyecto.nombre_empresa }} - {{ CrearProyecto.rif_empresa
+                }}</h3>
+              <h5 class="text-primary invoice-logo"> {{ Details.nombre_proyecto }}</h5>
             </div>
 
             <strong>Status de Proyecto:</strong>
-            <div class="badge badge-pill" ngClass="badge-light-{{color}}">{{ Details.status_proyecto }}</div>
+            <div class="badge badge-pill" ngClass="badge-light-{{color}}">{{ nuevoStatus }}</div>
             <p class="card-text mb-25"><strong>Fecha de Proyecto:</strong> {{ Details.fecha_proyecto }}</p>
             <p class="card-text mb-25"><strong>Monto de Proyecto:</strong> {{ Details.monto_inversion }}</p>
             <p class="card-text mb-25"><strong>Ambito de Proyecto:</strong> {{ Details.ambito_nombre }}</p>

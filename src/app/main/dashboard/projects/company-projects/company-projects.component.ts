@@ -128,6 +128,11 @@ export class CompanyProjectsComponent implements OnInit {
 
   public loginForm: FormGroup;
 
+  public xestado
+  public xmunicipio
+  public xparroquia
+  public nuevoStatus
+
 
   public Estados = []
   public Municipios = []
@@ -326,9 +331,10 @@ export class CompanyProjectsComponent implements OnInit {
 
   async onSubmit() {
 
-    this.CrearProyecto.estado = this.CrearProyecto.estado.Codigo
-    this.CrearProyecto.municipio = this.CrearProyecto.municipio.Codigo
-    this.CrearProyecto.parroquia = this.CrearProyecto.parroquia.ParroquiaId
+    this.CrearProyecto.estado = this.xestado.Codigo
+    this.CrearProyecto.municipio = this.xmunicipio.Codigo
+    this.CrearProyecto.parroquia = this.xparroquia.ParroquiaId
+
     this.CrearProyecto.id_empresa = this.IdEmpresa
     this.CrearProyecto.UsuarioCreo = this.token.Usuario[0].UsuarioId
     // this.CrearProyecto.fecha_proyecto = this.fecha_proyecto.year + '-' + this.fecha_proyecto.month + '-' + this.fecha_proyecto.day,
@@ -358,6 +364,9 @@ export class CompanyProjectsComponent implements OnInit {
 
   ModificarProyecto(modal: any, row: any) {
     // console.log(row)
+
+    this.CrearProyecto.nombre_empresa = row.RazonSocial
+    this.CrearProyecto.rif_empresa = row.Rif
     this.CrearProyecto.id_proyectos = row.id_proyectos
     this.CrearProyecto.id_empresa = row.id_empresa
     this.CrearProyecto.UsuarioModifico = this.IdEmpresa
@@ -367,9 +376,13 @@ export class CompanyProjectsComponent implements OnInit {
     this.CrearProyecto.direccion = row.direccion
     this.CrearProyecto.ambito_proyecto = row.ambito_proyecto
     this.CrearProyecto.area_proyecto = row.area_proyecto
-    this.CrearProyecto.estado = row.estado
-    this.CrearProyecto.municipio = row.municipio
-    this.CrearProyecto.parroquia = row.parroquia
+    // this.CrearProyecto.estado = row.estado
+    // this.CrearProyecto.municipio = row.municipio
+    // this.CrearProyecto.parroquia = row.parroquia
+    this.CrearProyecto.estado = row.estadox
+    this.CrearProyecto.municipio = row.municipiox
+    this.CrearProyecto.parroquia = row.parroquiax
+
     this.CrearProyecto.tiempo_ejecucion_desde = row.tiempo_ejecucion_desde
     this.CrearProyecto.tiempo_ejecucion_hasta = row.tiempo_ejecucion_hasta
     this.CrearProyecto.area_proyecto = row.area_proyecto
@@ -480,9 +493,11 @@ export class CompanyProjectsComponent implements OnInit {
 
 
   async UpdateProyect() {
-    this.CrearProyecto.estado = this.CrearProyecto.estado.id
-    this.CrearProyecto.municipio = this.CrearProyecto.municipio.id
-    this.CrearProyecto.parroquia = this.CrearProyecto.parroquia.id
+
+    this.CrearProyecto.estado = this.CrearProyecto.estado
+    this.CrearProyecto.municipio = this.CrearProyecto.municipio
+    this.CrearProyecto.parroquia = this.CrearProyecto.parroquia
+
 
     this.xAPI.funcion = "RECOSUP_U_ProyectosUpdate";
     this.xAPI.parametros = ''
@@ -539,7 +554,42 @@ export class CompanyProjectsComponent implements OnInit {
   }
 
   DetalleModal(modal, data) {
-    this.DetailsProject(data)
+    // this.DetailsProject(data)
+    this.xestado = data.estado
+    this.xmunicipio = data.municipio
+    this.xparroquia = data.parroquia
+    this.CrearProyecto.nombre_empresa = data.RazonSocial
+    this.CrearProyecto.rif_empresa = data.Rif
+    this.Details.nombre_proyecto = data.nombre_proyecto
+    switch (data.status_proyecto) {
+      case '0':
+        this.color = 'warning'
+        this.nuevoStatus = 'En Revisión'
+        break;
+      case "1":
+        this.color = 'success'
+        this.nuevoStatus = 'Aprobado'
+        break;
+      case '2':
+        this.color = 'danger'
+        this.nuevoStatus = 'Rechazado'
+        break;
+      default:
+        break;
+    }
+    this.Details.area_proyecto = data.nombre_area
+    this.Details.fecha_proyecto = data.fecha_proyecto
+    this.Details.monto_inversion = data.monto_inversion
+    this.Details.ambito_nombre = `${data.ambito_descripcion} (${data.ambito_nombre})`
+    this.Details.estado = data.estado
+    this.Details.municipio = data.municipio
+    this.Details.parroquia = data.parroquia
+    this.Details.beneficiario_directos = data.beneficiario_directos
+    this.Details.beneficiario_indirectos = data.beneficiario_indirectos
+    this.Details.tiempo_ejecucion_desde = data.tiempo_ejecucion_desde
+    this.Details.tiempo_ejecucion_hasta = data.tiempo_ejecucion_hasta
+    this.titleModal = data.RazonSocial = data.RazonSocial
+
     this.modalService.open(modal, {
       centered: true,
       size: 'lg',
