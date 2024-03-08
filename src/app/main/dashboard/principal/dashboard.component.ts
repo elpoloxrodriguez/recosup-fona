@@ -320,7 +320,7 @@ export class DashboardComponent implements OnInit {
 
   public FechaModificoUsuario
   public IdEmpresa
-  public DataEmpresa
+  public DataEmpresa = []
   public token
   public empresa = false
   public usuario = false
@@ -426,7 +426,7 @@ export class DashboardComponent implements OnInit {
     this.DataEmpresa = []
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
-        this.DataEmpresa = data.Cuerpo;
+        this.DataEmpresa = data.Cuerpo
       },
       (error) => {
         console.log(error)
@@ -675,8 +675,8 @@ export class DashboardComponent implements OnInit {
               // INSERT API
               this.apiService.LoadQR(id).subscribe(
                 (xdata) => {
-                  var sdata = this.DataEmpresa[0]
-                  this.pdf.CertificadoInscripcion(sdata[0], xdata.contenido, this.CrearCert.token)
+                  // var sdata = this.DataEmpresa
+                  this.pdf.CertificadoInscripcion(this.DataEmpresa[0], xdata.contenido, this.CrearCert.token)
                   this.utilService.alertConfirmMini('success', 'Certificado Descagado Exitosamente')
                 },
                 (error) => {

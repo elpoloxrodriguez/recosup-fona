@@ -25,7 +25,7 @@ export class PdfService {
     private convertNumberService: ConvertNumberService
   ) { }
 
-  CertificadoDeclaracion(data: any,  Qr: any, TokenQr: any) {
+  CertificadoDeclaracion(data: any, Qr: any, TokenQr: any) {
     // console.log(data,Qr)
     let articulo
     const fecha = new Date(data.FechaDesde);
@@ -44,7 +44,7 @@ export class PdfService {
     doc.addImage('assets/images/pdf/sunad.png', "PNG", 10, 10, 20, 25);
     doc.addImage('assets/images/pdf/fona.png', "PNG", 180, 10, 20, 25);
     doc.addImage(Qr, "PNG", 170, 255, 30, 30);
-    
+
 
     // if (data.ActividadEconomicaId == '11' || data.ActividadEconomicaId == '60') {
     //   this.porc_aporte1 = 'Art.34';
@@ -68,17 +68,17 @@ export class PdfService {
 
     switch (data.Articulo) {
       case '32':
-      articulo = 'Art. 32'
-      this.porc_aporte1 = 'Art.32';
-      this.porc_aporte = 'de la declaración del Aporte (Art.32)';
-      this.comentario_title = 'DE LA DECLARACIÓN DEL APORTE';
-      break;
+        articulo = 'Art. 32'
+        this.porc_aporte1 = 'Art.32';
+        this.porc_aporte = 'de la declaración del Aporte (Art.32)';
+        this.comentario_title = 'DE LA DECLARACIÓN DEL APORTE';
+        break;
       case '34':
         articulo = 'Art. 34'
         this.porc_aporte1 = 'Art.34';
         this.porc_aporte = 'de la declaración de la Contribución Especial (Art.34)';
         this.comentario_title = 'DE LA DECLARACIÓN DE CONTRIBUCIÓN ESPECIAL';
-        break;  
+        break;
       default:
         articulo = 'Art. 32'
         this.porc_aporte1 = 'Art.32';
@@ -123,13 +123,13 @@ export class PdfService {
 
     doc.setFontSize(14);
     doc.setFont(undefined, "bold");
-    doc.text(`CERTIFICADO ${ this.comentario_title +' ('+ this.porc_aporte1 +')' }  A TRAVÉS DEL SISTEMA DE REGISTRO Y CONTROL DE SUJETOS PASIVOS (RECOSUP).`, pageWidth / 2, pageHeight - 230, { maxWidth: 150, align: "center" });
+    doc.text(`CERTIFICADO ${this.comentario_title + ' (' + this.porc_aporte1 + ')'}  A TRAVÉS DEL SISTEMA DE REGISTRO Y CONTROL DE SUJETOS PASIVOS (RECOSUP).`, pageWidth / 2, pageHeight - 230, { maxWidth: 150, align: "center" });
 
 
     doc.setFont(undefined, "");
 
     doc.setFontSize(14);
-    doc.text(`El Director Ejecutivo del Fondo Nacional Antidrogas (FONA), conforme a lo dispuesto en el Artículo 148 del Código Orgánico Tributario, certifica la recepción de la DECLARACIÓN del contribuyente ${data.RazonSocial} RIF ${data.Rif}, realizada en fecha ${data.FECHA_CREO_GANANCIA}, por la cantidad de Bs. ${ this.utilService.ConvertirMoneda(data.MONTO) } , ante el Fondo Nacional Antidrogas, correspondiente al período desde ${data.FechaDesde} hasta el ${data.FechaHasta}.`,
+    doc.text(`El Director Ejecutivo del Fondo Nacional Antidrogas (FONA), conforme a lo dispuesto en el Artículo 148 del Código Orgánico Tributario, certifica la recepción de la DECLARACIÓN del contribuyente ${data.RazonSocial} RIF ${data.Rif}, realizada en fecha ${data.FECHA_CREO_GANANCIA}, por la cantidad de Bs. ${this.utilService.ConvertirMoneda(data.MONTO)} , ante el Fondo Nacional Antidrogas, correspondiente al período desde ${data.FechaDesde} hasta el ${data.FechaHasta}.`,
       14,
       110,
       { maxWidth: 180, align: "justify" }
@@ -157,7 +157,7 @@ export class PdfService {
       { maxWidth: 180, align: "justify" }
     );
 
-    
+
     doc.setFontSize(9);
     doc.setFont(undefined, "bold");
     doc.text(TokenQr,
@@ -171,7 +171,8 @@ export class PdfService {
     // doc.output("dataurlnewwindow", { filename: 'Certificado.pdf' });
   }
 
-  CertificadoInscripcion(data: any,  Qr: any, TokenQr: any) {
+  CertificadoInscripcion(data: any, Qr: any, TokenQr: any) {
+    console.log(data, Qr, TokenQr)
     let articulo = ''
     const doc = new jsPDF();
     const pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
@@ -272,7 +273,7 @@ export class PdfService {
     // doc.output("dataurlnewwindow", { filename: 'Certificado.pdf' });
   }
 
-  GenerarCertificadoAportes(data: any,  Qr: any, TokenQr: any, dataRow: any) {
+  GenerarCertificadoAportes(data: any, Qr: any, TokenQr: any, dataRow: any) {
     // console.log(dataRow)
     // console.log(data)
     let articulo = ''
@@ -290,7 +291,7 @@ export class PdfService {
     doc.addImage('assets/images/pdf/sunad.png', "PNG", 10, 10, 20, 25);
     doc.addImage('assets/images/pdf/fona.png', "PNG", 180, 10, 20, 25);
     doc.addImage(Qr, "PNG", 170, 255, 30, 30);
-    
+
 
     // if (data.ActividadEconomica == 11 && data.ActividadEconomica == 60) {
     //   this.porc_aporte1 = 'Art.34';
@@ -314,17 +315,17 @@ export class PdfService {
 
     switch (dataRow.Articulo) {
       case '32':
-      articulo = 'Art. 32'
-      this.porc_aporte1 = 'Art.32';
-      this.porc_aporte = 'de pago del Aporte (Art.32)';
-      this.comentario_title = 'DE PAGO DEL APORTE';
-      break;
+        articulo = 'Art. 32'
+        this.porc_aporte1 = 'Art.32';
+        this.porc_aporte = 'de pago del Aporte (Art.32)';
+        this.comentario_title = 'DE PAGO DEL APORTE';
+        break;
       case '34':
         articulo = 'Art. 34'
         this.porc_aporte1 = 'Art.34';
         this.porc_aporte = 'de pago Contribución Especial (Art.34)';
         this.comentario_title = 'DE PAGO CONTRIBUCIÓN ESPECIAL';
-        break;  
+        break;
       default:
         articulo = 'Art. 32'
         this.porc_aporte1 = 'Art.32';
@@ -369,13 +370,13 @@ export class PdfService {
 
     doc.setFontSize(14);
     doc.setFont(undefined, "bold");
-    doc.text(`CERTIFICADO ${ this.comentario_title +' ('+ this.porc_aporte1 +')' }  A TRAVÉS DEL SISTEMA DE REGISTRO Y CONTROL DE SUJETOS PASIVOS (RECOSUP).`, pageWidth / 2, pageHeight - 230, { maxWidth: 150, align: "center" });
+    doc.text(`CERTIFICADO ${this.comentario_title + ' (' + this.porc_aporte1 + ')'}  A TRAVÉS DEL SISTEMA DE REGISTRO Y CONTROL DE SUJETOS PASIVOS (RECOSUP).`, pageWidth / 2, pageHeight - 230, { maxWidth: 150, align: "center" });
 
 
     doc.setFont(undefined, "");
 
     doc.setFontSize(14);
-    doc.text(`El Director Ejecutivo del Fondo Nacional Antidrogas (FONA), conforme a lo dispuesto en el Artículo 148 del Código Orgánico Tributario, certifica la recepción del PAGO del contribuyente ${data.RazonSocial} RIF ${data.Rif}, realizada en fecha ${dataRow.FechaCompletaAporte}, correspondiente al período fiscal ${dataRow.FechaAporte}  por la cantidad de Bs. ${ dataRow.Monto } , en el Banco ${dataRow.Banco}  bajo el numero de referencia #${dataRow.ReferenciaBancaria}, ante el Fondo Nacional Antidrogas, correspondiente al período desde ${this.utilService.FechaMomentL(dataRow.FechaDesde)} hasta el ${this.utilService.FechaMomentL(dataRow.FechaHasta)}.`,
+    doc.text(`El Director Ejecutivo del Fondo Nacional Antidrogas (FONA), conforme a lo dispuesto en el Artículo 148 del Código Orgánico Tributario, certifica la recepción del PAGO del contribuyente ${data.RazonSocial} RIF ${data.Rif}, realizada en fecha ${dataRow.FechaCompletaAporte}, correspondiente al período fiscal ${dataRow.FechaAporte}  por la cantidad de Bs. ${dataRow.Monto} , en el Banco ${dataRow.Banco}  bajo el numero de referencia #${dataRow.ReferenciaBancaria}, ante el Fondo Nacional Antidrogas, correspondiente al período desde ${this.utilService.FechaMomentL(dataRow.FechaDesde)} hasta el ${this.utilService.FechaMomentL(dataRow.FechaHasta)}.`,
       14,
       110,
       { maxWidth: 180, align: "justify" }
@@ -403,7 +404,7 @@ export class PdfService {
       { maxWidth: 180, align: "justify" }
     );
 
-    
+
     doc.setFontSize(9);
     doc.setFont(undefined, "bold");
     doc.text(TokenQr,
@@ -435,14 +436,14 @@ export class PdfService {
     doc.addImage('assets/images/pdf/sunad.png', "PNG", 10, 10, 20, 25);
     doc.addImage('assets/images/pdf/fona.png', "PNG", 180, 10, 20, 25);
     // doc.addImage(Qr, "PNG", 170, 255, 30, 30);
-    
+
     doc.setFontSize(14);
     doc.setFont(undefined, "bold");
     doc.text(`FORMATO PARA LA PRESENTACIÓN DE`, pageWidth / 2, pageHeight - 275, { maxWidth: 150, align: "center" });
     if (data.ambito_nombre != 'PTRRS') {
-    this.margenLargo = 265
+      this.margenLargo = 265
     } else {
-    this.margenLargo = 259
+      this.margenLargo = 259
     }
     doc.text(`${data.ambito_descripcion.toUpperCase()} (${data.ambito_nombre})`, pageWidth / 2, pageHeight - 270, { maxWidth: 150, align: "center" });
     doc.text(`POR PARTE DE ORGANISMOS E INSTITUCIONES`, pageWidth / 2, pageHeight - this.margenLargo, { maxWidth: 150, align: "center" });
@@ -451,27 +452,27 @@ export class PdfService {
     doc.setFontSize(14);
     doc.setFillColor(128, 128, 128);
     doc.rect(10, 45, 190, 10, 'F');
-    doc.setTextColor(255,255,255);
-    doc.text('DATOS GENERALES',pageWidth / 2, pageHeight - 245, { maxWidth: 190, align: "center" });
-    
+    doc.setTextColor(255, 255, 255);
+    doc.text('DATOS GENERALES', pageWidth / 2, pageHeight - 245, { maxWidth: 190, align: "center" });
+
     doc.rect(10, 55, 70, 10, 'S');
     doc.setFontSize(10);
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.text('Nro # RIF', 35, pageHeight - 235);
 
     // doc.rect(10, 60, 70, 5, 'S');
 
     doc.rect(10, 65, 70, 10, 'S');
     doc.setFontSize(12);
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.text('G-20009057-0', 30, pageHeight - 225);
 
     doc.rect(80, 55, 120, 10, 'S');
     doc.setFontSize(12);
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.text('Nombre del Organismo o Institución', 140, pageHeight - 235, { maxWidth: 190, align: "center" });
     doc.setFontSize(12);
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.text('OFICINA NACIONAL ANTIDROGAS', 140, pageHeight - 225, { maxWidth: 190, align: "center" });
     doc.rect(80, 65, 120, 10, 'S');
 
@@ -480,10 +481,10 @@ export class PdfService {
     doc.setFontSize(14);
     doc.setFillColor(128, 128, 128);
     doc.rect(10, 75, 190, 10, 'F');
-    doc.setTextColor(255,255,255);
-    doc.text('REPRESENTANTE DEL PROYECTO',pageWidth / 2, pageHeight - 215, { maxWidth: 190, align: "center" });
+    doc.setTextColor(255, 255, 255);
+    doc.text('REPRESENTANTE DEL PROYECTO', pageWidth / 2, pageHeight - 215, { maxWidth: 190, align: "center" });
     doc.rect(10, 85, 65, 10, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(10);
     doc.text('TELÉFONOS CONTACTO', 42, pageHeight - 205, { maxWidth: 65, align: "center" });
     doc.rect(75, 85, 125, 10, 'S');
@@ -495,11 +496,11 @@ export class PdfService {
 
 
     doc.rect(10, 95, 65, 10, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(10);
     doc.text(data.telefono_representante, 42, pageHeight - 195, { maxWidth: 65, align: "center" });
     doc.rect(75, 95, 125, 10, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(7);
     doc.text('CORREO ELECTRONICO:', 90, pageHeight - 199, { maxWidth: 125, align: "center" });
     doc.setFontSize(9);
@@ -511,63 +512,63 @@ export class PdfService {
     doc.setFontSize(14);
     doc.setFillColor(128, 128, 128);
     doc.rect(10, 105, 190, 10, 'F');
-    doc.setTextColor(255,255,255);
-    doc.text('DATOS DEL PROYECTO',pageWidth / 2, pageHeight - 185, { maxWidth: 190, align: "center" });
+    doc.setTextColor(255, 255, 255);
+    doc.text('DATOS DEL PROYECTO', pageWidth / 2, pageHeight - 185, { maxWidth: 190, align: "center" });
     doc.rect(10, 105, 190, 30, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(7);
-    doc.text('NOMBRE DEL PROYECTO:', 11,118);
+    doc.text('NOMBRE DEL PROYECTO:', 11, 118);
     doc.rect(10, 135, 190, 30, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(10);
-    doc.text(data.nombre_proyecto.toUpperCase(),11, pageHeight - 175, { maxWidth: 188, align: "justify" });
-    doc.setTextColor(0,0,0);
+    doc.text(data.nombre_proyecto.toUpperCase(), 11, pageHeight - 175, { maxWidth: 188, align: "justify" });
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(10);
     if (data.monto_financiamiento != 0.00 && data.monto_financiamiento != undefined) {
-      doc.text(`${data.detalle_financiamiento}, ${data.monto_financiamiento}`,11, pageHeight - 157, { maxWidth: 188, align: "justify" });
+      doc.text(`${data.detalle_financiamiento}, ${data.monto_financiamiento}`, 11, pageHeight - 157, { maxWidth: 188, align: "justify" });
     }
-    
+
     doc.rect(10, 165, 47.5, 10, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(8);
-    doc.text('TIEMPO DE EJECUCIÓN',17, 171);
+    doc.text('TIEMPO DE EJECUCIÓN', 17, 171);
     doc.setFontSize(10);
-    doc.text(`DESDE: ${this.utilService.FechaMomentL(data.tiempo_ejecucion_desde)}` ,33, pageHeight - 112, { maxWidth: 47, align: "center" });
-    doc.text(`HASTA: ${this.utilService.FechaMomentL(data.tiempo_ejecucion_hasta)}` ,33, pageHeight - 108, { maxWidth: 47, align: "center" });
+    doc.text(`DESDE: ${this.utilService.FechaMomentL(data.tiempo_ejecucion_desde)}`, 33, pageHeight - 112, { maxWidth: 47, align: "center" });
+    doc.text(`HASTA: ${this.utilService.FechaMomentL(data.tiempo_ejecucion_hasta)}`, 33, pageHeight - 108, { maxWidth: 47, align: "center" });
 
     doc.rect(57.5, 165, 47.5, 10, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(8);
-    doc.text('AREA',78, 171);
+    doc.text('AREA', 78, 171);
     doc.text(data.nombre_area.toUpperCase(), 81, pageHeight - 119, { maxWidth: 47, align: "center" });
 
 
     doc.rect(105, 165, 47.5, 10, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(8);
-    doc.text('BENEFICIARIOS DIRECTOS',110, 171);
+    doc.text('BENEFICIARIOS DIRECTOS', 110, 171);
 
     doc.rect(152.5, 165, 47.5, 10, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(8);
-    doc.text('BENEFICIARIOS INDIRECTOS',157, 171);
+    doc.text('BENEFICIARIOS INDIRECTOS', 157, 171);
 
 
-    
+
     doc.rect(57.5, 175, 47.5, 10, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(8);
-    doc.text(data.ambito_descripcion.toUpperCase(),81, pageHeight - 109, { maxWidth: 47, align: "center" });
-    
+    doc.text(data.ambito_descripcion.toUpperCase(), 81, pageHeight - 109, { maxWidth: 47, align: "center" });
+
     doc.rect(10, 175, 47.5, 20, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(10);
-    doc.text(data.beneficiario_directos,129, pageHeight - 117, { maxWidth: 47, align: "center" });
+    doc.text(data.beneficiario_directos, 129, pageHeight - 117, { maxWidth: 47, align: "center" });
 
     doc.rect(105, 175, 47.5, 20, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(10);
-    doc.text(data.beneficiario_indirectos,176, pageHeight - 117, { maxWidth: 47, align: "center" });
+    doc.text(data.beneficiario_indirectos, 176, pageHeight - 117, { maxWidth: 47, align: "center" });
 
 
     doc.rect(152.5, 175, 47.5, 20, 'S');
@@ -578,16 +579,16 @@ export class PdfService {
     doc.setFontSize(14);
     doc.setFillColor(128, 128, 128);
     doc.rect(10, 195, 190, 10, 'F');
-    doc.setTextColor(255,255,255);
-    doc.text('MONTO DEL PROYECTO',pageWidth / 2, pageHeight - 95, { maxWidth: 100, align: "center" });
+    doc.setTextColor(255, 255, 255);
+    doc.text('MONTO DEL PROYECTO', pageWidth / 2, pageHeight - 95, { maxWidth: 100, align: "center" });
     doc.rect(10, 205, 100, 20, 'S');
     doc.setFontSize(10);
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.text(this.convertNumberService.convertNumberToWords(data.monto_inversionX), 11, pageHeight - 88, { maxWidth: 98, align: "justify" });
 
     doc.rect(110, 205, 90, 20, 'S');
     doc.setFontSize(12);
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.text(data.monto_inversion, 155, pageHeight - 82, { maxWidth: 190, align: "center" });
 
 
@@ -595,18 +596,18 @@ export class PdfService {
     doc.setFontSize(14);
     doc.setFillColor(128, 128, 128);
     doc.rect(10, 225, 190, 10, 'F');
-    doc.setTextColor(255,255,255);
-    doc.text('DATOS DEL REGISTRO ANTE LA SUNAD (Art. 30 LOD)',pageWidth / 2,  pageHeight - 65, { maxWidth: 190, align: "center" });
+    doc.setTextColor(255, 255, 255);
+    doc.text('DATOS DEL REGISTRO ANTE LA SUNAD (Art. 30 LOD)', pageWidth / 2, pageHeight - 65, { maxWidth: 190, align: "center" });
     doc.rect(10, 235, 95, 10, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(10);
-    doc.text('NRO# DE REGISTRO Y FECHA', 60,  pageHeight - 55, { maxWidth: 95, align: "center" });
+    doc.text('NRO# DE REGISTRO Y FECHA', 60, pageHeight - 55, { maxWidth: 95, align: "center" });
     doc.rect(10, 245, 95, 20, 'S');
     // 
     doc.rect(105, 235, 95, 10, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(10);
-    doc.text('Nombre de la Institución, Persona Natural o Comité de Prevención Integral',152,  pageHeight - 57, { maxWidth: 95, align: "center" });
+    doc.text('Nombre de la Institución, Persona Natural o Comité de Prevención Integral', 152, pageHeight - 57, { maxWidth: 95, align: "center" });
     doc.rect(105, 245, 95, 20, 'S');
 
 
@@ -649,14 +650,14 @@ export class PdfService {
     doc.addImage('assets/images/pdf/sunad.png', "PNG", 10, 10, 20, 25);
     doc.addImage('assets/images/pdf/fona.png', "PNG", 180, 10, 20, 25);
     // doc.addImage(Qr, "PNG", 170, 255, 30, 30);
-    
+
     doc.setFontSize(14);
     doc.setFont(undefined, "bold");
     doc.text(`FORMATO PARA LA PRESENTACIÓN DE`, pageWidth / 2, pageHeight - 275, { maxWidth: 150, align: "center" });
     if (data.ambito_nombre != 'PTRRS') {
-    this.margenLargo = 265
+      this.margenLargo = 265
     } else {
-    this.margenLargo = 259
+      this.margenLargo = 259
     }
     doc.text(`${data.ambito_descripcion.toUpperCase()} (${data.ambito_nombre})`, pageWidth / 2, pageHeight - 270, { maxWidth: 150, align: "center" });
     doc.text(`POR PARTE DE ORGANISMOS E INSTITUCIONES`, pageWidth / 2, pageHeight - this.margenLargo, { maxWidth: 150, align: "center" });
@@ -665,30 +666,30 @@ export class PdfService {
     doc.setFontSize(14);
     doc.setFillColor(128, 128, 128);
     doc.rect(10, 45, 190, 10, 'F');
-    doc.setTextColor(255,255,255);
-    doc.text('DATOS DE LA EMPRESA',pageWidth / 2, pageHeight - 245, { maxWidth: 190, align: "center" });
-    
+    doc.setTextColor(255, 255, 255);
+    doc.text('DATOS DE LA EMPRESA', pageWidth / 2, pageHeight - 245, { maxWidth: 190, align: "center" });
+
     doc.rect(10, 55, 40, 10, 'S');
     doc.setFontSize(10);
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.text(data.Rif ? data.Rif : 'N/A', 30, pageHeight - 235, { maxWidth: 190, align: "center" });
 
     doc.rect(50, 55, 150, 10, 'S');
     doc.setFontSize(10);
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.text(data.RazonSocial ? data.RazonSocial.toUpperCase() : 'N/A', 125, pageHeight - 235, { maxWidth: 190, align: "center" });
-    
 
-    
+
+
     doc.setFontSize(10);
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.text('Dirección: ', 20, pageHeight - 228, { maxWidth: 190, align: "center" });
     doc.text(data.Direccion ? data.Direccion.toUpperCase() : 'N/A', 10, pageHeight - 225, { maxWidth: 189, align: "justify" });
     doc.rect(10, 65, 190, 20, 'S');
-    
+
     doc.rect(10, 85, 63.3, 10, 'S');
     doc.setFontSize(10);
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.text('Estado: ', 10, pageHeight - 209);
     doc.text(data.estado ? data.estado.toUpperCase() : 'N/A', 10, pageHeight - 204, { maxWidth: 63, align: "justify" });
     doc.rect(73.3, 85, 63.3, 10, 'S');
@@ -700,17 +701,17 @@ export class PdfService {
 
     doc.rect(10, 95, 190, 10, 'S');
     doc.setFontSize(10);
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.text('Actividad Economica de la Empresa: ', 10, pageHeight - 199);
     doc.text(data.actividad_economica ? data.actividad_economica : 'N/A', 105, pageHeight - 196, { maxWidth: 190, align: "center" });
 
     doc.setFontSize(14);
     doc.setFillColor(128, 128, 128);
     doc.rect(10, 105, 190, 10, 'F');
-    doc.setTextColor(255,255,255);
-    doc.text('DATOS DEL REPRESENTANTE',pageWidth / 2, pageHeight - 185, { maxWidth: 190, align: "center" });
+    doc.setTextColor(255, 255, 255);
+    doc.text('DATOS DEL REPRESENTANTE', pageWidth / 2, pageHeight - 185, { maxWidth: 190, align: "center" });
     doc.rect(10, 115, 65, 10, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(7);
     doc.text('TELÉFONOS CONTACTO', 25, pageHeight - 179, { maxWidth: 65, align: "center" });
     doc.setFontSize(10);
@@ -719,10 +720,10 @@ export class PdfService {
     doc.setFontSize(7);
     doc.text('NOMBRE:', 81, pageHeight - 179, { maxWidth: 125, align: "center" });
     doc.setFontSize(10);
-    doc.text(`${data.RepresentanteNombre ? data.RepresentanteNombre.toUpperCase() : 'N/A'} ${data.RepresentanteApellido ? data.RepresentanteApellido.toUpperCase() : 'N/A' }`, 138, pageHeight - 175, { maxWidth: 125, align: "center" });
+    doc.text(`${data.RepresentanteNombre ? data.RepresentanteNombre.toUpperCase() : 'N/A'} ${data.RepresentanteApellido ? data.RepresentanteApellido.toUpperCase() : 'N/A'}`, 138, pageHeight - 175, { maxWidth: 125, align: "center" });
 
     doc.rect(10, 125, 65, 10, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(7);
     doc.text('CARGO', 15, pageHeight - 169, { maxWidth: 65, align: "center" });
     doc.setFontSize(10);
@@ -737,59 +738,59 @@ export class PdfService {
     doc.setFontSize(14);
     doc.setFillColor(128, 128, 128);
     doc.rect(10, 135, 190, 10, 'F');
-    doc.setTextColor(255,255,255);
-    doc.text('DATOS DEL PROYECTO',pageWidth / 2, pageHeight - 155, { maxWidth: 190, align: "center" });
+    doc.setTextColor(255, 255, 255);
+    doc.text('DATOS DEL PROYECTO', pageWidth / 2, pageHeight - 155, { maxWidth: 190, align: "center" });
     doc.rect(10, 145, 190, 30, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(7);
-    doc.text('NOMBRE DEL PROYECTO:', 11,148);
+    doc.text('NOMBRE DEL PROYECTO:', 11, 148);
     // doc.rect(10, 135, 190, 30, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(10);
-    doc.text(data.nombre_proyecto.toUpperCase(),11, pageHeight - 145, { maxWidth: 188, align: "justify" });
+    doc.text(data.nombre_proyecto.toUpperCase(), 11, pageHeight - 145, { maxWidth: 188, align: "justify" });
 
-    
+
     doc.rect(10, 165, 47.5, 10, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(8);
-    doc.text('TIEMPO DE EJECUCIÓN',17, 171);
+    doc.text('TIEMPO DE EJECUCIÓN', 17, 171);
     doc.setFontSize(10);
-    doc.text(`DESDE: ${this.utilService.FechaMomentL(data.tiempo_ejecucion_desde)}` ,33, pageHeight - 112, { maxWidth: 47, align: "center" });
-    doc.text(`HASTA: ${this.utilService.FechaMomentL(data.tiempo_ejecucion_hasta)}` ,33, pageHeight - 108, { maxWidth: 47, align: "center" });
+    doc.text(`DESDE: ${this.utilService.FechaMomentL(data.tiempo_ejecucion_desde)}`, 33, pageHeight - 112, { maxWidth: 47, align: "center" });
+    doc.text(`HASTA: ${this.utilService.FechaMomentL(data.tiempo_ejecucion_hasta)}`, 33, pageHeight - 108, { maxWidth: 47, align: "center" });
 
     doc.rect(57.5, 165, 47.5, 10, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(8);
-    doc.text('AREA',78, 171);
+    doc.text('AREA', 78, 171);
     doc.text(data.nombre_area.toUpperCase(), 81, pageHeight - 119, { maxWidth: 47, align: "center" });
 
 
     doc.rect(105, 165, 47.5, 10, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(8);
-    doc.text('BENEFICIARIOS DIRECTOS',110, 171);
+    doc.text('BENEFICIARIOS DIRECTOS', 110, 171);
 
     doc.rect(152.5, 165, 47.5, 10, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(8);
-    doc.text('BENEFICIARIOS INDIRECTOS',157, 171);
+    doc.text('BENEFICIARIOS INDIRECTOS', 157, 171);
 
 
-    
+
     doc.rect(57.5, 175, 47.5, 10, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(8);
-    doc.text(data.ambito_descripcion.toUpperCase(),81, pageHeight - 109, { maxWidth: 47, align: "center" });
-    
+    doc.text(data.ambito_descripcion.toUpperCase(), 81, pageHeight - 109, { maxWidth: 47, align: "center" });
+
     doc.rect(10, 175, 47.5, 20, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(10);
-    doc.text(data.beneficiario_directos,129, pageHeight - 117, { maxWidth: 47, align: "center" });
+    doc.text(data.beneficiario_directos, 129, pageHeight - 117, { maxWidth: 47, align: "center" });
 
     doc.rect(105, 175, 47.5, 20, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(10);
-    doc.text(data.beneficiario_indirectos,176, pageHeight - 117, { maxWidth: 47, align: "center" });
+    doc.text(data.beneficiario_indirectos, 176, pageHeight - 117, { maxWidth: 47, align: "center" });
 
 
     doc.rect(152.5, 175, 47.5, 20, 'S');
@@ -800,16 +801,16 @@ export class PdfService {
     doc.setFontSize(14);
     doc.setFillColor(128, 128, 128);
     doc.rect(10, 195, 190, 10, 'F');
-    doc.setTextColor(255,255,255);
-    doc.text('MONTO DEL PROYECTO',pageWidth / 2, pageHeight - 95, { maxWidth: 100, align: "center" });
+    doc.setTextColor(255, 255, 255);
+    doc.text('MONTO DEL PROYECTO', pageWidth / 2, pageHeight - 95, { maxWidth: 100, align: "center" });
     doc.rect(10, 205, 100, 20, 'S');
     doc.setFontSize(10);
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.text(this.convertNumberService.convertNumberToWords(data.monto_inversionX), 11, pageHeight - 88, { maxWidth: 98, align: "justify" });
 
     doc.rect(110, 205, 90, 20, 'S');
     doc.setFontSize(12);
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.text(data.monto_inversion, 155, pageHeight - 82, { maxWidth: 190, align: "center" });
 
 
@@ -817,55 +818,55 @@ export class PdfService {
     doc.setFontSize(14);
     doc.setFillColor(128, 128, 128);
     doc.rect(10, 225, 190, 10, 'F');
-    doc.setTextColor(255,255,255);
-    doc.text('DATOS DE LA INSTITUCIÓN ASESORA',pageWidth / 2,  pageHeight - 65, { maxWidth: 190, align: "center" });
+    doc.setTextColor(255, 255, 255);
+    doc.text('DATOS DE LA INSTITUCIÓN ASESORA', pageWidth / 2, pageHeight - 65, { maxWidth: 190, align: "center" });
     doc.rect(10, 235, 95, 10, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(7);
-    doc.text('RIF DE LA INSTITUCIÓN', 25,  pageHeight - 58, { maxWidth: 95, align: "center" });
+    doc.text('RIF DE LA INSTITUCIÓN', 25, pageHeight - 58, { maxWidth: 95, align: "center" });
     doc.rect(10, 245, 95, 10, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(10);
-    doc.text(data.Asesor_Rif, 50,  pageHeight - 54, { maxWidth: 95, align: "center" });
+    doc.text(data.Asesor_Rif, 50, pageHeight - 54, { maxWidth: 95, align: "center" });
     doc.rect(105, 235, 95, 10, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(10);
-    doc.text('Nombre de la Institución, Persona Natural o Comité de Prevención Laboral',152,  pageHeight - 57, { maxWidth: 95, align: "center" });
+    doc.text('Nombre de la Institución, Persona Natural o Comité de Prevención Laboral', 152, pageHeight - 57, { maxWidth: 95, align: "center" });
     doc.rect(105, 245, 95, 10, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(10);
-    doc.text(data.Asesor_Nombre, 152,  pageHeight - 48, { maxWidth: 95, align: "center" });
+    doc.text(data.Asesor_Nombre, 152, pageHeight - 48, { maxWidth: 95, align: "center" });
 
 
 
 
     doc.rect(10, 255, 95, 10, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(7);
-    doc.text('TELÉFONO CONTACTO', 25,  pageHeight - 49, { maxWidth: 95, align: "center" });
+    doc.text('TELÉFONO CONTACTO', 25, pageHeight - 49, { maxWidth: 95, align: "center" });
 
 
 
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(10);
-    doc.text(data.Asesor_Telefono, 50,  pageHeight - 45, { maxWidth: 95, align: "center" });
+    doc.text(data.Asesor_Telefono, 50, pageHeight - 45, { maxWidth: 95, align: "center" });
 
 
 
     doc.rect(105, 255, 95, 10, 'S');
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(7);
-    doc.text('CORREO ELECTRÓNICO', 25,  pageHeight - 39, { maxWidth: 95, align: "center" });
-    doc.setTextColor(0,0,0);
+    doc.text('CORREO ELECTRÓNICO', 25, pageHeight - 39, { maxWidth: 95, align: "center" });
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(9);
-    doc.text(data.Asesor_Correo, 50,  pageHeight - 34, { maxWidth: 95, align: "center" });
+    doc.text(data.Asesor_Correo, 50, pageHeight - 34, { maxWidth: 95, align: "center" });
 
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(7);
-    doc.text('NOMBRE DEL REPRESENTANTE',125,  pageHeight - 39, { maxWidth: 95, align: "center" });
-    doc.setTextColor(0,0,0);
+    doc.text('NOMBRE DEL REPRESENTANTE', 125, pageHeight - 39, { maxWidth: 95, align: "center" });
+    doc.setTextColor(0, 0, 0);
     doc.setFontSize(9);
-    doc.text(data.Asesor_Representante, 152,  pageHeight - 34, { maxWidth: 95, align: "center" });
+    doc.text(data.Asesor_Representante, 152, pageHeight - 34, { maxWidth: 95, align: "center" });
 
 
 
@@ -883,9 +884,9 @@ export class PdfService {
 
   }
 
-  CertificadoPagoMIF(data: any, Qr: any, TokenQr: any){
+  CertificadoPagoMIF(data: any, Qr: any, TokenQr: any) {
     // console.log(data)
-    let BancoPago 
+    let BancoPago
     if (data.nombre_bancos_MIF == 'Pago Complementario') {
       BancoPago = data.PG_Banco
     } else {
@@ -905,7 +906,7 @@ export class PdfService {
     doc.addImage('assets/images/pdf/sunad.png', "PNG", 10, 10, 20, 25);
     doc.addImage('assets/images/pdf/fona.png', "PNG", 180, 10, 20, 25);
     doc.addImage(Qr, "PNG", 170, 255, 30, 30);
-    
+
     doc.setFontSize(10);
     doc.setFont(undefined, "bold");
     doc.text(`REPÚBLICA BOLIVARIANA DE VENEZUELA`, pageWidth / 2, pageHeight - 275, { maxWidth: 150, align: "center" });
@@ -968,7 +969,7 @@ export class PdfService {
 
   }
 
-  NotificacionEmpresasNoInscritas(data: any, Qr: any, TokenQr: any){
+  NotificacionEmpresasNoInscritas(data: any, Qr: any, TokenQr: any) {
     // console.log(data)
     const doc = new jsPDF();
     const pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
@@ -984,7 +985,7 @@ export class PdfService {
     doc.addImage('assets/images/pdf/sunad.png', "PNG", 10, 10, 20, 25);
     doc.addImage('assets/images/pdf/fona.png', "PNG", 180, 10, 20, 25);
     doc.addImage(Qr, "PNG", 170, 255, 30, 30);
-    
+
     doc.setFontSize(10);
     doc.setFont(undefined, "bold");
     doc.text(`REPÚBLICA BOLIVARIANA DE VENEZUELA`, pageWidth / 2, pageHeight - 275, { maxWidth: 150, align: "center" });
@@ -1047,7 +1048,7 @@ export class PdfService {
 
   }
 
-  CertificadoPagoMIF_NoInscritas(data: any, Qr: any, TokenQr: any){
+  CertificadoPagoMIF_NoInscritas(data: any, Qr: any, TokenQr: any) {
     // console.log(data)
     const doc = new jsPDF();
     const pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
@@ -1063,7 +1064,7 @@ export class PdfService {
     doc.addImage('assets/images/pdf/sunad.png', "PNG", 10, 10, 20, 25);
     doc.addImage('assets/images/pdf/fona.png', "PNG", 180, 10, 20, 25);
     doc.addImage(Qr, "PNG", 170, 255, 30, 30);
-    
+
     doc.setFontSize(10);
     doc.setFont(undefined, "bold");
     doc.text(`REPÚBLICA BOLIVARIANA DE VENEZUELA`, pageWidth / 2, pageHeight - 275, { maxWidth: 150, align: "center" });
@@ -1125,5 +1126,5 @@ export class PdfService {
     doc.output("dataurlnewwindow", { filename: 'Certificado de Pago MIF RECOSUP.pdf' });
 
   }
-  
+
 }
