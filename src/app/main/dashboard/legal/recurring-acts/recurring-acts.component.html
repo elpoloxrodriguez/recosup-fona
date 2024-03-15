@@ -73,6 +73,19 @@
                         </ng-template>
                     </ngx-datatable-column>
 
+                    <ngx-datatable-column name="Tipo" [width]="50">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div>
+                                <div *ngIf="row.tipo_acto == 1" class="badge badge-pill" ngClass="badge-light-primary">
+                                    Recurso Jerarquico
+                                </div>
+                                <div *ngIf="row.tipo_acto == 2" class="badge badge-pill" ngClass="badge-light-info">
+                                    Descargo
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
                     <ngx-datatable-column name="Fecha Interposicion" [width]="50">
                         <ng-template let-row="row" ngx-datatable-cell-template>
                             <div>
@@ -148,7 +161,7 @@
 <ng-template #RecursoJerarquico let-modal>
     <div class="modal-header">
         <h5 class="modal-title" id="myModalLabel160"><strong>{{ModalTitle}}</strong></h5>
-        <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+        <button type="button" class="close" (click)="cerrarModal()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -200,8 +213,8 @@
                 <div class="form-group">
                     <label for="basicInput">Tipo Acto Recurrido</label>
                     <ng-select [items]="ListaActo" [(ngModel)]="IRecursoJerarquico.tipo_acto"
-                        [ngModelOptions]="{standalone: true}" placeholder="Seleccione Estatus" bindLabel="name"
-                        bindValue="id" required>
+                        [ngModelOptions]="{standalone: true}" placeholder="Seleccione Tipo Acto Recurrido"
+                        bindLabel="name" bindValue="id" required>
                     </ng-select>
                 </div>
             </div>
@@ -269,7 +282,7 @@
             rippleEffect>
             {{TitleBtn}}
         </button>
-        <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+        <button type="button" class="btn btn-danger" (click)="cerrarModal()" rippleEffect>
             Cerrar
         </button>
     </div>
@@ -295,6 +308,17 @@
                             <h3 class="text-primary invoice-logo"> {{ IRecursoJerarquico.nombre_empresa }}</h3>
                             <h5 class="text-primary invoice-logo"> {{ IRecursoJerarquico.rif }}</h5>
                         </div>
+
+                        <strong>Tipo Acto Recurrido:</strong>
+                        <div *ngIf="IRecursoJerarquico.tipo_acto == 1" class="badge badge-pill"
+                            ngClass="badge-light-primary">
+                            Recurso Jerarquico
+                        </div>
+                        <div *ngIf="IRecursoJerarquico.tipo_acto == 2" class="badge badge-pill"
+                            ngClass="badge-light-info">
+                            Descargo
+                        </div>
+                        <br />
 
                         <strong>Status:</strong>
                         <div *ngIf="IRecursoJerarquico.status == 1" class="badge badge-pill"

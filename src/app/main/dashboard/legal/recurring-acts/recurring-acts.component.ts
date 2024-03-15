@@ -89,8 +89,8 @@ export class RecurringActsComponent implements OnInit {
   ]
 
   public ListaActo = [
-    { id: 1, name: 'Recursos Jerarquicos' },
-    { id: 2, name: 'Descargos' },
+    { id: '1', name: 'Recursos Jerarquicos' },
+    { id: '2', name: 'Descargos' },
   ]
 
   public id_user
@@ -120,6 +120,7 @@ export class RecurringActsComponent implements OnInit {
 
     this.IRecursoJerarquico.nombre_empresa = row.nombre_empresa
     this.IRecursoJerarquico.rif = row.rif
+    this.IRecursoJerarquico.tipo_acto = row.tipo_acto
     this.IRecursoJerarquico.nomenclatura = row.nomenclatura
     this.IRecursoJerarquico.fecha_interposicion = row.fecha_interposicion
     this.IRecursoJerarquico.fecha_notificacion = row.fecha_notificacion
@@ -230,6 +231,11 @@ export class RecurringActsComponent implements OnInit {
         console.log(error)
       }
     )
+  }
+
+  cerrarModal() {
+    this.Limpiar()
+    this.modalService.dismissAll()
   }
 
 
