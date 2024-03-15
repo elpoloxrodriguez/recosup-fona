@@ -539,7 +539,7 @@ export class DashboardComponent implements OnInit {
     this.dataListRecursosJerarquicos = []
     this.rowsRecursosJerarquicos = []
     this.tempDataRecursosJerarquicos = []
-    this.xAPI.funcion = "RECOSUP_R_Recurso_Jerarquico";
+    this.xAPI.funcion = "RECOSUP_R_ActosRecurridos";
     this.xAPI.parametros = '';
     this.xAPI.valores = {}
     await this.apiService.Ejecutar(this.xAPI).subscribe(
