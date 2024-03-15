@@ -38,10 +38,10 @@ import { TaxpayersComponent } from './digital-documentation/taxpayers/taxpayers.
 import { AdminEvaluationProjectComponent } from './projects/admin-evaluation-project/admin-evaluation-project.component';
 import { MovementEvaluationComponent } from './projects/movement-evaluation/movement-evaluation.component';
 import { UsersStatusGlobalComponent } from './support/users-status-global/users-status-global.component';
-import { HierarchicalResourcesComponent } from './legal/hierarchical-resources/hierarchical-resources.component';
 import { AsistenteVirtualComponent } from '../asistente-virtual/asistente-virtual/asistente-virtual.component';
 
 import { ChartsModule } from 'ng2-charts';
+import { RecurringActsComponent } from './legal/recurring-acts/recurring-acts.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +67,7 @@ import { ChartsModule } from 'ng2-charts';
     TaxpayersComponent,
     AdminEvaluationProjectComponent,
     MovementEvaluationComponent,
-    HierarchicalResourcesComponent,
+    RecurringActsComponent
   ],
   imports: [
     CommonModule,

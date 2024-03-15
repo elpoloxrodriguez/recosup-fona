@@ -321,6 +321,7 @@ export interface RecursosJerarquicos {
 	nomenclatura: string
 	fecha_interposicion: Date
 	fecha_notificacion: Date
+	tipo_acto: any
 	status: number
 	fecha_registro: Date
 	observacion: string

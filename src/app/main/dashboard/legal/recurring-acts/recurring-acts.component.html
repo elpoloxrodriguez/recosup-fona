@@ -1,0 +1,351 @@
+<div class="card content-wrapper container-xxl p-0">
+    <div class="card-body">
+
+
+        <section class="users-list-wrapper">
+
+            <div class="card">
+                <div class="row">
+                    <div class="col-md-3 col-12">
+                        <div class="d-flex justify-content-between align-items-center m-1">
+                            <label class="d-flex align-items-center">Mostrar
+                                <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                Registros</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-12">
+                        <div class="d-flex justify-content-between align-items-center m-1">
+                            <button (click)="CrearRJ(RecursoJerarquico)" type="button" class="btn btn-success"
+                                rippleEffect>
+                                Crear Acto Recurrido</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+                        <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+                            <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input
+                                    [(ngModel)]="searchValue" name="searchValue" type="search"
+                                    class="form-control ml-25" placeholder="Nombre Empresa"
+                                    (keyup)="filterUpdate($event)" (search)="filterUpdate($event)" /></label>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <ng-container *ngIf="isLoading == 0">
+                    <div class="loading-overlay">
+                        <div class="spinner-border text-success" role="status"></div>
+                        <div class="loading-message">Cargando datos, por favor espere...</div>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="isLoading == 2">
+                    <div class="loading-overlay">
+                        <div class="spinner-border text-danger" role="status"></div>
+                        <div class="loading-message">No hay registros...</div>
+                    </div>
+                </ng-container>
+
+
+                <ngx-datatable [rows]="rowsRecursosJerarquicos" rowHeight="auto" class="bootstrap core-bootstrap"
+                    [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50"
+                    [scrollbarH]="true">
+
+
+                    <ngx-datatable-column name="Empresa" [width]="300">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div>
+                                {{row.nombre_empresa}}
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Rif" [width]="50">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div>
+                                {{row.rif}}
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Fecha Interposicion" [width]="50">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div>
+                                {{row.fecha_interposicion}}
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Fecha Notificacion" [width]="50">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div>
+                                {{row.fecha_notificacion}}
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Estatus" [width]="50">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div>
+                                <div *ngIf="row.status == 1" class="badge badge-pill" ngClass="badge-light-success">
+                                    Con Lugar
+                                </div>
+                                <div *ngIf="row.status == 2" class="badge badge-pill" ngClass="badge-light-danger">
+                                    Sin Lugar
+                                </div>
+                                <div *ngIf="row.status == 3" class="badge badge-pill" ngClass="badge-light-warning">
+                                    Parcialmente con Lugar
+                                </div>
+                                <div *ngIf="row.status == 4" class="badge badge-pill" ngClass="badge-light-primary">
+                                    En Evaluación
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+
+
+
+                    <ngx-datatable-column name="Accion" [width]="5" [sortable]="false">
+                        <ng-template ngx-datatable-cell-template let-row="row">
+                            <div ngbDropdown container="body">
+                                <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow"
+                                    rippleEffect>
+                                    <span [data-feather]="'settings'" [class]="'cursor-pointer'"></span>
+                                </button>
+                                <div ngbDropdownMenu>
+                                    <div>
+                                        <a (click)="ModalDetalle(ModalDetails,row)" ngbDropdownItem><span
+                                                [data-feather]="'eye'" [size]="16" [class]="'mr-50'"></span>
+                                            Detalles</a>
+                                        <a (click)="ModalUpdateRJ(RecursoJerarquico,row)" ngbDropdownItem><span
+                                                [data-feather]="'edit'" [size]="16" [class]="'mr-50'"></span>
+                                            Modificar</a>
+                                        <a (click)="EliminarRJ(row)" ngbDropdownItem><span [data-feather]="'trash'"
+                                                [size]="16" [class]="'mr-50'"></span> Eliminar</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+
+                </ngx-datatable>
+            </div>
+        </section>
+
+
+    </div>
+</div>
+
+
+<ng-template #RecursoJerarquico let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel160"><strong>{{ModalTitle}}</strong></h5>
+        <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+
+
+        <div class="row">
+            <div class="col-md-12 col-12 mb-1">
+                <div class="form-group">
+                    <label>Nombre Empresa</label>
+                    <input type="text" [(ngModel)]="IRecursoJerarquico.nombre_empresa"
+                        [ngModelOptions]="{standalone: true}" placeholder="Nombre de la Empresa" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-6 col-12 mb-1">
+                <div class="form-group">
+                    <label>RIF</label>
+                    <input [(ngModel)]="IRecursoJerarquico.rif" [ngModelOptions]="{standalone: true}" type="text"
+                        placeholder="Ingrese RIF" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-6 col-12 mb-1">
+                <div class="form-group">
+                    <label>Nomenclatura</label>
+                    <input [(ngModel)]="IRecursoJerarquico.nomenclatura" [ngModelOptions]="{standalone: true}"
+                        type="text" placeholder="Nomenclatura Acta Fiscal y/o Resolución" class="form-control">
+                </div>
+            </div>
+
+            <div class="col-md-6 col-12 mb-1">
+                <div class="form-group">
+                    <label>Fecha de Interposicion</label>
+                    <input [(ngModel)]="IRecursoJerarquico.fecha_interposicion" [ngModelOptions]="{standalone: true}"
+                        type="date" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-6 col-12 mb-1">
+                <div class="form-group">
+                    <label>
+                        Fecha de Notificacion
+                    </label>
+                    <input [(ngModel)]="IRecursoJerarquico.fecha_notificacion" [ngModelOptions]="{standalone: true}"
+                        type="date" class="form-control">
+                </div>
+            </div>
+
+
+            <div class="col-md-4 col-12 mb-1">
+                <div class="form-group">
+                    <label for="basicInput">Tipo Acto Recurrido</label>
+                    <ng-select [items]="ListaActo" [(ngModel)]="IRecursoJerarquico.tipo_acto"
+                        [ngModelOptions]="{standalone: true}" placeholder="Seleccione Estatus" bindLabel="name"
+                        bindValue="id" required>
+                    </ng-select>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-12 mb-1">
+                <div class="form-group">
+                    <label for="basicInput">Estatus</label>
+                    <ng-select [items]="ListaStastus" [(ngModel)]="IRecursoJerarquico.status"
+                        [ngModelOptions]="{standalone: true}" placeholder="Seleccione Estatus" bindLabel="name"
+                        bindValue="id" required>
+                    </ng-select>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-12 mb-1">
+                <div class="form-group">
+                    <label>
+                        Lapso Aprobatorio
+                    </label>
+                    <ng-select [items]="ListaLapsoAprobatorio" (ngModelChange)="captureLapso($event)"
+                        [(ngModel)]="IRecursoJerarquico.lapso_aprobatorio" [ngModelOptions]="{standalone: true}"
+                        placeholder="Seleccione" bindLabel="name" bindValue="id" required>
+                    </ng-select>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-12 mb-1" *ngIf="!show">
+                <div class="form-group">
+                    <label>Fecha Desde</label>
+                    <input [(ngModel)]="IRecursoJerarquico.lapso_aprobatorio_fecha_desde"
+                        [ngModelOptions]="{standalone: true}" type="date" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-6 col-12 mb-1" *ngIf="!show">
+                <div class="form-group">
+                    <label>
+                        Fecha Hasta
+                    </label>
+                    <input [(ngModel)]="IRecursoJerarquico.lapso_aprobatorio_fecha_hasta"
+                        [ngModelOptions]="{standalone: true}" type="date" class="form-control">
+                </div>
+            </div>
+
+            <div class="col-md-12 col-12 mb-1">
+                <div class="form-group">
+                    <label>
+                        Observación
+                    </label>
+                    <textarea [(ngModel)]="IRecursoJerarquico.observacion" [ngModelOptions]="{standalone: true}"
+                        type="text" class="form-control" rows="5"></textarea>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    <!--/ Invoice -->
+    <div class="modal-footer">
+        <button type="button" *ngIf="!ShowBtn" class="btn btn-success" (click)="AgregarRecursosJerarquicos()"
+            rippleEffect>
+            {{TitleBtn}}
+        </button>
+        <button type="button" *ngIf="ShowBtn" class="btn btn-warning" (click)="ModificarRecursosJerarquicos()"
+            rippleEffect>
+            {{TitleBtn}}
+        </button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+            Cerrar
+        </button>
+    </div>
+</ng-template>
+
+
+
+
+<ng-template #ModalDetails let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel160">Detalle de Recurso Jerarquico {{ IRecursoJerarquico.nombre_empresa
+            }}</h5>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+        <!-- Invoice -->
+        <div class="col-xl-12 col-md-12 col-12">
+            <!-- Header Starts -->
+            <div class="row">
+
+                <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0">
+                    <div>
+                        <div class="logo-wrapper">
+                            <h3 class="text-primary invoice-logo"> {{ IRecursoJerarquico.nombre_empresa }}</h3>
+                            <h5 class="text-primary invoice-logo"> {{ IRecursoJerarquico.rif }}</h5>
+                        </div>
+
+                        <strong>Status:</strong>
+                        <div *ngIf="IRecursoJerarquico.status == 1" class="badge badge-pill"
+                            ngClass="badge-light-success">
+                            Con Lugar
+                        </div>
+                        <div *ngIf="IRecursoJerarquico.status == 2" class="badge badge-pill"
+                            ngClass="badge-light-danger">
+                            Sin Lugar
+                        </div>
+                        <div *ngIf="IRecursoJerarquico.status == 3" class="badge badge-pill"
+                            ngClass="badge-light-warning">
+                            Parcialmente con Lugar
+                        </div>
+                        <div *ngIf="IRecursoJerarquico.status == 4" class="badge badge-pill"
+                            ngClass="badge-light-primary">
+                            En Evaluación
+                        </div>
+
+                        <p class="card-text mb-25"><strong>Nomenclatura:</strong> {{
+                            IRecursoJerarquico.nomenclatura }}</p>
+                        <p class="card-text mb-25"><strong>Fecha de Registro:</strong> {{
+                            IRecursoJerarquico.fecha_registro }}</p>
+                        <p class="card-text mb-25"><strong>Fecha de Interposicion:</strong> {{
+                            IRecursoJerarquico.fecha_interposicion }}</p>
+                        <p class="card-text mb-25"><strong>Fecha de Notificación:</strong> {{
+                            IRecursoJerarquico.fecha_notificacion }}</p>
+
+                        <div *ngIf="IRecursoJerarquico.lapso_aprobatorio == 1">
+                            <strong>Lapso Aprobatorio:</strong>
+                            <div class="badge badge-pill" ngClass="badge-light-warning">
+                                Aplica
+                            </div>
+
+                            <p class="card-text mb-25"><strong>Fecha Desde:</strong> {{
+                                IRecursoJerarquico.lapso_aprobatorio_fecha_desde }}</p>
+
+                            <p class="card-text mb-25"><strong>Fecha Hasta:</strong> {{
+                                IRecursoJerarquico.lapso_aprobatorio_fecha_hasta }}</p>
+                        </div>
+                        <p class="card-text mb-25"><strong>Observación:</strong> {{
+                            IRecursoJerarquico.observacion }}</p>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>Cerrar</button>
+    </div>
+</ng-template>

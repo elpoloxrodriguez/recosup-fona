@@ -152,7 +152,7 @@
           <div class="col-12 mb-1">
             <div class="form-group">
               <label for="basicSelect">Observación</label>
-              <textarea type="text" class="form-control" [(ngModel)]="IUpdateProjects.observacion"
+              <textarea type="text" class="form-control" [(ngModel)]="CrearProyecto.observacion"
                 [ngModelOptions]="{standalone: true}" autocomplete="off" placeholder="Ingrese Observación"></textarea>
             </div>
           </div>
@@ -320,9 +320,9 @@
           <div class="col-md-6 col-12 mb-1">
             <div class="form-group">
               <label for="basicSelect">Seleccione Estado </label>
-              <ng-select [items]="selectEstados" placeholder="Seleccione Estado" bindLabel="name" binId="id"
-                (ngModelChange)="ListaMunicipios($event)" [(ngModel)]="xestado" [ngModelOptions]="{standalone: true}"
-                autocomplete="off" required autocomplete="off">
+              <ng-select [items]="selectEstados" placeholder="Seleccione Estado" bindLabel="name" bindId="id"
+                binValue="id" (ngModelChange)="ListaMunicipios($event)" [(ngModel)]="xestado"
+                [ngModelOptions]="{standalone: true}" autocomplete="off" required autocomplete="off">
               </ng-select>
             </div>
           </div>
@@ -331,8 +331,8 @@
           <div class="col-md-6 col-12 mb-1">
             <div class="form-group">
               <label for="basicSelect">Seleccione Municipio</label>
-              <ng-select [items]="selectMunicipios" placeholder="Seleccione Municipios" bindLabel="name" binId="id"
-                name="municipios" [(ngModel)]="xmunicipio" [ngModelOptions]="{standalone: true}" required
+              <ng-select [items]="selectMunicipios" placeholder="Seleccione Municipios" bindLabel="name" bindId="id"
+                binValue="id" name="municipios" [(ngModel)]="xmunicipio" [ngModelOptions]="{standalone: true}" required
                 autocomplete="off" (ngModelChange)="ListaParroquias($event)">
               </ng-select>
             </div>
@@ -341,8 +341,8 @@
           <div class="col-md-6 col-12 mb-1">
             <div class="form-group">
               <label for="basicSelect">Seleccione Parroquia </label>
-              <ng-select [items]="selectParroquias" placeholder="Seleccione Parroquia" bindLabel="name" binId="id"
-                autocomplete="off" [(ngModel)]="xparroquia" [ngModelOptions]="{standalone: true}" required
+              <ng-select [items]="selectParroquias" placeholder="Seleccione Parroquia" bindLabel="name" bindId="id"
+                binValue="id" autocomplete="off" [(ngModel)]="xparroquia" [ngModelOptions]="{standalone: true}" required
                 autocomplete="off">
               </ng-select>
             </div>

@@ -201,18 +201,18 @@ export const menu: CoreMenu[] = [
   // Juridico
   {
     id: 'resources',
-    nombre: 'Recursos Jerarquicos',
-    title: 'Recursos Jerarquicos',
+    nombre: 'Actos Recurridos',
+    title: 'Actos Recurridos',
     role: ['9', '2'],
     type: 'collapsible',
     icono: 'folder',
     children: [
       {
-        id: 'contribuyentes',
-        nombre: 'Recursos Jerarquicos',
+        id: 'actos-recurridos',
+        nombre: 'Actos Recurridos',
         type: 'item',
         icono: 'circle',
-        url: 'legal/hierarchical-resources'
+        url: 'legal/recurring-acts'
       },
       {
         id: 'Reportes',
