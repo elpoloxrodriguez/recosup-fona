@@ -86,6 +86,15 @@
                         </ng-template>
                     </ngx-datatable-column>
 
+                    <ngx-datatable-column name="Nomenclatura" [width]="50">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div>
+                                {{row.nomenclatura }}
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+
                     <ngx-datatable-column name="Fecha Interposicion" [width]="50">
                         <ng-template let-row="row" ngx-datatable-cell-template>
                             <div>
