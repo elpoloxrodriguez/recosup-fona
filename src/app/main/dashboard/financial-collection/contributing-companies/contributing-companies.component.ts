@@ -869,6 +869,21 @@ export class ContributingCompaniesComponent implements OnInit {
     });
   }
 
+  ModalEditarDatosLegales(modal, data) {
+    this.modalService.dismissAll('Cerrar')
+    // console.log(data);
+    this.ListaRepresentantesContactos(this.IdUsuarioEmpresa)
+    this.titleModal = data.RazonSocial
+    this.modalService.open(modal, {
+      centered: true,
+      size: 'lg',
+      backdrop: false,
+      keyboard: false,
+      windowClass: 'fondo-modal',
+    });
+  }
+
+
   ModalEditarUsuario(modal, data) {
     this.modalService.dismissAll('Cerrar')
     this.titleModal = data.RazonSocial

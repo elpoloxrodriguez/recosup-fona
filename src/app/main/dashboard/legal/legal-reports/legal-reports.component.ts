@@ -25,7 +25,7 @@ export class LegalReportsComponent implements OnInit {
   public itemReports
 
   public ListReport = [
-    { id: 1, name: '(01) - Lista de Recursos Jerarquicos' },
+    { id: 1, name: '(01) - Lista de Actos Recurridos' },
   ]
 
   constructor(

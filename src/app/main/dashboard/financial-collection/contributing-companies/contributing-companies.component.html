@@ -201,6 +201,11 @@
               <div class="card-body invoice-padding pt-0">
                 <div class="row invoice-spacing">
                   <div class="col-xl-4 p-0 mt-xl-0 mt-2">
+                    <button type="button" class="btn btn-sm btn-icon btn-warning" *ngIf="showUpdateEmpresaRecaudacion"
+                      (click)="ModalEditarDatosLegales(ListaDatosLegalosFinancieros,DataEmpresaCompleta)">
+                      <span [data-feather]="'edit'"></span>
+                      Actualizar Datos Legales y Financieros
+                    </button>
                     <h6 class="mb-2"><strong>Datos Legales y Financieros</strong></h6>
                     <table>
                       <tbody>
@@ -1158,6 +1163,104 @@
     <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
       Cerrar
     </button>
+  </div>
+</ng-template>
+
+
+
+<ng-template #ListaDatosLegalosFinancieros let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="myModalLabel160"> Datos Legales y Financieros <strong>{{ titleModal }} </strong></h5>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <div class="col-xl-12 col-md-12 col-12 printRef">
+      <!-- Header Starts -->
+
+      <div class="row">
+        <div class="col-xl-12 col-md-12 col-12 mb-1">
+          <!-- <div class="form-group">
+                    <h6><strong>{{ MiEmpresaRazonSocial }}</strong></h6>
+                  {{ MiEmpresaRif }}
+                  </div> -->
+        </div>
+        <div class="col-xl-6 col-md-6 col-12">
+          <div class="form-group">
+            <label for="helperText">Nombre Usuario</label>
+            <input type="text" id="helperText" class="form-control" [(ngModel)]="IUpdateUsuario.Codigo"
+              [ngModelOptions]="{standalone: true}" readonly placeholder="Nombre Usuario" />
+            <!-- <p><small class="text-muted">Find helper text here for given.</small></p> -->
+          </div>
+        </div>
+
+        <div class="col-xl-6 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicInput">Nombres</label>
+            <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.Nombres"
+              [ngModelOptions]="{standalone: true}" id="basicInput" placeholder="Nombres" />
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="helpInputTop">Apellidos</label>
+            <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.Apellidos"
+              [ngModelOptions]="{standalone: true}" id="helpInputTop" placeholder="Apellidos">
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicInput">Cedula</label>
+            <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.Cedula"
+              [ngModelOptions]="{standalone: true}" id="basicInput" placeholder="Cedula" />
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="basicInput">Telefono Local</label>
+            <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.TelefonoLocal"
+              [ngModelOptions]="{standalone: true}" id="basicInput" placeholder="Telefono" />
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="helpInputTop">Telefono Celular</label>
+            <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.TelefonoCelular"
+              [ngModelOptions]="{standalone: true}" id="helpInputTop" placeholder="Celular" />
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="disabledInput">Correo Electronico Principal</label>
+            <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.CorreoPrincipal"
+              [ngModelOptions]="{standalone: true}" id="disabledInput" placeholder="Correo Electronico Principal" />
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="disabledInput">Correo Electronico Secundario</label>
+            <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.CorreoSecundario"
+              [ngModelOptions]="{standalone: true}" id="disabledInput" placeholder="Correo Electronico Secundario" />
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="disabledInput">Cargo</label>
+            <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.Cargo"
+              [ngModelOptions]="{standalone: true}" id="disabledInput" placeholder="Correo Electronico" />
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Header Ends -->
+    </div>
+  </div>
+  <!--/ Invoice -->
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+      Cerrar
+    </button>
+    <button class="btn bg-gradient-success text-white " (click)="UpdateUsuarios()">
+      <span class="fa fa-check"></span>&nbsp;&nbsp;Actualizar </button>
   </div>
 </ng-template>
 

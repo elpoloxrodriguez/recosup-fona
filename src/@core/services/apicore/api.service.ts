@@ -103,7 +103,8 @@ export class ApiService {
 
   //  Consulta el PID de una funcion
   ExecFnxId(id: string): Observable<any> {
-    var url = this.URL + `fnx:${id}`;
+    // var url = this.URL + `fnx:${id}`;
+    var url = `/devel/api/fnx/${id}`;
     return this.http.get<any>(url, this.httpOptions);
   }
 

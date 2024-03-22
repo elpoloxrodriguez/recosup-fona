@@ -12,6 +12,7 @@ import { UtilService } from '@core/services/util/util.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { WsocketsService } from '@core/services/websockets/wsockets.service';
 
 @Component({
   selector: 'app-auth-forgot-password-v2',
@@ -26,12 +27,14 @@ export class AuthForgotPasswordV2Component implements OnInit {
   public forgotPasswordForm: FormGroup;
   public submitted = false;
 
+
   public xAPI: IAPICore = {
     funcion: '',
     parametros: '',
     valores: {},
   };
 
+  public pID
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -49,7 +52,8 @@ export class AuthForgotPasswordV2Component implements OnInit {
     private utilservice: UtilService,
     private _formBuilder: FormBuilder,
     private http: HttpClient,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private msjService: WsocketsService,
   ) {
     this._unsubscribeAll = new Subject();
 
@@ -103,7 +107,10 @@ export class AuthForgotPasswordV2Component implements OnInit {
     this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
       this.coreConfig = config;
     });
+
   }
+
+
 
   async CrearTokenTemporal(usuario: any, password: any) {
     this.xAPI.funcion = 'RECOSUP_R_Login'
@@ -120,9 +127,7 @@ export class AuthForgotPasswordV2Component implements OnInit {
   }
 
   async EvaluarCorreo() {
-    // console.log(this.forgotPasswordForm.value.email)
     if (this.forgotPasswordForm.value.email != '') {
-
       this.xAPI.funcion = 'RECOSUP_R_RecuperarPassword'
       this.xAPI.parametros = `${this.forgotPasswordForm.value.email}`
       this.xAPI.valores = ''
@@ -130,57 +135,7 @@ export class AuthForgotPasswordV2Component implements OnInit {
         async (data) => {
           if (data.Cuerpo.length > 0) {
             data.Cuerpo.map(e => {
-              const claveTemporal = this.utilservice.GenerarUnicId()
-              // console.log(e)
-              this.CrearTokenTemporal(e.Codigo, e.Clave)
-
-              let email = {
-                "funcion": "Fnx_EnviarMailCurl",
-                "API_KEY": "re_DXyM5aC2_3HYUw2whmaEqSQPUDanuwRZP",
-                "from": "RECOSUP <forgot-password@code-epic.com>",
-                "to": e.CorreoPrincipal,
-                // "archivo": 'assets/images/logo/fona.jpeg',
-                "subject": "Recuperación de Contraseña 🔐",
-                "html": `<h2>Hola! estimado: <strong>${e.Nombres} ${e.Apellidos}</strong></h2> <p>Alguien solicitó recientemente un restablecimiento de contraseña para su cuenta RECOSUP. Si eres tú, puedes establecer una nueva contraseña</p> <p>Su contraseña temporal es <strong><h3>${claveTemporal}</h3></strong></p> <p>Si no desea cambiar su contraseña o no lo solicitó, simplemente ignore y elimine este mensaje.</p> <p>Para mantener su cuenta segura, no reenvíe este correo electrónico a nadie.</p> <p>Una vez ingrese al sistema, se recomienda inmediatamente cambiar la contraseña, para evitar robo y/o estravio de datos en su cuenta.</p> <p>Gracias,</p> <p>El Equipo de Soporte</p>`
-              }
-
-              this.apiservice.ExecFnx(email).subscribe(
-                (da) => {
-                  console.log(da)
-                  // this.utilservice.AlertMini('top-end', 'success', 'Felicidades!, en breve recibira instrucciones via correo electronico.', 3000)
-                  this.forgotPasswordForm = this._formBuilder.group({
-                    email: ['']
-                  });
-                  let campos = {
-                    correo: e.CorreoPrincipal,
-                    clave: this.utilservice.md5(claveTemporal),
-                  }
-                  this.xAPI.funcion = "RECOSUP_U_ResetPassword";
-                  this.xAPI.valores = JSON.stringify(campos)
-                  this.apiservice.Ejecutar(this.xAPI).subscribe(
-                    (datax) => {
-                      console.log(datax)
-                      setTimeout(() => {
-                        this.utilservice.AlertMini('top-end', 'success', 'Felicidades!, en aproximadamente 5 minutos recibira instrucciones via correo electronico.', 3000)
-                      }, 3000);
-                      sessionStorage.clear();
-                      localStorage.clear();
-                    },
-                    (error) => {
-                      this.utilservice.AlertMini('top-end', 'error', 'Oops lo sentimo!, el correo no se puedo enviar intente de nuevo mas tarde.', 3000)
-                      console.log(error)
-                      sessionStorage.clear();
-                      localStorage.clear();
-                    }
-                  )
-                },
-                (e) => {
-                  this.utilservice.AlertMini('top-end', 'error', 'Oops lo sentimo!, el correo no se puedo enviar intente de nuevo mas tarde.', 3000)
-                  console.log(e)
-                  sessionStorage.clear();
-                  localStorage.clear();
-                }
-              )
+              this.Enviar(e)
             });
           } else {
             this.utilservice.AlertMini('top-end', 'error', 'Lo Sentimos!, No se encontro el Correo Electronico en el sistema.', 3000)
@@ -194,44 +149,62 @@ export class AuthForgotPasswordV2Component implements OnInit {
           console.log(error)
         }
       )
-
     }
-
   }
 
-  async EvaluarCorreox() {
-    const url = 'https://api.resend.com/emails';
-    const headers = new HttpHeaders()
-      .set('Authorization', 'Bearer re_DXyM5aC2_3HYUw2whmaEqSQPUDanuwRZP')
-      .set('Content-Type', 'application/json');
-    // .set('Access-Control-Allow-Origin', '*');
+  Enviar(data: any) {
+    const claveTemporal = this.utilservice.GenerarUnicId()
+    this.CrearTokenTemporal(data.Codigo, data.Clave)
 
-    const data = {
-      from: 'Acme <onboarding@resend.dev>',
-      to: ['elpoloxrodriguez@gmail.com'],
-      subject: 'hello world',
-      text: 'it works!',
-      // headers: {
-      //   'X-Entity-Ref-ID': '123'
-      // },
-      // attachments: [
-      //   {
-      //     filename: 'invoice.pdf',
-      //     content: 'invoiceBuffer'
-      //   }
-      // ]
-    };
+    let email = {
+      "funcion": "Fnx_EnviarMailCurl",
+      "API_KEY": "re_DXyM5aC2_3HYUw2whmaEqSQPUDanuwRZP",
+      "from": "RECOSUP <forgot-password@code-epic.com>",
+      "to": data.CorreoPrincipal,
+      // "archivo": 'assets/images/logo/fona.jpeg',
+      "subject": "Recuperación de Contraseña 🔐",
+      "html": `<h2>Hola! estimado: <strong>${data.Nombres} ${data.Apellidos}</strong></h2> <p>Alguien solicitó recientemente un restablecimiento de contraseña para su cuenta RECOSUP. Si eres tú, puedes establecer una nueva contraseña</p> <p>Su contraseña temporal es <strong><h3>${claveTemporal}</h3></strong></p> <p>Si no desea cambiar su contraseña o no lo solicitó, simplemente ignore y elimine este mensaje.</p> <p>Para mantener su cuenta segura, no reenvíe este correo electrónico a nadie.</p> <p>Una vez ingrese al sistema, se recomienda inmediatamente cambiar la contraseña, para evitar robo y/o estravio de datos en su cuenta.</p> <p>Gracias,</p> <p>El Equipo de Soporte</p>`
+    }
+    this.apiservice.ExecFnx(email).subscribe(
+      (da) => {
+        // this.ConsultarPID(da.contenido.id)
+        this.pID = da.contenido.id;
+        console.log(this.pID)
+        this.msjService.lstpid$.emit(this.pID);
+        this.ActualizarClave(data.CorreoPrincipal, claveTemporal)
+        this.forgotPasswordForm = this._formBuilder.group({
+          email: ['']
+        });
+      },
+      (e) => {
+        this.utilservice.AlertMini('top-end', 'error', 'Oops lo sentimo!, el correo no se puedo enviar intente de nuevo mas tarde.', 3000)
+        sessionStorage.clear();
+        localStorage.clear();
+      }
+    )
+  }
 
-    this.http.post(url, data, { headers })
-      .toPromise()
-      .then((response) => {
-        console.log(response)
-        // Manejo de la respuesta exitosa
-      })
-      .catch((error) => {
-        console.error(error)
-        // Manejo del error
-      });
+
+
+  async ActualizarClave(CorreoPrincipal, claveTemporal) {
+    let campos = {
+      correo: CorreoPrincipal,
+      clave: this.utilservice.md5(claveTemporal),
+    }
+    this.xAPI.funcion = "RECOSUP_U_ResetPassword";
+    this.xAPI.valores = JSON.stringify(campos)
+    await this.apiservice.Ejecutar(this.xAPI).subscribe(
+      (datax) => {
+        this.utilservice.AlertMini('top-end', 'success', 'Felicidades!, en aproximadamente 5 minutos recibira instrucciones via correo electronico.', 3000)
+        sessionStorage.clear();
+        localStorage.clear();
+      },
+      (error) => {
+        this.utilservice.AlertMini('top-end', 'error', 'Oops lo sentimo!, el correo no se puedo enviar intente de nuevo mas tarde.', 3000)
+        sessionStorage.clear();
+        localStorage.clear();
+      }
+    )
   }
 
   /**

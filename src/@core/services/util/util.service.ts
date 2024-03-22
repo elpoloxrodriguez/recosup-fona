@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
 import * as moment from 'moment';
-import {Md5} from 'ts-md5/dist/md5';
+import { Md5 } from 'ts-md5/dist/md5';
 
 
 @Injectable({
@@ -25,7 +25,7 @@ export class UtilService {
    * @param dias sumar dias a la fecha actual 
    * @returns retorna la fecha actual del sistema en formato YYYY-MM-DD
    */
-  FechaActual(dias : number = 0): string {
+  FechaActual(dias: number = 0): string {
     let date = new Date()
 
     if (dias > 0) date.setDate(date.getDate() + dias)
@@ -38,29 +38,29 @@ export class UtilService {
     return fecha.year + '-' + + fecha.month + '-' + fecha.day
   }
 
-  FechaMoment(fecha: any){
+  FechaMoment(fecha: any) {
     moment.locale('es')
     var fech = moment(fecha).format('LLLL')
     return fech
   }
 
-  FechaMomentL(fecha: any){
+  FechaMomentL(fecha: any) {
     moment.locale('es')
     var fech = moment(fecha).format('L')
     return fech
   }
 
-  FechaMomentLLL(fecha: any){
+  FechaMomentLLL(fecha: any) {
     moment.locale('es')
     var fech = moment(fecha).format('L')
     return fech
   }
 
-  GenerarUnicId () : string {
+  GenerarUnicId(): string {
     return Math.random().toString(36).substr(2, 18);
   }
 
-  AlertMini(position:any,icon:any,title:any,timer:number){
+  AlertMini(position: any, icon: any, title: any, timer: number) {
     const Toast = Swal.mixin({
       toast: true,
       position: position,
@@ -72,24 +72,24 @@ export class UtilService {
         toast.addEventListener('mouseleave', Swal.resumeTimer)
       }
     })
-    
+
     Toast.fire({
       icon: icon,
       title: title
     })
   }
-  
+
 
   TokenAleatorio(length) {
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-      result += characters.charAt(Math.floor(Math.random() * 
-      charactersLength));
-   }
-   return result;
-}
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() *
+        charactersLength));
+    }
+    return result;
+  }
 
   ConvertirMoneda(moneda: any) {
     const formatter = new Intl.NumberFormat('es-VE', { style: 'currency', currency: 'VEF' }).format(moneda)
@@ -101,7 +101,7 @@ export class UtilService {
     return TotalDevengado
   }
 
-  alertConfirmMini(icon,title){
+  alertConfirmMini(icon, title) {
     const Toast = Swal.mixin({
       toast: true,
       position: 'top-end',
@@ -158,14 +158,14 @@ export class UtilService {
 
   md5(pwd: any) {
     const md5 = new Md5();
-    const password =  md5.appendStr(pwd).end()
+    const password = md5.appendStr(pwd).end()
     return password
   }
 
-diferenciaFecha(fecha1: string, fecha2: string){
-let fecha = moment(fecha2).diff(fecha1, 'days')
-return fecha
-}
+  diferenciaFecha(fecha1: string, fecha2: string) {
+    let fecha = moment(fecha2).diff(fecha1, 'days')
+    return fecha
+  }
 
 
 }
