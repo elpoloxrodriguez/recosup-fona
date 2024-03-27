@@ -930,6 +930,35 @@
           </div>
         </div>
 
+        <div class="col-xl-3 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="disabledInput">Posee Sucursal</label>
+            <ng-select [items]="sucursales" placeholder="Seleccione" bindLabel="name"
+              [(ngModel)]="UpdateEmpresa.sucursal" [ngModelOptions]="{standalone: true}" required autocomplete="off">
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="disabledInput">Pertenece a algun Grupo Economico</label>
+            <ng-select [items]="grupoeconomico" placeholder="Seleccione" bindLabel="name"
+              [(ngModel)]="UpdateEmpresa.grupo_economico" [ngModelOptions]="{standalone: true}" required
+              autocomplete="off">
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="disabledInput">Campo Sujeto:</label>
+            <ng-select [items]="camposujeto" placeholder="Seleccione Municipios" bindLabel="name"
+              [(ngModel)]="UpdateEmpresa.campo_sujeto" [ngModelOptions]="{standalone: true}" required
+              autocomplete="off">
+            </ng-select>
+          </div>
+        </div>
+
 
         <div class="col-xl-12 col-md-12 col-12">
           <div class="form-group">
@@ -1178,74 +1207,56 @@
 
       <div class="row">
         <div class="col-xl-12 col-md-12 col-12 mb-1">
-          <!-- <div class="form-group">
-                    <h6><strong>{{ MiEmpresaRazonSocial }}</strong></h6>
-                  {{ MiEmpresaRif }}
-                  </div> -->
+
         </div>
-        <div class="col-xl-6 col-md-6 col-12">
+        <div class="col-xl-12 col-md-12 col-12">
           <div class="form-group">
-            <label for="helperText">Nombre Usuario</label>
-            <input type="text" id="helperText" class="form-control" [(ngModel)]="IUpdateUsuario.Codigo"
-              [ngModelOptions]="{standalone: true}" readonly placeholder="Nombre Usuario" />
-            <!-- <p><small class="text-muted">Find helper text here for given.</small></p> -->
+            <label for="helperText">Notaria</label>
+            <input type="text" id="helperText" class="form-control" [(ngModel)]="U_LegalFinanciero.NotariaId"
+              [ngModelOptions]="{standalone: true}" placeholder="Seleccione" />
           </div>
         </div>
 
         <div class="col-xl-6 col-md-6 col-12 mb-1">
           <div class="form-group">
-            <label for="basicInput">Nombres</label>
-            <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.Nombres"
-              [ngModelOptions]="{standalone: true}" id="basicInput" placeholder="Nombres" />
+            <label for="helpInputTop">Documento Folio</label>
+            <input type="text" class="form-control" [(ngModel)]="U_LegalFinanciero.DocumentoFolio"
+              [ngModelOptions]="{standalone: true}" id="helpInputTop" placeholder="Documento Folio">
           </div>
         </div>
         <div class="col-xl-6 col-md-6 col-12 mb-1">
           <div class="form-group">
-            <label for="helpInputTop">Apellidos</label>
-            <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.Apellidos"
-              [ngModelOptions]="{standalone: true}" id="helpInputTop" placeholder="Apellidos">
+            <label for="basicInput">Documento Protocolo</label>
+            <input type="text" class="form-control" [(ngModel)]="U_LegalFinanciero.DocumentoProtocolo"
+              [ngModelOptions]="{standalone: true}" id="basicInput" placeholder="Documento Protocolo" />
           </div>
         </div>
         <div class="col-xl-6 col-md-6 col-12 mb-1">
           <div class="form-group">
-            <label for="basicInput">Cedula</label>
-            <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.Cedula"
-              [ngModelOptions]="{standalone: true}" id="basicInput" placeholder="Cedula" />
+            <label for="basicInput">Documento Tomo</label>
+            <input type="text" class="form-control" [(ngModel)]="U_LegalFinanciero.DocumentoTomo"
+              [ngModelOptions]="{standalone: true}" id="basicInput" placeholder="Documento Tomo" />
           </div>
         </div>
         <div class="col-xl-6 col-md-6 col-12 mb-1">
           <div class="form-group">
-            <label for="basicInput">Telefono Local</label>
-            <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.TelefonoLocal"
-              [ngModelOptions]="{standalone: true}" id="basicInput" placeholder="Telefono" />
+            <label for="helpInputTop">Codigo Ivss</label>
+            <input type="text" class="form-control" [(ngModel)]="U_LegalFinanciero.CodigoIvss"
+              [ngModelOptions]="{standalone: true}" id="helpInputTop" placeholder="Codigo IVSS" />
           </div>
         </div>
         <div class="col-xl-6 col-md-6 col-12 mb-1">
           <div class="form-group">
-            <label for="helpInputTop">Telefono Celular</label>
-            <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.TelefonoCelular"
-              [ngModelOptions]="{standalone: true}" id="helpInputTop" placeholder="Celular" />
+            <label for="disabledInput">Documento Fecha</label>
+            <input type="date" class="form-control" [(ngModel)]="U_LegalFinanciero.DocumentoFecha"
+              [ngModelOptions]="{standalone: true}" id="disabledInput" />
           </div>
         </div>
         <div class="col-xl-6 col-md-6 col-12 mb-1">
           <div class="form-group">
-            <label for="disabledInput">Correo Electronico Principal</label>
-            <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.CorreoPrincipal"
-              [ngModelOptions]="{standalone: true}" id="disabledInput" placeholder="Correo Electronico Principal" />
-          </div>
-        </div>
-        <div class="col-xl-6 col-md-6 col-12 mb-1">
-          <div class="form-group">
-            <label for="disabledInput">Correo Electronico Secundario</label>
-            <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.CorreoSecundario"
-              [ngModelOptions]="{standalone: true}" id="disabledInput" placeholder="Correo Electronico Secundario" />
-          </div>
-        </div>
-        <div class="col-xl-6 col-md-6 col-12 mb-1">
-          <div class="form-group">
-            <label for="disabledInput">Cargo</label>
-            <input type="text" class="form-control" [(ngModel)]="IUpdateUsuario.Cargo"
-              [ngModelOptions]="{standalone: true}" id="disabledInput" placeholder="Correo Electronico" />
+            <label for="disabledInput">Fecha Cierre Fiscal</label>
+            <input type="date" class="form-control" [(ngModel)]="U_LegalFinanciero.FechaCierreFiscal"
+              [ngModelOptions]="{standalone: true}" id="disabledInput" />
           </div>
         </div>
 
@@ -1259,7 +1270,7 @@
     <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
       Cerrar
     </button>
-    <button class="btn bg-gradient-success text-white " (click)="UpdateUsuarios()">
+    <button class="btn bg-gradient-success text-white ">
       <span class="fa fa-check"></span>&nbsp;&nbsp;Actualizar </button>
   </div>
 </ng-template>

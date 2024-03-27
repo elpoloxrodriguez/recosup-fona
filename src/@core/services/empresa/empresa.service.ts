@@ -163,6 +163,9 @@ export interface IActualizarDatosEmpresa {
 	Ciudad: string
 	Estado: string
 	Municipio: string
+	sucursal?: any
+	grupo_economico?: any
+	campo_sujeto?: any
 }
 
 export interface RECOSUP_U_Usuarios {
@@ -483,6 +486,17 @@ export interface RECOSUP_U_RepresentanteLegal {
 	UsuarioModifico: number
 	FechaModifico: string
 	ContactoId: number
+}
+
+export interface RECOSUP_U_LegalFinanciero {
+	DocumentoFolio: any
+	DocumentoTomo: any
+	DocumentoProtocolo: any
+	CodigoIvss: any
+	NotariaId: any
+	DocumentoFecha: any
+	FechaInicioFiscal?: any
+	FechaCierreFiscal: any
 }
 
 

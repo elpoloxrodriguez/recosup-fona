@@ -49,7 +49,7 @@ export class LegalReportsComponent implements OnInit {
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         if (data.Cuerpo.length > 0) {
-          this.exportAsXLSX(data.Cuerpo, 'Todas los Recursos Jerarquicos')
+          this.exportAsXLSX(data.Cuerpo, 'Todos los Actos Recurridos')
           this.sectionBlockUI.stop()
         } else {
           this.sectionBlockUI.stop(),

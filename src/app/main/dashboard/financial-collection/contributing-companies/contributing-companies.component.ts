@@ -3,7 +3,7 @@ import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 import { Subject } from 'rxjs';
 import { NgbModal, NgbActiveModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService, IAPICore } from '@core/services/apicore/api.service';
-import { IActualizarDatosEmpresa, ICrearCertificados, IDataEmpresaCompleta, RECOSUP_U_FizcalizarEmpresa, RECOSUP_U_RepresentanteLegal, RECOSUP_U_Usuarios } from '@core/services/empresa/empresa.service';
+import { IActualizarDatosEmpresa, ICrearCertificados, IDataEmpresaCompleta, RECOSUP_U_FizcalizarEmpresa, RECOSUP_U_LegalFinanciero, RECOSUP_U_RepresentanteLegal, RECOSUP_U_Usuarios } from '@core/services/empresa/empresa.service';
 import { UtilService } from '@core/services/util/util.service';
 import Swal from 'sweetalert2';
 import jwt_decode from "jwt-decode";
@@ -57,7 +57,10 @@ export class ContributingCompaniesComponent implements OnInit {
     Estado: undefined,
     CantidadEmpleados: '',
     Municipio: undefined,
-    RazonSocial: ''
+    RazonSocial: '',
+    sucursal: undefined,
+    grupo_economico: undefined,
+    campo_sujeto: undefined
   }
 
   public MiEmpresa = []
@@ -127,6 +130,17 @@ export class ContributingCompaniesComponent implements OnInit {
     ContactoId: 0
   }
 
+
+  public U_LegalFinanciero: RECOSUP_U_LegalFinanciero = {
+    DocumentoFolio: undefined,
+    DocumentoTomo: undefined,
+    DocumentoProtocolo: undefined,
+    CodigoIvss: undefined,
+    NotariaId: undefined,
+    DocumentoFecha: undefined,
+    FechaCierreFiscal: undefined
+  }
+
   public Status = [
     { id: '0', name: 'Inactivo' },
     { id: "1", name: 'Activo' }
@@ -135,6 +149,24 @@ export class ContributingCompaniesComponent implements OnInit {
   public TipoContacto = [
     { id: '1', name: 'Representante Legal' },
     { id: '2', name: 'Contacto' }
+  ]
+
+  public camposujeto = [
+    { id: 0, name: 'NO' },
+    { id: 1, name: 'SI' },
+    { id: 2, name: 'NO APLICA' }
+  ]
+
+  public sucursales = [
+    { id: 0, name: 'NO' },
+    { id: 1, name: 'SI' },
+    { id: 2, name: 'NO APLICA' }
+  ]
+
+  public grupoeconomico = [
+    { id: 0, name: 'NO' },
+    { id: 1, name: 'SI' },
+    { id: 2, name: 'NO APLICA' }
   ]
 
   public ListaStatusEmpresa
@@ -438,6 +470,9 @@ export class ContributingCompaniesComponent implements OnInit {
   }
 
   async GuardarActualizacionDatosEmpresas() {
+    this.UpdateEmpresa.grupo_economico = this.UpdateEmpresa.grupo_economico.id
+    this.UpdateEmpresa.sucursal = this.UpdateEmpresa.sucursal.id
+    this.UpdateEmpresa.campo_sujeto = this.UpdateEmpresa.campo_sujeto.id
     this.xAPI.funcion = 'RECOSUP_U_MiEmpresa'
     this.xAPI.parametros = ''
     this.xAPI.valores = JSON.stringify(this.UpdateEmpresa)
@@ -846,6 +881,9 @@ export class ContributingCompaniesComponent implements OnInit {
     this.UpdateEmpresa.Direccion = row.Direccion
     this.UpdateEmpresa.CorreoElectronico = row.Email
     this.UpdateEmpresa.CantidadEmpleados = row.CantidadEmpleados
+    this.UpdateEmpresa.sucursal = row.sucursal
+    this.UpdateEmpresa.grupo_economico = row.grupo_economico
+    this.UpdateEmpresa.campo_sujeto = row.campo_sujeto
     this.modalService.open(modal, {
       centered: true,
       size: 'lg',
@@ -871,8 +909,17 @@ export class ContributingCompaniesComponent implements OnInit {
 
   ModalEditarDatosLegales(modal, data) {
     this.modalService.dismissAll('Cerrar')
-    // console.log(data);
-    this.ListaRepresentantesContactos(this.IdUsuarioEmpresa)
+
+    this.U_LegalFinanciero.DocumentoFolio = data.DocumentoFolio
+    this.U_LegalFinanciero.DocumentoTomo = data.DocumentoTomo
+    this.U_LegalFinanciero.DocumentoProtocolo = data.DocumentoProtocolo
+    this.U_LegalFinanciero.CodigoIvss = data.CodigoIvss
+    this.U_LegalFinanciero.NotariaId = data.RegistroMercantil
+    this.U_LegalFinanciero.DocumentoFecha = data.DocumentoFecha
+    this.U_LegalFinanciero.FechaCierreFiscal = data.FechaCierreFiscal
+
+    console.log(this.U_LegalFinanciero);
+    // this.ListaRepresentantesContactos(this.IdUsuarioEmpresa)
     this.titleModal = data.RazonSocial
     this.modalService.open(modal, {
       centered: true,
@@ -881,6 +928,10 @@ export class ContributingCompaniesComponent implements OnInit {
       keyboard: false,
       windowClass: 'fondo-modal',
     });
+  }
+
+  ActualizarDatosLegalesFinancieros() {
+    // RECOSUP_U_LegalFinanciera
   }
 
 
@@ -983,7 +1034,6 @@ export class ContributingCompaniesComponent implements OnInit {
       }
     )
   }
-
 
 
   filterUpdateUtilidadAportes(event) {
