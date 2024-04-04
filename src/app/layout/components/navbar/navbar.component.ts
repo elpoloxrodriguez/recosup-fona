@@ -29,6 +29,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public ShowNotificationsContribuyente = false
   public ShowNotificationsUsers = false
   public ShowNotificationsProject = false
+  public ShowNotificationsPagos = false
   public horizontalMenu: boolean;
   public hiddenMenu: boolean;
 
@@ -186,17 +187,25 @@ export class NavbarComponent implements OnInit, OnDestroy {
     if (this.rol === '1') {
       this.ShowNotificationsUsers = true
       this.ShowNotificationsContribuyente = true
+      this.ShowNotificationsPagos = true
     }
     if (this.rol === '0') {
       this.ShowNotificationsContribuyente = true
     }
     if (this.rol === '4') {
       this.ShowNotificationsProject = true
+      this.ShowNotificationsPagos = false
     }
     if (this.rol === '10') {
       this.ShowNotificationsUsers = true
       this.ShowNotificationsContribuyente = true
       this.ShowNotificationsProject = true
+    }
+    if (this.rol === '9') {
+      this.ShowNotificationsUsers = true
+      this.ShowNotificationsContribuyente = true
+      this.ShowNotificationsProject = true
+      this.ShowNotificationsPagos = false
     }
 
     // get the currentUser details from localStorage
