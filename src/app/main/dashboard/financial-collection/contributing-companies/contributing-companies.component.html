@@ -1212,8 +1212,12 @@
         <div class="col-xl-12 col-md-12 col-12">
           <div class="form-group">
             <label for="helperText">Notaria</label>
-            <input type="text" id="helperText" class="form-control" [(ngModel)]="U_LegalFinanciero.NotariaId"
-              [ngModelOptions]="{standalone: true}" placeholder="Seleccione" />
+            <!-- <input type="text" id="helperText" class="form-control" [(ngModel)]="U_LegalFinanciero.NotariaId"
+              [ngModelOptions]="{standalone: true}" placeholder="Seleccione" /> -->
+            <ng-select [items]="selectNotarias" placeholder="Seleccione Registro" bindLabel="name" bindId="id"
+              bindValue="id" (ngModelChange)="CapturarNotaria($event)" [(ngModel)]="U_LegalFinanciero.NotariaId"
+              [ngModelOptions]="{standalone: true}">
+            </ng-select>
           </div>
         </div>
 
@@ -1270,7 +1274,7 @@
     <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
       Cerrar
     </button>
-    <button class="btn bg-gradient-success text-white ">
+    <button class="btn bg-gradient-success text-white " (click)="ActualizarDatosLegalesFinancieros()">
       <span class="fa fa-check"></span>&nbsp;&nbsp;Actualizar </button>
   </div>
 </ng-template>

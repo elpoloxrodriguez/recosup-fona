@@ -489,6 +489,7 @@ export interface RECOSUP_U_RepresentanteLegal {
 }
 
 export interface RECOSUP_U_LegalFinanciero {
+	EmpresaId?: any
 	DocumentoFolio: any
 	DocumentoTomo: any
 	DocumentoProtocolo: any

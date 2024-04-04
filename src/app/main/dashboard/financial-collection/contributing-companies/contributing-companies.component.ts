@@ -135,9 +135,9 @@ export class ContributingCompaniesComponent implements OnInit {
     DocumentoFolio: undefined,
     DocumentoTomo: undefined,
     DocumentoProtocolo: undefined,
+    DocumentoFecha: undefined,
     CodigoIvss: undefined,
     NotariaId: undefined,
-    DocumentoFecha: undefined,
     FechaCierreFiscal: undefined
   }
 
@@ -232,6 +232,11 @@ export class ContributingCompaniesComponent implements OnInit {
   public rowsDetalleMultasNuevas
   public tempDataDetalleMultasNuevas
 
+  public SelectEmpresaId
+  public SelectNotariaId
+
+  public selectNotarias = []
+
   // Decorator
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
@@ -268,6 +273,7 @@ export class ContributingCompaniesComponent implements OnInit {
       this.showUpdateEmpresaRecaudacion = true
     }
     await this.EmpresasAportes()
+    await this.ListaNotarias()
     //  await this.ListaParroquias()
     await this.ListaEstados()
     await this.ListaActividadEconomica()
@@ -586,6 +592,7 @@ export class ContributingCompaniesComponent implements OnInit {
           this.DataEmpresaCompleta.CorreoPrincipal = e.CorreoPrincipal
           this.DataEmpresaCompleta.CorreoSecundario = e.CorreoSecundario
           this.DataEmpresaCompleta.Cargo = e.Cargo
+          this.SelectNotariaId = e.NotariaID
           this.DataEmpresa.push(e);
         });
         // console.log(this.DataEmpresa)
@@ -909,16 +916,16 @@ export class ContributingCompaniesComponent implements OnInit {
 
   ModalEditarDatosLegales(modal, data) {
     this.modalService.dismissAll('Cerrar')
-
+    this.U_LegalFinanciero.EmpresaId = this.SelectEmpresaId
+    // this.U_LegalFinanciero.NotariaId = 1
     this.U_LegalFinanciero.DocumentoFolio = data.DocumentoFolio
     this.U_LegalFinanciero.DocumentoTomo = data.DocumentoTomo
     this.U_LegalFinanciero.DocumentoProtocolo = data.DocumentoProtocolo
     this.U_LegalFinanciero.CodigoIvss = data.CodigoIvss
-    this.U_LegalFinanciero.NotariaId = data.RegistroMercantil
+    this.U_LegalFinanciero.NotariaId = this.SelectNotariaId
     this.U_LegalFinanciero.DocumentoFecha = data.DocumentoFecha
     this.U_LegalFinanciero.FechaCierreFiscal = data.FechaCierreFiscal
-
-    console.log(this.U_LegalFinanciero);
+    // console.log(this.U_LegalFinanciero);
     // this.ListaRepresentantesContactos(this.IdUsuarioEmpresa)
     this.titleModal = data.RazonSocial
     this.modalService.open(modal, {
@@ -930,8 +937,52 @@ export class ContributingCompaniesComponent implements OnInit {
     });
   }
 
-  ActualizarDatosLegalesFinancieros() {
+  CapturarNotaria(event) {
+    this.U_LegalFinanciero.NotariaId = event
+  }
+
+  async ActualizarDatosLegalesFinancieros() {
     // RECOSUP_U_LegalFinanciera
+    console.log(this.U_LegalFinanciero)
+    this.xAPI.funcion = 'RECOSUP_U_LegalFinanciera'
+    this.xAPI.parametros = ''
+    this.xAPI.valores = JSON.stringify(this.U_LegalFinanciero)
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        if (data.tipo === 1) {
+          this.modalService.dismissAll('Cerrar')
+          this.utilService.alertConfirmMini('success', 'Datos actualizados exitosamente')
+          // Actualizamos la tabla
+          this._router.navigate(['financial-collection/contributing-companies']).then(() => { window.location.reload() });
+        } else {
+          this.utilService.alertConfirmMini('error', 'Oops! Algo salio mal, intente de nuevo!')
+        }
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+
+  async ListaNotarias() {
+    this.xAPI.funcion = "RECOSUP_R_NotariasTodas";
+    this.xAPI.parametros = ''
+    this.selectNotarias = []
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        // console.log(data.Cuerpo)
+        this.selectNotarias = data.Cuerpo.map(e => {
+          e.name = e.Nombre
+          e.id = e.NotariaId
+          return e
+        });
+        // console.log(this.selectNotarias)
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+
   }
 
 
@@ -1080,7 +1131,7 @@ export class ContributingCompaniesComponent implements OnInit {
   }
 
   async DetalleEmpresa(modal, data) {
-    // console.log(data)
+    this.SelectEmpresaId = data.EmpresaId
     await this.DetalleMultasNuevas(data)
     this.idEmpresaCert = data.EmpresaId
     this.idUsuarioCert = data.UsuarioId
