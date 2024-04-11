@@ -376,7 +376,7 @@ export class PdfService {
     doc.setFont(undefined, "");
 
     doc.setFontSize(14);
-    doc.text(`El Director Ejecutivo del Fondo Nacional Antidrogas (FONA), conforme a lo dispuesto en el Artículo 148 del Código Orgánico Tributario, certifica la recepción del PAGO del contribuyente ${data.RazonSocial} RIF ${data.Rif}, realizada en fecha ${dataRow.FechaCompletaAporte}, correspondiente al período fiscal ${dataRow.FechaAporte}  por la cantidad de Bs. ${dataRow.Monto} , en el Banco ${dataRow.Banco}  bajo el numero de referencia #${dataRow.ReferenciaBancaria}, ante el Fondo Nacional Antidrogas, correspondiente al período desde ${this.utilService.FechaMomentL(dataRow.FechaDesde)} hasta el ${this.utilService.FechaMomentL(dataRow.FechaHasta)}.`,
+    doc.text(`El Director Ejecutivo del Fondo Nacional Antidrogas (FONA), conforme a lo dispuesto en el Artículo 148 del Código Orgánico Tributario, certifica la creación del aporte en la fecha ${this.utilService.FechaMomentL(dataRow.FechaDocumento)} y la recepción del PAGO del contribuyente ${data.RazonSocial} RIF ${data.Rif}, realizada en fecha ${this.utilService.FechaMomentL(dataRow.FechaBancoPago)}, correspondiente al período fiscal ${dataRow.FechaAporte}  por la cantidad de Bs. ${dataRow.Monto} , en el Banco ${dataRow.Banco}  bajo el numero de referencia #${dataRow.ReferenciaBancaria}, ante el Fondo Nacional Antidrogas, correspondiente al período desde ${this.utilService.FechaMomentL(dataRow.FechaDesde)} hasta el ${this.utilService.FechaMomentL(dataRow.FechaHasta)}.`,
       14,
       110,
       { maxWidth: 180, align: "justify" }

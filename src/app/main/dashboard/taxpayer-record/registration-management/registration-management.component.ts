@@ -436,6 +436,7 @@ export class RegistrationManagementComponent implements OnInit {
   fileSelected(e) {
     this.archivos.push(e.target.files[0])
   }
+
   async subirArchivo(e) {
     var frm = new FormData(document.forms.namedItem("forma"))
     // this.sectionBlockUI.start('Subiendo Documento, Porfavor Espere!!!');
@@ -475,6 +476,7 @@ export class RegistrationManagementComponent implements OnInit {
     }
 
   }
+
   dwUrl(ncontrol: string, archivo: string): string {
     return this.apiService.Dws(btoa("D" + ncontrol) + '/' + archivo)
     // this.router.navigate([this.url]) .then(() => {window.location.reload()});
@@ -646,13 +648,13 @@ export class RegistrationManagementComponent implements OnInit {
           }
           switch (e.campo_sujeto) {
             case '0':
-               e.Xcampo_sujeto = 'NO'
+              e.Xcampo_sujeto = 'NO'
               break;
             case '1':
-               e.Xcampo_sujeto = 'SI'
+              e.Xcampo_sujeto = 'SI'
               break;
             case '2':
-               e.Xcampo_sujeto = 'NO APLICA'
+              e.Xcampo_sujeto = 'NO APLICA'
               break;
             default:
               break;
