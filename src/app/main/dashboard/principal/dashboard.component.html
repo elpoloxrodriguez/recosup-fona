@@ -69,8 +69,8 @@
       <div class="col-xl-12 col-md-6 col-12" *ngIf="empresa">
         <div class="card card-statistics">
           <div class="card-header">
-            <h4 class="card-title">Estadisticas</h4> <button type="button" [disabled]="btnPanel01" (click)="Panel01()"
-              class="btn btn-warning btn-sm">
+            <h4 class="card-title">Estadisticas</h4> <button type="button" *ngIf="admin" [disabled]="btnPanel01"
+              (click)="Panel01()" class="btn btn-warning btn-sm">
               <div *ngIf="!btnPanel01">Actualizar</div>
               <div *ngIf="btnPanel01">Cargando</div>
             </button>

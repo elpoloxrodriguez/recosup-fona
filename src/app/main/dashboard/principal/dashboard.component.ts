@@ -25,6 +25,15 @@ export class DashboardComponent implements OnInit {
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
+  public regulares = []
+  public irregulares = []
+  public cUtilidadAporte = []
+  public sUtilidadAporte = []
+
+  public torta1 = []
+
+  public currentYear: number
+
 
   public usuarios: number = 0
   public empresas: number = 0
@@ -55,34 +64,7 @@ export class DashboardComponent implements OnInit {
 
 
   // donues chart
-  public donusChart01 = {
-    chartType: 'pie',
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      backgroundColor: false,
-      hover: {
-        mode: 'label'
-      },
-      legend: {
-        position: 'top',
-        align: 'start',
-        labels: {
-          usePointStyle: true,
-          padding: 25,
-          boxWidth: 9
-        }
-      }
-    },
-    // labels: this.recaudacion,
-    labels: ['Utilidad y Aporte', 'Utilidad y sin Aporte', 'Regulares', 'Irregulares'],
-    datasets: [
-      {
-        data: [100, 100, 100, 100],
-        label: `EMPRESAS DOBLE APORTANTES`,
-      },
-    ]
-  };
+  public donusChart01: any = {}
 
   public donusChart02 = {
     chartType: 'pie',
@@ -362,7 +344,7 @@ export class DashboardComponent implements OnInit {
   public btnTorta01: boolean = false
   public btnTorta02: boolean = false
 
-  public currentYear: number
+
 
 
   constructor(
@@ -500,6 +482,44 @@ export class DashboardComponent implements OnInit {
 
   async Torta01() {
     this.btnTorta01 = true
+    this.xAPI.funcion = "RECOSUP_R_PanelTorta01";
+    this.xAPI.parametros = `${this.currentYear - 1}`
+    this.xAPI.valores = {}
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        this.btnTorta01 = false
+        this.donusChart01 = {
+          chartType: 'pie',
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            backgroundColor: false,
+            hover: {
+              mode: 'label'
+            },
+            legend: {
+              position: 'top',
+              align: 'start',
+              labels: {
+                usePointStyle: true,
+                padding: 25,
+                boxWidth: 9
+              }
+            }
+          },
+          labels: ['Utilidad y Aporte', 'Utilidad y sin Aporte', 'Regulares', 'Irregulares'],
+          datasets: [
+            {
+              data: [data.Cuerpo[0].utilidadConAporte, data.Cuerpo[0].utilidadSinAporte, data.Cuerpo[0].regulares ? data.Cuerpo[0].regulares : 0, data.Cuerpo[0].irregulares ? data.Cuerpo[0].irregulares : 0],
+              label: `EMPRESAS DOBLE APORTANTES`,
+            },
+          ]
+        }
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
   }
 
   async Torta02() {
