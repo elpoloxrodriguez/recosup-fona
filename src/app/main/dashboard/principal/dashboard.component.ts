@@ -64,7 +64,33 @@ export class DashboardComponent implements OnInit {
 
 
   // donues chart
-  public donusChart01: any = {}
+  public donusChart01 = {
+    chartType: 'pie',
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      backgroundColor: false,
+      hover: {
+        mode: 'label'
+      },
+      legend: {
+        position: 'top',
+        align: 'start',
+        labels: {
+          usePointStyle: true,
+          padding: 25,
+          boxWidth: 9
+        }
+      }
+    },
+    labels: ['Utilidad y Aporte', 'Utilidad y sin Aporte', 'Regulares', 'Irregulares'],
+    datasets: [
+      {
+        data: [0, 0, 0, 0],
+        label: `EMPRESAS DOBLE APORTANTES`,
+      },
+    ]
+  }
 
   public donusChart02 = {
     chartType: 'pie',
@@ -220,48 +246,7 @@ export class DashboardComponent implements OnInit {
 
     // labels: this.recaudacion,
     labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-    datasets: [
-      {
-        // data: [332, 334, 346, 153, 575, 455, 365, 145, 455, 564, 977, 775],
-        data: this.MontoRecaudacionAnioAnterior,
-        label: `METAS DEL AÑO 2023`,
-        borderColor: this.lineChartDanger,
-        lineTension: 0.1,
-        pointStyle: 'circle',
-        backgroundColor: this.lineChartDanger,
-        fill: false,
-        pointRadius: 5,
-        pointHoverRadius: 5,
-        pointHoverBorderWidth: 5,
-        pointBorderColor: 'transparent',
-        pointHoverBorderColor: colors.solid.white,
-        pointHoverBackgroundColor: this.lineChartDanger,
-        pointShadowOffsetX: 1,
-        pointShadowOffsetY: 1,
-        pointShadowBlur: 5,
-        pointShadowColor: this.tooltipShadow
-      },
-      {
-        // data: [122, 234, 836, 353, 375, 325],
-        data: this.MontoRecaudacionAnioActual,
-        label: `METAS DEL AÑO 2024`,
-        borderColor: this.lineChartPrimary,
-        lineTension: 0.1,
-        pointStyle: 'circle',
-        backgroundColor: this.lineChartPrimary,
-        fill: false,
-        pointRadius: 5,
-        pointHoverRadius: 5,
-        pointHoverBorderWidth: 5,
-        pointBorderColor: 'transparent',
-        pointHoverBorderColor: colors.solid.white,
-        pointHoverBackgroundColor: this.lineChartPrimary,
-        pointShadowOffsetX: 1,
-        pointShadowOffsetY: 1,
-        pointShadowBlur: 5,
-        pointShadowColor: this.tooltipShadow
-      },
-    ]
+    datasets: []
   };
 
   //** To add spacing between legends and chart
@@ -684,22 +669,68 @@ export class DashboardComponent implements OnInit {
     )
   }
 
-  async DataRecaudacionAnioActual(fecha) {
-    this.btnMetas = true
-    this.xAPI.funcion = "RECOSUP_R_GestionMetasRecaudacion";
-    this.xAPI.parametros = `${fecha}`
+  async DataRecaudacionAnioActual() {
+    this.btnMetas = true;
+    this.xAPI.funcion = "RECOSUP_R_GestionMetasRecaudacionDual";
+    this.xAPI.parametros = `${this.currentYear - 1},${this.currentYear}`;
     await this.apiService.Ejecutar(this.xAPI).subscribe(
-      (data) => {
-        data.Cuerpo.map(AnioActual => {
-          this.btnMetas = false
-          this.MontoRecaudacionAnioActual.push(this.utilService.RevertirConvertirMoneda(AnioActual.MontoTotal))
-        })
+      async (data) => {
+        const RecaudacionActual = data.Cuerpo.filter(e => e.Origen === "RecaudacionActual");
+        RecaudacionActual.map(e => {
+          // this.lineChart.datasets[0].data.push(this.utilService.RevertirConvertirMoneda(e.MontoTotal))
+          this.lineChart.datasets[1] = {
+            data: this.utilService.RevertirConvertirMoneda(e.MontoTotal),
+            label: `METAS DEL AÑO 2024`,
+            borderColor: this.lineChartPrimary,
+            lineTension: 0.1,
+            pointStyle: 'circle',
+            backgroundColor: this.lineChartPrimary,
+            fill: false,
+            pointRadius: 5,
+            pointHoverRadius: 5,
+            pointHoverBorderWidth: 5,
+            pointBorderColor: 'transparent',
+            pointHoverBorderColor: colors.solid.white,
+            pointHoverBackgroundColor: this.lineChartPrimary,
+            pointShadowOffsetX: 1,
+            pointShadowOffsetY: 1,
+            pointShadowBlur: 5,
+            pointShadowColor: this.tooltipShadow
+          }
+        });
+        const RecaudacionAnterior = data.Cuerpo.filter(e => e.Origen === "RecaudacionAnterior");
+        RecaudacionAnterior.map(e => {
+          this.lineChart.datasets[0] = {
+            data: this.utilService.RevertirConvertirMoneda(e.MontoTotal),
+            label: `METAS DEL AÑO 2023`,
+            borderColor: this.lineChartDanger,
+            lineTension: 0.1,
+            pointStyle: 'circle',
+            backgroundColor: this.lineChartDanger,
+            fill: false,
+            pointRadius: 5,
+            pointHoverRadius: 5,
+            pointHoverBorderWidth: 5,
+            pointBorderColor: 'transparent',
+            pointHoverBorderColor: colors.solid.white,
+            pointHoverBackgroundColor: this.lineChartDanger,
+            pointShadowOffsetX: 1,
+            pointShadowOffsetY: 1,
+            pointShadowBlur: 5,
+            pointShadowColor: this.tooltipShadow
+          }
+          // this.lineChart.datasets[1].data.push(this.utilService.RevertirConvertirMoneda(e.MontoTotal))
+        });
+        this.btnMetas = false
+        // console.log(this.lineChart.datasets[0].data)
+        // console.log(this.lineChart.datasets[1].data)
       },
       (error) => {
-        console.log(error)
+        console.log(error);
       }
-    )
+    );
   }
+
 
   async GenerarCertificadoInscripcion() {
     this.CrearCert.usuario = this.token.Usuario[0].UsuarioId

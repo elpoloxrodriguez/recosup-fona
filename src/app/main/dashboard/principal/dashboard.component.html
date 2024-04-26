@@ -202,8 +202,7 @@
 
                   <div class="card-header flex-column align-items-start">
                     <h4 class="card-title mb-75">METAS <button type="button" [disabled]="btnMetas"
-                        (click)="DataRecaudacionAnioAnterior(currentYear-1);DataRecaudacionAnioActual(currentYear)"
-                        class="btn btn-warning btn-sm">
+                        (click)="DataRecaudacionAnioActual()" class="btn btn-warning btn-sm">
                         <div *ngIf="!btnMetas">Actualizar</div>
                         <div *ngIf="btnMetas">Cargando</div>
                       </button></h4>
