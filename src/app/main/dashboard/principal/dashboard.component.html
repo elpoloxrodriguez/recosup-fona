@@ -69,7 +69,11 @@
       <div class="col-xl-12 col-md-6 col-12" *ngIf="empresa">
         <div class="card card-statistics">
           <div class="card-header">
-            <h4 class="card-title">Estadisticas</h4>
+            <h4 class="card-title">Estadisticas</h4> <button type="button" [disabled]="btnPanel01" (click)="Panel01()"
+              class="btn btn-warning btn-sm">
+              <div *ngIf="!btnPanel01">Actualizar</div>
+              <div *ngIf="btnPanel01">Cargando</div>
+            </button>
             <div class="d-flex align-items-center">
               <p class="card-text font-small-2 mr-25 mb-0">Actualizado: {{ fecha }}</p>
             </div>
@@ -140,7 +144,11 @@
               <div class="col-xl-6 col-12">
                 <div class="card">
                   <div class="card-header flex-column align-items-start">
-                    <h4 class="card-title mb-75">TOTAL DE EMPRESAS</h4>
+                    <h4 class="card-title mb-75">TOTAL DE EMPRESAS <button type="button" [disabled]="btnTorta01"
+                        (click)="Torta01()" class="btn btn-warning btn-sm">
+                        <div *ngIf="!btnTorta01">Actualizar</div>
+                        <div *ngIf="btnTorta01">Cargando</div>
+                      </button></h4>
                     <span class="card-subtitle text-muted">Descripción de Empresas</span>
                   </div>
                   <div class="card-body">
@@ -154,7 +162,11 @@
               <div class="col-xl-6 col-12">
                 <div class="card">
                   <div class="card-header flex-column align-items-start">
-                    <h4 class="card-title mb-75">TOTAL DE MULTAS</h4>
+                    <h4 class="card-title mb-75">TOTAL DE MULTAS <button type="button" [disabled]="btnTorta02"
+                        (click)="Torta02()" class="btn btn-warning btn-sm">
+                        <div *ngIf="!btnTorta02">Actualizar</div>
+                        <div *ngIf="btnTorta02">Cargando</div>
+                      </button></h4>
                     <span class="card-subtitle text-muted">Descripción Total de Multas</span>
                   </div>
                   <div class="card-body">
@@ -170,7 +182,11 @@
               <div class="col-xl-6 col-12">
                 <div class="card">
                   <div class="card-header flex-column align-items-start">
-                    <h4 class="card-title mb-75">EMPRESAS</h4>
+                    <h4 class="card-title mb-75">EMPRESAS <button type="button" [disabled]="btnEmpresas"
+                        (click)="Panel02()" class="btn btn-warning btn-sm">
+                        <div *ngIf="!btnEmpresas">Actualizar</div>
+                        <div *ngIf="btnEmpresas">Cargando</div>
+                      </button></h4>
                     <span class="card-subtitle text-muted">Empresas Doble Aportantes y Empresas aportantes</span>
                   </div>
                   <div class="card-body">
@@ -183,8 +199,14 @@
 
               <div class="col-xl-6 col-12">
                 <div class="card">
+
                   <div class="card-header flex-column align-items-start">
-                    <h4 class="card-title mb-75">METAS</h4>
+                    <h4 class="card-title mb-75">METAS <button type="button" [disabled]="btnMetas"
+                        (click)="DataRecaudacionAnioAnterior(currentYear-1);DataRecaudacionAnioActual(currentYear)"
+                        class="btn btn-warning btn-sm">
+                        <div *ngIf="!btnMetas">Actualizar</div>
+                        <div *ngIf="btnMetas">Cargando</div>
+                      </button></h4>
                     <span class="card-subtitle text-muted">Metas del año pasado VS Metas del año actual</span>
                   </div>
                   <div class="card-body">

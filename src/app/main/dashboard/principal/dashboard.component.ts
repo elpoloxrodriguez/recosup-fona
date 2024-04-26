@@ -78,7 +78,7 @@ export class DashboardComponent implements OnInit {
     labels: ['Utilidad y Aporte', 'Utilidad y sin Aporte', 'Regulares', 'Irregulares'],
     datasets: [
       {
-        data: [0, 0, 0, 0],
+        data: [100, 100, 100, 100],
         label: `EMPRESAS DOBLE APORTANTES`,
       },
     ]
@@ -107,7 +107,7 @@ export class DashboardComponent implements OnInit {
     labels: ['Conci Pagada', 'Pend Pago', 'Pend Conc', 'No Insc Pagada', 'No Insc Pend Pago'],
     datasets: [
       {
-        data: [0, 0, 0, 0, 0],
+        data: [100, 100, 100, 100, 100],
         label: `EMPRESAS DOBLE APORTANTES`,
       },
     ]
@@ -356,6 +356,13 @@ export class DashboardComponent implements OnInit {
   // Fin Proyectos
 
 
+  public btnMetas: boolean = false
+  public btnEmpresas: boolean = false
+  public btnPanel01: boolean = false
+  public btnTorta01: boolean = false
+  public btnTorta02: boolean = false
+
+  public currentYear: number
 
 
   constructor(
@@ -364,7 +371,9 @@ export class DashboardComponent implements OnInit {
     private _router: Router,
     private modalService: NgbModal,
     private pdf: PdfService,
-  ) { }
+  ) {
+    this.currentYear = new Date().getFullYear()
+  }
 
 
   // Lifecycle Hooks
@@ -377,10 +386,10 @@ export class DashboardComponent implements OnInit {
     this.token = jwt_decode(sessionStorage.getItem('token'));
     this.FechaModificoUsuario = this.token.Usuario[0].FechaModifico
 
-    await this.Panel01()
-    await this.Panel02()
-    await this.DataRecaudacionAnioAnterior(2023)
-    await this.DataRecaudacionAnioActual(2024)
+    // await this.Panel01() 
+    // await this.Panel02() 
+    // await this.DataRecaudacionAnioAnterior(2023)
+    // await this.DataRecaudacionAnioActual(2024)
     this.CapacidadGraficos = 90000000
 
 
@@ -395,7 +404,6 @@ export class DashboardComponent implements OnInit {
     }
 
     await this.EmpresaRIF(this.token.Usuario[0].Rif)
-
     switch (this.token.Usuario[0].EsAdministrador) {
       case '0':
         this.usuario = true
@@ -435,6 +443,7 @@ export class DashboardComponent implements OnInit {
   }
 
   async Panel01() {
+    this.btnPanel01 = true
     this.xAPI.funcion = "RECOSUP_R_PanelPrincipal01";
     this.xAPI.parametros = ''
     this.xAPI.valores = {}
@@ -444,6 +453,7 @@ export class DashboardComponent implements OnInit {
         this.empresas = data.Cuerpo[0].total_empresas
         this.recursos = data.Cuerpo[0].total_recursos_jerarquicos
         this.proyectos = data.Cuerpo[0].total_proyectos
+        this.btnPanel01 = false
       },
       (error) => {
         console.log(error)
@@ -452,6 +462,7 @@ export class DashboardComponent implements OnInit {
   }
 
   async Panel02() {
+    this.btnEmpresas = true
     this.xAPI.funcion = "RECOSUP_R_PanelPrincipal02";
     this.xAPI.parametros = ''
     this.xAPI.valores = {}
@@ -479,11 +490,20 @@ export class DashboardComponent implements OnInit {
 
         this.dobleaportante.push(data.Cuerpo[0].total_doble_aportantes)
         this.aportante.push(data.Cuerpo[0].total_aportantes)
+        this.btnEmpresas = false
       },
       (error) => {
         console.log(error)
       }
     )
+  }
+
+  async Torta01() {
+    this.btnTorta01 = true
+  }
+
+  async Torta02() {
+    this.btnTorta02 = true
   }
 
 
@@ -628,11 +648,13 @@ export class DashboardComponent implements OnInit {
 
 
   async DataRecaudacionAnioAnterior(fecha) {
+    this.btnMetas = true
     this.xAPI.funcion = "RECOSUP_R_GestionMetasRecaudacion";
     this.xAPI.parametros = `${fecha}`
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(AnioAnterior => {
+          this.btnMetas = false
           this.MontoRecaudacionAnioAnterior.push(this.utilService.RevertirConvertirMoneda(AnioAnterior.MontoTotal))
         })
       },
@@ -643,11 +665,13 @@ export class DashboardComponent implements OnInit {
   }
 
   async DataRecaudacionAnioActual(fecha) {
+    this.btnMetas = true
     this.xAPI.funcion = "RECOSUP_R_GestionMetasRecaudacion";
     this.xAPI.parametros = `${fecha}`
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(AnioActual => {
+          this.btnMetas = false
           this.MontoRecaudacionAnioActual.push(this.utilService.RevertirConvertirMoneda(AnioActual.MontoTotal))
         })
       },
