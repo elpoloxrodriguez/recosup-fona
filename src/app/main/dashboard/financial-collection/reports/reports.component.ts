@@ -456,7 +456,7 @@ export class ReportsComponent implements OnInit {
               this.Reporte06.push(element)
             });
             if (data.Cuerpo.length > 0) {
-              this.exportAsXLSX( this.Reporte06, 'Empresas Irregulares')
+              this.exportAsXLSX(this.Reporte06, 'Empresas Irregulares')
               this.sectionBlockUI.stop()
             } else {
               this.sectionBlockUI.stop(),

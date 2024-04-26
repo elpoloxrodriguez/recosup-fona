@@ -139,7 +139,7 @@ export class DashboardComponent implements OnInit {
               display: true
             },
             ticks: {
-              stepSize: 100,
+              stepSize: 100000,
               min: 0,
               // max: this.ValorAltoAportante[0],
               fontColor: this.labelColor
@@ -213,9 +213,9 @@ export class DashboardComponent implements OnInit {
               display: true
             },
             ticks: {
-              stepSize: 100,
+              stepSize: 1000000,
               min: 0,
-              // max: this.CapacidadGraficos[0],
+              // max: 350000000,
               fontColor: this.labelColor
             },
             gridLines: {
@@ -246,7 +246,46 @@ export class DashboardComponent implements OnInit {
 
     // labels: this.recaudacion,
     labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-    datasets: []
+    datasets: [
+      {
+        data: [],
+        label: `METAS DEL AÑO 2023`,
+        borderColor: this.lineChartDanger,
+        lineTension: 0.1,
+        pointStyle: 'circle',
+        backgroundColor: this.lineChartDanger,
+        fill: false,
+        pointRadius: 5,
+        pointHoverRadius: 5,
+        pointHoverBorderWidth: 5,
+        pointBorderColor: 'transparent',
+        pointHoverBorderColor: colors.solid.white,
+        pointHoverBackgroundColor: this.lineChartDanger,
+        pointShadowOffsetX: 1,
+        pointShadowOffsetY: 1,
+        pointShadowBlur: 5,
+        pointShadowColor: this.tooltipShadow
+      },
+      {
+        data: [],
+        label: `METAS DEL AÑO 2024`,
+        borderColor: this.lineChartPrimary,
+        lineTension: 0.1,
+        pointStyle: 'circle',
+        backgroundColor: this.lineChartPrimary,
+        fill: false,
+        pointRadius: 5,
+        pointHoverRadius: 5,
+        pointHoverBorderWidth: 5,
+        pointBorderColor: 'transparent',
+        pointHoverBorderColor: colors.solid.white,
+        pointHoverBackgroundColor: this.lineChartPrimary,
+        pointShadowOffsetX: 1,
+        pointShadowOffsetY: 1,
+        pointShadowBlur: 5,
+        pointShadowColor: this.tooltipShadow
+      }
+    ]
   };
 
   //** To add spacing between legends and chart
@@ -353,11 +392,12 @@ export class DashboardComponent implements OnInit {
     this.token = jwt_decode(sessionStorage.getItem('token'));
     this.FechaModificoUsuario = this.token.Usuario[0].FechaModifico
 
-    // await this.Panel01() 
-    // await this.Panel02() 
+    await this.Panel01()
+    await this.Panel02()
+    await this.Torta01()
     // await this.DataRecaudacionAnioAnterior(2023)
-    // await this.DataRecaudacionAnioActual(2024)
-    this.CapacidadGraficos = 90000000
+    await this.DataRecaudacionAnioActual()
+    // this.CapacidadGraficos = 350000000
 
 
 
@@ -670,66 +710,28 @@ export class DashboardComponent implements OnInit {
   }
 
   async DataRecaudacionAnioActual() {
-    this.btnMetas = true;
-    this.xAPI.funcion = "RECOSUP_R_GestionMetasRecaudacionDual";
-    this.xAPI.parametros = `${this.currentYear - 1},${this.currentYear}`;
-    await this.apiService.Ejecutar(this.xAPI).subscribe(
-      async (data) => {
-        const RecaudacionActual = data.Cuerpo.filter(e => e.Origen === "RecaudacionActual");
-        RecaudacionActual.map(e => {
-          // this.lineChart.datasets[0].data.push(this.utilService.RevertirConvertirMoneda(e.MontoTotal))
-          this.lineChart.datasets[1] = {
-            data: this.utilService.RevertirConvertirMoneda(e.MontoTotal),
-            label: `METAS DEL AÑO 2024`,
-            borderColor: this.lineChartPrimary,
-            lineTension: 0.1,
-            pointStyle: 'circle',
-            backgroundColor: this.lineChartPrimary,
-            fill: false,
-            pointRadius: 5,
-            pointHoverRadius: 5,
-            pointHoverBorderWidth: 5,
-            pointBorderColor: 'transparent',
-            pointHoverBorderColor: colors.solid.white,
-            pointHoverBackgroundColor: this.lineChartPrimary,
-            pointShadowOffsetX: 1,
-            pointShadowOffsetY: 1,
-            pointShadowBlur: 5,
-            pointShadowColor: this.tooltipShadow
-          }
-        });
-        const RecaudacionAnterior = data.Cuerpo.filter(e => e.Origen === "RecaudacionAnterior");
-        RecaudacionAnterior.map(e => {
-          this.lineChart.datasets[0] = {
-            data: this.utilService.RevertirConvertirMoneda(e.MontoTotal),
-            label: `METAS DEL AÑO 2023`,
-            borderColor: this.lineChartDanger,
-            lineTension: 0.1,
-            pointStyle: 'circle',
-            backgroundColor: this.lineChartDanger,
-            fill: false,
-            pointRadius: 5,
-            pointHoverRadius: 5,
-            pointHoverBorderWidth: 5,
-            pointBorderColor: 'transparent',
-            pointHoverBorderColor: colors.solid.white,
-            pointHoverBackgroundColor: this.lineChartDanger,
-            pointShadowOffsetX: 1,
-            pointShadowOffsetY: 1,
-            pointShadowBlur: 5,
-            pointShadowColor: this.tooltipShadow
-          }
-          // this.lineChart.datasets[1].data.push(this.utilService.RevertirConvertirMoneda(e.MontoTotal))
-        });
-        this.btnMetas = false
-        // console.log(this.lineChart.datasets[0].data)
-        // console.log(this.lineChart.datasets[1].data)
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    try {
+      this.btnMetas = true;
+      this.xAPI.funcion = "RECOSUP_R_GestionMetasRecaudacionDual";
+      this.xAPI.parametros = `${this.currentYear - 1},${this.currentYear}`;
+      const data = await this.apiService.Ejecutar(this.xAPI).toPromise();
+
+      const RecaudacionActual = data.Cuerpo.filter(e => e.Origen === "RecaudacionActual");
+      RecaudacionActual.forEach(e => {
+        this.lineChart.datasets[1].data.push(this.utilService.RevertirConvertirMoneda(e.MontoTotal))
+      });
+
+      const RecaudacionAnterior = data.Cuerpo.filter(e => e.Origen === "RecaudacionAnterior")
+      RecaudacionAnterior.forEach(e => {
+        this.lineChart.datasets[0].data.push(this.utilService.RevertirConvertirMoneda(e.MontoTotal))
+      });
+
+      this.btnMetas = false;
+    } catch (error) {
+      console.log(error);
+    }
   }
+
 
 
   async GenerarCertificadoInscripcion() {
