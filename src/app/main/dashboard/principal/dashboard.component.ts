@@ -78,7 +78,7 @@ export class DashboardComponent implements OnInit {
     labels: ['Utilidad y Aporte', 'Utilidad y sin Aporte', 'Regulares', 'Irregulares'],
     datasets: [
       {
-        data: [30, 45, 78, 45],
+        data: [0, 0, 0, 0],
         label: `EMPRESAS DOBLE APORTANTES`,
       },
     ]
@@ -107,7 +107,7 @@ export class DashboardComponent implements OnInit {
     labels: ['Conci Pagada', 'Pend Pago', 'Pend Conc', 'No Insc Pagada', 'No Insc Pend Pago'],
     datasets: [
       {
-        data: [30, 45, 78, 45, 60],
+        data: [0, 0, 0, 0, 0],
         label: `EMPRESAS DOBLE APORTANTES`,
       },
     ]
