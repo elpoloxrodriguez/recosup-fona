@@ -112,11 +112,11 @@ export class DashboardComponent implements OnInit {
       }
     },
     // labels: this.recaudacion,
-    labels: ['Conci Pagada', 'Pend Pago', 'Pend Conc', 'No Insc Pagada', 'No Insc Pend Pago'],
+    labels: ['MIF Pagas', 'MIF Revision', 'MIF Sin Pagar', 'MIF Rechazadas', 'ENI Pagas', 'ENI Sin Pagar'],
     datasets: [
       {
-        data: [100, 100, 100, 100, 100],
-        label: `EMPRESAS DOBLE APORTANTES`,
+        data: [0, 0, 0, 0, 0, 0],
+        label: `TOTAL DE MULTAS`,
       },
     ]
   };
@@ -395,6 +395,7 @@ export class DashboardComponent implements OnInit {
     await this.Panel01()
     await this.Panel02()
     await this.Torta01()
+    await this.Torta02()
     // await this.DataRecaudacionAnioAnterior(2023)
     await this.DataRecaudacionAnioActual()
     // this.CapacidadGraficos = 350000000
@@ -547,9 +548,50 @@ export class DashboardComponent implements OnInit {
     )
   }
 
+
+
   async Torta02() {
     this.btnTorta02 = true
+    this.xAPI.funcion = "RECOSUP_R_PanelTorta02";
+    this.xAPI.parametros = ''
+    this.xAPI.valores = {}
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (data) => {
+        this.btnTorta02 = false
+        this.donusChart02 = {
+          chartType: 'pie',
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            backgroundColor: false,
+            hover: {
+              mode: 'label'
+            },
+            legend: {
+              position: 'top',
+              align: 'start',
+              labels: {
+                usePointStyle: true,
+                padding: 25,
+                boxWidth: 9
+              }
+            }
+          },
+          labels: ['MIF Pagas', 'MIF Revision', 'MIF Sin Pagar', 'MIF Rechazadas', 'ENI Pagas', 'ENI Sin Pagar'],
+          datasets: [
+            {
+              data: [data.Cuerpo[0].MIF_Pagada ? data.Cuerpo[0].MIF_Pagada : 0, data.Cuerpo[0].MIF_Revision ? data.Cuerpo[0].MIF_Revision : 0, data.Cuerpo[0].MIF_SinPagas ? data.Cuerpo[0].MIF_SinPagas : 0, data.Cuerpo[0].MIF_Rechazados ? data.Cuerpo[0].MIF_Rechazados : 0, data.Cuerpo[0].ENI_Pagada ? data.Cuerpo[0].ENI_Pagada : 0, data.Cuerpo[0].ENI_SinPagar ? data.Cuerpo[0].ENI_SinPagar : 0],
+              label: `EMPRESAS DOBLE APORTANTES`,
+            },
+          ]
+        }
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
   }
+
 
 
   async lstEmpresas(modal) {
