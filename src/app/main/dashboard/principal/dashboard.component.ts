@@ -557,6 +557,7 @@ export class DashboardComponent implements OnInit {
     this.xAPI.valores = {}
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
+        console.log(data.Cuerpo)
         this.btnTorta02 = false
         this.donusChart02 = {
           chartType: 'pie',
@@ -580,7 +581,7 @@ export class DashboardComponent implements OnInit {
           labels: ['MIF Pagas', 'MIF Revision', 'MIF Sin Pagar', 'MIF Rechazadas', 'ENI Pagas', 'ENI Sin Pagar'],
           datasets: [
             {
-              data: [data.Cuerpo[0].MIF_Pagada ? data.Cuerpo[0].MIF_Pagada : 0, data.Cuerpo[0].MIF_Revision ? data.Cuerpo[0].MIF_Revision : 0, data.Cuerpo[0].MIF_SinPagas ? data.Cuerpo[0].MIF_SinPagas : 0, data.Cuerpo[0].MIF_Rechazados ? data.Cuerpo[0].MIF_Rechazados : 0, data.Cuerpo[0].ENI_Pagada ? data.Cuerpo[0].ENI_Pagada : 0, data.Cuerpo[0].ENI_SinPagar ? data.Cuerpo[0].ENI_SinPagar : 0],
+              data: [data.Cuerpo[0].MIF_Pagadas ? data.Cuerpo[0].MIF_Pagadas : 0, data.Cuerpo[0].MIF_Revision ? data.Cuerpo[0].MIF_Revision : 0, data.Cuerpo[0].MIF_SinPagas ? data.Cuerpo[0].MIF_SinPagas : 0, data.Cuerpo[0].MIF_Rechazados ? data.Cuerpo[0].MIF_Rechazados : 0, data.Cuerpo[0].ENI_Pagada ? data.Cuerpo[0].ENI_Pagada : 0, data.Cuerpo[0].ENI_SinPagar ? data.Cuerpo[0].ENI_SinPagar : 0],
               label: `EMPRESAS DOBLE APORTANTES`,
             },
           ]
