@@ -29,7 +29,7 @@ export class NavbarContribuyenteNotificationComponent implements OnInit {
   public Notificaciones = []
 
   public link: string
-
+  public rol
   // Public
   public notifications: notification;
 
@@ -51,6 +51,7 @@ export class NavbarContribuyenteNotificationComponent implements OnInit {
    */
   async ngOnInit() {
     this.token = jwt_decode(sessionStorage.getItem('token'));
+    this.rol = this.token.Usuario[0].EsAdministrador
     // if (this.token.Usuario[0].EsAdministrador == '0' || this.token.Usuario[0].EsAdministrador == '1') {
     // switch (this.token.Usuario[0].EsAdministrador) {
     //   case '0':

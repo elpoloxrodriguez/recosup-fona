@@ -18,6 +18,7 @@ interface notification {
 export class NavbarProjectNotificationComponent implements OnInit {
 
   public token
+  public rol
 
   public xAPI: IAPICore = {
     funcion: '',
@@ -47,6 +48,7 @@ export class NavbarProjectNotificationComponent implements OnInit {
    */
   async ngOnInit() {
     this.token = jwt_decode(sessionStorage.getItem('token'));
+    this.rol = this.token.Usuario[0].EsAdministrador
     // if (this.token.Usuario[0].EsAdministrador == '9' || this.token.Usuario[0].EsAdministrador == '10' || this.token.Usuario[0].EsAdministrador == '4') {
     await this.NotificacionesTotal()
     this._notificationsService.onApiDataChange.subscribe(res => {

@@ -367,6 +367,7 @@ export class ContributingCompaniesComponent implements OnInit {
             this.ListaEmpresasAportes.push(e);
             //  }
           })
+          // console.log(this.ListaEmpresasAportes)
           this.rowsEmpresasAportes = this.ListaEmpresasAportes
           this.tempDataEmpresasAportes = this.rowsEmpresasAportes;
           this.isLoading = 1;

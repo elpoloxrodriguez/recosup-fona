@@ -40,7 +40,7 @@
     <!--/ Notifications content -->
 
     <!-- Notifications footer -->
-    <li class="dropdown-menu-footer">
+    <li class="dropdown-menu-footer" *ngIf="rol != 10">
       <a class="btn btn-primary btn-block" [routerLink]="link">Todas las Multas Vigentes</a>
     </li>
     <!--/ Notifications footer -->

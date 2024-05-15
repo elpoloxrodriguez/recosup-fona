@@ -26,6 +26,7 @@ export class NavbarNotificationComponent implements OnInit {
   };
 
   public Notificaciones = []
+  public rol
 
   // Public
   public notifications: notification;
@@ -48,6 +49,7 @@ export class NavbarNotificationComponent implements OnInit {
   async ngOnInit() {
     if (sessionStorage.getItem('token') != null) {
       this.token = jwt_decode(sessionStorage.getItem('token'));
+      this.rol = this.token.Usuario[0].EsAdministrador
       // if (this.token.Usuario[0].EsAdministrador == '9' || this.token.Usuario[0].EsAdministrador == '10' || this.token.Usuario[0].EsAdministrador == '1') {
       await this.NotificacionesTotal()
       this._notificationsService.onApiDataChange.subscribe(res => {
