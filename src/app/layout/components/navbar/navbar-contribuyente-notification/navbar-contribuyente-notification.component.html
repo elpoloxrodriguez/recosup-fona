@@ -1,55 +1,48 @@
-<li ngbDropdown class="nav-item dropdown-notification mr-25" *ngIf="Notificaciones.length != 0">
-    <a class="nav-link" ngbDropdownToggle id="navbarNotificationDropdown"
-      ><i class="ficon" data-feather="alert-triangle"></i
-      ><span class="badge badge-pill badge-danger badge-up">
-        <!-- {{ notifications.messages?.length + notifications.systemMessages?.length }} -->
-       {{  Notificaciones.length }}
-      </span>
-      </a>
-    <ul
-      ngbDropdownMenu
-      aria-labelledby="navbarNotificationDropdown"
-      class="dropdown-menu dropdown-menu-media dropdown-menu-right"
-    >
-      <!-- Notifications header -->
-      <li class="dropdown-menu-header">
-        <div class="dropdown-header d-flex">
-          <h4 class="notification-title mb-0 mr-auto">Multas Vigentes</h4>
-          <div class="badge badge-pill badge-light-primary">
-            <!-- {{ notifications.messages?.length + notifications.systemMessages?.length }} New -->
-            {{  Notificaciones.length }} Nuevas
+<li ngbDropdown class="nav-item dropdown-notification mr-25">
+  <a class="nav-link" ngbDropdownToggle id="navbarNotificationDropdown"><i class="ficon"
+      data-feather="alert-triangle"></i><span class="badge badge-pill badge-danger badge-up">
+      <!-- {{ notifications.messages?.length + notifications.systemMessages?.length }} -->
+      {{ Notificaciones.length }}
+    </span>
+  </a>
+  <ul ngbDropdownMenu aria-labelledby="navbarNotificationDropdown"
+    class="dropdown-menu dropdown-menu-media dropdown-menu-right">
+    <!-- Notifications header -->
+    <li class="dropdown-menu-header">
+      <div class="dropdown-header d-flex">
+        <h4 class="notification-title mb-0 mr-auto">Multas Vigentes</h4>
+        <div class="badge badge-pill badge-light-primary">
+          <!-- {{ notifications.messages?.length + notifications.systemMessages?.length }} New -->
+          {{ Notificaciones.length }} Nuevas
+        </div>
+      </div>
+    </li>
+    <!--/ Notifications header -->
+
+    <!-- Notifications content -->
+    <li class="scrollable-container media-list" [perfectScrollbar]>
+      <a class="d-flex" href="javascript:void(0)" *ngFor="let notification of Notificaciones">
+        <div class="media d-flex align-items-start">
+          <div class="media-left">
+            <div class="avatar" ngClass="avatar bg-light-warning">
+              <div class="avatar-content"><i class="avatar-icon" data-feather="alert-circle"></i></div>
+            </div>
+          </div>
+          <div class="media-body">
+            <p class="media-heading" innerHTML="sdcmsdcdsoi">{{ notification.nombre_bancos_MIF }}
+            </p>
+            <small class="notification-text"> <strong>{{ notification.Rif }}</strong> | Monto: {{ notification.Monto_mif
+              }}</small>
           </div>
         </div>
-      </li>
-      <!--/ Notifications header -->
-  
-      <!-- Notifications content -->
-     <li class="scrollable-container media-list" [perfectScrollbar]>
-        <a class="d-flex" href="javascript:void(0)" *ngFor="let notification of Notificaciones">
-          <div class="media d-flex align-items-start">
-            <div class="media-left">
-              <div
-                class="avatar"
-                ngClass="avatar bg-light-warning"
-              >
-                <div class="avatar-content"><i class="avatar-icon" data-feather="alert-circle"></i></div>
-              </div>
-            </div>
-            <div class="media-body">
-              <p class="media-heading" innerHTML="sdcmsdcdsoi">{{ notification.nombre_bancos_MIF }} 
-              </p>
-              <small class="notification-text"> <strong>{{ notification.Rif }}</strong> | Monto:  {{ notification.Monto_mif }}</small>
-            </div>
-          </div></a
-        >
-      </li>
-      <!--/ Notifications content -->
-  
-      <!-- Notifications footer -->
-      <li class="dropdown-menu-footer">
-        <a class="btn btn-primary btn-block" [routerLink]="link">Todas las Multas Vigentes</a>
-      </li>
-      <!--/ Notifications footer -->
-    </ul>
-  </li>
-  
+      </a>
+    </li>
+    <!--/ Notifications content -->
+
+    <!-- Notifications footer -->
+    <li class="dropdown-menu-footer">
+      <a class="btn btn-primary btn-block" [routerLink]="link">Todas las Multas Vigentes</a>
+    </li>
+    <!--/ Notifications footer -->
+  </ul>
+</li>

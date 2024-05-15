@@ -184,28 +184,62 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.cargo = this.token.Usuario[0].Cargo
     this.nombre = this.token.Usuario[0].Nombres + ' ' + this.token.Usuario[0].Apellidos
     this.rol = this.token.Usuario[0].EsAdministrador
-    if (this.rol === '1') {
-      this.ShowNotificationsUsers = true
-      this.ShowNotificationsContribuyente = true
-      this.ShowNotificationsPagos = true
-    }
-    if (this.rol === '0') {
-      this.ShowNotificationsContribuyente = true
-    }
-    if (this.rol === '4') {
-      this.ShowNotificationsProject = true
-      this.ShowNotificationsPagos = false
-    }
-    if (this.rol === '10') {
-      this.ShowNotificationsUsers = true
-      this.ShowNotificationsContribuyente = true
-      this.ShowNotificationsProject = true
-    }
-    if (this.rol === '9') {
-      this.ShowNotificationsUsers = true
-      this.ShowNotificationsContribuyente = true
-      this.ShowNotificationsProject = true
-      this.ShowNotificationsPagos = false
+    // if (this.rol === '1') {
+    //   this.ShowNotificationsUsers = true
+    //   this.ShowNotificationsContribuyente = true
+    //   this.ShowNotificationsPagos = true
+    // }
+    // if (this.rol === '0') {
+    //   this.ShowNotificationsContribuyente = true
+    // }
+    // if (this.rol === '4') {
+    //   this.ShowNotificationsProject = true
+    //   this.ShowNotificationsPagos = false
+    // }
+    // if (this.rol === '10') {
+    //   this.ShowNotificationsUsers = true
+    //   this.ShowNotificationsContribuyente = true
+    //   this.ShowNotificationsProject = true
+    //   this.ShowNotificationsPagos = true
+    // }
+    // if (this.rol === '9') {
+    //   this.ShowNotificationsUsers = true
+    //   this.ShowNotificationsContribuyente = true
+    //   this.ShowNotificationsProject = true
+    //   this.ShowNotificationsPagos = false
+    // }
+
+    switch (this.rol) {
+      case '0':
+        this.ShowNotificationsContribuyente = true
+        break;
+      case '1':
+        this.ShowNotificationsUsers = true
+        this.ShowNotificationsContribuyente = true
+        this.ShowNotificationsPagos = true
+        break;
+      case '4':
+        this.ShowNotificationsProject = true
+        break;
+      case '9':
+        this.ShowNotificationsUsers = true
+        this.ShowNotificationsContribuyente = true
+        this.ShowNotificationsProject = true
+        this.ShowNotificationsPagos = true
+        break;
+      case '10':
+        this.ShowNotificationsUsers = true
+        this.ShowNotificationsContribuyente = true
+        this.ShowNotificationsProject = true
+        this.ShowNotificationsPagos = true
+        break;
+
+      default:
+        // this.ShowNotificationsUsers = true
+        // this.ShowNotificationsContribuyente = true
+        // this.ShowNotificationsProject = true
+        // this.ShowNotificationsPagos = true
+        break;
     }
 
     // get the currentUser details from localStorage

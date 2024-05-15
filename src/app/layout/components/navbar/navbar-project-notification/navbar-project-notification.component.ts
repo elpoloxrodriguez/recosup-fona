@@ -47,14 +47,14 @@ export class NavbarProjectNotificationComponent implements OnInit {
    */
   async ngOnInit() {
     this.token = jwt_decode(sessionStorage.getItem('token'));
-    if (this.token.Usuario[0].EsAdministrador == '9' || this.token.Usuario[0].EsAdministrador == '10' || this.token.Usuario[0].EsAdministrador == '4') {
-      await this.NotificacionesTotal()
-      this._notificationsService.onApiDataChange.subscribe(res => {
-        this.notifications = res;
-      });
-    } else {
-      this.notifications
-    }
+    // if (this.token.Usuario[0].EsAdministrador == '9' || this.token.Usuario[0].EsAdministrador == '10' || this.token.Usuario[0].EsAdministrador == '4') {
+    await this.NotificacionesTotal()
+    this._notificationsService.onApiDataChange.subscribe(res => {
+      this.notifications = res;
+    });
+    // } else {
+    //   this.notifications
+    // }
   }
 
 
@@ -64,7 +64,7 @@ export class NavbarProjectNotificationComponent implements OnInit {
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (data) => {
         data.Cuerpo.map(e => {
-          this.Notificaciones.push(e)
+          this.Notificaciones.push(e ? e : 0)
         });
         // console.log(this.Notificaciones)
       },

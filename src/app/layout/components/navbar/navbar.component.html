@@ -63,23 +63,23 @@
     <!--/ Toggle skin -->
 
     <!-- Search -->
-    <app-navbar-search></app-navbar-search>
+    <!-- <app-navbar-search></app-navbar-search> -->
     <!--/ Search -->
 
     <!-- Notification -->
 
     <!-- Notificaciones de Usuarios -->
-    <div *ngIf="ShowNotificationsUsers != false">
+    <div *ngIf="ShowNotificationsUsers">
       <app-navbar-user-notification></app-navbar-user-notification>
     </div>
 
     <!-- Notificaciones de Contribuyentes -->
-    <div *ngIf="ShowNotificationsContribuyente != false">
+    <div *ngIf="ShowNotificationsContribuyente">
       <app-navbar-contribuyente-notification></app-navbar-contribuyente-notification>
     </div>
 
     <!-- Notificaciones de Proyectos -->
-    <div *ngIf="ShowNotificationsProject != false">
+    <div *ngIf="ShowNotificationsProject">
       <app-navbar-project-notification></app-navbar-project-notification>
     </div>
 
