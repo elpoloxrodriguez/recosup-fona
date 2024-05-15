@@ -667,7 +667,7 @@ export class DashboardComponent implements OnInit {
         console.log(error)
       }
     )
-    this.titleModal = 'Lista de Recursos Jerarquicos'
+    this.titleModal = 'Lista de Actos Recurridos'
     this.modalService.open(modal, {
       centered: true,
       size: 'xl',
