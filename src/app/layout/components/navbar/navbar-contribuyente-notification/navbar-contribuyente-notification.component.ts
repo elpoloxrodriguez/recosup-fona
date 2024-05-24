@@ -52,28 +52,28 @@ export class NavbarContribuyenteNotificationComponent implements OnInit {
   async ngOnInit() {
     this.token = jwt_decode(sessionStorage.getItem('token'));
     this.rol = this.token.Usuario[0].EsAdministrador
-    // if (this.token.Usuario[0].EsAdministrador == '0' || this.token.Usuario[0].EsAdministrador == '1') {
-    // switch (this.token.Usuario[0].EsAdministrador) {
-    //   case '0':
-    // await this.NotificacionesTotal()
-    // this.link = '/taxpayer-record/current-fines'
-    // this._notificationsService.onApiDataChange.subscribe(res => {
-    //   this.notifications = res;
-    // });
-    //     break;
-    //   case '1':
-    await this.NotificacionesPagosMultas()
-    this.link = '/financial-collection/generate-fines'
-    this._notificationsService.onApiDataChange.subscribe(res => {
-      this.notifications = res;
-    });
-    //     break;
-    //   default:
-    //     break;
-    // }
-    // } else {
-    //   this.notifications
-    // }
+    if (this.token.Usuario[0].EsAdministrador == '0' || this.token.Usuario[0].EsAdministrador == '1') {
+      switch (this.token.Usuario[0].EsAdministrador) {
+        case '0':
+          await this.NotificacionesTotal()
+          this.link = '/taxpayer-record/current-fines'
+          this._notificationsService.onApiDataChange.subscribe(res => {
+            this.notifications = res;
+          });
+          break;
+        case '1':
+          await this.NotificacionesPagosMultas()
+          this.link = '/financial-collection/generate-fines'
+          this._notificationsService.onApiDataChange.subscribe(res => {
+            this.notifications = res;
+          });
+          break;
+        default:
+          break;
+      }
+    } else {
+      this.notifications
+    }
   }
 
 
