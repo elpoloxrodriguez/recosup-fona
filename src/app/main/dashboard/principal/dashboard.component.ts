@@ -22,7 +22,6 @@ import { colors } from 'app/colors.const';
 
 
 export class DashboardComponent implements OnInit {
-
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
   public regulares = []
@@ -322,6 +321,29 @@ export class DashboardComponent implements OnInit {
     created_user: 0
   }
 
+  public ListFilter = [
+    { id: 1, name: 'Disponible' },
+    { id: 0, name: 'Fiscalizando' }
+  ]
+
+  public FilterRecursoJerarquico = [
+    { id: 1, name: 'Con Lugar' },
+    { id: 2, name: 'Sin Lugar' },
+    { id: 3, name: 'Parcialmente con Lugar' },
+    { id: 4, name: 'En Evaluación' }
+  ]
+
+  public filterProjet = [
+    { id: 0, name: 'Revisión' },
+    { id: 1, name: 'Aprobado' },
+    { id: 2, name: 'Rechazado' },
+  ]
+
+
+
+
+  public itemReports
+
   public fecha
 
   public FechaModificoUsuario
@@ -368,7 +390,7 @@ export class DashboardComponent implements OnInit {
   public btnTorta01: boolean = false
   public btnTorta02: boolean = false
 
-
+  public color
 
 
   constructor(
@@ -630,6 +652,8 @@ export class DashboardComponent implements OnInit {
       windowClass: 'fondo-modal',
     });
   }
+
+
   filterUpdateE(event) {
     // Reset ng-select on search
     const val = event.target.value.toLowerCase();
@@ -642,6 +666,61 @@ export class DashboardComponent implements OnInit {
     // Whenever The Filter Changes, Always Go Back To The First Page
     this.table.offset = 0;
   }
+
+  filterEmpresas(event) {
+    // console.log(event);
+    if (event != null) {
+      // Convertir el evento a minúsculas
+      const val = event.toString().trim(); // Convertirlo a cadena y eliminar espacios en blanco
+
+      // Filtrar los datos
+      const temp = this.tempDataEmpresasAportes.filter(function (d) {
+        // Verificar si la cadena convertida está vacía o si coincide con la EmpresaFiscalizada
+        return val === '' || d.EmpresaFiscalizada.toString() === val;
+      });
+      // Actualizar las filas con los datos filtrados
+      this.rowsEmpresasAportes = temp;
+    } else {
+      this.rowsEmpresasAportes = this.tempDataEmpresasAportes
+    }
+  }
+
+  filterRJ(event) {
+    // console.log(event);
+    if (event != null) {
+      // Convertir el evento a minúsculas
+      const val = event.toString().trim(); // Convertirlo a cadena y eliminar espacios en blanco
+
+      // Filtrar los datos
+      const temp = this.tempDataRecursosJerarquicos.filter(function (d) {
+        // Verificar si la cadena convertida está vacía o si coincide con la EmpresaFiscalizada
+        return val === '' || d.status.toString() === val;
+      });
+      // Actualizar las filas con los datos filtrados
+      this.rowsRecursosJerarquicos = temp;
+    } else {
+      this.rowsRecursosJerarquicos = this.tempDataRecursosJerarquicos
+    }
+  }
+
+  filterProj(event) {
+    // console.log(event);
+    if (event != null) {
+      // Convertir el evento a minúsculas
+      const val = event.toString().trim(); // Convertirlo a cadena y eliminar espacios en blanco
+
+      // Filtrar los datos
+      const temp = this.tempDataMisProjects.filter(function (d) {
+        // Verificar si la cadena convertida está vacía o si coincide con la EmpresaFiscalizada
+        return val === '' || d.status_proyecto.toString() === val;
+      });
+      // Actualizar las filas con los datos filtrados
+      this.rowsProyectos = temp;
+    } else {
+      this.rowsProyectos = this.tempDataMisProjects
+    }
+  }
+
 
   async lstRecursosJerarquicos(modal) {
     this.dataListRecursosJerarquicos = []
@@ -720,6 +799,8 @@ export class DashboardComponent implements OnInit {
       windowClass: 'fondo-modal',
     });
   }
+
+
   filterUpdateMisProjects(event) {
     // Reset ng-select on search
     const val = event.target.value.toLowerCase();

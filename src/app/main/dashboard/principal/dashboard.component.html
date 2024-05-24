@@ -255,11 +255,20 @@
               </div>
               <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
                 <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+                  <label class="d-flex align-items-center ml-1 ml-md-0">Filtro:
+                    <ng-select [items]="ListFilter" placeholder="Seleccione Reporte" bindLabel="name" bindValue="id"
+                      [(ngModel)]="itemReports" [ngModelOptions]="{standalone: true}"
+                      (ngModelChange)="filterEmpresas($event)" required>
+                    </ng-select>
+                  </label>
+                </div>
+                <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
                   <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
                       name="searchValue" type="search" class="form-control ml-25" placeholder="Ingrese Nombre"
                       (keyup)="filterUpdateE($event)" (search)="filterUpdateE($event)" /></label>
                 </div>
               </div>
+
             </div>
 
             <ng-container *ngIf="isLoading == 0">
@@ -369,6 +378,14 @@
                 </div>
               </div>
               <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+                <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+                  <label class="d-flex align-items-center ml-1 ml-md-0">Filtro:
+                    <ng-select [items]="FilterRecursoJerarquico" placeholder="Seleccione Reporte" bindLabel="name"
+                      bindValue="id" [(ngModel)]="itemReports" [ngModelOptions]="{standalone: true}"
+                      (ngModelChange)="filterRJ($event)" required>
+                    </ng-select>
+                  </label>
+                </div>
                 <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
                   <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
                       name="searchValue" type="search" class="form-control ml-25" placeholder="Ingrese Nombre"
@@ -492,6 +509,14 @@
                 </div>
               </div>
               <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+                <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+                  <label class="d-flex align-items-center ml-1 ml-md-0">Filtro:
+                    <ng-select [items]="filterProjet" placeholder="Seleccione Reporte" bindLabel="name" bindValue="id"
+                      [(ngModel)]="itemReports" [ngModelOptions]="{standalone: true}"
+                      (ngModelChange)="filterProj($event)" required>
+                    </ng-select>
+                  </label>
+                </div>
                 <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
                   <label class="d-flex align-items-center ml-1 ml-md-0">Buscar:<input [(ngModel)]="searchValue"
                       name="searchValue" type="search" class="form-control ml-25" placeholder="Nombre Proyecto"
