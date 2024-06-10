@@ -408,6 +408,14 @@
                       </ng-template>
                     </ngx-datatable-column>
 
+                    <ngx-datatable-column name="Tipo Aporte" prop="TipoAporte" [width]="20">
+                      <ng-template let-TipoAporte="value" ngx-datatable-cell-template>
+                        <div>
+                          <span class="font-weight-bold"> {{ TipoAporte }} </span>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+
                     <ngx-datatable-column name="Monto" prop="Monto" [width]="20">
                       <ng-template let-Monto="value" ngx-datatable-cell-template>
                         <div>
@@ -486,10 +494,10 @@
                       </ng-template>
                     </ngx-datatable-column>
 
-                    <ngx-datatable-column name="Status General" prop="EstatusGeneralId" [width]="20">
-                      <ng-template let-EstatusGeneralId="value" ngx-datatable-cell-template>
+                    <ngx-datatable-column name="Status General" prop="Modulo" [width]="20">
+                      <ng-template let-Modulo="value" ngx-datatable-cell-template>
                         <div>
-                          <span class="font-weight-bold"> {{ EstatusGeneralId }} </span>
+                          <span class="font-weight-bold"> {{ Modulo }} </span>
                         </div>
                       </ng-template>
                     </ngx-datatable-column>

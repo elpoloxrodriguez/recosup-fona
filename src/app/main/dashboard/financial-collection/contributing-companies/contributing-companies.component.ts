@@ -744,6 +744,7 @@ export class ContributingCompaniesComponent implements OnInit {
           return e
           // this.Utilidad.push(e)
         });
+        // console.log(this.Utilidad)
         this.rowsUtilidadCierreFiscal = this.Utilidad;
         this.tempDataCierreFiscal = this.rowsUtilidadCierreFiscal;
       },
