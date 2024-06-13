@@ -767,6 +767,7 @@ export class ContributingCompaniesComponent implements OnInit {
             this.EmpresaDetalleAportes.push(e);
           }
         });
+        // console.log(this.EmpresaDetalleAportes)
         this.rowsDetalleAporte = this.EmpresaDetalleAportes;
         this.tempDataUtilidadAportes = this.rowsDetalleAporte
       },

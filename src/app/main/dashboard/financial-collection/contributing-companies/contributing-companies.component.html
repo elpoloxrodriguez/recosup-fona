@@ -172,6 +172,8 @@
                     <p class="card-text mb-25"><strong>Pertenece a algun Grupo Economico:</strong> {{
                       DataEmpresaCompleta.grupo_economico }}</p>
                     <p class="card-text mb-25"><strong>Campo Sujeto:</strong> {{ DataEmpresaCompleta.campo_sujeto }}</p>
+                    <p class="card-text mb-25"><strong>Cese de Funcion:</strong></p>
+                    <p class="card-text mb-25"><strong>Empresa Fusionada:</strong> </p>
                   </div>
 
                   <div class="mt-md-0 mt-2" *ngIf="showUpdateEmpresa">
@@ -494,10 +496,10 @@
                       </ng-template>
                     </ngx-datatable-column>
 
-                    <ngx-datatable-column name="Status General" prop="Modulo" [width]="20">
-                      <ng-template let-Modulo="value" ngx-datatable-cell-template>
+                    <ngx-datatable-column name="Status General" prop="EstatusGeneralId" [width]="20">
+                      <ng-template let-EstatusGeneralId="value" ngx-datatable-cell-template>
                         <div>
-                          <span class="font-weight-bold"> {{ Modulo }} </span>
+                          <span class="font-weight-bold"> {{ EstatusGeneralId }} </span>
                         </div>
                       </ng-template>
                     </ngx-datatable-column>

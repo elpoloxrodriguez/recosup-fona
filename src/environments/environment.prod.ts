@@ -9,5 +9,5 @@ export const environment = {
   ID: 'ID-001',
   apiUrl: 'https://localhost',
   Hash: ':c521f27fb1b3311d686d511b668e5bd4',
-  buildDateTime: 'Mon Jun 10 2024 08:34:35 GMT-0400 (Venezuela Time)',
+  buildDateTime: 'Thu Jun 13 2024 19:55:41 GMT-0400 (Venezuela Time)',
 };
