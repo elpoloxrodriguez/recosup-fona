@@ -172,8 +172,10 @@
                     <p class="card-text mb-25"><strong>Pertenece a algun Grupo Economico:</strong> {{
                       DataEmpresaCompleta.grupo_economico }}</p>
                     <p class="card-text mb-25"><strong>Campo Sujeto:</strong> {{ DataEmpresaCompleta.campo_sujeto }}</p>
-                    <p class="card-text mb-25"><strong>Cese de Funcion:</strong></p>
-                    <p class="card-text mb-25"><strong>Empresa Fusionada:</strong> </p>
+                    <p class="card-text mb-25"><strong>Cese de Funcion:</strong> {{ DataEmpresaCompleta.cese_funcion }}
+                    </p>
+                    <p class="card-text mb-25"><strong>Empresa Fusionada:</strong> {{
+                      DataEmpresaCompleta.empresa_fusionada }}</p>
                   </div>
 
                   <div class="mt-md-0 mt-2" *ngIf="showUpdateEmpresa">
@@ -940,7 +942,7 @@
           </div>
         </div>
 
-        <div class="col-xl-3 col-md-6 col-12 mb-1">
+        <div class="col-xl-4 col-md-6 col-12 mb-1">
           <div class="form-group">
             <label for="disabledInput">Posee Sucursal</label>
             <ng-select [items]="sucursales" placeholder="Seleccione" bindLabel="name"
@@ -949,7 +951,7 @@
           </div>
         </div>
 
-        <div class="col-xl-3 col-md-6 col-12 mb-1">
+        <div class="col-xl-4 col-md-6 col-12 mb-1">
           <div class="form-group">
             <label for="disabledInput">Pertenece a algun Grupo Economico</label>
             <ng-select [items]="grupoeconomico" placeholder="Seleccione" bindLabel="name"
@@ -959,11 +961,31 @@
           </div>
         </div>
 
-        <div class="col-xl-3 col-md-6 col-12 mb-1">
+        <div class="col-xl-4 col-md-6 col-12 mb-1">
           <div class="form-group">
             <label for="disabledInput">Campo Sujeto:</label>
             <ng-select [items]="camposujeto" placeholder="Seleccione Municipios" bindLabel="name"
               [(ngModel)]="UpdateEmpresa.campo_sujeto" [ngModelOptions]="{standalone: true}" required
+              autocomplete="off">
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="col-xl-6 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="disabledInput">Cese de Funcion:</label>
+            <ng-select [items]="ceseFuncion" placeholder="Seleccione" bindLabel="name"
+              [(ngModel)]="UpdateEmpresa.cese_funcion" [ngModelOptions]="{standalone: true}" required
+              autocomplete="off">
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="col-xl-6 col-md-6 col-12 mb-1">
+          <div class="form-group">
+            <label for="disabledInput">Empresa Fusionada:</label>
+            <ng-select [items]="empresaFusionada" placeholder="Seleccione" bindLabel="name"
+              [(ngModel)]="UpdateEmpresa.empresa_fusionada" [ngModelOptions]="{standalone: true}" required
               autocomplete="off">
             </ng-select>
           </div>

@@ -166,6 +166,8 @@ export interface IActualizarDatosEmpresa {
 	sucursal?: any
 	grupo_economico?: any
 	campo_sujeto?: any
+	cese_funcion?: any
+	empresa_fusionada?: any
 }
 
 export interface RECOSUP_U_Usuarios {
@@ -191,6 +193,8 @@ export interface IDataEmpresaCompleta {
 	Telefonos: string;
 	FaxEmpresa: string;
 	sucursal?: number
+	cese_funcion?: number
+	empresa_fusionada?: number
 	grupo_economico?: number
 	campo_sujeto?: number
 	ActividadEconomica: string;

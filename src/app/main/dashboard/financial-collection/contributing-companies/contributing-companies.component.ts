@@ -163,6 +163,16 @@ export class ContributingCompaniesComponent implements OnInit {
     { id: 2, name: 'NO APLICA' }
   ]
 
+  public ceseFuncion = [
+    { id: 0, name: 'NO' },
+    { id: 1, name: 'SI' },
+  ]
+
+  public empresaFusionada = [
+    { id: 0, name: 'NO' },
+    { id: 1, name: 'SI' },
+  ]
+
   public grupoeconomico = [
     { id: 0, name: 'NO' },
     { id: 1, name: 'SI' },
@@ -480,6 +490,8 @@ export class ContributingCompaniesComponent implements OnInit {
     this.UpdateEmpresa.grupo_economico = this.UpdateEmpresa.grupo_economico.id
     this.UpdateEmpresa.sucursal = this.UpdateEmpresa.sucursal.id
     this.UpdateEmpresa.campo_sujeto = this.UpdateEmpresa.campo_sujeto.id
+    this.UpdateEmpresa.cese_funcion = this.UpdateEmpresa.cese_funcion.id
+    this.UpdateEmpresa.empresa_fusionada = this.UpdateEmpresa.empresa_fusionada.id
     this.xAPI.funcion = 'RECOSUP_U_MiEmpresa'
     this.xAPI.parametros = ''
     this.xAPI.valores = JSON.stringify(this.UpdateEmpresa)
@@ -507,7 +519,6 @@ export class ContributingCompaniesComponent implements OnInit {
       (data) => {
         data.Cuerpo.length
         data.Cuerpo.map(e => {
-          // console.log(e)
           switch (e.sucursal) {
             case '0':
               e.Xsucursal = 'NO'
@@ -547,6 +558,27 @@ export class ContributingCompaniesComponent implements OnInit {
             default:
               break;
           }
+          switch (e.cese_funcion) {
+            case '0':
+              e.Xcese_funcion = 'NO'
+              break;
+            case '1':
+              e.Xcese_funcion = 'SI'
+              break;
+            default:
+              break;
+          }
+          switch (e.empresa_fusionada) {
+            case '0':
+              e.Xempresa_fusionada = 'NO'
+              break;
+            case '1':
+              e.Xempresa_fusionada = 'SI'
+              break;
+            default:
+              break;
+          }
+          console.log(e)
           this.DataEmpresaCompleta.sucursal = e.Xsucursal
           this.DataEmpresaCompleta.grupo_economico = e.Xgrupo_economico
           this.DataEmpresaCompleta.campo_sujeto = e.Xcampo_sujeto
@@ -594,6 +626,8 @@ export class ContributingCompaniesComponent implements OnInit {
           this.DataEmpresaCompleta.CorreoSecundario = e.CorreoSecundario
           this.DataEmpresaCompleta.Cargo = e.Cargo
           this.SelectNotariaId = e.NotariaID
+          this.DataEmpresaCompleta.cese_funcion = e.Xcese_funcion
+          this.DataEmpresaCompleta.empresa_fusionada = e.Xempresa_fusionada
           this.DataEmpresa.push(e);
         });
         // console.log(this.DataEmpresa)
@@ -894,6 +928,8 @@ export class ContributingCompaniesComponent implements OnInit {
     this.UpdateEmpresa.sucursal = row.sucursal
     this.UpdateEmpresa.grupo_economico = row.grupo_economico
     this.UpdateEmpresa.campo_sujeto = row.campo_sujeto
+    this.UpdateEmpresa.cese_funcion = row.cese_funcion
+    this.UpdateEmpresa.empresa_fusionada = row.empresa_fusionada
     this.modalService.open(modal, {
       centered: true,
       size: 'lg',
