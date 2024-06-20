@@ -659,6 +659,26 @@ export class RegistrationManagementComponent implements OnInit {
             default:
               break;
           }
+          switch (e.cese_funcion) {
+            case '0':
+              e.Xcese_funcion = 'NO'
+              break;
+            case '1':
+              e.Xcese_funcion = 'SI'
+              break;
+            default:
+              break;
+          }
+          switch (e.empresa_fusionada) {
+            case '0':
+              e.Xempresa_fusionada = 'NO'
+              break;
+            case '1':
+              e.Xempresa_fusionada = 'SI'
+              break;
+            default:
+              break;
+          }
           this.DataEmpresaCompleta.RazonSocial = e.RazonSocial
           this.DataEmpresaCompleta.Rif = e.Rif
           this.DataEmpresaCompleta.sucursal = e.Xsucursal
@@ -700,6 +720,8 @@ export class RegistrationManagementComponent implements OnInit {
           this.DataEmpresaCompleta.CorreoPrincipal = e.CorreoPrincipal
           this.DataEmpresaCompleta.CorreoSecundario = e.CorreoSecundario
           this.DataEmpresaCompleta.Cargo = e.Cargo
+          this.DataEmpresaCompleta.cese_funcion = e.Xcese_funcion
+          this.DataEmpresaCompleta.empresa_fusionada = e.Xempresa_fusionada
           this.DataEmpresa.push(e);
         });
         // console.log(this.DataEmpresa)

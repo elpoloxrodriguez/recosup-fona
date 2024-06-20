@@ -578,7 +578,7 @@ export class ContributingCompaniesComponent implements OnInit {
             default:
               break;
           }
-          console.log(e)
+          // console.log(e)
           this.DataEmpresaCompleta.sucursal = e.Xsucursal
           this.DataEmpresaCompleta.grupo_economico = e.Xgrupo_economico
           this.DataEmpresaCompleta.campo_sujeto = e.Xcampo_sujeto
