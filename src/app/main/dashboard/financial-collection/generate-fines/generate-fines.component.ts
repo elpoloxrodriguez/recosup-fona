@@ -47,6 +47,7 @@ export class GenerateFinesComponent implements OnInit {
   }
 
 
+
   public ICrearMultasMIF: RECOSUP_C_MultasNuevasMIF = {
     id_EmpresaId: undefined,
     status_mif: undefined,
@@ -95,6 +96,9 @@ export class GenerateFinesComponent implements OnInit {
   public ColumnMode = ColumnMode;
 
   public searchValue = '';
+
+  public inputFIF: boolean = false
+
 
   public bancoPagoMultas
 
@@ -278,6 +282,15 @@ export class GenerateFinesComponent implements OnInit {
         console.log(error)
       }
     )
+  }
+
+  onSelectTipoPlanilla(event) {
+    if (event == 4) {
+      this.inputFIF = true
+    } else {
+      this.inputFIF = false
+    }
+
   }
 
   async mifAprobadas() {

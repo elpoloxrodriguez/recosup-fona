@@ -501,8 +501,8 @@
           <div class="form-group">
             <label for="basicInput">Seleccione Tipo Planilla</label>
             <ng-select [items]="ListaPlanilla" [(ngModel)]="ICrearMultasMIF.TipoMultaId"
-              [ngModelOptions]="{standalone: true}" placeholder="Seleccione Tipo Planilla" bindLabel="name"
-              bindValue="id" required>
+              [ngModelOptions]="{standalone: true}" (ngModelChange)="onSelectTipoPlanilla($event)"
+              placeholder="Seleccione Tipo Planilla" bindLabel="name" bindValue="id" required>
             </ng-select>
           </div>
         </div>
@@ -527,7 +527,7 @@
           </div>
         </div>
 
-        <div class="col-4">
+        <div class="col-4" *ngIf="inputFIF">
           <div class="form-group">
             <label for="basicInput">Fecha Inicio Fiscal</label>
             <input class="form-control" type="date" [(ngModel)]="ICrearMultasMIF.inicio_fiscal"
