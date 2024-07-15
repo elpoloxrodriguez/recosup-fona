@@ -507,6 +507,15 @@
           </div>
         </div>
 
+
+        <div class="col-md-12 col-12 mb-1" *ngIf="inputFIF">
+          <div class="form-group">
+            <label for="basicInput">Monto Declaración Definitiva</label>
+            <input class="form-control" type="text" [(ngModel)]="ICrearMultasMIF.monto_declaracion_definitiva"
+              [ngModelOptions]="{standalone: true}" placeholder="Monto Declaración Definitiva" />
+          </div>
+        </div>
+
         <div class="col-md-6 col-12 mb-1">
           <div class="form-group">
             <label for="basicInput">Seleccione Articulo</label>
@@ -516,6 +525,7 @@
             </ng-select>
           </div>
         </div>
+
 
         <div class="col-md-6 col-12 mb-1">
           <div class="form-group">
@@ -527,7 +537,7 @@
           </div>
         </div>
 
-        <div class="col-4" *ngIf="inputFIF">
+        <div class="col-4">
           <div class="form-group">
             <label for="basicInput">Fecha Inicio Fiscal</label>
             <input class="form-control" type="date" [(ngModel)]="ICrearMultasMIF.inicio_fiscal"

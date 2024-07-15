@@ -303,6 +303,7 @@ export interface RECOSUP_C_MultasNuevasMIF { // crear multas
 	notificacion: any
 	inicio_fiscal: any
 	cierre_fiscal: any
+	monto_declaracion_definitiva: string
 }
 
 

@@ -60,7 +60,8 @@ export class GenerateFinesComponent implements OnInit {
     anio: undefined,
     notificacion: undefined,
     inicio_fiscal: undefined,
-    cierre_fiscal: undefined
+    cierre_fiscal: undefined,
+    monto_declaracion_definitiva: '0.00'
   }
 
   public añoActual = new Date()
