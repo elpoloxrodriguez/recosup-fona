@@ -42,7 +42,7 @@ export class ReportsComponent implements OnInit {
   public ReporteRecaudacion_10 = false
   public ReporteRecaudacion_11 = false
   public ReporteRecaudacion_12 = false
-
+  public ReporteRecaudacion_13 = false
 
 
   public ListReportEmpresasAprobadas = []
@@ -61,6 +61,7 @@ export class ReportsComponent implements OnInit {
     { id: 10, name: '(10) - Empresas aprobadas completas que existen en la tabla usuario y en empresas' },
     { id: 11, name: '(11) - Empresas pre-inscritas que no estan completas o no han pasado a la tabla empresa' },
     { id: 12, name: '(12) - Empresas con declaracion y pagos conciliados por año de utilidad' },
+    { id: 13, name: '(13) - Lista de Actos Recurridos' },
   ]
 
   public ListaStatusMIF = [
@@ -117,7 +118,6 @@ export class ReportsComponent implements OnInit {
   public Reporte12_valor6 = ''
 
 
-
   public Reporte01 = []
   public Reporte02 = []
   public Reporte03 = []
@@ -130,6 +130,7 @@ export class ReportsComponent implements OnInit {
   public Reporte010 = []
   public Reporte011 = []
   public Reporte012 = []
+  public Reporte013 = []
 
   constructor(
     private excelservice: ExcelService,
@@ -265,6 +266,22 @@ export class ReportsComponent implements OnInit {
         this.ReporteRecaudacion_10 = false
         this.ReporteRecaudacion_11 = false
         this.ReporteRecaudacion_12 = true
+        break;
+      case 13:
+        this.btnGenerarReporte = true
+        this.ReporteRecaudacion_01 = false
+        this.ReporteRecaudacion_02 = false
+        this.ReporteRecaudacion_03 = false
+        this.ReporteRecaudacion_04 = false
+        this.ReporteRecaudacion_05 = false
+        this.ReporteRecaudacion_06 = false
+        this.ReporteRecaudacion_07 = false
+        this.ReporteRecaudacion_08 = false
+        this.ReporteRecaudacion_09 = false
+        this.ReporteRecaudacion_10 = false
+        this.ReporteRecaudacion_11 = false
+        this.ReporteRecaudacion_12 = false
+        this.ReporteRecaudacion_13 = true
         break;
       default:
         this.btnGenerarReporte = false
@@ -644,6 +661,30 @@ export class ReportsComponent implements OnInit {
             }
           },
           (error) => {
+            console.log(error)
+          }
+        )
+        break;
+      case 13:
+        this.sectionBlockUI.start('Generando Reporte, Porfavor Espere!!!');
+        this.xAPI.funcion = "RECOSUP_R_Reporte_RecursoJerarquico_01";
+        this.xAPI.parametros = this.Reporte12_valor1 + ',' + this.Reporte12_valor2 + ',' + this.Reporte12_valor3 + ',' + this.Reporte12_valor4 + ',' + this.Reporte12_valor5 + ',' + this.Reporte12_valor6
+        this.xAPI.valores = ''
+        await this.apiService.Ejecutar(this.xAPI).subscribe(
+          (data) => {
+            if (data.Cuerpo.length > 0) {
+              this.exportAsXLSX(data.Cuerpo, 'Todos los Actos Recurridos')
+              this.sectionBlockUI.stop()
+              this.ReporteRecaudacion_13 = false
+              this.btnGenerarReporte = false
+            } else {
+              this.sectionBlockUI.stop(),
+                this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
+            }
+          },
+          (error) => {
+            this.sectionBlockUI.stop(),
+              this.utilservice.alertConfirmMini('error', 'Oops, lo sentimos el reporte se encuenta vacio!')
             console.log(error)
           }
         )

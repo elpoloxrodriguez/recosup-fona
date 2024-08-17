@@ -79,8 +79,8 @@
             </div>
           </div>
           <div class="card-body statistics-body">
-            <div class="row" *ngIf="admin">
-              <div class="col-sm-6 col-xl-4 mb-2 mb-xl-0">
+            <div class="row" *ngIf="admin || mostrarEstadisticas">
+              <div class="col-sm-6 col-xl-4 mb-2 mb-xl-0" *ngIf="admin || mostrarEstadisticas">
                 <div class="media">
                   <div class="avatar bg-light-primary mr-2">
                     <div class="avatar-content" (click)="lstEmpresas(ListarEmpresas)">
@@ -93,7 +93,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-sm-6 col-xl-4 mb-2 mb-xl-0">
+              <div class="col-sm-6 col-xl-4 mb-2 mb-xl-0" *ngIf="admin || mostrarEstadisticas">
                 <div class="media">
                   <div class="avatar bg-light-info mr-2">
                     <div class="avatar-content" (click)="lstRecursosJerarquicos(ListarRecursosJerarquicos)">
@@ -106,7 +106,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-sm-6 col-xl-4 mb-2 mb-sm-0">
+              <div class="col-sm-6 col-xl-4 mb-2 mb-sm-0" *ngIf="admin">
                 <div class="media">
                   <div class="avatar bg-light-danger mr-2">
                     <div class="avatar-content" (click)="lstProyectos(ListarProyectos)">

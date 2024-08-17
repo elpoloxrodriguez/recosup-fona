@@ -353,6 +353,7 @@ export class DashboardComponent implements OnInit {
   public empresa = false
   public usuario = false
   public admin: boolean = false
+  public mostrarEstadisticas: boolean = false
 
   public ListaEmpresas: any = []
 
@@ -427,6 +428,8 @@ export class DashboardComponent implements OnInit {
     this.IdEmpresa = this.token.Usuario[0].EmpresaId
     this.UsuarioId = this.token.Usuario[0].UsuarioId
 
+    console.log(this.token.Usuario[0].EsAdministrador)
+
     if (this.token.Usuario[0].EsAdministrador != 0) {
       await this.CambiarContraseñaUsuarioInterno()
     } else {
@@ -439,21 +442,31 @@ export class DashboardComponent implements OnInit {
         this.usuario = true
         this.empresa = false
         this.admin = false
+        this.mostrarEstadisticas = false
         break;
       case '9':
         this.usuario = false
         this.empresa = true
         this.admin = true
+        this.mostrarEstadisticas = true
         break;
       case '10':
         this.usuario = false
         this.empresa = true
         this.admin = true
+        this.mostrarEstadisticas = true
+        break;
+      case '3': // Fiscalizacion
+        this.usuario = false
+        this.empresa = true
+        this.admin = false
+        this.mostrarEstadisticas = true
         break;
       default:
         this.usuario = false
         this.empresa = true
         this.admin = false
+        this.mostrarEstadisticas = false
         break;
     }
   }
