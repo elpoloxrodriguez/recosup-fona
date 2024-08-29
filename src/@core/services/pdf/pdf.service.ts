@@ -26,7 +26,7 @@ export class PdfService {
   ) { }
 
   CertificadoDeclaracion(data: any, Qr: any, TokenQr: any) {
-    // console.log(data,Qr)
+    // console.log(data, Qr)
     let articulo
     const fecha = new Date(data.FechaDesde);
     const anioDeclaracion = fecha.getFullYear();

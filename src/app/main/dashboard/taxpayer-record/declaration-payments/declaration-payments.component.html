@@ -88,6 +88,8 @@
                   <span [data-feather]="'settings'" [class]="'cursor-pointer'"></span>
                 </button>
                 <div ngbDropdownMenu>
+                  <a (click)="GenerarCertificadoDeclaracion(row);" ngbDropdownItem><span [data-feather]="'download'"
+                      [size]="16" [class]="'mr-50'"></span> Descargar</a>
                   <a (click)="DetallesPagosAporte(ModalDetailsAporte,row);DetalleAportes(row)" ngbDropdownItem><span
                       [data-feather]="'eye'" [size]="16" [class]="'mr-50'"></span> Detalles</a>
                   <div *ngIf="row.CantidadPagos != 1">

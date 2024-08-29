@@ -215,6 +215,9 @@ export class DeclarationPaymentsComponent implements OnInit {
 
   public lstPagos = []
 
+  public idEmpresaCert
+  public idUsuarioCert
+
   // decorator
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
@@ -700,6 +703,55 @@ export class DeclarationPaymentsComponent implements OnInit {
       }
     )
   }
+
+
+
+  async GenerarCertificadoDeclaracion(data: any) {
+    // console.log(data)
+    this.CrearCert.created_user = this.token.Usuario[0].UsuarioId
+    this.CrearCert.usuario = data.EmpresaId
+    this.CrearCert.type = 2, // 2 QR DECLARACION
+      this.CrearCert.token = this.utilService.TokenAleatorio(10),
+      this.xAPI.funcion = "RECOSUP_R_CertificadoDeclaracionContribuyente";
+    this.xAPI.parametros = data.EmpresaId + ',' + data.Fecha + ',' + data.EmpresaGananciaId + ',' + '0'
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (dataCertificados) => {
+        // console.log(dataCertificados)
+        // var id = 'RIfEmpresa'
+        var id = this.CrearCert.token
+        let ruta: string = btoa('https://recosup.fona.gob.ve/app/#/certificates');
+        this.apiService.GenQR(id, ruta).subscribe(
+          (data) => {
+            // console.log(data)
+            this.apiService.LoadQR(id).subscribe(
+              (xdata) => {
+                this.xAPI.funcion = "RECOSUP_C_Certificados";
+                this.xAPI.parametros = ''
+                this.xAPI.valores = JSON.stringify(this.CrearCert)
+                this.apiService.Ejecutar(this.xAPI).subscribe(
+                  (data) => {
+                    // console.log(data)
+                    this.pdf.CertificadoDeclaracion(dataCertificados.Cuerpo[0], xdata.contenido, this.CrearCert.token)
+                    this.utilService.alertConfirmMini('success', 'Certificado Descagado Exitosamente')
+                  },
+                  (err) => {
+                    this.utilService.alertConfirmMini('error', 'Lo sentimos algo salio mal, intente de nuevo')
+                  }
+                )
+              },
+              (error) => {
+                console.log(error)
+              }
+            )
+          }
+        )
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+
 
 
   async DeleteGananciaContribuyente(data: any) {
