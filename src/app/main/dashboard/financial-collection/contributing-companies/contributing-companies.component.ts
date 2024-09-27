@@ -679,15 +679,17 @@ export class ContributingCompaniesComponent implements OnInit {
     )
   }
 
-  async GenerarCertificadoDeclaracion(data: any) {
+
+
+  async GenerarCertificadoDeclaracionXXX(data: any) {
     // console.log(data)
     var EmpresaID = this.idEmpresaCert
     var Fecha = data.Fecha
     this.CrearCert.created_user = this.token.Usuario[0].UsuarioId
     this.CrearCert.usuario = this.idUsuarioCert
-    this.CrearCert.type = 2, // 2 QR DECLARACION
-      this.CrearCert.token = this.utilService.TokenAleatorio(10),
-      this.xAPI.funcion = "RECOSUP_R_CertificadoDeclaracion";
+    this.CrearCert.type = 2 // 2 QR DECLARACION
+    this.CrearCert.token = this.utilService.TokenAleatorio(10)
+    this.xAPI.funcion = "RECOSUP_R_CertificadoDeclaracion"
     this.xAPI.parametros = EmpresaID + ',' + Fecha + ',' + data.EmpresaGananciaId
     await this.apiService.Ejecutar(this.xAPI).subscribe(
       (dataCertificados) => {
@@ -758,6 +760,54 @@ export class ContributingCompaniesComponent implements OnInit {
         } else {
           this.utilService.alertConfirmMini('error', 'Oops! Algo salio mal, intente de nuevo')
         }
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+
+
+  async GenerarCertificadoDeclaracion(data: any) {
+    // console.log(data)
+    var Fecha = data.Fecha
+    this.CrearCert.created_user = this.token.Usuario[0].UsuarioId
+    this.CrearCert.usuario = this.idUsuarioCert
+    this.CrearCert.type = 2 // 2 QR DECLARACION
+    this.CrearCert.token = this.utilService.TokenAleatorio(10)
+    this.xAPI.funcion = "RECOSUP_R_CertificadoDeclaracionContribuyente"
+    this.xAPI.parametros = data.EmpresaId + ',' + data.Fecha + ',' + data.EmpresaGananciaId
+    await this.apiService.Ejecutar(this.xAPI).subscribe(
+      (dataCertificados) => {
+        // console.log(dataCertificados)
+        // var id = 'RIfEmpresa'
+        var id = this.CrearCert.token
+        let ruta: string = btoa('https://recosup.fona.gob.ve/app/#/certificates');
+        this.apiService.GenQR(id, ruta).subscribe(
+          (data) => {
+            // console.log(data)
+            this.apiService.LoadQR(id).subscribe(
+              (xdata) => {
+                this.xAPI.funcion = "RECOSUP_C_Certificados";
+                this.xAPI.parametros = ''
+                this.xAPI.valores = JSON.stringify(this.CrearCert)
+                this.apiService.Ejecutar(this.xAPI).subscribe(
+                  (data) => {
+                    // console.log(data)
+                    this.pdf.CertificadoDeclaracion(dataCertificados.Cuerpo[0], xdata.contenido, this.CrearCert.token)
+                    this.utilService.alertConfirmMini('success', 'Certificado Descagado Exitosamente')
+                  },
+                  (err) => {
+                    this.utilService.alertConfirmMini('error', 'Lo sentimos algo salio mal, intente de nuevo')
+                  }
+                )
+              },
+              (error) => {
+                console.log(error)
+              }
+            )
+          }
+        )
       },
       (error) => {
         console.log(error)
