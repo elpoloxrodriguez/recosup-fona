@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { jsPDF } from "jspdf";
+import autoTable from 'jspdf-autotable';
 import { UtilService } from '../util/util.service';
 import { ConvertNumberService } from '../util/convert-number.service'
 
@@ -24,6 +25,58 @@ export class PdfService {
     private utilService: UtilService,
     private convertNumberService: ConvertNumberService
   ) { }
+
+  DatosEmpresa() {
+    const doc = new jsPDF();
+    const pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+    const pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+    doc.setProperties({
+      title: "CERTIFICADO DE DATOS DE EMPRESA FONA-RECOSUP",
+      subject: "https://github.com/elpoloxrodriguez",
+      author: "SISTEMA  RECOSUP",
+      keywords: "generated, javascript, web 2.0, ajax",
+      creator: "CAP. ANDRÉS RICARDO RODRÍGUEZ DURÁN",
+    });
+
+    doc.addImage('assets/images/pdf/sunad.png', "PNG", 10, 10, 20, 25);
+    doc.addImage('assets/images/pdf/fona.png', "PNG", 180, 10, 20, 25);
+
+    doc.setFontSize(9);
+    doc.setFont(undefined, "bold");
+    doc.text(
+      "REPÚBLICA BOLIVARIANA DE VENEZUELA",
+      pageWidth / 2,
+      pageHeight - 280,
+      { align: "center" }
+    );
+    doc.text(
+      "MINISTERIO DEL PODER POPULAR PARA RELACIONES INTERIORES, JUSTICIA Y PAZ",
+      pageWidth / 2,
+      pageHeight - 275,
+      { align: "center" }
+    );
+    doc.text(
+      "SUPERINTENDENCIA NACIONAL ANTIDROGAS",
+      pageWidth / 2,
+      pageHeight - 270,
+      { align: "center" }
+    );
+    doc.text(
+      "FONDO NACIONAL ANTIDROGAS",
+      pageWidth / 2,
+      pageHeight - 265,
+      { align: "center" }
+    );
+    doc.setFont(undefined, "");
+
+
+    doc.setFontSize(14);
+    doc.setFont(undefined, "bold");
+    doc.text(`DATOS DEL SUJETO PASIVO`, pageWidth / 2, pageHeight - 250, { maxWidth: 150, align: "center" });
+
+
+    doc.save("Datos-Empresa.pdf");
+  }
 
   CertificadoDeclaracion(data: any, Qr: any, TokenQr: any) {
     // console.log(data, Qr)
@@ -136,11 +189,11 @@ export class PdfService {
     );
 
     doc.setFontSize(12);
-    doc.text("HECTOR JESUS BRITO ALVARADO", 105, 195, { align: "center" });
+    doc.text("SANDOVAL SANTIAGO BASTARDO LEON", 105, 195, { align: "center" });
     doc.setFontSize(10);
     doc.text("Director Ejecutivo (FONA)", 105, 200, { align: "center" });
     doc.setFontSize(9);
-    doc.text("Resolución Ministerial Nº 0155 G.O.Nº 42.233 de fecha 14/10/2021", 105, 205, { align: "center" });
+    doc.text("Resolución Ministerial Nº 0117 G.O.Nº 42.979 de fecha 07/10/2024", 105, 205, { align: "center" });
 
     doc.setFontSize(9);
     doc.setFont(undefined, "bold");
@@ -238,11 +291,11 @@ export class PdfService {
     );
 
     doc.setFontSize(12);
-    doc.text("HECTOR JESUS BRITO ALVARADO", 105, 195, { align: "center" });
+    doc.text("SANDOVAL SANTIAGO BASTARDO LEON", 105, 195, { align: "center" });
     doc.setFontSize(10);
     doc.text("Director Ejecutivo (FONA)", 105, 200, { align: "center" });
     doc.setFontSize(9);
-    doc.text("Resolución Ministerial Nº 0155 G.O.Nº 42.233 de fecha 14/10/2021", 105, 205, { align: "center" });
+    doc.text("Resolución Ministerial Nº 0117 G.O.Nº 42.979 de fecha 07/10/2024", 105, 205, { align: "center" });
 
     doc.setFontSize(9);
     doc.setFont(undefined, "bold");
@@ -383,11 +436,11 @@ export class PdfService {
     );
 
     doc.setFontSize(12);
-    doc.text("HECTOR JESUS BRITO ALVARADO", 105, 195, { align: "center" });
+    doc.text("SANDOVAL SANTIAGO BASTARDO LEON", 105, 195, { align: "center" });
     doc.setFontSize(10);
     doc.text("Director Ejecutivo (FONA)", 105, 200, { align: "center" });
     doc.setFontSize(9);
-    doc.text("Resolución Ministerial Nº 0155 G.O.Nº 42.233 de fecha 14/10/2021", 105, 205, { align: "center" });
+    doc.text("Resolución Ministerial Nº 0117 G.O.Nº 42.979 de fecha 07/10/2024", 105, 205, { align: "center" });
 
     doc.setFontSize(9);
     doc.setFont(undefined, "bold");
@@ -934,11 +987,11 @@ export class PdfService {
     );
 
     doc.setFontSize(12);
-    doc.text("HECTOR JESUS BRITO ALVARADO", 105, 195, { align: "center" });
+    doc.text("SANDOVAL SANTIAGO BASTARDO LEON", 105, 195, { align: "center" });
     doc.setFontSize(10);
     doc.text("Director Ejecutivo (FONA)", 105, 200, { align: "center" });
     doc.setFontSize(9);
-    doc.text("Resolución Ministerial Nº 0155 G.O.Nº 42.233 de fecha 14/10/2021", 105, 205, { align: "center" });
+    doc.text("Resolución Ministerial Nº 0117 G.O.Nº 42.979 de fecha 07/10/2024", 105, 205, { align: "center" });
 
     doc.setFontSize(9);
     doc.setFont(undefined, "bold");
@@ -1013,11 +1066,11 @@ export class PdfService {
     );
 
     doc.setFontSize(12);
-    doc.text("HECTOR JESUS BRITO ALVARADO", 105, 195, { align: "center" });
+    doc.text("SANDOVAL SANTIAGO BASTARDO LEON", 105, 195, { align: "center" });
     doc.setFontSize(10);
     doc.text("Director Ejecutivo (FONA)", 105, 200, { align: "center" });
     doc.setFontSize(9);
-    doc.text("Resolución Ministerial Nº 0155 G.O.Nº 42.233 de fecha 14/10/2021", 105, 205, { align: "center" });
+    doc.text("Resolución Ministerial Nº 0117 G.O.Nº 42.979 de fecha 07/10/2024", 105, 205, { align: "center" });
 
     doc.setFontSize(9);
     doc.setFont(undefined, "bold");
@@ -1092,11 +1145,11 @@ export class PdfService {
     );
 
     doc.setFontSize(12);
-    doc.text("HECTOR JESUS BRITO ALVARADO", 105, 195, { align: "center" });
+    doc.text("SANDOVAL SANTIAGO BASTARDO LEON", 105, 195, { align: "center" });
     doc.setFontSize(10);
     doc.text("Director Ejecutivo (FONA)", 105, 200, { align: "center" });
     doc.setFontSize(9);
-    doc.text("Resolución Ministerial Nº 0155 G.O.Nº 42.233 de fecha 14/10/2021", 105, 205, { align: "center" });
+    doc.text("Resolución Ministerial Nº 0117 G.O.Nº 42.979 de fecha 07/10/2024", 105, 205, { align: "center" });
 
     doc.setFontSize(9);
     doc.setFont(undefined, "bold");

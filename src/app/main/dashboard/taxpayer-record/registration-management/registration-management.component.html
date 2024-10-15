@@ -46,6 +46,12 @@
 
                 <div class="mt-md-0 mt-2">
                   <div class="invoice-date-wrapper">
+                    <button type="button" class="btn btn-icon btn-success" rippleEffect
+                      (click)="Descargar(EditarEmpresa)">
+                      <span [data-feather]="'download'"></span>
+                      Descargar
+                    </button>
+                    &nbsp;
                     <button type="button" class="btn btn-icon btn-warning" rippleEffect
                       (click)="ModalEditarEmpresa(EditarEmpresa)">
                       <span [data-feather]="'edit'"></span>

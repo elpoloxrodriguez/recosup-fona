@@ -432,6 +432,10 @@ export class RegistrationManagementComponent implements OnInit {
     this.Empresa.RazonSocial = event.target.value.toUpperCase();
   }
 
+  Descargar(row:any){
+    this.pdf.DatosEmpresa()
+  }
+
 
   fileSelected(e) {
     this.archivos.push(e.target.files[0])
