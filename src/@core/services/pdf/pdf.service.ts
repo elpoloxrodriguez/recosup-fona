@@ -189,7 +189,7 @@ export class PdfService {
     );
 
     doc.setFontSize(12);
-    doc.text("SANDOVAL SANTIAGO BASTARDO LEON", 105, 195, { align: "center" });
+    doc.text("SANTIAGO LEON SANDOVAL BASTADO", 105, 195, { align: "center" });
     doc.setFontSize(10);
     doc.text("Director Ejecutivo (FONA)", 105, 200, { align: "center" });
     doc.setFontSize(9);
@@ -291,7 +291,7 @@ export class PdfService {
     );
 
     doc.setFontSize(12);
-    doc.text("SANDOVAL SANTIAGO BASTARDO LEON", 105, 195, { align: "center" });
+    doc.text("SANTIAGO LEON SANDOVAL BASTADO", 105, 195, { align: "center" });
     doc.setFontSize(10);
     doc.text("Director Ejecutivo (FONA)", 105, 200, { align: "center" });
     doc.setFontSize(9);
@@ -436,7 +436,7 @@ export class PdfService {
     );
 
     doc.setFontSize(12);
-    doc.text("SANDOVAL SANTIAGO BASTARDO LEON", 105, 195, { align: "center" });
+    doc.text("SANTIAGO LEON SANDOVAL BASTADO", 105, 195, { align: "center" });
     doc.setFontSize(10);
     doc.text("Director Ejecutivo (FONA)", 105, 200, { align: "center" });
     doc.setFontSize(9);
@@ -987,7 +987,7 @@ export class PdfService {
     );
 
     doc.setFontSize(12);
-    doc.text("SANDOVAL SANTIAGO BASTARDO LEON", 105, 195, { align: "center" });
+    doc.text("SANTIAGO LEON SANDOVAL BASTADO", 105, 195, { align: "center" });
     doc.setFontSize(10);
     doc.text("Director Ejecutivo (FONA)", 105, 200, { align: "center" });
     doc.setFontSize(9);
@@ -1066,7 +1066,7 @@ export class PdfService {
     );
 
     doc.setFontSize(12);
-    doc.text("SANDOVAL SANTIAGO BASTARDO LEON", 105, 195, { align: "center" });
+    doc.text("SANTIAGO LEON SANDOVAL BASTADO", 105, 195, { align: "center" });
     doc.setFontSize(10);
     doc.text("Director Ejecutivo (FONA)", 105, 200, { align: "center" });
     doc.setFontSize(9);
@@ -1145,7 +1145,7 @@ export class PdfService {
     );
 
     doc.setFontSize(12);
-    doc.text("SANDOVAL SANTIAGO BASTARDO LEON", 105, 195, { align: "center" });
+    doc.text("SANTIAGO LEON SANDOVAL BASTADO", 105, 195, { align: "center" });
     doc.setFontSize(10);
     doc.text("Director Ejecutivo (FONA)", 105, 200, { align: "center" });
     doc.setFontSize(9);
